@@ -1,0 +1,176 @@
+.wrapper {
+    display: none;
+    user-select: none;
+}
+
+.map {
+    position: absolute;
+    top: 2vh;
+    left: 18vh;
+  
+    width: 80%;
+    height: 95vh;
+}
+
+.map-marker {
+    position: absolute;
+    top: -2.2vh;
+    left: -0.7vh;
+
+    color: #ff4444;
+    text-shadow: 0 0 1px #000, 0 0 1px #000, 0 0 1px #000, 0 0 1px #000;
+
+    font-size: 2.5vh;
+    transition: all .2s ease-in-out;
+}
+
+.map-marker:hover {
+    transform: scale(1.1);
+}
+
+.map-corner {
+    position: absolute;
+    margin-left: 50.8%;
+    margin-top: 30.2%;
+
+    width: 0;
+    height: 0;
+}
+
+.map-favorites {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 25vh;
+    height: auto;
+    padding: 2em;
+    border-radius: 0 0 1em 0;
+
+    background-color: rgba(42, 42, 68, 0.9);
+
+}
+
+.map-favorites > p {
+    position: absolute;
+    top: 4.5vh;
+    left: 50%;
+
+    width: max-content;
+
+    transform: translateX(-50%);
+
+    font-family: 'Roboto';
+    font-size: 1.2vh;
+
+    font-style: italic;
+
+    color: white;
+    text-align: center;
+    text-shadow: 0.1vh 0.1vh 0 black;
+}
+
+.map-fav-header {
+    position: relative;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    top: 0;
+
+    width: 80%;
+    height: 6vh;
+
+    font-family: 'Roboto';
+    font-size: 2vh;
+    font-weight: 800;
+
+    color: white;
+    text-align: center;
+    text-shadow: 0.2vh 0.2vh 0 black;
+}
+
+.map-fav-items {
+    position: relative;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 80%;
+    height: max-content;
+}
+
+.map-fav-item {
+    position: relative;
+
+    background-color: #ffffff;
+
+    border-radius: 1vh;
+
+    padding: 1vh;
+
+    margin-bottom: 0.5vh;
+
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1vh;
+
+    text-align: center;
+    color: black;
+}
+
+.map-fav-item:hover {
+    background-color: #e6e6e6;
+}
+
+.marker-favorited { color: yellow; }
+
+.spawn-hover {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 999;
+
+    color: white;
+
+    font-size: 1.2vh;
+    font-family: 'Roboto';
+
+    padding: .7vh 1vh;
+    border-radius: 1vh;
+
+    background-color: #222831e8;
+
+    width: max-content;
+    height: max-content;
+    
+    pointer-events: none;
+}
+
+.spawn-hover > p {
+    width: 20vh;
+    height: 0; /* makes less thick :) */
+    line-height: 0; /* makes less thick :) */
+}
+
+.spawn-hover > .spawn-button {
+    padding: 0.3vh;
+    margin-top: 0.4vh;
+
+    border-radius: 1vh;
+    border: inset 0.1vh #000000;
+
+    width: 20vh;
+    height: 1.5;
+    
+    line-height: 1.5;
+    text-align: center;
+
+    background-color: rgba(46, 46, 46, 0.5);
+}
+
+.spawn-hover > .spawn-button:hover {
+    background-color: #3f4a5a;
+}

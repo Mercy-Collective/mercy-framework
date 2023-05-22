@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.99">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mercy Collective - Clothing</title>
+    <!-- CSS CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+    <body>
+        <div class="container">
+            <div class="clothing-character-rotate" id="rotate-box"></div>
+            <div class="clothing-confirm-screen" data-CurrentOutfit="">
+                <div class="clothing-confirm-screen-blur"></div>
+                <div class="clothing-confirm-screen-container">
+                    <div class="clothing-confirm-screen-title">AwayFromKane</div>
+                    <div class="clothing-confirm-screen-desc">Mercy Clothing is hot</div>
+                    <input type="text" class="clothing-confirm-screen-input" placeholder="Example Placeholder">
+                    <div class="clothing-confirm-screen-buttons">
+                        <div class="clothing-confirm-screen-button confirm" data-Action="Save"><p>Save</p></div>
+                        <div class="clothing-confirm-screen-button discard" data-Action="Discard"><p>Discard</p></div>
+                        <div class="clothing-confirm-screen-button cancel" data-Action="Back"><p>Go Back</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clothing-menu-sidebar">
+                <!-- Auto Generated -->
+            </div>
+            <div class="clothing-menu-container">
+                <div class="clothing-menu-information">
+                    <p>$<span id="shop-amount">250</span>.00 Incl. 15% tax</p>
+                </div>
+                <div class="clothing-menu-option-buttons">
+                    <div class="clothing-menu-option-button confirm" data-Action="Pay"> <p>Pay</p> </div>
+                    <div class="clothing-menu-option-button cancel" data-Action="Exit"> <p>Exit</p> </div>
+                </div>
+                <!-- 
+
+                    CLOTHING
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Clothing">
+                    <div class="clothing-menu-option" data-type="Hat">
+                        <div class="clothing-menu-option-header"> <p>Hat</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Hair">
+                        <div class="clothing-menu-option-header"> <p>Hair</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <!-- HAIR COLOR -->
+                    <div class="clothing-menu-option-palette Hair">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Hair Color</p> </div>
+                                <div class="collapsible-body"> 
+                                    <p>Color</p>
+                                    <div class="color_palette_container haircol"></div>
+                                    <p>Highlight</p>
+                                    <div class="color_palette_container haircol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- HAIR FADE -->
+                    <div class="clothing-menu-option" data-type="HairFade">
+                        <div class="clothing-menu-option-header"> <p>Hair Fade</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Shirts">
+                        <div class="clothing-menu-option-header"> <p>Jacket</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="UnderShirt">
+                        <div class="clothing-menu-option-header"> <p>Undershirt</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Arms">
+                        <div class="clothing-menu-option-header"> <p>Arms / Gloves</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Pants">
+                        <div class="clothing-menu-option-header"> <p>Pants</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Shoes">
+                        <div class="clothing-menu-option-header"> <p>Shoes</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Decals">
+                        <div class="clothing-menu-option-header"> <p>Decals</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 
+
+                    ACCESSORIES
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Accessories">
+                    <div class="clothing-menu-option" data-type="Mask">
+                        <div class="clothing-menu-option-header"> <p>Masks</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Glasses">
+                        <div class="clothing-menu-option-header"> <p>Glasses</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Earpiece">
+                        <div class="clothing-menu-option-header"> <p>Earrings</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Necklace">
+                        <div class="clothing-menu-option-header"> <p>Scarfs & Necklaces</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Watch">
+                        <div class="clothing-menu-option-header"> <p>Watches</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Bracelet">
+                        <div class="clothing-menu-option-header"> <p>Bracelets</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="ArmorVest">
+                        <div class="clothing-menu-option-header"> <p>Vest</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Bag">
+                        <div class="clothing-menu-option-header"> <p>Bags</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 
+
+                    CHARACTER
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Character">
+                    <div class="clothing-menu-option" data-type="SkinM">
+                        <div class="clothing-menu-option-header"> <p>Male Ped</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" id="model-left" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="1">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" id="model-right" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" id="current-m-model">
+                                <p>mp_m_freemode_01</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="SkinF">
+                        <div class="clothing-menu-option-header"> <p>Female Ped</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" id="model-left" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="1">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" id="model-right" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" id="current-f-model">
+                                <p>mp_f_freemode_01</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 
+
+                    PARENTS
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Parents">
+                    <div class="clothing-menu-option" data-type="Face">
+                        <div class="clothing-menu-option-header"> <p>Face One</p> </div>
+                        <div class="clothing-menu-component-amount"></div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                                <p>heads</p>
+                            </div>
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                                <p>skins</p>
+                            </div>
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Face2">
+                        <div class="clothing-menu-option-header"> <p>Face Two</p> </div>
+                        <div class="clothing-menu-component-amount"></div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                                <p>heads</p>
+                            </div>
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                                <p>skins</p>
+                            </div>
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Face3">
+                        <div class="clothing-menu-option-header"> <p>Face Three</p> </div>
+                        <div class="clothing-menu-component-amount"></div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" data-headertype="item-header">
+                                <p>heads</p>
+                            </div>
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item-header" data-headertype="texture-header">
+                                <p>skins</p>
+                            </div>
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Texture" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Texture"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Facemix">
+                        <div class="clothing-menu-option-header"> <p>Face Mix</p> </div>
+                        <br>
+                        <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="Facemix">
+                    </div>
+                    <div class="clothing-menu-option" data-type="Skinmix">
+                        <div class="clothing-menu-option-header"> <p>Skin Mix</p> </div>
+                        <br>
+                        <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="Skinmix">
+                    </div>
+                    <div class="clothing-menu-option" data-type="Thirdmix">
+                        <div class="clothing-menu-option-header"> <p>Third Face Mix</p> </div>
+                        <br>
+                        <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="Thirdmix">
+                    </div>
+                </div>
+                <!-- 
+
+                    FACE
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Face">
+                    <div class="clothing-menu-option">
+                        <div class="clothing-menu-option-header"> <p>Nose</p> </div>
+                        <br>
+                        <div class="clothing-menu-option-item-box small" data-type="NoseWidth">
+                            <div class="clothing-menu-option-item-header"> <p>Nose Width</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="NoseWidth">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="BoneHeight">
+                            <div class="clothing-menu-option-item-header"> <p>Bone Height</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="BoneHeight">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="PeakHeight">
+                            <div class="clothing-menu-option-item-header"> <p>Peak Height</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="PeakHeight">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="PeakLength">
+                            <div class="clothing-menu-option-item-header"> <p>Peak Length</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="PeakLength">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="PeakLowering">
+                            <div class="clothing-menu-option-item-header"> <p>Peak Lowering</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="PeakLowering">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="BoneTwist">
+                            <div class="clothing-menu-option-item-header"> <p>Bone Twist</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="BoneTwist">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option">
+                        <div class="clothing-menu-option-header"> <p>Eyebrows</p> </div>
+                        <br>
+                        <div class="clothing-menu-option-item-full" data-type="EyebrowHeight">
+                            <div class="clothing-menu-option-item-header-full"> <p>Eyebrow Height</p> </div>
+                            <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="EyebrowHeight">
+                        </div>
+                        <div class="clothing-menu-option-item-full" data-type="EyebrowDepth">
+                            <div class="clothing-menu-option-item-header-full"> <p>Eyebrow Depth</p> </div>
+                            <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="EyebrowDepth">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Eyes">
+                        <div class="clothing-menu-option-header"> <p>Eye Color</p> </div>
+                        <div class="clothing-menu-component-amount">32 colors</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option">
+                        <div class="clothing-menu-option-header"> <p>Cheeks</p> </div>
+                        <div class="clothing-menu-component-amount"></div>
+                        <div class="clothing-menu-option-item-full" data-type="CheekBoneHeight">
+                            <div class="clothing-menu-option-item-header-full"> <p>Cheek Bone Height</p> </div>
+                            <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="CheekBoneHeight">
+                        </div>
+                        <div class="clothing-menu-option-item-full" data-type="CheekBoneWidth">
+                            <div class="clothing-menu-option-item-header-full"> <p>Cheek Bone Width</p> </div>
+                            <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="CheekBoneWidth">
+                        </div>
+                        <div class="clothing-menu-option-item-full" data-type="CheekWidth">
+                            <div class="clothing-menu-option-item-header-full"> <p>Cheek Width</p> </div>
+                            <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="CheekWidth">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option">
+                        <div class="clothing-menu-option-header"> <p>Jaw Bone</p> </div>
+                        <div class="clothing-menu-component-amount"></div>
+                        <div class="clothing-menu-option-item-full" data-type="JawBoneWidth">
+                            <div class="clothing-menu-option-item-header-full"> <p>Jaw Bone Width</p> </div>
+                            <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="JawBoneWidth">
+                        </div>
+                        <div class="clothing-menu-option-item-full" data-type="JawBoneBackLength">
+                            <div class="clothing-menu-option-item-header-full"> <p>Jaw Bone Back Length</p> </div>
+                            <input class="clothing-menu-option-item slider slider-normal item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="JawBoneBackLength">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option">
+                        <div class="clothing-menu-option-header"> <p>Chin</p> </div>
+                        <br>
+                        <div class="clothing-menu-option-item-box small" data-type="ChinBoneHeight">
+                            <div class="clothing-menu-option-item-header"> <p>Chin Bone Height</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="ChinBoneHeight">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="ChinBoneLength">
+                            <div class="clothing-menu-option-item-header"> <p>Chin Bone Length</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="ChinBoneLength">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="ChinBoneWidth">
+                            <div class="clothing-menu-option-item-header"> <p>Chin Bone Width</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="ChinBoneWidth">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="ChinCleft">
+                            <div class="clothing-menu-option-item-header"> <p>Chin Cleft</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="ChinCleft">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option">
+                        <div class="clothing-menu-option-header"> <p>Miscellaneous Features</p> </div>
+                        <br>
+                        <div class="clothing-menu-option-item-box small" data-type="EyesSquint">
+                            <div class="clothing-menu-option-item-header"> <p>Eyes Squint</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="EyesSquint">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="LipsThickness">
+                            <div class="clothing-menu-option-item-header"> <p>Lips Thickness</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="LipsThickness">
+                        </div>
+                        <div class="clothing-menu-option-item-box small" data-type="NeckThickness">
+                            <div class="clothing-menu-option-item-header"> <p>Neck Thickness</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Item" type="range" min="-0.99" step="0.001" max="0.99" value="0.0" id="NeckThickness">
+                        </div>
+                    </div>
+                </div>
+                <!-- 
+
+                    SKIN
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Skin">
+                    <div class="clothing-menu-option" data-type="Blemishes">
+                        <div class="clothing-menu-option-header"> <p>Blemishes</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Blemishes">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Blemishes">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Wrinkles">
+                        <div class="clothing-menu-option-header"> <p>Ageing</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Wrinkles">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Wrinkles">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Complexion">
+                        <div class="clothing-menu-option-header"> <p>Complexion</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Complexion">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Complexion">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="SunDamage">
+                        <div class="clothing-menu-option-header"> <p>Sun Damage</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="SunDamage">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="SunDamage">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="Moles">
+                        <div class="clothing-menu-option-header"> <p>Moles & Freckles</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Moles">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Moles">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="BodyBlemishes">
+                        <div class="clothing-menu-option-header"> <p>Body Blemishes</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="BodyBlemishes">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="BodyBlemishes">
+                        </div>
+                    </div>
+                </div>
+                <!-- 
+
+                    HAIR
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Hair">
+                    <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Hair">
+                        <div class="clothing-menu-option-header"> <p>Hair</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <!-- HAIR COLOR -->
+                    <div class="clothing-menu-option-palette Hair">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Hair Color</p> </div>
+                                <div class="collapsible-body"> 
+                                    <p>Color</p>
+                                    <div class="color_palette_container haircol"></div>
+                                    <p>Highlight</p>
+                                    <div class="color_palette_container haircol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- HAIR FADE -->
+                    <div class="clothing-menu-option" data-type="HairFade">
+                        <div class="clothing-menu-option-header"> <p>Hair Fade</p> </div>
+                        <div class="clothing-menu-component-amount">10 components</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                     <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Eyebrows">
+                        <div class="clothing-menu-option-header"> <p>Eyebrows</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Eyebrows">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Eyebrows">
+                        </div>
+                    </div>
+                    <!-- EYEBROWS COLOR -->
+                    <div class="clothing-menu-option-palette Eyebrows">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Colors</p> </div>
+                                <div class="collapsible-body"> 
+                                    <p>First Color</p>
+                                    <div class="color_palette_container eyebrowscol"></div>
+                                    <p>Second Color</p>
+                                    <div class="color_palette_container eyebrowscol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Beard">
+                        <div class="clothing-menu-option-header"> <p>Facial hair</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Beard">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Beard">
+                        </div>
+                    </div>
+                    <!-- BEARD COLOR -->
+                    <div class="clothing-menu-option-palette beard">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Colors</p> </div>
+                                <div class="collapsible-body"> 
+                                    <p>First Color</p>
+                                    <div class="color_palette_container beardcol"></div>
+                                    <p>Second Color</p>
+                                    <div class="color_palette_container beardcol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Chesthair">
+                        <div class="clothing-menu-option-header"> <p>Chest hair</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Chesthair">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Chesthair">
+                        </div>
+                    </div>
+                    <!-- CHEST COLOR -->
+                    <div class="clothing-menu-option-palette Chesthair">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Colors</p> </div>
+                                <div class="collapsible-body"> 
+                                    <p>First Color</p>
+                                    <div class="color_palette_container chestcol"></div>
+                                    <p>Second Color</p>
+                                    <div class="color_palette_container chestcol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 
+
+                    MAKEUP
+
+                 -->
+                 <div class="clothing-menu-category-container" data-menu="Makeup">
+                    <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Makeup">
+                        <div class="clothing-menu-option-header"> <p>Makeup</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Makeup">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Makeup">
+                        </div>
+                    </div>
+                    <!-- MAKEUP COLOR -->
+                    <div class="clothing-menu-option-palette Makeup">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Colors</p> </div>
+                                <div class="collapsible-body"> 
+                                    <p>First Color</p>
+                                    <div class="color_palette_container makeupcol"></div>
+                                    <p>Second Color</p>
+                                    <div class="color_palette_container makeupcol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Blush">
+                        <div class="clothing-menu-option-header"> <p>Blush</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Blush">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Blush">
+                        </div>
+                    </div>
+                    <!-- BLUSH COLOR -->
+                    <div class="clothing-menu-option-palette blush">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Colors</p> </div>
+                                <div class="collapsible-body"> 
+                                    <p>First Color</p>
+                                    <div class="color_palette_container blushcol"></div>
+                                    <p>Second Color</p>
+                                    <div class="color_palette_container blushcol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clothing-menu-option" style="margin-bottom: .7vh;" data-type="Lipstick">
+                        <div class="clothing-menu-option-header"> <p>Lipstick</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box forceright" data-type="Lipstick">
+                            <div class="clothing-menu-option-item-header"> <p>Opacity</p> </div>
+                            <input class="clothing-menu-option-item slider slider-small item-number" data-type="Opacity" type="range" min="0.1" step="0.001" max="0.99" value="0.0" id="Lipstick">
+                        </div>
+                    </div>
+                    <!-- LIPSTICK COLOR -->
+                    <div class="clothing-menu-option-palette Lipstick">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"> <p>Color</p> </div>
+                                <div class="collapsible-body"> 
+                                    <br>
+                                    <div class="color_palette_container lipstickcol"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 
+
+                    BACKUP
+
+                 -->
+                <div class="clothing-menu-category-container" data-menu="Backup">
+                    <div class="clothing-menu-option">
+                        <div class="clothing-menu-option-header"> <p>Save Outfit</p> </div>
+                        <div class="clothing-menu-input">
+                            <input class="clothing-menu-input-main" id="backup-input" placeholder="Outfit Name" type="text">
+                            <div class="clothing-confirm-screen-button-input confirm" data-Action="SaveOutfit"><p>Save</p></div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- 
+
+                    TATTOOS
+
+                 -->
+                 <div class="clothing-menu-category-container" data-menu="Tattoos">
+                    <div class="clothing-menu-option" data-type="TChest">
+                        <div class="clothing-menu-option-header"> <p>Torso</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="THead">
+                        <div class="clothing-menu-option-header"> <p>Head</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="LLeg">
+                        <div class="clothing-menu-option-header"> <p>Left Leg</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="RLeg">
+                        <div class="clothing-menu-option-header"> <p>Right Leg</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="LArm">
+                        <div class="clothing-menu-option-header"> <p>Left Arm</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                    <div class="clothing-menu-option" data-type="RArm">
+                        <div class="clothing-menu-option-header"> <p>Right Arm</p> </div>
+                        <div class="clothing-menu-component-amount">10 items</div>
+                        <div class="clothing-menu-option-item-box">
+                            <div class="clothing-menu-option-item left waves-effect waves-light" data-type="Item"><i class="fa fa-angle-left"></i></div>
+                            <input type="number" class="item-number" data-type="Item" value="0">
+                            <div class="clothing-menu-option-item right waves-effect waves-light" data-type="Item"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <div class="clothing-menu-option-item-box">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="clothing-menu-category-container" data-menu="Room Outfits">
+                    <!-- Auto Generated -->
+                </div>
+
+                <div class="clothing-menu-category-container" data-menu="My Outfits">
+                    <!-- Auto Generated -->
+                </div>
+            </div>
+
+            <div class="clothing-menu-sidebar-clothing">
+                <div class="clothing-menu-sidebar-clothing-btn" data-tippy="Hat"     data-value="Hat"><i class="fa-solid fa-hat-cowboy-side"></i></div>
+                <div class="clothing-menu-sidebar-clothing-btn" data-tippy="Mask"    data-value="Mask"><i class="fa-solid fa-mask"></i></div>
+                <div class="clothing-menu-sidebar-clothing-btn" data-tippy="Glasses" data-value="Glasses"><i class="fa-solid fa-glasses"></i></div>
+                <div class="clothing-menu-sidebar-clothing-btn" data-tippy="Torso"   data-value="Torso"><i class="fa-solid fa-tshirt"></i></div>
+                <div class="clothing-menu-sidebar-clothing-btn" data-tippy="Bag"     data-value="Bag"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div class="clothing-menu-sidebar-clothing-btn" data-tippy="Pants"   data-value="Pants"><i class="fa-solid fa-drumstick-bite"></i></div>
+                <div class="clothing-menu-sidebar-clothing-btn" data-tippy="Shoes"   data-value="Shoes"><i class="fa-solid fa-socks"></i></div>
+            </div>
+        </div>
+    </body>
+    <!-- JS -->
+    <script src="./js/needs/jquery-3.6.0.min.js"></script>
+    <script src="./js/needs/popper.min.js"></script>
+    <script src="./js/needs/tippy-bundle.umd.min.js"></script>
+    <script src="./js/needs/materialize.min.js"></script>
+    <script src="./js/app.js"></script>
+</html>

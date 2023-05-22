@@ -1,0 +1,71 @@
+<body>
+    <!-- Compass -->
+    <div class="hud-compass-wrapper">
+        <div class="hud-compass">
+            <div class="hud-compass-inside">
+                <div class="hud-compass-area"><p></p></div>
+                <div class="hud-compass-image"><img src="./images/compass-marker.png" class="hud-compass-current"></div>
+                <div class="hud-compass-street"><p></p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hud -->
+    <div class="hud-car-wrapper">
+        
+        <div class="hud-car hud-speed">
+            <p><span>0</span><br>MPH</p>
+            <svg viewBox="0 0 50 50" style="display: block; width: 100%;">
+                <circle id="hud-speed__bgCircle" stroke="white" stroke-width="4" stroke-opacity="0.35" fill="transparent" r="21" cx="25" cy="25" stroke-dasharray="85 46.5"></circle> <!-- stroke-width is 6 on other progressbars, but I think its too much in this case. -->
+                <circle id="hud-speed__circle" stroke="white" stroke-width="4" fill="transparent" r="21" cx="25" cy="25" stroke-dasharray="85 40"></circle> <!-- stroke-width is 6 on other progressbars, but I think its too much in this case. -->
+            </svg>
+        </div>
+        
+        <div class="hud-car hud-fuel">
+            <i class="fas fa-gas-pump"></i>
+            <svg viewBox="0 0 50 50" style="display: block; width: 100%;">
+                <circle id="hud-fuel__bgCircle" stroke="white" stroke-width="4" stroke-opacity="0.35" fill="transparent" r="21" cx="25" cy="25" stroke-dasharray="85 70"></circle> <!-- stroke-width is 6 on other progressbars, but I think its too much in this case. -->
+                <circle id="hud-fuel__circle" stroke="white" stroke-width="4" fill="transparent" r="21" cx="25" cy="25" stroke-dasharray="85 70"></circle> <!-- stroke-width is 6 on other progressbars, but I think its too much in this case. -->
+            </svg>
+        </div>
+
+        <div class="hud-car hud-alt">
+            <p><span>0</span><br>ALT</p>
+            <svg viewBox="0 0 50 50" style="display: block; width: 100%;">
+                <circle id="hud-alt__bgCircle" stroke="white" stroke-width="4" stroke-opacity="0.35" fill="transparent" r="21" cx="25" cy="25" stroke-dasharray="85 46.5"></circle> <!-- stroke-width is 6 on other progressbars, but I think its too much in this case. -->
+                <circle id="hud-alt__circle" stroke="white" stroke-width="4" fill="transparent" r="21" cx="25" cy="25" stroke-dasharray="85 40"></circle> <!-- stroke-width is 6 on other progressbars, but I think its too much in this case. -->
+            </svg>
+        </div>
+
+        <div class="hud-car hud-belt">
+            <i class="fas fa-user-slash"></i>
+        </div>
+    </div>
+    <div class="hud-car-border">
+        <div class="hud-waypoint">
+            <p><span>0</span>
+        </div>
+    </div>
+
+    <div class="hud-status">
+        <div class="hud-circle hud-voice"><i class="fas fa-microphone"></i></div>
+        <div class="hud-circle hud-health"><i class="fas fa-heart"></i></div>
+        <div class="hud-circle hud-armor"><i class="fas fa-shield-alt"></i></div>
+        <div class="hud-circle hud-hunger"><i class="fas fa-hamburger"></i></div>
+        <div class="hud-circle hud-thirst"><i class="fas fa-tint"></i></div>
+        <div class="hud-circle hud-stress"><i class="fas fa-brain"></i></div>
+        <div class="hud-circle hud-oxy"><i class="fas fa-lungs"></i></div>
+        <div class="hud-circle hud-nos"><i class="fas fa-meteor"></i></div>
+        <div class="hud-circle hud-timer"><i class="fas fa-stopwatch-20"></i></div>
+        <div class="hud-circle hud-firemode"><i class="fas fa-stream"></i></div>
+        <div class="hud-circle hud-pursuit"><i class="fas fa-tachometer-alt"></i></div>
+        <div class="hud-circle hud-drift"><i class="fas fa-car-crash"></i></div>
+        <div class="hud-circle hud-devmode"><i class="fas fa-terminal"></i></div>
+    </div>
+
+    <!-- Money -->
+    <div class='main-money-container'>
+        <div class="current-money plus"></div>
+        <div class="money-container"></div>
+    </div>
+</body>

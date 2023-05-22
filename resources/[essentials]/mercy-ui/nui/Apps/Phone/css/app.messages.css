@@ -1,0 +1,276 @@
+.phone-app-messages {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+    
+    width: 100%;
+    height: 100%;
+    
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+.phone-messages-search {
+    position: relative;
+    top: 5vh;
+
+    width: 88%;
+
+    margin: 0 auto;
+}
+
+.phone-messages-new {
+    position: absolute;
+    top: 3.5vh;
+    right: .75vw;
+
+    font-size: 1.75vh;
+
+    color: white;
+
+    z-index: 50;
+}
+
+.phone-messages-list {
+    position: relative;
+    top: 6vh;
+    
+    margin: 0 auto;
+
+    width: calc(100% - 2vw);
+    height: 42vh;
+
+    overflow-y: auto;
+}
+
+.phone-message-list-chat {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    padding: 0.6vh;
+
+    margin-bottom: 1vh;
+
+    border-bottom: 0.15vh solid white;
+
+    font-family: 'Roboto';
+    font-size: 1.2vh;
+
+    color: white;
+
+    background-color: #31475e;
+}
+
+.phone-message-list-chat-name {
+    position: absolute;
+    top: 0;
+    left: 3.25vw;
+
+    width: 8vw !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    line-height: 3.5vh;
+}
+
+.phone-message-list-chat-text {
+    position: absolute;
+    bottom: 0;
+    left: 3.25vw;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-width: 70%;
+    
+    line-height: 3.5vh;
+}
+
+.phone-message-list-chat-text > i {
+    padding-right: .5vh;
+}
+
+.phone-message-list-chat-icon {
+    padding-left: 0.2vw;
+    font-size: 3.75vh;
+}
+
+/* Chat */
+
+.phone-messages-chat {
+    display: none;
+}
+
+.phone-messages-back {
+    position: absolute;
+    top: 5vh;
+    left: 1vh;
+
+    line-height: 5vh;
+
+    color: white;
+
+    font-size: 1.75vh;
+}
+
+.phone-messages-call {
+    position: absolute;
+    top: 3.5vh;
+    right: .75vw;
+
+    font-size: 1.75vh;
+
+    color: white;
+}
+
+.phone-messages-chat-search {
+    position: relative;
+    top: 5vh;
+
+    width: 75%;
+
+    margin: 0 auto;
+}
+
+.phone-messages-chat-contact {
+    position: absolute;
+    top: 11vh;
+    left: .75vw;
+    color: white;
+
+    height: 2.5vh;
+    width: 100%;
+}
+
+.phone-messages-chat-contact-icon {
+    color: black;
+    float: left;
+
+    padding-right: 0.5vw;
+
+    font-size: 2.5vh;
+}
+
+.phone-messages-chat-contact-name {
+    position: absolute;
+    top: 50%;
+    left: 1.75vw;
+
+    transform: translateY(-50%);
+
+    width: 8vw !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    font-size: 1vh;
+}
+
+.phone-messages-chat-messages {
+    position: relative;
+    top: 11vh;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    width: 100%;
+    height: 38vh;
+
+    overflow-y: auto;
+}
+
+.phone-chat-message {
+    position: relative;
+
+    height: max-content;
+    width: 100%;
+
+    margin-bottom: 3vh;
+    overflow: hidden;
+}
+
+.phone-chat-message-inner {
+    width: fit-content;
+    height: fit-content;
+    max-width: 70%;
+    height: auto;
+
+    padding: 0.75vh;
+    border-radius: 0.5vh;
+
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+    
+    background-color: #137ef7;
+    
+    color: white;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.phone-chat-time {
+    position: relative;
+    width: fit-content;
+
+    font-size: 1vh;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.phone-chat-time.chat-time-me {
+    float: right;
+}
+
+.phone-chat-time.chat-time-other {
+    float: left;
+}
+
+.phone-chat-message-inner.me {
+    position: relative;
+    text-align: right;
+    margin-right: .5vw;
+    float: right;
+}
+
+.phone-chat-message-inner.other {
+    position: relative;
+    text-align: left;
+    background-color: #38474f;
+    margin-left: .5vw;
+    float: left;
+}
+
+.phone-messages-chat-send {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    height: 3.3vh;
+    width: calc(100% - 2vw);
+
+    color: white;
+    padding-top: .6vh;
+
+    font-size: 1.2vh;
+    font-family: 'Roboto';
+    
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    border-bottom: .15vh solid rgba(255, 255, 255, 0.3);
+
+    transition: box-shadow ease 250ms;
+}
+
+.phone-messages-chat-send:focus {
+    border-color: white;
+}

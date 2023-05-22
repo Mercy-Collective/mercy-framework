@@ -1,0 +1,304 @@
+.phone-app-housing {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+.phone-housing-topbar {
+    display: flex;
+
+    position: absolute;
+    top: 3vh;
+    left: 0;
+    right: 0;
+
+    width: 85%;
+    height: 4vh;
+
+    margin: 0 auto;
+}
+
+.phone-housing-topbar > .phone-housing-option {
+    width: 50%;
+
+    text-align: center;
+}
+
+.phone-housing-topbar > .phone-housing-option {
+    width: 50%;
+
+    line-height: 4vh;
+
+    font-size: 1.5vh;
+    color: #c1c3c8;
+
+    text-align: center;
+}
+
+.phone-housing-option.active {
+    color: #95ef77;
+    box-shadow: inset 0 -0.2vh 0 #95ef77;
+    transition: box-shadow ease 250ms;
+}
+
+.phone-housing-container-main {
+    position: relative;
+    top: 7vh;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    height: 78%;
+
+    overflow-y: auto;
+
+    width: 85%;
+}
+
+.phone-housing-container-nearby {
+    display: none;
+}
+
+.phone-housing-nearby-search {
+    position: absolute;
+    top: 8vh;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+}
+
+/* Edit Mode */
+
+.phone-housing-container-edit {
+    display: none;
+
+    position: relative;
+    top: 7vh;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    width: 85%;
+}
+
+.phone-housing-container-edit > .ui-styles-button {
+    position: relative;
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+.phone-housing-container-edit-line {
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+    border-bottom: 0.2vh solid white;
+}
+
+/* Owned */
+
+.phone-housing-nearby-owned {
+    left: 0;
+    right: 0;
+
+    width: calc(100% - 2vw) !important;
+    height: max-content;
+
+    margin: 0 auto;
+    margin-bottom: 2vh;
+}
+
+.phone-housing-nearby-access {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    width: calc(100% - 2vw) !important;
+    height: max-content;
+
+    margin: 0 auto;
+    margin-bottom: 2vh;
+}
+
+.phone-housing-main-current > p,
+.phone-housing-main-available > p,
+.phone-housing-nearby-access > p,
+.phone-housing-nearby-owned > p {
+    color: white;
+
+    font-family: 'Roboto';
+    font-size: 1.5vh;
+
+    margin-bottom: .5vh;
+}
+
+.phone-housing-owned-items {
+    max-height: unset !important;
+}
+
+.phone-housing-access-items {
+    max-height: unset !important;
+}
+
+.phone-housing-nearby-properties-container {
+    position: absolute;
+    top: 12vh;
+
+    width: 100%;
+
+    max-height: 44.5vh;
+    overflow-y: auto;
+}
+
+.phone-housing-current-items,
+.phone-housing-available-items,
+.phone-housing-access-items,
+.phone-housing-owned-items {    
+    margin: 0 auto;
+
+    width: 100%;
+    height: max-content;
+    max-height: 42vh;
+
+    overflow-y: auto;
+}
+
+.phone-housing-current-item,
+.phone-housing-available-item,
+.phone-housing-access-item,
+.phone-housing-owned-item {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    padding: 0.6vh;
+
+    margin-bottom: 1vh;
+
+    border-bottom: 0.15vh solid white;
+
+    font-family: 'Roboto';
+    font-size: 1vh;
+
+    color: white;
+
+    background-color: #31475e;
+}
+
+.phone-housing-current-item > i,
+.phone-housing-available-item > i,
+.phone-housing-access-item > i,
+.phone-housing-owned-item > i {
+    padding-left: 0.2vw;
+    font-size: 4vh;
+}
+
+.phone-housing-current-item > .phone-housing-current-item-adress,
+.phone-housing-available-item > .phone-housing-available-item-price,
+.phone-housing-access-item > .phone-housing-access-item-adress,
+.phone-housing-owned-item > .phone-housing-owned-item-adress {
+    position: absolute;
+    top: 0;
+    left: 3.8vw;
+
+    width: 8vw !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    line-height: 3.5vh;
+}
+
+.phone-housing-current-item > .phone-housing-current-item-category,
+.phone-housing-available-item > .phone-housing-available-item-street,
+.phone-housing-access-item > .phone-housing-access-item-category,
+.phone-housing-owned-item > .phone-housing-owned-item-category {
+    position: absolute;
+    bottom: 0;
+    left: 3.8vw;
+    
+    line-height: 3.5vh;
+}
+
+.phone-housing-current-item:hover,
+.phone-housing-available-item:hover,
+.phone-housing-access-item:hover,
+.phone-housing-owned-item:hover { border-color: rgba(255, 255, 255, 0.5) }
+
+.phone-housing-current-item:hover .phone-housing-current-item-hover,
+.phone-housing-available-item:hover .phone-housing-available-item-hover,
+.phone-housing-access-item:hover .phone-housing-access-item-hover,
+.phone-housing-owned-item:hover .phone-housing-owned-item-hover { display: block; }
+
+.phone-housing-current-item-hover,
+.phone-housing-available-item-hover,
+.phone-housing-access-item-hover,
+.phone-housing-owned-item-hover {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    z-index: 25;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-housing-owned-item-hover-buttons {
+    width: 85% !important;
+}
+
+.phone-housing-current-item-hover-buttons,
+.phone-housing-available-item-hover-buttons,
+.phone-housing-access-item-hover-buttons,
+.phone-housing-owned-item-hover-buttons {
+    position: relative;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 50%;
+    height: 100%;
+}
+
+.phone-housing-access-item-hover-buttons > i { width: 33% !important; }
+.phone-housing-owned-item-hover-buttons > i { width: 20% !important; }
+.phone-housing-current-item-hover-buttons > i { width: 100% !important; }
+
+.phone-housing-current-item-hover-buttons > i,
+.phone-housing-available-item-hover-buttons > i,
+.phone-housing-access-item-hover-buttons > i,
+.phone-housing-owned-item-hover-buttons > i {
+    position: relative;
+    top: 50%;
+    float: left;
+
+    font-size: 1.7vh;
+
+    line-height: 2.5vh;
+
+    width: 50%;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    text-align: center;
+
+    transform: translateY(-50%);
+}

@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap');
+
+body {
+    user-select: none;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-chat-container {
+    position: absolute;
+
+    top: 3vh;
+    left: 1vw;
+
+    height: 29vh;
+    width: 28vw;
+}
+
+/* Input */
+
+.chat-input-container {
+    position: absolute;
+    display: none;
+
+    bottom: -3.8vh;
+
+    width: 100%;
+    height: 3.5vh;
+
+    background-color: #222831de;
+}
+
+.chat-input {
+    position: absolute;
+    
+    width: 98.4%;
+    height: 85%;
+
+    left: .18vw;
+    top: .18vh;
+
+    color: white;
+    font-size: 1.4vh;
+
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+/* Message */
+
+.chat-message-container {
+    display: block;
+
+    height: 100%;
+    width: 100%;
+
+    overflow-y: scoll;
+    overflow-x: hidden;
+}
+
+.chat-message {
+    position: relative;
+    float: left;
+
+    color: white;
+
+    padding: .6vh;
+    margin-bottom: .3vh;
+    margin-right: .5vw;
+
+    height: fit-content;
+    width: fit-content;
+    max-width: 100%;
+
+    overflow: hidden;
+    word-break: break-word;
+
+    border-radius: .2vh;
+    background-color: #222831de;
+    border-left: .4vh solid #2980bbc5;
+}
+
+.chat-message-header {
+    font-size: 1.4vh;
+    font-weight: 550;
+}
+
+.chat-message-message {
+    font-size: 1.2vh;
+}
+
+.warning {
+    border-left: .4vh solid #ff8800c5;
+}
+
+.normal {
+    border-left: .4vh solid #2980bbc5;
+}
+
+.error {
+    border-left: .4vh solid #c03a2bd7;
+}
+
+/* Identification */
+
+.chat-identification {
+    position: relative;
+
+    float: left;
+    overflow: hidden;
+
+    margin-bottom: .3vh;
+    margin-right: .5vw;
+}
+
+.chat-identification-title {
+    position: absolute;
+
+    left: .5vw;
+    top: .2vh;
+
+    font-size: 2.7vh;
+    color: #0c3b6f;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.identification {
+    position: relative;
+
+    height: 21vh;
+    width: 20vw;
+
+    border-radius: .7vh;
+}
+
+.sex {
+    position: absolute;
+    
+    top: .2vh;
+    left: .85vw;
+
+    height: 16.5vh;
+    width: 6.5vw;
+}
+
+.id-small {
+    position: relative;
+
+    top: .4vh;
+    margin-right: .2vw;
+
+    color: rgb(41, 104, 223);
+    font-size: .8vh;
+
+    float: left;
+}
+
+.chat-identification-firstname {
+    position: absolute;
+
+    top: 7vh;
+    left: 7.5vw;
+
+    font-size: 1.2vh;
+}
+
+.chat-identification-lastname {
+    position: absolute;
+
+    top: 5.5vh;
+    left: 7.5vw;
+
+    font-size: 1.2vh;
+}
+
+.chat-identification-birthdate {
+    position: absolute;
+
+    top: 10.5vh;
+    left: 7.5vw;
+
+    font-size: 1.2vh;
+}
+
+.chat-identification-sex {
+    position: absolute;
+
+    top: 12vh;
+    left: 7.5vw;
+
+    font-size: 1.2vh;
+}
+
+.chat-identification-cref {
+    position: absolute;
+
+    top: 15.5vh;
+    left: 7.5vw;
+
+    font-size: 1.2vh;
+}
+
+.chat-identification-write {
+    position: absolute;
+
+    top: 17vh;
+    left: 1.5vw;
+
+    font-size: 1.2vh;
+    font-family: 'Homemade Apple', cursive;
+}
+
+/* Suggestion */
+
+.chat-suggestion-container {
+    position: absolute;
+    display: none;
+
+    top: 32.8vh;
+
+    width: 100%;
+    height: fit-content;
+    max-height: 26vh;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    background-color: #222831de;
+}
+
+.chat-suggestion {
+    position: relative;
+
+    left: .3vw;
+    margin-bottom: .5vh;
+
+    color: white;
+}
+
+.chat-suggestion-text {
+    font-size: 1.3vh;
+}
+
+.chat-suggestion-desc {
+    font-size: 1.1vh;
+}
+
+/* Scroll */
+
+.chat-message-container::-webkit-scrollbar-track, .chat-suggestion-container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+.chat-message-container::-webkit-scrollbar, .chat-suggestion-container::-webkit-scrollbar {
+    width: .3vh;
+}
+  
+.chat-message-container::-webkit-scrollbar-thumb, .chat-suggestion-container::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: .4vh;
+}

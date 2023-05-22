@@ -1,0 +1,46 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercy - Loading</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<body>
+    <div id="app">
+        <div id="keepingColor">
+            <div id="background">
+                <img id="bak0" src="./img/background1.jpg" style="top: -2%; opacity: 0;" />
+                <img id="bak1" src="./img/background2.jpg" style="top: -50%; opacity: 0;" />
+                <img id="bak2" src="./img/background3.jpg" style="top: 0; opacity: 0;" />
+                <img id="bak3" src="./img/background4.jpg" style="top: -23%; opacity: 0;" />
+                <img id="bak4" src="./img/background5.jpg" style="top: -20%; opacity: 0;" />
+            </div>
+        </div> 
+        <div class="loadscreen-main">
+            <img src="./img/logo.png" class="animate__animated animate__infinite animate__slow" id="loadScreenLogo" />
+        </div>
+        <div id="loading-container">
+            <div class="loading-container">
+                <div class ="loading-labels">
+                    <div id="INIT_BEFORE_MAP_LOADED-label" class="color-first"></div>
+                    <div id="MAP-label" class="color-second"></div>
+                    <div id="INIT_AFTER_MAP_LOADED-label" class="color-third"></div>
+                    <div id="INIT_SESSION-label" class="color-fourth"></div>
+                </div>
+                <div class="loading-bar-container">
+                    <div id="INIT_BEFORE_MAP_LOADED-bar" class="loading-bar bgcolor-first"></div>
+                    <div id="MAP-bar" class="loading-bar bgcolor-second"></div>
+                    <div id="INIT_AFTER_MAP_LOADED-bar" class="loading-bar bgcolor-third"></div>
+                    <div id="INIT_SESSION-bar" class="loading-bar bgcolor-fourth"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="./js/vue.min.js" type="text/javascript"></script>
+    <script src="./js/app.js" type="text/javascript"></script>
+</body>
+</html>

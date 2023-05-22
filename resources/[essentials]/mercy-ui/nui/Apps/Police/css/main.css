@@ -1,0 +1,374 @@
+.police-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+/* Alerts */
+
+.police-alerts-container {
+    position: absolute;
+
+    top: 2vh;
+    right: 0;
+    width: 23vw;
+    height: 57vh;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.police-alert {
+    position: relative;
+    right: -0.5vw;
+
+    width: 95%;
+
+    height: fit-content;
+    margin-bottom: .5vh;
+}
+
+.alert-normal {
+    background-color: #143e61d2;
+    border-right: .5vh solid #1e7aca;
+}
+
+.alert-red {
+    background-color: #8b3532d2;
+    border-right: .5vh solid #bf190b;
+}
+
+.police-alert-text-bar {
+    position: relative;
+    width: 100%;
+    height: 4vh;
+    left: .5vw;
+}
+
+.police-float {
+    float: left;
+    margin-top: .5vh;
+    margin-right: .25vw;  
+}
+
+.police-alert-id {
+    padding-left: .7vw;
+    padding-right: .7vw;
+    padding-bottom: .1vw;
+    border-radius: .9vh;
+    
+    color: black;
+    font-size: 1.4vh;
+    font-weight: 500; 
+    line-height: 1.7vh;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    background-color: #9ff184;
+}
+
+.police-alert-code {
+    padding-left: .7vw;
+    padding-right: .7vw;
+    padding-bottom: .1vw;
+    border-radius: .9vh;
+    
+    color: black;
+    font-size: 1.4vh;
+    font-weight: 500; 
+    line-height: 1.7vh;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    
+    background-color: #f3ad73;
+}
+
+.police-alert-name {
+    width: 11vw;
+
+    color: white;
+    font-size: 1.4vh;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-shadow: .1vh .1vh .2vh black;
+}
+
+.police-alert-info-container {
+    position: relative;
+
+    top: -0.8vh;
+    left: .5vw;
+
+    width: 100%;
+    height: fit-content;
+}
+
+.police-alert-info {
+    position: relative;
+
+    height: 2vh;
+    width: 80%;
+
+    margin-bottom: .1vh;
+
+    color: white;
+    font-size: 1.4vh;
+    font-weight: 650; 
+    text-shadow: .1vh .1vh .2vh black;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.police-alert-marker {
+    position: absolute;
+    top: .5vh;
+    right: 1vw;
+    color: white;
+    font-size: 2.5vh;
+    z-index: 10;
+}
+
+.police-alert-marker:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.animate-in {
+    animation: fadeInRight;
+    animation-duration: .4s;
+}
+
+.animate-out {
+    animation: fadeOutRight;
+    animation-duration: .5s;
+}
+
+/* Duty List */
+
+.police-duty-list {
+    display: none;
+    position: absolute;
+
+    top: 60vh;
+    right: .35vw;
+
+    width: 25vw;
+    height: 39vh;
+
+    background-color: #212730;
+    border-top: .2vh solid rgb(12, 86, 155);
+}
+
+.duty-list {
+    position: relative;
+
+    float: left;
+
+    top: 1vh;
+    left: 1vh;
+
+    height: 37vh;
+    width: 11.4vw;
+
+    margin-right: 1vw;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.duty-list-line {
+    position: absolute;
+
+    top: 1vh;
+    left: 12.3vw;
+
+    height: 95%;
+    width: .1vw;
+
+    border-right: .2vh solid white;
+}
+
+.duty-list-title {
+    font-weight: 550;
+    color: white;
+    font-size: 1.5vh;
+    font-family: 'Lato', sans-serif;
+}
+
+.duty-list-police, .duty-list-ems {
+    position: relative;
+    top: .5vh;
+}
+
+/* Duty Card */
+
+.duty-card {
+    position: relative;
+
+    width: 100%;
+    height: fit-content;
+
+    padding: .2vh;
+
+    margin-bottom: .5vh;
+
+    background-color: #30475e;
+}
+
+.duty-card-icon {
+    position: relative;
+
+    top: 50%;
+    left: .2vw;
+
+    font-size: 2.5vh;
+    color: white;
+    float: left;
+}
+
+.duty-card-person {
+    position: relative;
+
+    margin-left: 1.85vw;
+    margin-bottom: .5vh;
+
+    height: fit-content;
+    width: 10vw;
+}
+
+.duty-card-name {
+    position: relative;
+    
+    margin-top: .5vh;
+
+    width: fit-content;
+    max-width: 7.8vw;
+
+    padding-left: .7vw;
+    padding-right: .7vw;
+    padding-bottom: .1vw;
+    border-radius: .9vh;
+
+    font-size: 1.2vh;
+    font-weight: 550;
+    line-height: 1.7vh;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-family: 'Lato', sans-serif;
+
+    background-color: #9ff184;
+}
+
+/* Badge */
+
+.police-bagdge-container {
+    display: none;
+    position: absolute;
+
+    /* top: 30vh; */
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+
+    height: 40vh;
+    width: 25vw;
+}
+
+.police-badge {
+    position: absolute;
+
+    height: 100%;
+    width: 100%;
+
+    background-size: 40vh;
+    background-repeat: no-repeat;
+    background-image: url('../../../images/badge.png');
+}
+
+.police-badge-name {
+    position: absolute;
+    
+    top: 22vh;
+    left: 1.15vw;
+
+    width: 37.1%;
+    
+    color: black;
+    font-size: 1.3vh;
+    font-weight: 1000;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+.police-badge-rank {
+    position: absolute;
+    
+    top: 20vh;
+    left: 1.15vw;
+    
+    width: 37.1%;
+
+    color: black;
+    font-size: 1.1vh;
+    font-weight: 1000;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+}
+
+.police-badge-department {
+    position: absolute;
+    
+    top: 16.3vh;
+    left: 1.15vw;
+    
+    width: 37.1%;
+    
+    color: white;
+    font-size: 1.2vh;
+    font-weight: 550;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+.police-badge-image {
+    position: absolute;
+
+    top: 3.1vh;
+    left: 2.7vw;
+
+    margin: 0;
+    padding: 0;
+
+    height: 11.4vh;
+    width: 6vw;
+
+    /* border: .2vh solid black; */
+}
+
+.police-badge-department-image {
+    position: absolute;
+
+    top: 6.5vh;
+    left: 12.5vw;
+
+    width: 8.8vw;
+    height: 16vh;
+}
+
+/* Scroll */
+
+.police-alerts-container::-webkit-scrollbar-track, .duty-list::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+.police-alerts-container::-webkit-scrollbar, .duty-list::-webkit-scrollbar {
+    width: 0vh;
+}
+  
+.police-alerts-container::-webkit-scrollbar-thumb, .duty-list::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0vh;
+}

@@ -1,0 +1,41 @@
+.input-container {
+    display: none;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 15vw;
+    height: auto;
+
+    padding: 2vh .5vw;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #222831;
+}
+
+.input-container > .ui-styles-input {
+    position: relative;
+    left: 50%;
+
+    width: 90%;
+
+    margin-bottom: 1.5vh;
+
+    transform: translateX(-50%);
+}
+
+.input-container > .ui-styles-input:last-of-type {
+    margin-bottom: 0;
+}
+
+.input-container  > .input-buttons {
+    position: relative;
+    left: 50%;
+
+    width: max-content;
+    height: 4vh;
+
+    transform: translateX(-50%);
+}

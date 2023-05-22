@@ -1,0 +1,538 @@
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix {
+    display: inline-block;
+}
+.clearfix {
+    display: block;
+}
+
+.menu-page-chats-header-categories {
+    float: left;
+    position: relative;
+
+    margin-left: 0.2vh;
+    width: 99.8%;
+    height: 4.25vh;
+
+    background-color: rgb(43, 48, 56);
+    z-index: 100;
+}
+
+.menu-page-chats-header-category {
+    float: left;
+    position: relative;
+
+    width: 50%;
+    max-width: 50%;
+    height: 100%;
+    transition: all .1s ease-in-out;
+}
+
+.menu-page-chats-header-category:hover {
+    background-color: rgb(36, 37, 39);
+}
+
+.menu-page-chats-header-category.active { 
+    background-color: #24282a; 
+}
+
+/* Title */
+
+.menu-page-chats-header-category-title {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.menu-page-chats-header-category-title p {
+    font-size: 1.2vh;
+    color: var(--color-white);
+    font-weight: bolder;
+}
+
+/* Report */
+
+.admin-menu-reports {
+    display: none;
+    position: relative;
+    
+    width: 99%;
+    height: max-content;
+    max-height: 72vh;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    left: 50%;
+    transform: translateX(-50%);
+    
+    margin-top: 17%;
+    margin-left: 0.1vh;
+    margin-bottom: 2.95%;
+}
+
+.admin-menu-reports::-webkit-scrollbar-thumb {
+    background-color: var(--color-white);
+}
+
+.admin-menu-reports::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0.3vh;
+}
+
+.admin-menu-report {
+    position: relative;
+
+    width: 99.5%;
+    min-height: 5vh;
+    height: fit-content;
+
+    font-size: 1.2vh;
+    cursor: pointer;
+    
+    border-radius: .2vh;
+    margin-bottom: 1%;
+    margin-top: 1%;
+
+    transition: background-color 250ms;
+}
+
+.admin-menu-report:nth-child(odd) { background-color: #cecfd1; }
+.admin-menu-report:nth-child(even) { background-color: #99a4ae; }
+
+.admin-menu-report:hover {
+    background-color: rgba(138, 138, 138, 0.8);
+}
+
+.admin-menu-report-title {
+    position: absolute;
+
+    width: 98.5%;
+
+    top: .5vh;
+    padding-left: .5vh;
+
+    font-size: 1.6vh;
+    color: var(--color-black);
+    font-weight: bolder;
+}
+
+.admin-menu-report-desc {
+    position: absolute;
+
+    width: 98.5%;
+
+    bottom: .5vh;
+    padding-left: .5vh;
+
+    font-size: 1.3vh;
+    color: var(--color-black);
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.admin-menu-opened-report {
+    display: none;
+    position: absolute;
+
+    top: 4vh;
+    height: 95%;
+    width: 99.5%;
+
+    font-size: 1.3vh;
+    color: var(--color-black);
+    overflow: hidden;
+}
+
+.admin-menu-opened-report-header {
+    position: absolute;
+
+    top: 1.3vh;
+
+    width: 100%;
+    height: 4vh;
+}
+
+.admin-menu-opened-report-header-title {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+}
+
+.admin-menu-opened-report-header-title p {
+    font-size: 2vh;
+    text-align: center;
+    line-height: 0;
+    color: var(--color-white);
+}
+
+.admin-menu-opened-report-header-button {
+    position: absolute;
+
+    width: 5vh;
+    height: 100%;
+
+    top: 0;
+    z-index: 100;
+}
+
+.admin-menu-opened-report-header-button.right {
+    right: 0;
+    transition: all .1s ease-in-out;
+}
+
+.admin-menu-opened-report-header-button.left {
+    left: 0;
+    transition: all .1s ease-in-out;
+}
+
+.admin-menu-opened-report-header-button i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-white);
+    font-size: 2vh;
+    transition: all .1s ease-in-out;
+}
+
+.admin-menu-opened-report-header-button.right:hover i {
+    opacity: 0.7;
+}
+
+.admin-menu-opened-report-header-button.left:hover i {
+    opacity: 0.7;
+}
+
+/* Report Chat */
+
+.admin-menu-reports {
+    display: none;
+    position: relative;
+    
+    width: 99%;
+    height: max-content;
+    max-height: 72vh;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    left: 50%;
+    transform: translateX(-50%);
+    
+    margin-top: 17%;
+    margin-left: 0.1vh;
+    margin-bottom: 2.95%;
+}
+
+.admin-menu-reports::-webkit-scrollbar-thumb {
+    background-color: var(--color-white);
+}
+
+.admin-menu-reports::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0.3vh;
+}
+
+.admin-menu-opened-report-chat-list {
+    position: absolute;
+
+    top: 6vh;
+    height: 84%;
+    width: 99.5%;
+
+    font-size: 1.3vh;
+    color: var(--color-black);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.admin-menu-opened-report-chat-list::-webkit-scrollbar {
+    position: absolute;
+    width: .3vh;
+}
+.admin-menu-opened-report-chat-list::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+}
+.admin-menu-opened-report-chat-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.664);
+    border-radius: 1vh 0 0 1vh;
+}
+
+.admin-menu-opened-report-chat-list-date {
+    position: sticky;
+    top: 0.2vh;
+    z-index: 2;
+    margin: 0.2vh auto 0.7vh;
+    text-align: center;
+    background: #1f2a30;
+    width: fit-content;
+    padding: 0.4vh;
+    height: 2vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1vh;
+    border-radius: 0.4vh;
+    text-transform: uppercase;
+    color: var(--color-white);
+}
+
+.admin-menu-opened-report-chat-message {
+    position: relative;
+
+    width: fit-content;
+    max-width: 80%;
+
+    height: auto;
+    margin-top: .7vh;
+
+    transition: .1s linear;
+    padding: .8vh;
+    user-select: text;
+}
+
+.admin-menu-opened-report-chat-message.me {
+    float: right;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    background: var(--chats-page-message-me);
+    color: var(--color-white);
+    border-radius: 5px;
+}
+
+.admin-menu-opened-report-chat-message.other {
+    float: left;
+
+    margin-left: .5vh;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    background: var(--chats-page-message-other);
+    color: var(--color-white);
+    border-radius: 5px;
+}
+
+.admin-menu-opened-report-chat-message-time {
+    font-size: 1.1vh;
+    text-align: right;
+    padding-left: 3.7vh;
+    font-family: 'Poppins', sans-serif;
+    color: var(--chats-page-message-time);
+    margin-top: .3vh;
+}
+
+/* Input Boxes and Send Buttons */
+
+.no-reports {
+    display: none;
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+
+    text-align: center;
+    color: var(--color-white);
+    font-size: 1.5vh;
+    font-weight: bolder;
+}
+
+.no-reports i {
+    position: relative;
+
+    bottom: 5vh;
+    font-size: 5vh;
+
+    -webkit-animation: shake-icon 2s infinite ease;
+    animation: shake-icon 2s infinite ease;
+}
+
+.no-reports p {
+    overflow: hidden; 
+    border-right: .15em solid var(--color-white);
+    white-space: nowrap; 
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+/* Staffchat */
+
+.admin-menu-staffchat {
+    position: absolute;
+
+    height: 93.5%;
+    width: 100%;
+
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 5vh;
+}
+
+.admin-menu-staff-chat-list {
+    position: absolute;
+
+    top: 0;
+    height: 94%;
+    width: 99.5%;
+
+    font-size: 1.3vh;
+    color: var(--color-black);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.admin-menu-staff-chat-list::-webkit-scrollbar {
+    position: absolute;
+    width: .3vh;
+}
+.admin-menu-staff-chat-list::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.admin-menu-staff-chat-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 1vh 0 0 1vh;
+}
+
+.admin-menu-staff-chat-list-date {
+    position: sticky;
+    top: 0.2vh;
+    z-index: 2;
+    margin: 0.2vh auto 0.7vh;
+    text-align: center;
+    background: #1f2a30;
+    width: fit-content;
+    padding: 0.4vh;
+    height: 2vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1vh;
+    border-radius: 0.4vh;
+    text-transform: uppercase;
+    color: var(--color-white);
+}
+
+.admin-menu-staff-chat-message {
+    position: relative;
+
+    width: fit-content;
+    max-width: 80%;
+
+    height: auto;
+    margin-top: .7vh;
+
+    transition: .1s linear;
+    padding: .8vh;
+    user-select: text;
+}
+
+.admin-menu-staff-chat-message.me {
+    float: right;
+
+    text-indent: .3vh;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    background: var(--chats-page-message-me);
+    color: var(--color-white);
+    border-radius: 5px;
+}
+
+.admin-menu-staff-chat-message.other {
+    float: left;
+
+    margin-left: .5vh;
+    text-indent: .3vh;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    background: var(--chats-page-message-other);
+    color: var(--color-white);
+    border-radius: 5px;
+}
+
+.admin-menu-staff-chat-message-time {
+    font-size: 1.1vh;
+    text-align: right;
+    padding-left: 3.7vh;
+    font-family: 'Poppins', sans-serif;
+    color: var(--chats-page-message-time);
+    margin-top: .3vh;
+}
+
+
+/*  */
+
+
+.admin-menu-opened-report-chat-input {
+    position: absolute;
+    
+    bottom: 3vh;
+
+    width: 100%;
+    height: 10vh;
+}
+
+.admin-menu-opened-report-chat-input input {
+    position: absolute;
+
+    height: 3.5vh;
+    width: 87%;
+
+    top: 5.75vh;
+    left: 0.6vh;
+
+    background: var(--menu-sidebar-color);
+    color: var(--color-white);
+    border-radius: 1vh;
+    margin: 0px auto;
+    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+    font-family: Poppins, sans-serif;
+    font-size: 1.4vh;
+    text-indent: 1vh;
+
+    outline: none;
+    border: none;
+
+    z-index: 100;
+}
+
+.admin-menu-opened-report-chat-input i { 
+    position: absolute;
+
+    width: 10%;
+    height: 3.5vh;
+
+    top: 5.75vh;
+    right: 0;
+
+    color: var(--color-white);
+    background: var(--menu-sidebar-color);
+    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 1vh;
+
+    text-indent: -0.4vh;
+    font-size: 1.5vh;
+    text-align: center;
+    line-height: 3.5vh;
+
+    transition: width .3s ease-in-out, background .1s ease-in-out;
+}
+
+.admin-menu-opened-report-chat-input i:hover {
+    background: #264d6f;
+}

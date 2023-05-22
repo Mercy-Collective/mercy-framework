@@ -1,0 +1,594 @@
+-- ServerPokers = {}
+
+-- -- [ Code ] --
+
+-- -- [ Threads ] --
+
+-- Citizen.CreateThread(function()
+--     while true do
+--         Citizen.Wait(1000)
+--         for TableId, _ in pairs(ServerPokers) do
+--             if ServerPokers[TableId].Active then
+--                 if ServerPokers[TableId].TimeLeft > 0 then
+--                     ServerPokers[TableId].TimeLeft = ServerPokers[TableId].TimeLeft - 1
+--                     TriggerClientEvent('mercy-casino/client/poker/update-state', -1, TableId, ServerPokers[TableId].Active, ServerPokers[TableId].TimeLeft)
+--                     if ServerPokers[TableId].TimeLeft < 1 then
+--                         if ServerPokers[TableId].Stage == 0 then
+--                             Citizen.CreateThread(function()
+--                                 TriggerClientEvent('mercy-casino/client/poker/set-stage-1', -1, TableId) -- first ACTION
+--                                 Citizen.Wait(9000)
+--                                 TriggerClientEvent('mercy-casino/client/poker/set-stage-2', -1, TableId) -- dealing PLAYER cards
+--                                 local activePlayers = GetTablePlayersCount(TableId)
+--                                 print(string.format('Active poker players: %s', activePlayers))
+--                                 Citizen.Wait(4000 * activePlayers)
+--                                 TriggerClientEvent('mercy-casino/client/poker/set-stage-3', -1, TableId) -- dealing DEALER cards
+--                                 Citizen.Wait(8000)
+--                                 TriggerClientEvent('mercy-casino/client/poker/set-stage-4', -1, TableId) -- PLAYERS watching cards
+--                                 Citizen.Wait((Config.Options['Poker']['PlayerDecideTime'] * 1000) + 5000)
+--                                 TriggerClientEvent('mercy-casino/client/poker/set-stage-5', -1, TableId) -- reveal PLAYER cards
+--                                 local activePlayers = GetTablePlayersCount(TableId)
+--                                 Citizen.Wait(2000 + (5000 * activePlayers))
+--                                 TriggerClientEvent('mercy-casino/client/poker/set-stage-6', -1, TableId) -- reveal DEALER cards
+--                                 Citizen.Wait(10000)
+--                                 CheckWinners(TableId) -- checking winners on server side
+--                                 Citizen.Wait(1500)
+--                                 TriggerClientEvent('mercy-casino/client/poker/set-stage-7', -1, TableId) -- clearing table
+--                                 Citizen.Wait(8000 + (4000 * activePlayers))
+--                                 TriggerClientEvent('mercy-casino/client/poker/reset-table', -1, TableId)
+--                                 ServerPokers[TableId].PlayerBets = {}
+--                                 ServerPokers[TableId].Active = false
+--                                 ServerPokers[TableId].Cards = {}
+--                                 ServerPokers[TableId].UsedCards = {}
+--                                 ServerPokers[TableId].Stage = 0
+--                                 ServerPokers[TableId].TimeLeft = nil
+--                                 ServerPokers[TableId].PlayersFolded = {}
+--                                 ServerPokers[TableId].PairPlusBets = {}
+--                             end)
+--                         end
+--                     end
+--                 end
+--             end
+--         end
+--     end
+-- end)
+
+-- -- [ Functions ] --
+
+-- function GenerateHand(TableId)
+--     local HandTable = {}
+--     if ServerPokers[TableId] ~= nil then
+--         for i = 1, 3, 1 do
+--             local RandomCard = math.random(1, #Config.Options['Poker']['Cards'])
+--             while ServerPokers[TableId].UsedCards[RandomCard] ~= nil do
+--                 RandomCard = math.random(1, #Config.Options['Poker']['Cards'])
+--             end
+--             ServerPokers[TableId].UsedCards[RandomCard] = true
+--             HandTable[i] = RandomCard
+--         end
+--         return HandTable
+--     end
+-- end
+
+-- function CheckWinners(TableId)
+--     if ServerPokers[TableId] ~= nil then
+--         local DealerHand = 0
+--         local DealerHand_second = 0
+--         local DealerHand_third = 0
+--         local DealerH = ServerPokers[TableId].Cards['dealer']
+--         if DealerH then
+--             DealerHand = GetHandAllValues(DealerH.Hand)
+--             DealerHand_second = GetHandAllValues(DealerH.Hand, true, false)
+--             DealerHand_third = GetHandAllValues(DealerH.Hand, false, true)
+--         end
+--         print(string.format('Dealer hand value: %s', DealerHand))
+--         for Source, data in pairs(ServerPokers[TableId].Cards) do
+--             if Source ~= 'dealer' and GetPlayerName(Source) ~= nil then
+--                 -- check that the player folded their hand or not
+--                 if ServerPokers[TableId].PlayersFolded[Source] == nil then
+--                     local PlayerHand = GetHandAllValues(data.Hand)
+--                     local PlayerHand_second = GetHandAllValues(data.Hand, true, false)
+--                     local PlayerHand_third = GetHandAllValues(data.Hand, false, true)
+--                     if DealerHand >= 12 then -- Dealer can play
+--                         if PlayerHand > DealerHand then -- win
+--                             PlayerWon(Source, TableId, PlayerHand)
+--                         elseif PlayerHand < DealerHand then -- lose
+--                             PlayerLost(Source, TableId, PlayerHand)
+--                         elseif PlayerHand == DealerHand then
+--                             if PlayerHand_second == DealerHand_second then -- if equals going more
+--                                 if PlayerHand_third > DealerHand_third then
+--                                     PlayerWon(Source, TableId, PlayerHand)
+--                                 elseif PlayerHand_third == DealerHand_third then
+--                                     PlayerDraw(Source, TableId, PlayerHand)
+--                                 else
+--                                     PlayerLost(Source, TableId, PlayerHand)
+--                                 end
+--                             elseif PlayerHand_second > DealerHand_second then -- if bigger then win
+--                                 PlayerWon(Source, TableId, PlayerHand)
+--                             else
+--                                 PlayerLost(Source, TableId, PlayerHand)
+--                             end
+--                         end
+--                     else
+--                         PlayerDraw(Source, TableId, PlayerHand)
+--                         print('Draw.')
+--                     end
+--                     local PairMultiplier = GetPairMultiplier(PlayerHand)
+--                     if PairMultiplier > 0 then
+--                         PlayerPairPlusWon(Source, TableId, PairMultiplier)
+--                     end
+--                 end
+--             end
+--         end
+--     end
+-- end
+
+-- GetHandAllValues = function(HandTable, Bool1, Bool2)
+--     if type(HandTable) == 'table' then
+--         local c1, c2, c3 = GetCardValue(HandTable[1]), GetCardValue(HandTable[2]), GetCardValue(HandTable[3])
+--         local HandValue = 0
+
+--         -- FIRST CHECK
+--         if (c1 ~= c2 and c1 ~= c3) and c2 ~= c3 then
+--             local Flush = false
+--             HandValue = c1 + c2 + c3
+--             if HandValue == 19 then
+--                 if (c1 == 14 or c1 == 2 or c1 == 3) and (c2 == 14 or c2 == 2 or c2 == 3) and (c3 == 14 or c3 == 2 or c3 == 3) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 9 then
+--                 if (c1 == 2 or c1 == 3 or c1 == 4) and (c2 == 2 or c2 == 3 or c2 == 4) and (c3 == 2 or c3 == 3 or c3 == 4) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 12 then
+--                 if (c1 == 3 or c1 == 4 or c1 == 5) and (c2 == 3 or c2 == 4 or c2 == 5) and (c3 == 3 or c3 == 4 or c3 == 5) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 15 then
+--                 if (c1 == 4 or c1 == 5 or c1 == 6) and (c2 == 4 or c2 == 5 or c2 == 6) and (c3 == 4 or c3 == 5 or c3 == 6) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 18 then
+--                 if (c1 == 5 or c1 == 6 or c1 == 7) and (c2 == 5 or c2 == 6 or c2 == 7) and (c3 == 5 or c3 == 6 or c3 == 7) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 21 then
+--                 if (c1 == 6 or c1 == 7 or c1 == 8) and (c2 == 6 or c2 == 7 or c2 == 8) and (c3 == 6 or c3 == 7 or c3 == 8) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 24 then
+--                 if (c1 == 7 or c1 == 8 or c1 == 9) and (c2 == 7 or c2 == 8 or c2 == 9) and (c3 == 7 or c3 == 8 or c3 == 9) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 27 then
+--                 if (c1 == 8 or c1 == 9 or c1 == 10) and (c2 == 8 or c2 == 9 or c2 == 10) and (c3 == 8 or c3 == 9 or c3 == 10) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 30 then
+--                 if (c1 == 9 or c1 == 10 or c1 == 11) and (c2 == 9 or c2 == 10 or c2 == 11) and (c3 == 9 or c3 == 10 or c3 == 11) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 33 then
+--                 if (c1 == 10 or c1 == 11 or c1 == 12) and (c2 == 10 or c2 == 11 or c2 == 12) and (c3 == 10 or c3 == 11 or c3 == 12) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 36 then
+--                 if (c1 == 11 or c1 == 12 or c1 == 13) and (c2 == 11 or c2 == 12 or c3 == 13) and (c3 == 11 or c3 == 12 or c3 == 13) then
+--                     --something true
+--                     Flush = true
+--                 end
+--             elseif HandValue == 39 then
+--                 if (c1 == 12 or c1 == 13 or c1 == 14) and (c2 == 12 or c2 == 13 or c2 == 14) and (c3 == 12 or c3 == 13 or c3 == 14) then
+--                     --something true
+--                     Flush = true
+--                 end
+--             end
+--             if Flush then
+--                 if HandValue == 19 then
+--                     HandValue = 6
+--                 end
+--                 if GetCardType(HandTable[1]) == GetCardType(HandTable[2]) and GetCardType(HandTable[1]) == GetCardType(HandTable[3]) then
+--                     return HandValue + 500
+--                 end
+--                 return HandValue + 300
+--             end
+--         end
+--         HandValue = 0
+--         -- SECOND CHECK
+--         if (c1 == c2) and c1 ~= c3 then -- pairs
+--             if not Bool1 and not Bool2 then
+--                 return (c1 + c2) + 100
+--             else
+--                 return c3
+--             end
+--         elseif (c2 == c3) and c2 ~= c1 then -- pairs
+--             if not Bool1 and not Bool2 then
+--                 return (c2 + c3) + 100
+--             else
+--                 return c1
+--             end
+--         elseif (c3 == c1) and c3 ~= c2 then -- pairs
+--             if not Bool1 and not Bool2 then
+--                 return (c1 + c3) + 100
+--             else
+--                 return c2
+--             end
+--         elseif c1 == c2 and c1 == c3 then -- 3 of a kind
+--             return c1 + c2 + c3 + 400
+--         elseif GetCardType(HandTable[1]) == GetCardType(HandTable[2]) and GetCardType(HandTable[1]) == GetCardType(HandTable[3]) then
+--             HandValue = 200
+--         end
+--         -- third check if it runs here
+--         if c1 > c2 and c1 > c3 then
+--             if Bool1 then
+--                 if c2 > c3 then
+--                     return HandValue + c2
+--                 else
+--                     return HandValue + c3
+--                 end
+--             elseif Bool2 then
+--                 if c2 > c3 then
+--                     return HandValue + c3
+--                 else
+--                     return HandValue + c2
+--                 end
+--             end
+--             return HandValue + c1
+--         elseif c2 > c1 and c2 > c3 then
+--             if Bool1 then
+--                 if c1 > c3 then
+--                     return HandValue + c1
+--                 else
+--                     return HandValue + c3
+--                 end
+--             elseif Bool2 then
+--                 if c1 > c3 then
+--                     return HandValue + c3
+--                 else
+--                     return HandValue + c1
+--                 end
+--             end
+--             return HandValue + c2
+--         elseif c3 > c1 and c3 > c2 then
+--             if Bool1 then
+--                 if c1 > c2 then
+--                     return HandValue + c1
+--                 else
+--                     return HandValue + c2
+--                 end
+--             elseif Bool2 then
+--                 if c1 > c2 then
+--                     return HandValue + c2
+--                 else
+--                     return HandValue + c1
+--                 end
+--             end
+--             return HandValue + c3
+--         end
+--         return HandValue
+--     else
+--         return 0
+--     end
+-- end
+
+-- GetCardValue = function(CardArrayId)
+--     local Vals = {
+--         -- 2
+--         [2] = 2, [15] = 2, [28] = 2, [41] = 2,
+--         -- 3
+--         [3] = 3, [16] = 3, [29] = 3, [42] = 3,
+--         -- 4
+--         [4] = 4, [17] = 4, [30] = 4, [43] = 4,
+--         -- 5
+--         [5] = 5, [18] = 5, [31] = 5, [44] = 5,
+--         -- 6
+--         [6] = 6, [19] = 6, [32] = 6, [45] = 6,
+--         -- 7
+--         [7] = 7, [20] = 7, [33] = 7, [46] = 7,
+--         -- 8
+--         [8] = 8, [21] = 8, [34] = 8, [47] = 8,
+--         -- 9
+--         [9] = 9, [22] = 9, [35] = 9, [48] = 9,
+--         -- 10
+--         [10] = 10, [23] = 10, [36] = 10, [49] = 10,
+--         -- JACK
+--         [11] = 11, [24] = 11, [37] = 11, [50] = 11,
+--         -- QUEEN
+--         [12] = 12, [25] = 12, [38] = 12, [51] = 12,
+--         -- KING
+--         [13] = 13, [26] = 13, [39] = 13, [52] = 13,
+--         -- ACE
+--         [1] = 14, [14] = 14, [27] = 14, [40] = 14
+--     }
+--     if Vals[CardArrayId] then
+--         return Vals[CardArrayId]
+--     else
+--         return 0
+--     end
+-- end
+
+-- GetCardType = function(cardArrayId)
+--     if cardArrayId >= 1 and cardArrayId <= 13 then -- CLUBS
+--         return 0
+--     elseif cardArrayId >= 14 and cardArrayId <= 26 then -- DIAMOND
+--         return 1
+--     elseif cardArrayId >= 26 and cardArrayId <= 39 then -- HEARTS
+--         return 2
+--     elseif cardArrayId >= 39 and cardArrayId <= 52 then -- SPADES
+--         return 3
+--     end
+-- end
+
+-- function PlayerPairPlusWon(Source, TableId, PairMultiplier)
+--     local BetAmount = GetPlayerPairPlusBetAmount(Source, TableId)
+--     if BetAmount > 0 then
+--         local Player = PlayerModule.GetPlayerBySource(Source)
+--         if Player then
+--             local ChipAmount = math.floor(BetAmount * PairMultiplier)
+--             if ChipAmount > 0 then
+--                 Player.Functions.Notify('won-pair-plus', 'You won '..ChipAmount..' chips with your Pair Plus bet! (Pair multiplier: x'..PairMultiplier..')', 'success')
+--                 Player.PlayerData.AddMoney('Casino', ChipAmount, 'poker-pairplus-won')
+--             end
+--         end
+--     end
+-- end
+
+-- GetAnteMultiplier = function(HandValue)
+--     if HandValue > 500 then
+--         return 5
+--     elseif HandValue > 400 then
+--         return 4
+--     elseif HandValue > 300 then
+--         return 1
+--     end
+--     return 0
+-- end
+
+-- GetPairMultiplier = function(HandValue)
+--     if HandValue > 500 then
+--         return 40
+--     elseif HandValue > 400 then
+--         return 30
+--     elseif HandValue > 300 then
+--         return 6
+--     elseif HandValue > 200 then
+--         return 4
+--     elseif HandValue > 100 then
+--         return 1
+--     end
+--     return 0
+-- end
+
+-- function PlayerWon(Source, TableId, HandValue)
+--     local BetAmount = GetPlayerBetAmount(Source, TableId)
+--     if BetAmount > 0 then
+--         local Player = PlayerModule.GetPlayerBySource(Source)
+--         if Player then
+--             local ChipsAmount = math.floor((BetAmount * 2) * 2)
+--             local AnteMultiplier = GetAnteMultiplier(HandValue)
+--             if AnteMultiplier > 0 then
+--                 ChipsAmount = math.floor(ChipsAmount + (AnteMultiplier * BetAmount))
+--                 Player.Functions.Notify('won-bet-mult', 'Your hand won!\nYou got '..ChipsAmount..' chips. (Ante multiplier: x'..AnteMultiplier..')', 'success')
+--             else
+--                 Player.Functions.Notify('won-bet', 'Your hand won!\nYou got '..ChipsAmount..' chips.', 'success')
+--             end
+--             Player.PlayerData.AddMoney('Casino', ChipsAmount, 'poker-won')
+--             TriggerClientEvent('mercy-casino/client/poker/player-win', Source, TableId)
+--         end
+--     end
+-- end
+
+-- function PlayerDraw(Source, TableId, HandValue)
+--     local BetAmount = GetPlayerBetAmount(Source, TableId)
+--     if BetAmount > 0 then
+--         local ChipsAmount = math.floor(BetAmount * 2)
+--         local Player = PlayerModule.GetPlayerBySource(Source)
+--         if Player then
+--             -- you will get your ante bet bonus even if you loss or draw
+--             local AnteMultiplier = GetAnteMultiplier(HandValue)
+--             if AnteMultiplier > 0 then
+--                 ChipsAmount = math.floor(ChipsAmount + ((BetAmount / 2) * AnteMultiplier))
+--                 Player.Functions.Notify('draw-dealer', 'Draw. The Dealer did not qualify for the game. You got '..ChipsAmount..' chips back. (Ante multiplier: x'..AnteMultiplier..')', 'success')
+--             else
+--                 Player.Functions.Notify('draw-dealer', 'Draw. The Dealer did not qualify for the game. You got '..ChipsAmount..' chips back.', 'success')
+--             end
+--         end
+--         Player.Functions.AddMoney('Casino', ChipsAmount, 'poker-draw')
+--         TriggerClientEvent('mercy-casino/client/poker/player-draw', Source, TableId)
+--     end
+-- end
+
+-- function PlayerLost(Source, TableId, handValue)
+--     local BetAmount = GetPlayerBetAmount(Source, TableId)
+--     if BetAmount > 0 then
+--         local Player = PlayerModule.GetPlayerBySource(Source)
+--         Player.Functions.Notify('lost-bet', 'You lost!', 'error')
+--         TriggerClientEvent('mercy-casino/client/poker/player-lost', Source, TableId)
+--     end
+-- end
+
+-- function GetPlayerPairPlusBetAmount(Source, tableId)
+--     if ServerPokers[TableId] ~= nil then
+--         if ServerPokers[TableId].PairPlusBets ~= nil and ServerPokers[TableId].PairPlusBets[Source] ~= nil then
+--             return ServerPokers[TableId].PairPlusBets[Source]
+--         end
+--     end
+--     return 0
+-- end
+
+-- function GetPlayerBetAmount(Source, TableId)
+--     if ServerPokers[TableId] ~= nil then
+--         if ServerPokers[TableId].PlayerBets ~= nil and ServerPokers[TableId].PlayerBets[Source] ~= nil then
+--             return ServerPokers[TableId].PlayerBets[Source]
+--         end
+--     end
+--     return 0
+-- end
+
+-- function GetTablePlayersCount(TableId)
+--     local PlayersCount = 0
+--     if ServerPokers[TableId] ~= nil then
+--         for Source, _ in pairs(ServerPokers[TableId].Cards) do
+--             if GetPlayerName(Source) ~= nil then
+--                 PlayersCount = PlayersCount + 1
+--             end
+--         end
+--     end
+--     return PlayersCount
+-- end
+
+-- -- [ Events] --
+
+-- RegisterNetEvent('mercy-casino/server/poker/fold-cards', function(TableId)
+--     local src = source
+--     if ServerPokers[TableId] ~= nil then
+--         ServerPokers[TableId].PlayersFolded[src] = true
+--         TriggerClientEvent('mercy-casino/client/poker/player-fold-cards', -1, src, TableId)
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/server/poker/play-cards', function(TableId, BetAmount)
+--     local src = source
+--     local Player = PlayerModule.GetPlayerBySource(src)
+--     if ServerPokers[TableId] ~= nil then
+--         if Player.Functions.RemoveMoney('Casino', BetAmount, 'poker-play-cards') then
+--             TriggerClientEvent('mercy-casino/client/poker/player-play-cards', -1, src, TableId)
+--             local Chips = Player.PlayerData.Money['Casino']
+--             TriggerClientEvent('mercy-casino/client/poker/update-player-chips', src, Chips)
+--         else
+--             Player.Functions.Notify('poker-no-chips', 'You don\'t have enough chips.', 'error')
+--         end
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/server/poker/stand-up', function(TableId, ChairId)
+--     if ServerPokers[TableId] ~= nil and ServerPokers[TableId].ChairsUsed[ChairId] ~= nil then
+--         ServerPokers[TableId].ChairsUsed[ChairId] = nil
+--         print('player standup')
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/server/poker/bet-pair-plus', function(TableId, BetAmount)
+--     local src = source
+--     local Player = PlayerModule.GetPlayerBySource(src)
+--     local Chips = Player.PlayerData.Money['Casino']
+--     if Player then
+--         if ServerPokers[TableId] ~= nil then
+--             if ServerPokers[TableId].PairPlusBets[src] == nil then
+--                 if Chips < BetAmount then
+--                     Player.Functions.Notify('poker-no-chips', 'You don\'t have enough chips.', 'error')
+--                     return
+--                 end
+--                 -- checking if he is able to bet the pair plus without lowering the bets < 0
+--                 local CurrentAnteBetAmount = GetPlayerBetAmount(src, TableId)
+--                 if Chips < (CurrentAnteBetAmount + BetAmount) then
+--                     Player.Functions.Notify('poker-no-chips-next', 'You don\'t have enough chips to bet on the Pair Plus.', 'error')
+--                     return
+--                 end
+--                 if ServerPokers[TableId].TimeLeft ~= nil and ServerPokers[TableId].TimeLeft > 0 then
+--                     ServerPokers[TableId].PairPlusBets[src] = BetAmount
+--                     TriggerClientEvent('mercy-casino/client/poker/player-pairplus-anim', Player.PlayerData.Source, BetAmount)
+--                     Player.Functions.RemoveMoney('Casino', BetAmount, 'poker-pair-plus')
+--                 end
+--             else
+--                 Player.Functions.Notify('poker-already-bet', 'You already betted..', 'error')
+--             end
+--         end
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/server/poker/bet', function(TableId, ChairData, BetAmount)
+--     local src = source
+--     local Player = PlayerModule.GetPlayerBySource(src)
+--     local Chips = Player.PlayerData.Money['Casino']
+--     if Player then
+--         if ServerPokers[TableId] ~= nil then
+--             if ServerPokers[TableId].PlayerBets[src] == nil then
+--                 if Chips < BetAmount then
+--                     Player.Functions.Notify('poker-no-chips', 'You don\'t have enough chips.', 'error')
+--                     return
+--                 end
+
+--                 -- check the doubled value of the bet for the play deny
+--                 if Chips < BetAmount * 2 then
+--                     Player.Functions.Notify('poker-no-chips-next', 'You can\'t do this.. (Not enough to play hand.)', 'error')
+--                     return
+--                 end
+
+--                 if not ServerPokers[TableId].Active then -- really important here
+--                     -- important to have it after
+--                     ServerPokers[TableId].TimeLeft = Config.Options['Poker']['TimeLeftAfter']
+--                     ServerPokers[TableId].Active = true
+--                     TriggerClientEvent('mercy-casino/client/poker/update-state', -1, TableId, ServerPokers[TableId].Active, ServerPokers[TableId].TimeLeft)
+--                 end
+
+--                 if ServerPokers[TableId].TimeLeft ~= nil and ServerPokers[TableId].TimeLeft > 0 then
+--                     ServerPokers[TableId].PlayerBets[src] = BetAmount
+--                     TriggerClientEvent('mercy-casino/client/poker/player-bet-anim', Player.PlayerData.src, BetAmount)
+--                     Player.Functions.RemoveMoney('Casino', BetAmount, 'poker-bet-success')
+--                     if ServerPokers[TableId].Cards['dealer'] == nil then -- generating dealer hands if not exist
+--                         ServerPokers[TableId].Cards['dealer'] = {
+--                             Hand = GenerateHand(TableId)
+--                         }
+--                     end
+--                     if ServerPokers[TableId].Cards[src] == nil then -- generating player hands if not exist
+--                         ServerPokers[TableId].Cards[src] = {
+--                             Hand = GenerateHand(TableId),
+--                             chairData = ChairData
+--                         }
+--                     end
+--                     TriggerClientEvent('mercy-casino/client/poker/update-cards', -1, TableId, ServerPokers[TableId].Cards)
+--                 end
+--             else
+--                 Player.Functions.Notify('poker-already-bet', 'You already betted..', 'error')
+--             end
+--         end
+--     end
+-- end)
+
+-- Citizen.CreateThread(function()
+--     while not _Ready do
+--         Citizen.Wait(500)
+--     end
+    
+--     CallbackModule.CreateCallback('mercy-casino/server/poker/can-sit', function(Source, Cb, TableId, ChairId)
+--         local Player = PlayerModule.GetPlayerBySource(Source)
+--         local Chips = Player.PlayerData.Money["Chips"]
+--         if ServerPokers[TableId] == nil then
+--             ServerPokers[TableId] = {
+--                 ChairsUsed = {}, -- chairs used, for disable sitting
+--                 PlayerBets = {}, -- player bets ofc.
+--                 Active = false,
+--                 Cards = {}, -- player / dealer cards, etc.
+--                 UsedCards = {}, -- which card was used, so we can not pick the same
+--                 PlayersFolded = {}, -- following who folded their cards
+--                 PairPlusBets = {},
+--                 Stage = 0, -- following the stages
+--                 TimeLeft = nil
+--             }
+--         end
+
+--         if ServerPokers[TableId].ChairsUsed[ChairId] == nil then
+--             ServerPokers[TableId].ChairsUsed[ChairId] = Source
+--             print('player sit down')
+--             TriggerClientEvent('mercy-casino/client/poker/update-player-chips', Source, Chips)
+--             Cb(true)
+--         else
+--             Cb(false)
+--         end
+--     end)
+-- end)
+
+-- -- Reset on crash
+
+-- AddEventHandler('playerDropped', function(reason)
+--     local src = source
+--     for k, v in pairs(ServerPokers) do
+--         if v.ChairsUsed ~= nil then
+--             for ChairId, ChairOwner in pairs(v.ChairsUsed) do
+--                 if ChairOwner == src then
+--                     ServerPokers[k].ChairsUsed[ChairId] = nil
+--                 end
+--             end
+--         end
+--     end
+-- end)

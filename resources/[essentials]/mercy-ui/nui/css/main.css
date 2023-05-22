@@ -1,0 +1,99 @@
+body {
+    width: 100vw;
+    height: 100vh;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+    
+    /* background-image: url(https://www.gtaboom.com/wp-content/uploads/2013/07/gta-5-cheats-pc-1.jpg);
+    background-size: cover;
+    background-repeat: no-repeat; */
+}
+
+#root {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    margin: 0;
+    padding: 0;
+
+    width: 100vw;
+    height: 100vh;
+}
+/* 
+.debug-console {
+    display: none;
+    
+    position: absolute;
+    left: 1vh;
+    top: 50%;
+
+    width: 40vh;
+    height: 95vh;
+
+    background-color: var(--background);
+    border: 0.4vh solid var(--background2);
+
+    padding: 1vh;
+
+    border-radius: 0.4vh;
+
+    color: var(--colorGray);
+    
+    font-family: 'Roboto';
+    font-size: 1.2vh;
+
+    z-index: 9999999999999999999;
+
+    overflow-y: scroll;
+
+    transform: translateY(-50%);
+    opacity: 0.4;
+}
+
+.debug-console:hover {
+    opacity: 1.0;
+}
+
+.debug-console > .flash > #json {
+    background-color: rgb(170, 170, 170);
+
+    border: 0.4vh solid rgba(100, 100, 100);
+
+    border-radius: 0.4vh;
+
+    height: fit-content;
+    max-width: 35vh;
+
+    overflow: hidden;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    padding: 1vh;
+    margin: 0;
+
+    color: black;
+
+    font-family: monospace;
+}
+
+.debug-console > .flash {
+    animation: flash 2s ease;
+    margin: 0.5vh;
+}
+
+@keyframes flash {
+    from {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+    to {
+        background-color: transparent;
+    }
+}
+
+.debug-console::-webkit-scrollbar { width: 0.3vh; }
+.debug-console::-webkit-scrollbar-thumb { background: rgb(100, 100, 100); } */

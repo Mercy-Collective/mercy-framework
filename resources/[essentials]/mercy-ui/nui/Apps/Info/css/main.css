@@ -1,0 +1,31 @@
+.info-container {
+    position: absolute;
+    bottom: -5vh;
+    left: 50%;
+
+    min-width: 15vh;
+    max-width: 30vw;
+    width: max-content;
+    height: max-content;
+
+    padding: 1vh;
+
+    color: white;
+    font-size: 1.3vh;
+    text-align: center;
+    font-family: 'Roboto';
+    
+    background-color: #222831; 
+    border-top-left-radius: 0.2vh;
+    border-top-right-radius: 0.2vh;
+    border: 0.1vh solid rgb(29, 29, 29);
+
+    transform: translateX(-50%);
+}
+
+.info-title {
+    font-size: 1.6vh;
+    font-weight: 600;
+
+    margin-bottom: .75vh;
+}

@@ -1,0 +1,394 @@
+.pdm-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+    font-family: 'Lato', sans-serif;
+}
+
+.main-pdm-container {
+    display: none;
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+/* Intro */
+
+.pdm-intro {
+    display: none;
+}
+
+.pdm-intro-top {
+    position: absolute;
+
+    top: 0;
+    left: -100vw;
+
+    height: 50%;
+    width: 100%;
+
+    background-color: #982425;
+}
+
+.pdm-intro-bottom {
+    position: absolute;
+
+    bottom: 0;
+    right: -100vw;
+
+    height: 50%;
+    width: 100%;
+
+    background-color: #1d3c80;
+}
+
+.pdm-intro-top > p {
+    line-height: 35vh;
+    text-align: center;
+
+    color: white;
+    font-size: 4.2vh;
+    font-weight: 530;
+}
+
+.pdm-intro-bottom > p {
+    line-height: 35vh;
+    text-align: center;
+
+    color: white;
+    font-size: 3.9vh;
+    font-weight: 530;
+}
+
+/* Main Items */
+
+.pdm-car-info {
+    display: none;
+}
+
+.pdm-info-stats-container {
+    position: absolute;
+
+    top: 5vh;
+    left: 3vw;
+
+    width: 16vw;
+    height: 33vh;
+
+    border-top: .2vh solid rgb(216, 81, 81);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pdm-info-class {
+    position: absolute;
+
+    top: .5vh;
+    left: 1vw;
+
+    color: orange;
+    font-weight: 550;
+    font-style: italic;
+    font-size: 4.5vh;
+}
+
+.pdm-info-model {
+    position: absolute;
+
+    top: 1vh;
+    right: .8vw;
+
+    max-width: 10vw;
+    height: fit-content;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    font-size: 2.3vh;
+    font-weight: 550;
+    font-style: italic;
+    color: rgb(255, 255, 255);
+}
+
+.pdm-info-name {
+    position: absolute;
+
+    top: 3.3vh;
+    right: .8vw;
+
+    max-width: 15vw;
+    height: fit-content;
+
+    font-size: 2vh;
+    font-weight: 550;
+    font-style: italic;
+    color: rgb(219, 219, 219);
+}
+
+.pdm-info-stats {
+    position: absolute;
+
+    top: 7vh;
+    left: 1vw;
+
+    width: 14vw;
+    height: 25.5vh;
+}
+
+.pdm-info-progress {
+    position: relative;
+
+    margin-top: 3vh;
+
+    width: 87%;
+    height: 2vh;
+
+    border: .2vh solid black;
+    background-color: #292a2c;
+}
+
+.pdm-info-progress-name {
+    position: absolute;
+
+    top: -2.4vh;
+
+    font-size: 1.7vh;
+    font-weight: 550;
+    color: #c9c6cd;
+    font-style: italic;
+    text-shadow: 0.1vh 0.2vh 0vh rgba(0, 0, 0, 0.7);
+}
+
+.pdm-info-progress-grade {
+    position: absolute;
+
+    top: -0.7vh;
+    right: -2.5vh;
+
+    width: 2.5vw;
+    height: 3vh;
+
+    z-index: 101;
+
+    color: black;
+    font-size: 2vh;
+    line-height: 3vh;
+    font-weight: 550;
+    font-style: italic;
+    text-align: center;
+
+    border: .2vh solid black;
+    background-color: #c9c6cd;
+}
+
+.pdm-info-progress-width {
+    position: absolute;
+
+    width: 50%;
+    height: 100%;
+    max-width: 100%;
+
+    background-color: #c9c6cd;
+}
+
+.pdm-info-price {
+    position: absolute;
+
+    top: 2.5vh;
+    right: 2.5vw;
+
+    color: orange;
+    font-size: 4.5vh;
+    font-weight: 1000;
+    font-style: italic;
+
+    text-shadow: 0.3vh 0.3vh 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Category */
+
+.pdm-category-container {
+    position: absolute;
+
+    top: 74%;
+    left: 50%;
+
+    width: fit-content;
+    height: fit-content;
+
+    transform: translate(-50%, -50%);
+}
+
+.pdm-category {
+    position: relative;
+
+    float: left;
+    cursor: pointer;
+
+    margin-left: 2.5vw;
+
+    width: fit-content;
+    height: fit-content;
+
+    font-size: 2vh;
+    font-weight: 550;
+    font-style: italic;
+    text-align: center;
+    color: rgb(219, 219, 219);
+    text-shadow: 0.1vh 0.2vh 0.1vh rgba(0, 0, 0, 0.7);
+}
+.pdm-category-selected { color: orange; }
+
+/* Car */
+
+.pdm-car-container {
+    position: absolute;
+
+    top: 87%;
+    left: 50%;
+
+    width: 95vw;
+    height: 18vh;
+    
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    transform: translate(-50%, -50%);
+}
+
+.pdm-car-item {
+    display: inline-block;
+    position: relative;
+
+    margin-right: .5vw;
+    margin-left: .5vw;
+    margin-bottom: 1vh;
+
+    width: 12vw;
+    height: 15vh;
+
+    cursor: pointer;
+
+    background-size: cover;
+    background-position: center;
+    border-bottom: .3vh solid white;
+}
+
+.pdm-car-item-price {
+    position: absolute;
+
+    right: .2vw;
+    top: .1vh;
+
+    font-size: 1.6vh;
+    font-weight: 550;
+    text-align: right;
+    font-style: italic;
+    color: rgb(219, 219, 219);
+}
+
+.pdm-car-item-name {
+    position: absolute;
+
+    right: .2vw;
+    bottom: .1vh;
+
+    font-size: 1.2vh;
+    font-weight: 550;
+    text-align: right;
+    font-style: italic;
+    color: rgb(219, 219, 219);
+}
+.pdm-car-item-selected { border-color: orange; }
+.pdm-car-item-selected > .pdm-car-item-price { color: orange; }
+
+/* Keys */
+
+.pdm-key-container {
+    position: absolute;
+
+    top: 39vh;
+    left: 5.5vw;
+
+    width: 10vw;
+    height: 5vh;
+}
+
+.pdm-key {
+    position: relative;
+
+    width: 2.5vw;
+    height: 3vh;
+
+    color: black;
+    font-size: 2vh;
+    line-height: 3vh;
+    font-weight: 550;
+    font-style: italic;
+    text-align: center;
+
+    border: .2vh solid black;
+    background-color: #c9c6cd;
+}
+
+.pdm-key-text {
+    position: absolute;
+
+    top: .5vh;
+    left: 3vw;
+
+    font-size: 2vh;
+    font-weight: 550;
+    font-style: italic;
+    color: rgb(219, 219, 219);
+    text-shadow: 0.1vh 0.2vh 0.1vh rgba(0, 0, 0, 0.7);
+}
+
+/* Buy Button */
+
+.pdm-buy-button {
+    position: absolute;
+
+    top: 74%;
+    right: 1%;
+
+    padding: .8vh;
+
+    border-radius: .4vh;
+
+    width: fit-content;
+    height: fit-content;
+
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: color ease-in-out 250ms;
+
+    font-size: 2vh;
+    font-weight: 550;
+    font-style: italic;
+    color: rgb(219, 219, 219);
+    text-shadow: 0.1vh 0.2vh 0.1vh rgba(0, 0, 0, 0.7);
+}
+
+.pdm-buy-button:hover { color: orange; }
+
+/* Scroll */
+
+.pdm-car-container::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.342);
+}
+  
+.pdm-car-container::-webkit-scrollbar {
+    border-radius: .4vh;
+    height: .3vw;
+}
+  
+.pdm-car-container::-webkit-scrollbar-thumb {
+    background: rgb(255, 255, 255) ;
+    border-radius: .4vh;
+}

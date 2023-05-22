@@ -1,0 +1,79 @@
+.radio-wrapper {
+    display: block;
+    height: 100vw;
+    user-select: none;
+}
+
+.radio-container {
+    display: none;
+    position: absolute;
+
+    right: 1vw;
+    bottom: -60vh;
+}
+
+.radio-image {
+    width: 9.5vw;
+    height: 70vh;
+    z-index: -1;
+}
+
+.radio-button-container {
+    position: absolute;
+
+    right: 3vw;
+    bottom: 0.8vh;
+
+    width: 10.5vw;
+    height: 45vh;
+}
+
+.radio-channel {
+    position: absolute;
+
+    top: 48vh;
+    left: 2.3vw;
+
+    height: 5vh;
+    width: 5vw;
+    
+    border: none;
+    outline: none;
+
+    background-color: transparent;
+    
+    font-size: 2.6vh;
+    text-align: center;
+    font-family: 'Fira Code', monospace;
+    color: rgba(31, 31, 31, 0.75);
+}
+
+[data-button = "on/off"] {
+    position: absolute;
+
+    top: 13.7vh;
+    left: 9.4vw;
+
+    width: 2.3vw;
+    height: 4.5vh;
+}
+
+[data-button = "disconnect"] {
+    position: absolute;
+
+    top: 37.9vh;
+    left: 10.3vw;
+
+    width: 1vw;
+    height: 1vh;
+}
+
+[data-button = "connect"] {
+    position: absolute;
+
+    top: 32.1vh;
+    left: 8.4vw;
+
+    width: 1vw;
+    height: 1vh;
+}

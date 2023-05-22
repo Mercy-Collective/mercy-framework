@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,700;0,900;1,100;1,400;1,700;1,900&display=swap');
+
+.prompts-wrapper {
+    user-select: none;
+}
+
+.prompts {
+    position: absolute;
+    left: 68%;
+    top: 1%;
+
+    width: 30%;
+    height: 15%;
+
+    padding: 0.1vh;
+
+    color: white;
+}
+
+.prompts > .prompt {
+    float: left;
+
+    margin: 0.6vh;
+    padding: 0.8vh;
+
+    border-radius: 0.3vh;
+
+    width: max-content;
+
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    font-size: 1.2vh;
+
+    max-width: 29vw;
+
+    color: white;
+}
+
+.prompts > .prompt.primary { background-color: rgba(51, 112, 165, 0.85); }
+.prompts > .prompt.error { background-color: rgba(181, 82, 85, 0.85); }
+.prompts > .prompt.success { background-color: rgba(32, 158, 85, 0.85); }
+.prompts > .prompt.warning { background-color: rgba(207, 146, 65, 0.85); }
+
+.interactions {
+    position: absolute;
+    top: 50%;
+    left: 1vh;
+    transform: translateY(-50%);
+}
+
+.interaction {
+    position: absolute;
+    left: -100vh;
+    
+    padding: 1vh 1.5vh;
+
+    width: max-content;
+    height: max-content;
+
+    font-size: 1.4vh;
+    color: white;
+    /* text-shadow: 0.1vh 0.1vh 0.2vh black; */
+
+    border-radius: 0.3vh;
+
+    background-color: rgb(31, 128, 202);
+}
+
+.interaction-key {
+    text-shadow: 0.0vh 0.0vh 0.3vh black;
+}
+
+.interaction.primary { background-color: rgb(31, 128, 202); }
+.interaction.error { background-color: rgb(226, 58, 58); }
+.interaction.success { background-color: rgb(24, 165, 83) }

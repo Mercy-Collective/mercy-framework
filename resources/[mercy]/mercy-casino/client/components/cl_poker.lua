@@ -1,0 +1,1490 @@
+-- local SharedPokers = {}
+-- local CloseToPokerTable = false
+
+-- local mainScene = nil -- the main sitting scene, we need it globally, for the exit
+-- local ActivePokerTable = nil -- current table Id where we are sitting
+-- local ActiveChairData = nil -- chair data, it is a table with rotation and coords
+-- local currentBetInput = 0 -- currently bet input
+
+-- local playerBetted = nil -- important, because when it changes to TRUE, we are disabling the standup, etc
+-- local playerPairPlus = nil -- pair plus bet amount
+-- local watchingCards = false -- for the notification and other inputs
+-- local playerDecidedChoice = false
+
+-- local ClientTimer = nil
+-- local currentHelpText = nil
+-- local MainCamera = nil
+-- local ButtonScaleform = nil
+
+-- local NetworkedChips = {}
+-- local PlayerOwnedChips = 0
+-- local InformationPlaying = false
+-- local PlayedHudSound = false
+
+-- -- [ Code ] --
+
+-- -- [ Threads ] --
+
+
+-- Citizen.CreateThread(function()
+--     while true do
+--         Citizen.Wait(3)
+--         if LocalPlayer.state.LoggedIn and Config.Options['Poker']['Enabled'] then
+--             if not InformationPlaying and ActivePokerTable == nil and ActiveChairData == nil then
+--                 if InCasino then
+--                     local PlayerCoords = GetEntityCoords(PlayerPedId())
+--                     local InRange = false
+
+--                     for k, v in pairs(SharedPokers) do
+--                         local Distance = #(PlayerCoords - v.data.Position)
+--                         if Distance < 3.0 then
+--                             for i = 1, #Config.Options['Poker']['Tables'], 1 do
+--                                 local TableObj = GetClosestObjectOfType(PlayerCoords, 3.0, GetHashKey(Config.Tables[i]), false)
+--                                 if DoesEntityExist(TableObj) then
+--                                     for chairBone, ChairId in pairs(Config.Options['Poker']['Chairs']) do
+--                                         local ChairCoords = GetWorldPositionOfEntityBone(TableObj, GetEntityBoneIndexByName(TableObj, chairBone))
+--                                         if ChairCoords then
+--                                             if #(PlayerCoords - ChairCoords) < 1.5 then
+--                                                 local ChairRotation = GetWorldRotationOfEntityBone(TableObj, GetEntityBoneIndexByName(TableObj, chairBone))
+--                                                 DrawMarker(20, ChairCoords + vector3(0.0, 0.0, 1.0), 0.0, 0.0, 0.0, 180.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, true, true, 2, true, nil, nil, false)
+--                                                 InRange = true
+--                                                 if not PlayedHudSound then
+--                                                     PlaySoundFrontend(-1, 'DLC_VW_RULES', 'dlc_vw_table_games_frontend_sounds', 1)
+--                                                     PlayedHudSound = true
+--                                                 end
+--                                                 if not ShowingInteraction then
+--                                                     ShowingInteraction = true
+--                                                     exports['mercy-ui']:SetInteraction('[E] - Three Card Poker')
+--                                                 end
+--                                                 if IsControlJustReleased(0, 38) then
+--                                                     v.sitDown(ChairId, ChairCoords, ChairRotation)
+--                                                 end
+--                                             end
+--                                         end
+--                                     end
+--                                 end
+--                             end
+--                         end
+--                     end
+
+--                     if not InRange then
+--                         if ShowingInteraction then
+--                             ShowingInteraction = false
+--                             exports['mercy-ui']:HideInteraction()
+--                         end
+--                         PlayedHudSound = false
+--                     end
+--                 else
+--                     Citizen.Wait(450)
+--                 end
+--             else
+--                 Citizen.Wait(450)
+--             end
+--         else
+--             Citizen.Wait(450)
+--         end
+--     end 
+-- end)
+
+-- -- [ Events ] --
+
+-- RegisterNetEvent('mercy-casino/client/poker/player-pairplus-anim', function(Amount)
+--     if SharedPokers[ActivePokerTable] ~= nil then
+--         SharedPokers[ActivePokerTable].playerPairPlusAnim(Amount)
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/update-cards', function(TableId, Cards)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].updateCards(Cards)
+--     end
+-- end)
+-- RegisterNetEvent('mercy-casino/client/poker/update-state', function(TableId, Active, TimeLeft)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].updateState(Active, TimeLeft)
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/player-bet-anim', function(Amount)
+--     if SharedPokers[ActivePokerTable] ~= nil then
+--         SharedPokers[ActivePokerTable].playerBetAnim(Amount)
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/update-player-chips', function(Amount)
+--     PlayerOwnedChips = Amount
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/player-draw', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].playerDraw()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/player-lost', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].playerLost()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/player-win', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].playerWin()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/reset-table', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].resetTable()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/set-stage-7', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         currentHelpText = "Clearing the table..\n~b~Next game starting soon.\n"
+--         SharedPokers[TableId].clearTable()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/set-stage-6', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         currentHelpText = "The ~r~Dealer~w~ is showing his hands.\n"
+--         SharedPokers[TableId].revealSelfCards()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/set-stage-5', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         currentHelpText = "Revealing player hands..\n"
+--         SharedPokers[TableId].revealPlayerCards()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/set-stage-1', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].FirstAction()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/set-stage-2', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         currentHelpText = "Dealing cards to players..\n"
+--         SharedPokers[TableId].dealToPlayers()
+--     end
+-- end) 
+
+-- RegisterNetEvent('mercy-casino/client/poker/set-stage-3', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         currentHelpText = nil
+--         SharedPokers[TableId].dealToSelf()
+--         SharedPokers[TableId].putDownDeck()
+--         SharedPokers[TableId].dealerStandingIdle()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/set-stage-4', function(TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         currentHelpText = nil
+--         SharedPokers[TableId].watchCards()
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/player-play-cards', function(Source, TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].playCards(Source)
+--     end
+-- end)
+
+-- RegisterNetEvent('mercy-casino/client/poker/player-fold-cards', function(Source, TableId)
+--     if SharedPokers[TableId] ~= nil then
+--         SharedPokers[TableId].foldCards(Source)
+--     end
+-- end)
+
+-- -- [ Functions ] --
+
+-- function InitPoker(Bool)
+--     -- if Bool then
+--     --     for Index, Data in pairs(Config.Options['Poker']['Locations']) do
+--     --         DoPoker(Index, Data)
+--     --     end
+--     -- else
+
+--     -- end
+-- end
+
+-- DoPoker = function(index, data)
+--     local self = {}
+
+--     self.index = index
+--     self.data = data
+
+--     self.cards = {}
+
+--     self.playersFolded = {}
+
+--     self.updateCards = function(Cards)
+--         self.ServerCards = Cards
+--     end
+
+--     self.updateState = function(Active, TimeLeft)
+--         self.Active = Active
+--         self.TimeLeft = TimeLeft
+--     end
+
+--     self.playerDraw = function()
+--         local pedReaction = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             local RandReact = ({'female_dealer_reaction_impartial_var01', 'female_dealer_reaction_impartial_var02', 'female_dealer_reaction_impartial_var03'})[math.random(1, 3)]
+--             TaskSynchronizedScene(self.ped, pedReaction, 'anim_casino_b@amb@casino@games@shared@dealer@', RandReact, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             local RandReact = ({'reaction_impartial_var_01', 'reaction_impartial_var_02', 'reaction_impartial_var_03', 'reaction_impartial_var_04'})[math.random(1, 4)]
+--             TaskSynchronizedScene(self.ped, pedReaction, 'anim_casino_b@amb@casino@games@shared@dealer@', RandReact, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--     end
+
+--     self.playerWin = function()
+--         local Reaction = nil
+--         if GetEntityModel(PlayerPedId()) == GetHashKey('mp_f_freemode_01') then -- female
+--             Reaction = ({ 'female_reaction_great_var_01', 'female_reaction_great_var_02', 'female_reaction_great_var_03', 'female_reaction_great_var_04', 'female_reaction_great_var_05' })[math.random(1, 5)]
+--         else
+--             Reaction = ({'reaction_great_var_01', 'reaction_great_var_02', 'reaction_great_var_03', 'reaction_great_var_04'})[math.random(1, 4)]
+--         end
+
+--         if Reaction then
+--             local ReactionScene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--             NetworkAddPedToSynchronisedScene(PlayerPedId(), ReactionScene, 'anim_casino_b@amb@casino@games@shared@player@', Reaction, 2.0, -2.0, 13, 16, 2.0, 0)
+--             NetworkStartSynchronisedScene(ReactionScene)
+--         end
+
+--         local PedReaction = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             local RandReact = ({'female_dealer_reaction_bad_var01', 'female_dealer_reaction_bad_var02', 'female_dealer_reaction_bad_var03'})[math.random(1, 3)]
+--             TaskSynchronizedScene(self.ped, PedReaction, 'anim_casino_b@amb@casino@games@shared@dealer@', RandReact, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             local RandReact = ({'reaction_bad_var_01', 'reaction_bad_var_02', 'reaction_bad_var_03', 'reaction_bad_var_04'})[math.random(1, 4)]
+--             TaskSynchronizedScene(self.ped, PedReaction, 'anim_casino_b@amb@casino@games@shared@dealer@', RandReact, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--     end
+
+--     self.playerLost = function()
+--         local Reaction = nil
+--         if GetEntityModel(PlayerPedId()) == GetHashKey('mp_f_freemode_01') then -- female
+--             Reaction = ({'female_reaction_terrible_var_01', 'female_reaction_terrible_var_02', 'female_reaction_terrible_var_03', 'female_reaction_terrible_var_04', 'female_reaction_terrible_var_05' })[math.random(1, 5)]
+--         else
+--             Reaction = ({'reaction_terrible_var_01', 'reaction_terrible_var_02', 'reaction_terrible_var_03', 'reaction_terrible_var_04'})[math.random(1, 4)]
+--         end
+--         if Reaction then
+--             local ReactionScene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--             NetworkAddPedToSynchronisedScene(PlayerPedId(), ReactionScene, 'anim_casino_b@amb@casino@games@shared@player@', Reaction, 2.0, -2.0, 13, 16, 2.0, 0)
+--             NetworkStartSynchronisedScene(ReactionScene)
+--         end
+--         local PedReaction = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             local RandReact = ({'female_dealer_reaction_good_var01', 'female_dealer_reaction_good_var02', 'female_dealer_reaction_good_var03'})[math.random(1, 3)]
+--             TaskSynchronizedScene(self.ped, PedReaction, 'anim_casino_b@amb@casino@games@shared@dealer@', RandReact, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             local RandReact = ({'reaction_good_var_01', 'reaction_good_var_02', 'reaction_good_var_03'})[math.random(1, 3)]
+--             TaskSynchronizedScene(self.ped, PedReaction, 'anim_casino_b@amb@casino@games@shared@dealer@', RandReact, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--     end
+
+--     self.speakPed = function(Name)
+--         Citizen.CreateThread(function()
+--             PlayPedAmbientSpeechNative(self.ped, Name, 'SPEECH_PARAMS_FORCE_NORMAL_CLEAR', 1)
+--         end)
+--     end
+
+--     self.createDefaultPakli = function()
+--         Citizen.CreateThread(function()
+--             local CardModel = GetHashKey('vw_prop_casino_cards_01')
+--             FunctionsModule.RequestModel(CardModel)
+--             FunctionsModule.RequestAnimDict('anim_casino_b@amb@casino@games@threecardpoker@dealer')
+--             local Offset = GetAnimInitialOffsetPosition('anim_casino_b@amb@casino@games@threecardpoker@dealer', 'deck_pick_up_deck', self.data.Position, 0.0, 0.0, self.data.Heading, 0.01, 2)
+--             self.pakli = CreateObject(CardModel, Offset, false, false, true)
+--             SetEntityCoordsNoOffset(self.pakli, Offset, false, false, true)
+--             SetEntityRotation(self.pakli, 0.0, 0.0, self.data.Rotation, 2, true)
+--             FreezeEntityPosition(self.pakli, true)
+--         end)
+--     end
+
+--     self.isPedFemale = function()
+--         if GetEntityModel(self.ped) == GetHashKey('S_M_Y_Casino_01') then
+--             return false
+--         else
+--             return true
+--         end
+--     end
+
+--     self.createPed = function()
+--         Citizen.CreateThread(function()
+--             local MaleCasinoDealer = GetHashKey('S_M_Y_Casino_01')
+--             local FemaleCasinoDealer = GetHashKey('S_F_Y_Casino_01')
+--             local frmVar_1 = math.random(1, 13)
+--             if frmVar_1 < 7 then
+--                 DealerModel = MaleCasinoDealer
+--             else
+--                 DealerModel = FemaleCasinoDealer
+--             end
+--             FunctionsModule.RequestModel(DealerModel)
+--             self.ped = CreatePed(26, DealerModel, self.data.Position, self.data.Heading, false, true)
+--             SetModelAsNoLongerNeeded(DealerModel)
+--             SetEntityCanBeDamaged(self.ped, false)
+--             SetPedAsEnemy(self.ped, false)
+--             SetBlockingOfNonTemporaryEvents(self.ped, true)
+--             SetPedResetFlag(self.ped, 249, 1)
+--             SetPedConfigFlag(self.ped, 185, true)
+--             SetPedConfigFlag(self.ped, 108, true)
+--             SetPedCanEvasiveDive(self.ped, 0)
+--             SetPedCanRagdollFromPlayerImpact(self.ped, 0)
+--             SetPedConfigFlag(self.ped, 208, true)
+--             SetPedCanRagdoll(self.ped, false)
+--             SetRandomPedClothes(frmVar_1, self.ped)
+--             SetRandomPedVoice(frmVar_1, self.ped)
+--             SetEntityCoordsNoOffset(self.ped, self.data.Position + vector3(0.0, 0.0, 1.0), false, false, true)
+--             SetEntityHeading(self.ped, self.data.Heading)
+--             FunctionsModule.RequestAnimDict('anim_casino_b@amb@casino@games@shared@dealer@')
+--             self.dealerStandingIdle()
+--             print('Poker ped created.')
+--         end)
+--     end
+
+--     self.sitDown = function(ChairId, ChairCoords, ChairRotation)
+--         StartAudioScene('DLC_VW_Casino_Table_Games')
+--         if not exports['mercy-hospital']:IsDead() then
+--             local CanSit = CallbackModule.SendCallback('mercy-casino/server/poker/can-sit', self.index, ChairId)
+--             if CanSit then
+--                 ActiveChairData = {
+--                     chairId = ChairId,
+--                     chairCoords = ChairCoords,
+--                     chairRotation = ChairRotation
+--                 }
+
+--                 -- RageUI.Visible(RMenu:Get('aquiver_poker', 'instructions'), false)
+--                 -- Replace this shit with context
+
+--                 local RandomSpeech = math.random(1, 2)
+--                 if RandomSpeech == 1 then
+--                     self.speakPed('MINIGAME_DEALER_GREET')
+--                 else
+--                     self.speakPed('MINIGAME_DEALER_GREET_'.. GetEntityModel(PlayerPedId()) == GetHashKey('mp_m_freemode_01') and "MALE" or "FEMALE")
+--                 end
+--                 ButtonScaleform = setupFirstButtons('instructional_buttons')
+--                 FunctionsModule.RequestAnimDict('anim_casino_b@amb@casino@games@shared@player@')
+--                 SetPlayerControl(PlayerPedId(), 0, 0)
+--                 local SitScene = NetworkCreateSynchronisedScene(ChairCoords, ChairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--                 local SitAnim = ({'sit_enter_left_side', 'sit_enter_right_side'})[math.random(1, 2)]
+--                 NetworkAddPedToSynchronisedScene(PlayerPedId(), SitScene, 'anim_casino_b@amb@casino@games@shared@player@', SitAnim, 2.0, -2.0, 13, 16, 2.0, 0)
+--                 NetworkStartSynchronisedScene(SitScene)
+
+--                 Citizen.Wait(4000)
+--                 MainScene = NetworkCreateSynchronisedScene(ChairCoords, ChairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--                 NetworkAddPedToSynchronisedScene(PlayerPedId(), MainScene, 'anim_casino_b@amb@casino@games@shared@player@', 'idle_cardgames', 2.0, -2.0, 13, 16, 1000.0, 0)
+--                 NetworkStartSynchronisedScene(MainScene)
+
+--                 self.EnableRender(true)
+--                 SetPlayerControl(PlayerPedId(), 1, 0)
+
+--                 Citizen.Wait(500)
+--             else
+--                 exports['mercy-ui']:Notify("seat-occupied-poker", "This seat is occupied.", 'error')
+--             end
+--         end
+--     end
+
+--     self.createCard = function(CardName)
+--         local CardModel = GetHashKey(CardName)
+--         FunctionsModule.RequestModel(CardModel)
+--         return CreateObject(CardModel, self.data.Position + vector3(0.0, 0.0, -0.1), false, true, true)
+--     end
+
+--     self.FirstAction = function()
+--         self.speakPed('MINIGAME_DEALER_CLOSED_BETS')
+--         -- FIRST ACTION TO DO WHEN STARTING GAME
+--         FunctionsModule.RequestAnimDict('anim_casino_b@amb@casino@games@threecardpoker@dealer')
+--         local FirstScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             TaskSynchronizedScene(self.ped, FirstScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_deck_pick_up', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             TaskSynchronizedScene(self.ped, FirstScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'deck_pick_up', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--         while GetSynchronizedScenePhase(FirstScene) < 0.99 do
+--             if HasAnimEventFired(self.ped, 1691374422) then
+--                 if not IsEntityAttachedToAnyPed(self.pakli) then
+--                     FreezeEntityPosition(self.pakli, false)
+--                     AttachEntityToEntity(self.pakli, self.ped, GetPedBoneIndex(self.ped, 60309), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, true, 2, true)
+--                 end
+--             end
+
+--             Citizen.Wait(1)
+--         end
+--         if self.ServerCards['dealer'] ~= nil then
+--             self.cards['dealer'] = {}
+--             if not DoesEntityExist(self.cards['dealer'][1]) then
+--                 self.cards['dealer'][1] = self.createCard(Config.Cards[self.ServerCards['dealer'].Hand[1]])
+--             end
+--             if not DoesEntityExist(self.cards['dealer'][2]) then
+--                 self.cards['dealer'][2] = self.createCard(Config.Cards[self.ServerCards['dealer'].Hand[2]])
+--             end
+--             if not DoesEntityExist(self.cards['dealer'][3]) then
+--                 self.cards['dealer'][3] = self.createCard(Config.Cards[self.ServerCards['dealer'].Hand[3]])
+--             end
+--         end
+--         local SecondScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             TaskSynchronizedScene(self.ped, SecondScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_deck_shuffle', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             TaskSynchronizedScene(self.ped, SecondScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'deck_shuffle', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--         PlaySynchronizedEntityAnim(self.cards['dealer'][1], SecondScene, 'deck_shuffle_card_a', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--         PlaySynchronizedEntityAnim(self.cards['dealer'][2], SecondScene, 'deck_shuffle_card_b', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--         PlaySynchronizedEntityAnim(self.cards['dealer'][3], SecondScene, 'deck_shuffle_card_c', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--         while GetSynchronizedScenePhase(SecondScene) < 0.99 do
+--             Citizen.Wait(1)
+--         end
+--         SetEntityVisible(self.cards['dealer'][1], false, false)
+--         SetEntityVisible(self.cards['dealer'][2], false, false)
+--         SetEntityVisible(self.cards['dealer'][3], false, false)
+--         local ThirdScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             TaskSynchronizedScene(self.ped, ThirdScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_deck_idle', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             TaskSynchronizedScene(self.ped, ThirdScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'deck_idle', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--         while GetSynchronizedScenePhase(ThirdScene) < 0.99 do
+--             Citizen.Wait(1)
+--         end
+--     end
+
+--     self.dealToPlayers = function()
+--         StartAudioScene('DLC_VW_Casino_Cards_Focus_Hand')
+--         StartAudioScene('DLC_VW_Casino_Table_Games')
+--         ButtonScaleform = nil
+--         print('Dealing to players')
+--         -- SECOND ACTIONS TO DO, THERE CAN BE MORE PLAYERS!
+--         for Source, data in pairs(self.ServerCards) do
+--             if Source ~= 'dealer' then
+--                 self.cards[Source] = {}
+--                 self.cards[Source][1] = self.createCard(Config.Cards[data.Hand[1]])
+--                 self.cards[Source][2] = self.createCard(Config.Cards[data.Hand[2]])
+--                 self.cards[Source][3] = self.createCard(Config.Cards[data.Hand[3]])
+--                 FunctionsModule.RequestAnimDict('anim_casino_b@amb@casino@games@threecardpoker@dealer')
+--                 local PlayerAnimId = nil
+--                 if data.chairData.chairId == 4 then -- this is reverse because rockstar think differently no idea why
+--                     PlayerAnimId = 'p01'
+--                 elseif data.chairData.chairId == 3 then
+--                     PlayerAnimId = 'p02'
+--                 elseif data.chairData.chairId == 2 then
+--                     PlayerAnimId = 'p03'
+--                 elseif data.chairData.chairId == 1 then
+--                     PlayerAnimId = 'p04'
+--                 end
+--                 if PlayerAnimId ~= nil then
+--                     local DealScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--                     SetEntityVisible(self.cards[Source][1], false, false)
+--                     SetEntityVisible(self.cards[Source][2], false, false)
+--                     SetEntityVisible(self.cards[Source][3], false, false)
+--                     if self.isPedFemale() then
+--                         TaskSynchronizedScene(self.ped, DealScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', string.format('female_deck_deal_%s', PlayerAnimId), 2.0, -2.0, 13, 16, 1000.0, 0)
+--                     else
+--                         TaskSynchronizedScene(self.ped, DealScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', string.format('deck_deal_%s', PlayerAnimId), 2.0, -2.0, 13, 16, 1000.0, 0)
+--                     end
+--                     PlaySynchronizedEntityAnim( self.cards[Source][1], DealScene, string.format('deck_deal_%s_card_a', PlayerAnimId), 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0 )
+--                     PlaySynchronizedEntityAnim( self.cards[Source][2], DealScene, string.format('deck_deal_%s_card_b', PlayerAnimId), 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0 )
+--                     PlaySynchronizedEntityAnim( self.cards[Source][3], DealScene, string.format('deck_deal_%s_card_c', PlayerAnimId), 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0 )
+--                     while GetSynchronizedScenePhase(DealScene) < 0.05 do
+--                         Citizen.Wait(1)
+--                     end
+--                     SetEntityVisible(self.cards[Source][1], true, false)
+--                     SetEntityVisible(self.cards[Source][2], true, false)
+--                     SetEntityVisible(self.cards[Source][3], true, false)
+--                     while GetSynchronizedScenePhase(DealScene) < 0.99 do
+--                         Citizen.Wait(1)
+--                     end
+--                 end
+--             end
+--         end
+--         print('Dealing ended')
+--     end
+
+--     self.watchCards = function()
+--         self.speakPed('MINIGAME_DEALER_COMMENT_SLOW')
+--         if self.index == ActivePokerTable and playerBetted ~= nil then
+--             ClientTimer = Config.Options['Poker']['PlayerDecideTime']
+--             Citizen.CreateThread(function()
+--                 while ClientTimer ~= nil do
+--                     Citizen.Wait(1000)
+--                     if ClientTimer ~= nil then
+--                         ClientTimer = ClientTimer - 1
+--                         if ClientTimer < 1 then
+--                             ClientTimer = nil
+--                             exports['mercy-ui']:Notify('poker-not-intime', 'You did not respond for the dealer ask in time, you have folded your hand.', 'error')
+--                             TriggerServerEvent('mercy-casino/server/poker/fold-cards', self.index)
+--                         end
+--                     end
+--                 end
+--             end)
+--         end
+--         FunctionsModule.RequestAnimDict('anim_casino_b@amb@casino@games@threecardpoker@player')
+--         for Source, data in pairs(self.ServerCards) do
+--             if Source ~= 'dealer' then
+--                 -- if we are the player, we call it once
+--                 if GetPlayerServerId(PlayerId()) == Source and self.index == ActivePokerTable then
+--                     local Scene = NetworkCreateSynchronisedScene(data.chairData.chairCoords, data.chairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--                     NetworkAddPedToSynchronisedScene(PlayerPedId(), Scene, 'anim_casino_b@amb@casino@games@threecardpoker@player', 'cards_pickup', 2.0, -2.0, 13, 16, 1000.0, 0)
+--                     NetworkStartSynchronisedScene(Scene)
+--                     Citizen.CreateThread(function()
+--                         Citizen.Wait(1500)
+--                         watchingCards = true
+--                         ShakeGameplayCam('HAND_SHAKE', 0.15)
+--                         ButtonScaleform = setupThirdButtons('instructional_buttons')
+--                         local PlayerHandValue = GetHandAllValues(data.Hand)
+--                         if PlayerHandValue ~= nil then
+--                             print(string.format('Player hand value: %s', PlayerHandValue))
+--                             local Formatted = FormatHandValue(PlayerHandValue)
+--                             if Formatted ~= nil then
+--                                 Citizen.CreateThread(function()
+--                                     while watchingCards do
+--                                         Citizen.Wait(0)
+--                                         drawText2d(0.5, 0.9, 0.45, Formatted)
+--                                     end
+--                                 end)
+--                             end
+--                         end
+--                     end)
+--                 end
+--                 local CardsScene = CreateSynchronizedScene(data.chairData.chairCoords, data.chairData.chairRotation, 2)
+--                 PlaySynchronizedEntityAnim(self.cards[Source][1], CardsScene, 'cards_pickup_card_a', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--                 PlaySynchronizedEntityAnim(self.cards[Source][2], CardsScene, 'cards_pickup_card_b', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--                 PlaySynchronizedEntityAnim(self.cards[Source][3], CardsScene, 'cards_pickup_card_c', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--             end
+--         end
+--     end
+
+--     self.foldCards = function(Source)
+--         self.playersFolded[Source] = true
+--         if GetPlayerServerId(PlayerId()) == Source then
+--             local Scene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--             NetworkAddPedToSynchronisedScene(PlayerPedId(), Scene, 'anim_casino_b@amb@casino@games@threecardpoker@player', 'cards_fold', 2.0, -2.0, 13, 16, 1000.0, 0)
+--             NetworkStartSynchronisedScene(Scene)
+--             playerDecidedChoice = true
+--             watchingCards = false
+--             ButtonScaleform = nil
+--             StopGameplayCamShaking(true)
+--         end
+--         if self.cards[Source] ~= nil then
+--             local ChairData = self.ServerCards[Source].chairData
+--             local CardsScene = CreateSynchronizedScene(ChairData.chairCoords, ChairData.chairRotation, 2)
+--             PlaySynchronizedEntityAnim(self.cards[Source][1], CardsScene, 'cards_fold_card_a', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards[Source][2], CardsScene, 'cards_fold_card_b', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards[Source][3], CardsScene, 'cards_fold_card_c', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--         end
+--     end
+
+--     self.playCards = function(Source)
+--         if GetPlayerServerId(PlayerId()) == Source then
+--             playerDecidedChoice = true
+--             watchingCards = false
+--             ButtonScaleform = nil
+--             StopGameplayCamShaking(true)
+--             Citizen.CreateThread( function()
+--                 local Scene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--                 NetworkAddPedToSynchronisedScene(PlayerPedId(), Scene, 'anim_casino_b@amb@casino@games@threecardpoker@player', 'cards_play', 2.0, -2.0, 13, 16, 1000.0, 0)
+--                 NetworkStartSynchronisedScene(Scene)
+--                 while not HasAnimEventFired(PlayerPedId(), -1424880317) do
+--                     Citizen.Wait(1)
+--                 end
+--                 local NextScene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--                 NetworkAddPedToSynchronisedScene(PlayerPedId(), NextScene, 'anim_casino_b@amb@casino@games@threecardpoker@player', 'cards_bet', 2.0, -2.0, 13, 16, 1000.0, 0)
+--                 NetworkStartSynchronisedScene(NextScene)
+--                 Citizen.Wait(500)
+--                 local OffsetAlign = nil
+--                 if ActiveChairData.chairId == 4 then
+--                     OffsetAlign = vector3(0.689125, 0.171575, 0.954)
+--                 elseif ActiveChairData.chairId == 3 then
+--                     OffsetAlign = vector3(0.2869, -0.211925, 0.954)
+--                 elseif ActiveChairData.chairId == 2 then
+--                     OffsetAlign = vector3(-0.30935, -0.205675, 0.954)
+--                 elseif ActiveChairData.chairId == 1 then
+--                     OffsetAlign = vector3(-0.69795, 0.211525, 0.954)
+--                 end
+--                 if OffsetAlign == nil then return print('Something error happened during the playCards function.') end
+
+--                 local Offset = GetObjectOffsetFromCoords(self.data.Position, self.data.Heading, OffsetAlign)
+--                 local ChipModel = GetChipModelByAmount(playerBetted)
+--                 FunctionsModule.RequestModel(ChipModel)
+--                 local ChipObj = CreateObjectNoOffset(ChipModel, Offset, true, false, true)
+--                 SetEntityCoordsNoOffset(ChipObj, Offset, false, false, true)
+--                 SetEntityHeading(ChipObj, GetEntityHeading(PlayerPedId()))
+--                 table.insert(NetworkedChips, ChipObj)
+--                 while not HasAnimEventFired(PlayerPedId(), -1424880317) do
+--                     Citizen.Wait(1)
+--                 end
+--                 self.playerRandomIdleAnim()
+--             end)
+--         end
+--         if self.cards[Source] ~= nil and self.ServerCards[Source] ~= nil then
+--             local ChairData = self.ServerCards[Source].chairData
+--             local CardsScene = CreateSynchronizedScene(ChairData.chairCoords, ChairData.chairRotation, 2)
+--             PlaySynchronizedEntityAnim(self.cards[Source][1], CardsScene, 'cards_play_card_a', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards[Source][2], CardsScene, 'cards_play_card_b', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards[Source][3], CardsScene, 'cards_play_card_c', 'anim_casino_b@amb@casino@games@threecardpoker@player', 1000.0, 0, 0, 1000.0)
+--         end
+--     end
+
+--     self.playerRandomIdleAnim = function()
+--         local SelectedIdleAnim = nil
+--         if GetEntityModel(PlayerPedId()) == GetHashKey('mp_f_freemode_01') then -- Female
+--             SelectedIdleAnim = Config.Options['Poker']['Anims']['Idle']['Female'][math.random(1, #Config.Options['Poker']['Anims']['Idle']['Female'])]
+--         else
+--             SelectedIdleAnim = Config.Options['Poker']['Anims']['Idle']['Male'][math.random(1, #Config.Options['Poker']['Anims']['Idle']['Male'])]
+--         end
+--         if SelectedIdleAnim ~= nil then
+--             local PlayerIdleScene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--             NetworkAddPedToSynchronisedScene(PlayerPedId(), PlayerIdleScene, 'anim_casino_b@amb@casino@games@shared@player@', SelectedIdleAnim, 2.0, -2.0, 13, 16, 1000.0, 0)
+--             NetworkStartSynchronisedScene(PlayerIdleScene)
+--             while not HasAnimEventFired(PlayerPedId(), -1424880317) do
+--                 Citizen.Wait(1)
+--             end
+--             local PlayerIdleScene2 = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--             NetworkAddPedToSynchronisedScene(PlayerPedId(), PlayerIdleScene2, 'anim_casino_b@amb@casino@games@shared@player@', 'idle_cardgames', 2.0, -2.0, 13, 16, 1000.0, 0)
+--             NetworkStartSynchronisedScene(PlayerIdleScene2)
+--         end
+--     end
+
+--     self.dealToSelf = function()
+--         print('Dealing dealer cards.')
+--         local DealSelfScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             TaskSynchronizedScene(self.ped, DealSelfScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_deck_deal_self', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             TaskSynchronizedScene(self.ped, DealSelfScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'deck_deal_self', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--         PlaySynchronizedEntityAnim(self.cards['dealer'][1], DealSelfScene, 'deck_deal_self_card_a', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--         PlaySynchronizedEntityAnim(self.cards['dealer'][2], DealSelfScene, 'deck_deal_self_card_b', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--         PlaySynchronizedEntityAnim(self.cards['dealer'][3], DealSelfScene, 'deck_deal_self_card_c', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--         while GetSynchronizedScenePhase(DealSelfScene) < 0.05 do
+--             Citizen.Wait(1)
+--         end
+--         SetEntityVisible(self.cards['dealer'][1], true, false)
+--         SetEntityVisible(self.cards['dealer'][2], true, false)
+--         SetEntityVisible(self.cards['dealer'][3], true, false)
+--         while GetSynchronizedScenePhase(DealSelfScene) < 0.99 do
+--             Citizen.Wait(1)
+--         end
+--     end
+
+--     self.dealerStandingIdle = function()
+--         local Scene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             TaskSynchronizedScene(self.ped, Scene, 'anim_casino_b@amb@casino@games@shared@dealer@', 'female_idle', 1000.0, -2.0, -1.0, 33, 1000.0, 0)
+--         else
+--             TaskSynchronizedScene(self.ped, Scene, 'anim_casino_b@amb@casino@games@shared@dealer@', 'idle', 1000.0, -2.0, -1.0, 33, 1000.0, 0)
+--         end
+--     end
+
+--     self.putDownDeck = function()
+--         local Scene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             TaskSynchronizedScene(self.ped, Scene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_deck_put_down', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             TaskSynchronizedScene(self.ped, Scene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'deck_put_down', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--         while GetSynchronizedScenePhase(Scene) < 0.99 do
+--             Citizen.Wait(1)
+--         end
+
+--         if IsEntityAttachedToAnyPed(self.pakli) then
+--             DetachEntity(self.pakli, true, true)
+--             FreezeEntityPosition(self.pakli, true)
+--             print('Cards detached')
+--         end
+
+--         self.dealerStandingIdle()
+--     end
+
+--     self.EnableRender = function(state)
+--         if state then
+--             ActivePokerTable = self.index
+--             -- TriggerEvent('ShowPlayerHud', false)
+
+--             Citizen.CreateThread(function()
+--                 while ActivePokerTable do
+--                     Citizen.Wait(0)
+--                     DisableAllControlActions(0)
+
+--                     if ButtonScaleform ~= nil then
+--                         DrawScaleformMovieFullscreen(ButtonScaleform, 255, 255, 255, 255, 0)
+--                     end
+
+--                     EnableControlAction(0, 0, true) -- changing camera
+--                     EnableControlAction(0, 1, true) -- mouse cam
+--                     EnableControlAction(0, 2, true) -- mouse cam
+--                     EnableControlAction(0, 24, true)
+--                     EnableControlAction(0, 249, true)
+                    
+--                     -- if player betted then
+--                     if playerBetted then
+--                         local ReactiveText = ''
+--                         if currentHelpText then
+--                             ReactiveText = ReactiveText .. currentHelpText
+--                         end
+--                         if self.TimeLeft > 0 then
+--                             ReactiveText = ReactiveText .. "Waiting for ~b~players~w~...\n"
+--                         end
+--                         if watchingCards then
+--                             if IsDisabledControlJustPressed(0, 38) then
+--                                 ClientTimer = nil
+--                                 watchingCards = false
+--                                 ButtonScaleform = nil
+--                                 StopGameplayCamShaking(true)
+--                                 TriggerServerEvent('mercy-casino/server/poker/play-cards', self.index, playerBetted)
+--                             end
+
+--                             if IsDisabledControlJustPressed(0, 177) then
+--                                 ClientTimer = nil
+--                                 watchingCards = false
+--                                 ButtonScaleform = nil
+--                                 StopGameplayCamShaking(true)
+--                                 TriggerServerEvent('mercy-casino/server/poker/fold-cards', self.index)
+--                             end
+--                         end
+--                         if string.len(reactiveText) > 0 then
+--                             ShowHelpNotification(reactiveText)
+--                         end
+--                     end
+
+--                     -- only enable standup if he did not bet
+--                     if playerBetted == nil then
+--                         if IsDisabledControlJustPressed(0, 177) then
+--                             self.EnableRender(false)
+--                             PlaySoundFrontend(-1, 'FocusOut', 'HintCamSounds', false)
+--                         end
+--                     end
+
+--                     if playerBetted == nil or playerPairPlus == nil then
+--                         if self.TimeLeft == nil or self.TimeLeft > 0 then
+--                             -- bet input
+--                             if IsDisabledControlJustPressed(0, 22) then --Custom Bet [space]
+--                                 local TempInput = GetGenericTextInput('Bet')
+--                                 if tonumber(TempInput) then
+--                                     TempInput = tonumber(TempInput)
+--                                     if TempInput > 0 then
+--                                         if TempInput > self.data.MaximumBet then
+--                                             PlaySoundFrontend(-1, 'DLC_VW_ERROR_MAX', 'dlc_vw_table_games_frontend_sounds', true)
+--                                         else
+--                                             currentBetInput = TempInput
+--                                             PlaySoundFrontend(-1, 'DLC_VW_BET_HIGHLIGHT', 'dlc_vw_table_games_frontend_sounds', true)
+--                                         end
+--                                     end
+--                                 end
+--                             end
+
+--                             if IsDisabledControlJustPressed(0, 176) then
+--                                 if currentBetInput > 0 then
+--                                     if currentBetInput >= self.data.MinimumBet and currentBetInput <= self.data.MaximumBet then
+--                                         if playerBetted == nil then
+--                                             TriggerServerEvent('mercy-casino/server/poker/bet', self.index, ActiveChairData, currentBetInput)
+--                                         else
+--                                             if playerPairPlus == nil then
+--                                                 TriggerServerEvent('mercy-casino/server/poker/bet-pair-plus', self.index, currentBetInput)
+--                                             end
+--                                         end
+--                                     else
+--                                         PlaySoundFrontend(-1, 'DLC_VW_ERROR_MAX', 'dlc_vw_table_games_frontend_sounds', true)
+--                                     end
+--                                 else
+--                                     exports['mercy-ui']:Notify("no-bet-input", "You didn\'t set a bet.", 'error')
+--                                 end
+--                             end
+
+--                             if IsDisabledControlJustPressed(0, 172) then -- up
+--                                 local increase = IncreaseAmounts(currentBetInput)
+--                                 currentBetInput = currentBetInput + increase
+--                                 if currentBetInput > self.data.MaximumBet then
+--                                     PlaySoundFrontend(-1, 'DLC_VW_ERROR_MAX', 'dlc_vw_table_games_frontend_sounds', true)
+--                                     currentBetInput = self.data.MaximumBet
+--                                 else
+--                                     PlaySoundFrontend(-1, 'DLC_VW_BET_UP', 'dlc_vw_table_games_frontend_sounds', true)
+--                                 end
+--                             elseif IsDisabledControlJustPressed(0, 173) then -- down
+--                                 if currentBetInput > 0 then
+--                                     local increase = IncreaseAmounts(currentBetInput)
+--                                     currentBetInput = currentBetInput - increase
+--                                     PlaySoundFrontend(-1, 'DLC_VW_BET_DOWN', 'dlc_vw_table_games_frontend_sounds', true)
+--                                     if currentBetInput < 0 then
+--                                         currentBetInput = 0
+--                                         PlaySoundFrontend(-1, 'DLC_VW_ERROR_MAX', 'dlc_vw_table_games_frontend_sounds', true)
+--                                     end
+--                                 else
+--                                     PlaySoundFrontend(-1, 'DLC_VW_ERROR_MAX', 'dlc_vw_table_games_frontend_sounds', true)
+--                                 end
+--                             end
+--                         end
+--                     end
+
+--                     if self.Active then
+--                         if self.TimeLeft >= 10 then
+--                             DrawRect(0.944, 0.799, 0.081, 0.032, 0, 0, 0, 200)
+--                             DrawAdvancedNativeText(1.013, 0.806, 0.005, 0.0028, 0.29, "TIME:", 255, 255, 255, 255, 0, 0)
+--                             DrawAdvancedNativeText(1.05, 0.799, 0.005, 0.0028, 0.464, string.format('00:%s', self.TimeLeft), 255, 255, 255, 255, 0, 0)
+--                         else
+--                             if self.TimeLeft > 0 then
+--                                 DrawAdvancedNativeText(1.013, 0.806, 0.005, 0.0028, 0.29, "TIME:", 255, 255, 255, 255, 0, 0)
+--                                 DrawRect(0.944, 0.799, 0.081, 0.032, 0, 0, 0, 200)
+--                                 DrawAdvancedNativeText(1.05, 0.799, 0.005, 0.0028, 0.464, string.format('00:0%s', self.TimeLeft), 255, 255, 255, 255, 0, 0)
+--                             else
+--                                 if ClientTimer ~= nil then
+--                                     DrawAdvancedNativeText(1.013, 0.806, 0.005, 0.0028, 0.29, "TIME:", 255, 255, 255, 255, 0, 0)
+--                                     DrawRect(0.944, 0.799, 0.081, 0.032, 0, 0, 0, 200)
+--                                     if ClientTimer >= 10 then
+--                                         DrawAdvancedNativeText(1.05, 0.799, 0.005, 0.0028, 0.464, string.format('00:%s', ClientTimer), 255, 255, 255, 255, 0, 0)
+--                                     else
+--                                         DrawAdvancedNativeText(1.05, 0.799, 0.005, 0.0028, 0.464, string.format('00:0%s', ClientTimer), 255, 255, 255, 255, 0, 0)
+--                                     end
+--                                 end
+--                             end
+--                         end
+--                     end
+
+--                     DrawRect(0.91, 0.842, 0.145, 0.032, 0, 0, 0, 200)
+--                     DrawAdvancedNativeText(0.965, 0.849, 0.005, 0.0028, 0.29, "MIN/MAX:", 255, 255, 255, 255, 0, 0)
+--                     DrawAdvancedNativeText(1.035, 0.842, 0.005, 0.0028, 0.464, string.format('%s-%s', self.data.MinimumBet, self.data.MaximumBet), 255, 255, 255, 255, 0, 0)
+--                     DrawRect(0.91, 0.885, 0.145, 0.032, 0, 0, 0, 200)
+--                     DrawAdvancedNativeText(0.965, 0.892, 0.005, 0.0028, 0.29, "CHIPS:", 255, 255, 255, 255, 0, 0)
+--                     DrawAdvancedNativeText(1.041, 0.885, 0.005, 0.0028, 0.464, string.format('%s', PlayerOwnedChips), 255, 255, 255, 255, 0, 0)
+--                     DrawRect(0.91, 0.928, 0.145, 0.032, 0, 0, 0, 200)
+--                     DrawAdvancedNativeText(0.965, 0.935, 0.005, 0.0028, 0.29, "BET:", 255, 255, 255, 255, 0, 0)
+--                     DrawAdvancedNativeText(1.041, 0.928, 0.005, 0.0028, 0.464, string.format('%s', currentBetInput), 255, 255, 255, 255, 0, 0)
+--                 end
+--             end)
+--         else
+--             self.speakPed('MINIGAME_DEALER_LEAVE_NEUTRAL_GAME')
+
+--             local SitExitScene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--             NetworkAddPedToSynchronisedScene(PlayerPedId(), SitExitScene, 'anim_casino_b@amb@casino@games@shared@player@', 'sit_exit_left', 2.0, -2.0, 13, 16, 2.0, 0)
+--             NetworkStartSynchronisedScene(SitExitScene)
+
+--             Citizen.Wait(4000)
+--             TriggerServerEvent('mercy-casino/server/poker/stand-up', self.index, ActiveChairData.chairId)
+--             TriggerEvent('ShowPlayerHud', true)
+
+--             NetworkStopSynchronisedScene(mainScene)
+--             NetworkStopSynchronisedScene(SitExitScene)
+
+--             -- only at the end reset the vars
+--             ActivePokerTable = nil
+--             ActiveChairData = nil
+--         end
+--     end
+
+--     self.revealSelfCards = function()
+--         Citizen.CreateThread(function()
+--             if self.index == ActivePokerTable then
+--                 local Offset = GetObjectOffsetFromCoords(self.data.Position, self.data.Heading, 0.0, -0.04, 1.35)
+--                 MainCamera = CreateCamWithParams('DEFAULT_SCRIPTED_CAMERA', Offset, -78.0, 0.0, self.data.Heading, 80.0, true, 2)
+--                 SetCamActive(MainCamera, true)
+--                 RenderScriptCams(true, 900, 900, true, false)
+--                 ShakeCam(MainCamera, 'HAND_SHAKE', 0.25)
+--                 Citizen.Wait(2500)
+--                 local DealerHandValue = GetHandAllValues(self.ServerCards['dealer'].Hand)
+--                 if DealerHandValue ~= nil then
+--                     print(string.format('Dealer hand value: %s', DealerHandValue))
+--                     local Formatted = FormatHandValue(DealerHandValue)
+--                     if Formatted ~= nil then
+--                         Citizen.CreateThread( function()
+--                             while DoesCamExist(MainCamera) do
+--                                 Citizen.Wait(0)
+--                                 drawText2d(0.5, 0.9, 0.45, Formatted)
+--                             end
+--                         end)
+--                     end
+--                 end
+--                 Citizen.Wait(7500)
+--                 if DoesCamExist(MainCamera) then
+--                     DestroyCam(MainCamera, false)
+--                 end
+--                 RenderScriptCams(false, 900, 900, true, false)
+--             end
+--         end)
+--         if self.ServerCards['dealer'] ~= nil then
+--             local RevealScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--             if self.isPedFemale() then
+--                 TaskSynchronizedScene(self.ped, RevealScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_reveal_self', 2.0, -2.0, 13, 16, 1000.0, 0)
+--             else
+--                 TaskSynchronizedScene(self.ped, RevealScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'reveal_self', 2.0, -2.0, 13, 16, 1000.0, 0)
+--             end
+--             PlaySynchronizedEntityAnim(self.cards['dealer'][1], RevealScene, 'reveal_self_card_a', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards['dealer'][2], RevealScene, 'reveal_self_card_b', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards['dealer'][3], RevealScene, 'reveal_self_card_c', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--         end
+--     end
+
+--     self.revealPlayerCards = function()
+--         for Source, data in pairs(self.ServerCards) do
+--             if Source ~= 'dealer' then
+--                 local PlayerAnimId = nil
+--                 if data.chairData.chairId == 4 then -- this is reverse because rockstar think differently no idea why
+--                     PlayerAnimId = 'p01'
+--                 elseif data.chairData.chairId == 3 then
+--                     PlayerAnimId = 'p02'
+--                 elseif data.chairData.chairId == 2 then
+--                     PlayerAnimId = 'p03'
+--                 elseif data.chairData.chairId == 1 then
+--                     PlayerAnimId = 'p04'
+--                 end
+
+--                 local MainAnimFormat = nil
+--                 local entityAnimFormatA = nil
+--                 local entityAnimFormatB = nil
+--                 local entityAnimFormatC = nil
+
+--                 if self.playersFolded[Source] then -- if he or she folded the hand
+--                     if self.isPedFemale() then
+--                         MainAnimFormat = string.format('female_reveal_folded_%s', PlayerAnimId)
+--                     else
+--                         MainAnimFormat = string.format('reveal_folded_%s', PlayerAnimId)
+--                     end
+--                     entityAnimFormatA = string.format('reveal_folded_%s_card_a', PlayerAnimId)
+--                     entityAnimFormatB = string.format('reveal_folded_%s_card_b', PlayerAnimId)
+--                     entityAnimFormatC = string.format('reveal_folded_%s_card_c', PlayerAnimId)
+--                 else
+--                     if self.isPedFemale() then
+--                         MainAnimFormat = string.format('female_reveal_played_%s', PlayerAnimId)
+--                     else
+--                         MainAnimFormat = string.format('reveal_played_%s', PlayerAnimId)
+--                     end
+--                     entityAnimFormatA = string.format('reveal_played_%s_card_a', PlayerAnimId)
+--                     entityAnimFormatB = string.format('reveal_played_%s_card_b', PlayerAnimId)
+--                     entityAnimFormatC = string.format('reveal_played_%s_card_c', PlayerAnimId)
+--                 end
+
+--                 if MainAnimFormat ~= nil then
+--                     if ActivePokerTable == self.index then -- only show camera if he/she is sitting at the table.
+--                         local Offset = GetAnimInitialOffsetPosition('anim_casino_b@amb@casino@games@threecardpoker@player', 'cards_play_card_b', data.chairData.chairCoords, data.chairData.chairRotation, 0.0, 2)
+--                         if DoesCamExist(MainCamera) then
+--                             DestroyCam(MainCamera, false)
+--                         end
+--                         MainCamera = CreateCamWithParams('DEFAULT_SCRIPTED_CAMERA', ShowCardsAfterReveal + vector3(0.0, 0.0, 0.45), -85.0, 0.0, data.chairData.chairRotation.z - 90.0, 80.0, true, 2)
+--                         SetCamActive(MainCamera, true)
+--                         RenderScriptCams(true, 900, 900, true, false)
+--                         ShakeCam(MainCamera, 'HAND_SHAKE', 0.25)
+--                     end
+
+--                     SetEntityVisible(self.cards[Source][1], false, false)
+--                     SetEntityVisible(self.cards[Source][2], false, false)
+--                     SetEntityVisible(self.cards[Source][3], false, false)
+--                     local RevealScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--                     TaskSynchronizedScene(self.ped, RevealScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', MainAnimFormat, 2.0, -2.0, 13, 16, 1000.0, 0)
+--                     PlaySynchronizedEntityAnim(self.cards[Source][1], RevealScene, entityAnimFormatA, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--                     PlaySynchronizedEntityAnim(self.cards[Source][2], RevealScene, entityAnimFormatB, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--                     PlaySynchronizedEntityAnim(self.cards[Source][3], RevealScene, entityAnimFormatC, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--                     while GetSynchronizedScenePhase(RevealScene) < 0.025 do
+--                         Citizen.Wait(1)
+--                     end
+--                     SetEntityVisible(self.cards[Source][1], true, false)
+--                     SetEntityVisible(self.cards[Source][2], true, false)
+--                     SetEntityVisible(self.cards[Source][3], true, false)
+--                     while GetSynchronizedScenePhase(RevealScene) < 0.99 do
+--                         Citizen.Wait(1)                    end
+
+--                     local ggScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--                     if self.isPedFemale() then
+--                         TaskSynchronizedScene(self.ped, ggScene, 'anim_casino_b@amb@casino@games@shared@dealer@', string.format('female_acknowledge_%s', PlayerAnimId), 2.0, -2.0, 13, 16, 1000.0, 0)
+--                     else
+--                         TaskSynchronizedScene(self.ped, ggScene, 'anim_casino_b@amb@casino@games@shared@dealer@', string.format('acknowledge_%s', PlayerAnimId), 2.0, -2.0, 13, 16, 1000.0, 0)
+--                     end
+--                 end
+--             end
+--         end
+--     end
+
+--     self.resetTable = function()
+--         -- chips clearing
+--         if #NetworkedChips > 0 then
+--             for i = 1, #NetworkedChips, 1 do
+--                 if NetworkGetEntityOwner(NetworkedChips[i]) == PlayerId() then
+--                     DeleteObject(NetworkedChips[i])
+--                 end
+--             end
+--         end
+--         Citizen.Wait(200)
+--         for k, v in pairs(self.cards) do
+--             for i = 1, #v, 1 do
+--                 DeleteObject(v[i])
+--             end
+--         end
+--         Citizen.Wait(200)
+--         self.cards = {}
+--         if self.index == ActivePokerTable then
+--             playerBetted = nil
+--             playerPairPlus = nil
+--             watchingCards = false
+--             StopGameplayCamShaking(true)
+--             playerDecidedChoice = false
+--             ClientTimer = nil
+--             currentHelpText = nil
+--             NetworkedChips = {}
+--             currentBetInput = 0
+--             ButtonScaleform = setupFirstButtons('instructional_buttons')
+--         end
+
+--         self.ServerCards = {}
+--         self.Active = false
+--         self.TimeLeft = nil
+--         self.playersPlaying = {}
+--         self.playersFolded = {}
+
+--         self.dealerStandingIdle()
+--     end
+
+--     self.clearTable = function()
+--         self.speakPed('MINIGAME_DEALER_ANOTHER_GO')
+
+--         -- deck picking up anim
+--         local FirstScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--         if self.isPedFemale() then
+--             TaskSynchronizedScene(self.ped, FirstScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_deck_pick_up', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         else
+--             TaskSynchronizedScene(self.ped, FirstScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'deck_pick_up', 2.0, -2.0, 13, 16, 1000.0, 0)
+--         end
+--         while GetSynchronizedScenePhase(FirstScene) < 0.99 do
+--             if HasAnimEventFired(self.ped, 1691374422) then
+--                 if not IsEntityAttachedToAnyPed(self.pakli) then
+--                     FreezeEntityPosition(self.pakli, false)
+--                     AttachEntityToEntity(self.pakli, self.ped, GetPedBoneIndex(self.ped, 60309), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, true, 2, true)
+--                 end
+--             end
+--             Citizen.Wait(1)
+--         end
+
+--         -- collect player cards
+--         for Source, data in pairs(self.ServerCards) do
+--             if Source ~= 'dealer' then
+--                 local playerAnimId = nil
+--                 if data.chairData.chairId == 4 then -- this is reverse because rockstar think differently no idea why
+--                     playerAnimId = 'p01'
+--                 elseif data.chairData.chairId == 3 then
+--                     playerAnimId = 'p02'
+--                 elseif data.chairData.chairId == 2 then
+--                     playerAnimId = 'p03'
+--                 elseif data.chairData.chairId == 1 then
+--                     playerAnimId = 'p04'
+--                 end
+
+--                 local CollectScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--                 if self.isPedFemale() then
+--                     TaskSynchronizedScene(self.ped, CollectScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', string.format('female_cards_collect_%s', playerAnimId), 2.0, -2.0, 13, 16, 1000.0, 0)
+--                 else
+--                     TaskSynchronizedScene(self.ped, CollectScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', string.format('cards_collect_%s', playerAnimId), 2.0, -2.0, 13, 16, 1000.0, 0)
+--                 end
+--                 PlaySynchronizedEntityAnim(self.cards[Source][1], CollectScene, string.format('cards_collect_%s_card_a', playerAnimId), 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--                 PlaySynchronizedEntityAnim(self.cards[Source][2], CollectScene, string.format('cards_collect_%s_card_b', playerAnimId), 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--                 PlaySynchronizedEntityAnim(self.cards[Source][3], CollectScene, string.format('cards_collect_%s_card_c', playerAnimId), 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--                 while GetSynchronizedScenePhase(CollectScene) < 0.99 do
+--                     Citizen.Wait(1)
+--                 end
+
+--                 DeleteObject(self.cards[Source][1])
+--                 DeleteObject(self.cards[Source][2])
+--                 DeleteObject(self.cards[Source][3])
+--             end
+--         end
+
+--         -- collect own dealer cards
+--         if self.ServerCards['dealer'] then
+--             local CollectScene = CreateSynchronizedScene(self.data.Position, 0.0, 0.0, self.data.Heading, 2)
+--             if self.isPedFemale() then
+--                 TaskSynchronizedScene(self.ped, CollectScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'female_cards_collect_self', 2.0, -2.0, 13, 16, 1000.0, 0)
+--             else
+--                 TaskSynchronizedScene(self.ped, CollectScene, 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 'cards_collect_self', 2.0, -2.0, 13, 16, 1000.0, 0)
+--             end
+--             PlaySynchronizedEntityAnim(self.cards['dealer'][1], CollectScene, 'cards_collect_self_card_a', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards['dealer'][2], CollectScene, 'cards_collect_self_card_b', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--             PlaySynchronizedEntityAnim(self.cards['dealer'][3], CollectScene, 'cards_collect_self_card_c', 'anim_casino_b@amb@casino@games@threecardpoker@dealer', 1000.0, 0, 0, 1000.0)
+--             SetBit(0)
+--             while GetSynchronizedScenePhase(CollectScene) < 0.99 do
+--                 Citizen.Wait(1)
+--             end
+--             DeleteObject(self.cards['dealer'][1])
+--             DeleteObject(self.cards['dealer'][2])
+--             DeleteObject(self.cards['dealer'][3])
+--         end
+
+--         self.putDownDeck()
+--     end
+
+--     self.playerPairPlusAnim = function(Amount)
+--         playerPairPlus = Amount
+--         ButtonScaleform = nil
+
+--         FunctionsModule.RequestAnimDict("anim_casino_b@amb@casino@games@threecardpoker@player")
+
+--         local offsetAlign = nil
+--         if ActiveChairData.chairId == 4 then
+--             offsetAlign = vector3(0.51655, 0.2268, 0.95)
+--         elseif ActiveChairData.chairId == 3 then
+--             offsetAlign = vector3(0.2163, -0.04745, 0.95)
+--         elseif ActiveChairData.chairId == 2 then
+--             offsetAlign = vector3(-0.2552, -0.031225, 0.95)
+--         elseif ActiveChairData.chairId == 1 then
+--             offsetAlign = vector3(-0.529875, 0.281425, 0.95)
+--         end
+--         if offsetAlign == nil then return print('Something error happened during the playerBetAnim function.') end
+
+--         local AnimName = 'bet_plus' 
+--         if Amount >= 10000 then AnimName = 'bet_plus_large' end
+
+--         local Scene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, true, false, 1.0, 0.0, 1.0)
+--         NetworkAddPedToSynchronisedScene(PlayerPedId(), Scene, "anim_casino_b@amb@casino@games@threecardpoker@player", AnimName, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         NetworkStartSynchronisedScene(Scene)
+--         while not HasAnimEventFired(PlayerPedId(), -1424880317) do
+--             Citizen.Wait(1)
+--         end
+
+--         local Offset = GetObjectOffsetFromCoords(self.data.Position, self.data.Heading, offsetAlign)
+--         local ChipModel = GetChipModelByAmount(Amount)
+--         FunctionsModule.RequestModel(ChipModel)
+
+--         local ChipObj = CreateObjectNoOffset(ChipModel, Offset, true, false, true)
+--         SetEntityCoordsNoOffset(ChipObj, Offset, false, false, true)
+--         SetEntityHeading(ChipObj, GetEntityHeading(PlayerPedId()))
+--         table.insert(NetworkedChips, ChipObj)
+
+--         self.playerRandomIdleAnim()
+--     end
+
+--     self.playerBetAnim = function(Amount)
+--         playerBetted = Amount
+--         ButtonScaleform = setupSecondButtons('instructional_buttons')
+
+--         FunctionsModule.RequestAnimDict("anim_casino_b@amb@casino@games@threecardpoker@player")
+
+--         local offsetAlign = nil
+--         if ActiveChairData.chairId == 4 then
+--             offsetAlign = vector3(0.59535, 0.200875, 0.95)
+--         elseif ActiveChairData.chairId == 3 then
+--             offsetAlign = vector3(0.247825, -0.123625, 0.95)
+--         elseif ActiveChairData.chairId == 2 then
+--             offsetAlign = vector3(-0.2804, -0.109775, 0.95)
+--         elseif ActiveChairData.chairId == 1 then
+--             offsetAlign = vector3(-0.606975, 0.249675, 0.95)
+--         end
+--         if offsetAlign == nil then return print('Error happened during the playerBetAnim function.') end
+
+--         local AnimName = 'bet_ante'
+--         if Amount >= 10000 then AnimName = 'bet_ante_large' end
+
+--         local Scene = NetworkCreateSynchronisedScene(ActiveChairData.chairCoords, ActiveChairData.chairRotation, 2, false, true, 1.0, 0.0, 1.0)
+--         NetworkAddPedToSynchronisedScene(PlayerPedId(), Scene, "anim_casino_b@amb@casino@games@threecardpoker@player", AnimName, 2.0, -2.0, 13, 16, 1000.0, 0)
+--         NetworkStartSynchronisedScene(Scene)
+--         while not HasAnimEventFired(PlayerPedId(), -1424880317) do
+--             Citizen.Wait(1)
+--         end
+
+--         local Offset = GetObjectOffsetFromCoords(self.data.Position, self.data.Heading, offsetAlign)
+--         local ChipModel = GetChipModelByAmount(amount)
+--         FunctionsModule.RequestModel(ChipModel)
+
+--         local ChipObj = CreateObjectNoOffset(ChipModel, Offset, true, false, true)
+--         SetEntityCoordsNoOffset(ChipObj, Offset, false, false, true)
+--         SetEntityHeading(ChipObj, GetEntityHeading(PlayerPedId()))
+--         table.insert(NetworkedChips, ChipObj)
+
+--         self.playerRandomIdleAnim()
+--     end
+
+--     self.createDefaultPakli()
+--     self.createPed()
+
+--     SharedPokers[index] = self
+-- end
+
+-- FormatHandValue = function(HandValue)
+--     if HandValue > 500 then
+--         return 'Straight flush'
+--     elseif HandValue > 400 then
+--         return '3 of a kind'
+--     elseif HandValue > 300 then
+--         return 'Straight'
+--     elseif HandValue > 200 then
+--         return 'Flush'
+--     elseif HandValue > 100 then
+--         if HandValue == 128 then
+--             return 'Pair Ace'
+--         elseif HandValue == 104 then
+--             return 'Pair 2'
+--         elseif HandValue == 106 then
+--             return 'Pair 3'
+--         elseif HandValue == 108 then
+--             return 'Pair 4'
+--         elseif HandValue == 110 then
+--             return 'Pair 5'
+--         elseif HandValue == 112 then
+--             return 'Pair 6'
+--         elseif HandValue == 114 then
+--             return 'Pair 7'
+--         elseif HandValue == 116 then
+--             return 'Pair 8'
+--         elseif HandValue == 118 then
+--             return 'Pair 9'
+--         elseif HandValue == 120 then
+--             return 'Pair 10'
+--         elseif HandValue == 122 then
+--             return 'Pair Jack'
+--         elseif HandValue == 124 then
+--             return 'Pair Queen'
+--         elseif HandValue == 126 then
+--             return 'Pair King'
+--         end
+--     elseif HandValue == 5 then
+--         return 'High Card 5'
+--     elseif HandValue == 6 then
+--         return 'High Card 6'
+--     elseif HandValue == 7 then
+--         return 'High Card 7'
+--     elseif HandValue == 8 then
+--         return 'High Card 8'
+--     elseif HandValue == 9 then
+--         return 'High Card 9'
+--     elseif HandValue == 10 then
+--         return 'High Card 10'
+--     elseif HandValue == 11 then
+--         return 'High Card Jack'
+--     elseif HandValue == 12 then
+--         return 'High Card Queen'
+--     elseif HandValue == 13 then
+--         return 'High Card King'
+--     else
+--         return 'High Card Ace'
+--     end
+--     return ''
+-- end
+
+-- GetHandAllValues = function(HandTable, Bool1, Bool2)
+--     if type(HandTable) == 'table' then
+--         local c1, c2, c3 = GetCardValue(HandTable[1]), GetCardValue(HandTable[2]), GetCardValue(HandTable[3])
+--         local HandValue = 0
+
+--         -- FIRST CHECK
+--         if (c1 ~= c2 and c1 ~= c3) and c2 ~= c3 then
+--             local Flush = false
+--             HandValue = c1 + c2 + c3
+--             if HandValue == 19 then
+--                 if (c1 == 14 or c1 == 2 or c1 == 3) and (c2 == 14 or c2 == 2 or c2 == 3) and (c3 == 14 or c3 == 2 or c3 == 3) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 9 then
+--                 if (c1 == 2 or c1 == 3 or c1 == 4) and (c2 == 2 or c2 == 3 or c2 == 4) and (c3 == 2 or c3 == 3 or c3 == 4) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 12 then
+--                 if (c1 == 3 or c1 == 4 or c1 == 5) and (c2 == 3 or c2 == 4 or c2 == 5) and (c3 == 3 or c3 == 4 or c3 == 5) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 15 then
+--                 if (c1 == 4 or c1 == 5 or c1 == 6) and (c2 == 4 or c2 == 5 or c2 == 6) and (c3 == 4 or c3 == 5 or c3 == 6) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 18 then
+--                 if (c1 == 5 or c1 == 6 or c1 == 7) and (c2 == 5 or c2 == 6 or c2 == 7) and (c3 == 5 or c3 == 6 or c3 == 7) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 21 then
+--                 if (c1 == 6 or c1 == 7 or c1 == 8) and (c2 == 6 or c2 == 7 or c2 == 8) and (c3 == 6 or c3 == 7 or c3 == 8) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 24 then
+--                 if (c1 == 7 or c1 == 8 or c1 == 9) and (c2 == 7 or c2 == 8 or c2 == 9) and (c3 == 7 or c3 == 8 or c3 == 9) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 27 then
+--                 if (c1 == 8 or c1 == 9 or c1 == 10) and (c2 == 8 or c2 == 9 or c2 == 10) and (c3 == 8 or c3 == 9 or c3 == 10) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 30 then
+--                 if (c1 == 9 or c1 == 10 or c1 == 11) and (c2 == 9 or c2 == 10 or c2 == 11) and (c3 == 9 or c3 == 10 or c3 == 11) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 33 then
+--                 if (c1 == 10 or c1 == 11 or c1 == 12) and (c2 == 10 or c2 == 11 or c2 == 12) and (c3 == 10 or c3 == 11 or c3 == 12) then
+--                     Flush = true
+--                 end
+--             elseif HandValue == 36 then
+--                 if (c1 == 11 or c1 == 12 or c1 == 13) and (c2 == 11 or c2 == 12 or c3 == 13) and (c3 == 11 or c3 == 12 or c3 == 13) then
+--                     --something true
+--                     Flush = true
+--                 end
+--             elseif HandValue == 39 then
+--                 if (c1 == 12 or c1 == 13 or c1 == 14) and (c2 == 12 or c2 == 13 or c2 == 14) and (c3 == 12 or c3 == 13 or c3 == 14) then
+--                     --something true
+--                     Flush = true
+--                 end
+--             end
+--             if Flush then
+--                 if HandValue == 19 then
+--                     HandValue = 6
+--                 end
+--                 if GetCardType(HandTable[1]) == GetCardType(HandTable[2]) and GetCardType(HandTable[1]) == GetCardType(HandTable[3]) then
+--                     return HandValue + 500
+--                 end
+--                 return HandValue + 300
+--             end
+--         end
+--         HandValue = 0
+--         -- SECOND CHECK
+--         if (c1 == c2) and c1 ~= c3 then -- pairs
+--             if not Bool1 and not Bool2 then
+--                 return (c1 + c2) + 100
+--             else
+--                 return c3
+--             end
+--         elseif (c2 == c3) and c2 ~= c1 then -- pairs
+--             if not Bool1 and not Bool2 then
+--                 return (c2 + c3) + 100
+--             else
+--                 return c1
+--             end
+--         elseif (c3 == c1) and c3 ~= c2 then -- pairs
+--             if not Bool1 and not Bool2 then
+--                 return (c1 + c3) + 100
+--             else
+--                 return c2
+--             end
+--         elseif c1 == c2 and c1 == c3 then -- 3 of a kind
+--             return c1 + c2 + c3 + 400
+--         elseif GetCardType(HandTable[1]) == GetCardType(HandTable[2]) and GetCardType(HandTable[1]) == GetCardType(HandTable[3]) then
+--             HandValue = 200
+--         end
+--         -- third check if it runs here
+--         if c1 > c2 and c1 > c3 then
+--             if Bool1 then
+--                 if c2 > c3 then
+--                     return HandValue + c2
+--                 else
+--                     return HandValue + c3
+--                 end
+--             elseif Bool2 then
+--                 if c2 > c3 then
+--                     return HandValue + c3
+--                 else
+--                     return HandValue + c2
+--                 end
+--             end
+--             return HandValue + c1
+--         elseif c2 > c1 and c2 > c3 then
+--             if Bool1 then
+--                 if c1 > c3 then
+--                     return HandValue + c1
+--                 else
+--                     return HandValue + c3
+--                 end
+--             elseif Bool2 then
+--                 if c1 > c3 then
+--                     return HandValue + c3
+--                 else
+--                     return HandValue + c1
+--                 end
+--             end
+--             return HandValue + c2
+--         elseif c3 > c1 and c3 > c2 then
+--             if Bool1 then
+--                 if c1 > c2 then
+--                     return HandValue + c1
+--                 else
+--                     return HandValue + c2
+--                 end
+--             elseif Bool2 then
+--                 if c1 > c2 then
+--                     return HandValue + c2
+--                 else
+--                     return HandValue + c1
+--                 end
+--             end
+--             return HandValue + c3
+--         end
+--         return HandValue
+--     else
+--         return 0
+--     end
+-- end
+
+-- IncreaseAmounts = function(CurrentAmount)
+--     if CurrentAmount < 500 then
+--         return 50
+--     elseif CurrentAmount >= 500 and CurrentAmount < 2000 then
+--         return 100
+--     elseif CurrentAmount >= 2000 and CurrentAmount < 5000 then
+--         return 200
+--     elseif CurrentAmount >= 5000 and CurrentAmount < 10000 then
+--         return 500
+--     elseif CurrentAmount >= 10000 then
+--         return 1000
+--     else
+--         return 50
+--     end
+-- end
+
+-- function GetChipModelByAmount(Amount)
+--     if Amount <= 10 then
+--         return GetHashKey('vw_prop_chip_10dollar_x1')
+--     elseif Amount > 10 and Amount < 50 then
+--         return GetHashKey('vw_prop_chip_10dollar_st')
+--     elseif Amount >= 50 and Amount < 100 then
+--         return GetHashKey('vw_prop_chip_50dollar_x1')
+--     elseif Amount >= 100 and Amount < 200 then
+--         return GetHashKey('vw_prop_chip_100dollar_x1')
+--     elseif Amount >= 200 and Amount < 500 then
+--         return GetHashKey('vw_prop_chip_100dollar_st')
+--     elseif Amount == 500 then
+--         return GetHashKey('vw_prop_chip_500dollar_x1')
+--     elseif Amount > 500 and Amount < 1000 then
+--         return GetHashKey('vw_prop_chip_500dollar_st')
+--     elseif Amount == 1000 then
+--         return GetHashKey('vw_prop_chip_1kdollar_x1')
+--     elseif Amount > 1000 and Amount < 5000 then
+--         return GetHashKey('vw_prop_chip_1kdollar_st')
+--     elseif Amount == 5000 then
+--         return GetHashKey('vw_prop_plaq_5kdollar_x1')
+--     elseif Amount > 5000 and Amount < 10000 then
+--         return GetHashKey('vw_prop_plaq_5kdollar_st')
+--     elseif Amount == 10000 then
+--         return GetHashKey('vw_prop_plaq_10kdollar_x1')
+--     elseif Amount > 10000 then
+--         return GetHashKey('vw_prop_plaq_10kdollar_st')
+--     end
+-- end
+
+-- function ShowHowTo()
+--     Citizen.CreateThread(function()
+--         local Helps = {_U('desc_1'), _U('desc_2'), _U('desc_3')}
+--         InformationPlaying = true
+--         for i = 1, #Helps, 1 do
+--             PlaySoundFrontend(-1, 'DLC_VW_CONTINUE', 'dlc_vw_table_games_frontend_sounds', true)
+--             BeginTextCommandDisplayHelp(Helps[i])
+--             EndTextCommandDisplayHelp(0, false, false, 5000)
+--             Citizen.Wait(5000)
+--             if Helps[i + 1] == nil then
+--                 InformationPlaying = false
+--             end
+--         end
+--     end)
+-- end
+
+-- function ShowRules()
+--     Citizen.CreateThread(function()
+--         local Helps = {_U('rule_1'), _U('rule_2'), _U('rule_3'), _U('rule_4'), _U('rule_5')}
+--         local HelpsHeader = {_U('rule_header_1'), _U('rule_header_2'), _U('rule_header_3'), _U('rule_header_4'), _U('rule_header_5')}
+--         InformationPlaying = true
+--         for i = 1, #Helps, 1 do
+--             PlaySoundFrontend(-1, 'DLC_VW_CONTINUE', 'dlc_vw_table_games_frontend_sounds', true)
+--             BeginTextCommandDisplayHelp(HelpsHeader[i])
+--             AddTextComponentSubstringTextLabel(Helps[i])
+--             EndTextCommandDisplayHelp(0, false, false, 5000)
+--             Citizen.Wait(5000)
+--             if Helps[i + 1] == nil then
+--                 InformationPlaying = false
+--             end
+--         end
+--     end)
+-- end

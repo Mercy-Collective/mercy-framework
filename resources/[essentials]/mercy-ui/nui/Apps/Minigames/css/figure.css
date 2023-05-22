@@ -1,0 +1,94 @@
+.figure-minigame-container {
+    display: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: max-content;
+    height: max-content;
+
+    padding: 2vh 3vh;
+    max-width: 50vw;
+
+    background-color: #2D3139;
+}
+
+.figure-minigame-initializing {
+    display: none;
+    text-align: center;
+    color: white;
+}
+
+.figure-minigame-initializing > i {
+    font-size: 5vh;
+}
+
+.figure-minigame-initializing > p {
+    font-size: 1.5vh;
+    width: max-content;
+}
+
+.figure-minigame-icons {
+    display: none;
+    position: relative;
+    font-size: 2.5vh;
+    color: white;
+}
+
+.figure-minigame-icons i {
+    width: 2vw;
+    text-align: center;
+}
+
+/* Guess */
+
+.figure-minigame-guess {
+    display: none;
+}
+
+.figure-minigame-guess > i {
+    width: 100%;
+    height: 3vh;
+    
+    font-size: 4vh;
+    
+    text-align: center;
+    color: white;
+
+    margin-top: 1vh;
+    margin-bottom: 3vh;
+}
+
+.figure-minigame-guess > .figure-minigame-guess-input {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+
+    width: 20vw;
+}
+
+.figure-minigame-guess-input > input {
+    width: 92% !important;
+}
+
+.figure-loading-container {
+    position: relative;
+
+    margin-top: 2vh;
+
+    width: 100%;
+    height: .7vh;
+    border-radius: .5vh;
+
+    background-color: rgba(0, 0, 0, 0.342);
+}
+
+.figure-loading {
+    width: 0%;
+    height: 100%;
+
+    border-radius: .3vh;
+    background-color: #f2a365;
+}

@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <!-- Need to include jQuery! -->
+        <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js" type="text/javascript"></script>
+        <script>
+            var audioPlayer = null;
+            audioPlayer = new Howl({
+                src: ["./sounds.ogg"],
+                sprite: {
+                    hit_1: [0, 291],
+                    hit_2: [542, 865-542],
+                    cue_hit: [1084, 1176-1084],
+                    cushion_hit: [1306, 1354-1306],
+                    pocket_1: [1480, 2262-1480],
+                    pocket_2: [2396, 3094-2396]
+                }
+            });
+
+            function rand(sounds) {
+                return sounds[Math.floor(Math.random() * Math.floor(sounds.length))];
+            }
+
+            // Listen for NUI Messages.
+            window.addEventListener('message', function(event) {
+                // Check for playSound transaction
+                if (event.data.transactionType == "playSound") {
+                  var id = audioPlayer.play(rand(event.data.sounds));
+                  audioPlayer.pos(event.data.position.x, event.data.position.y, event.data.position.z, id);
+                  audioPlayer.volume(event.data.volume, id);
+                } else if (event.data.transactionType == "setOrientation") {
+                    Howler.orientation(event.data.fwd.x, event.data.fwd.y, event.data.fwd.z, event.data.up.x, event.data.up.y, event.data.up.z);
+                    Howler.pos(event.data.coord.x, event.data.coord.y, event.data.coord.z)
+                }
+            });
+        </script>
+    </head>
+</html>

@@ -1,0 +1,48 @@
+.helicam-wrapper {
+    display: none;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    
+    width: 100vw;
+    height: 100vh;
+}
+
+.helicam-streetname {
+    position: absolute;
+    top: 6.5vh;    
+    left: 0;
+    right: 0;
+
+    text-shadow: 0 0 0.1vh black;
+
+    font-size: 2vh;
+    font-family: 'Roboto';
+    font-weight: bolder;
+
+    color: white;
+    text-align: center;
+    
+    width: max-content;
+    margin: 0 auto;
+}
+
+.helicam-scan {
+    position: absolute;
+    bottom: 4vh;    
+    left: 0;
+    right: 0;
+
+    text-shadow: 0 0 0.1vh black;
+
+    font-size: 2vh;
+    font-family: 'Roboto';
+    font-weight: bolder;
+
+    color: white;
+    text-align: center;
+    
+    width: max-content;
+    margin: 0 auto;
+}

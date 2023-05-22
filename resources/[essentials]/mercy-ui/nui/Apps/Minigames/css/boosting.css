@@ -1,0 +1,76 @@
+.boosting-minigame-container {
+    margin: 0 auto 20px;
+    margin-top: 12%;
+    width: 540px;
+    min-width: 540px;
+    max-width: 540px;
+    background-color: #232832;
+    padding: 30px 0;
+}
+
+.boosting-splash {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+}
+
+.boosting-splash .hacker {
+    font-size: 65px;
+    margin-bottom: 30px;
+}
+
+.boosting-splash .boosting-text {
+    font-weight: bold;
+}
+
+.boosting-minigame-container .boosting-find {
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    user-select: none;
+    margin-top: 10px;
+}
+
+.boosting-minigame-container .boosting-find > div {
+    display: inline-block;
+}
+
+.boosting-minigame-container .boosting-timer {
+    text-align: center;
+    color: green;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.boosting-minigame-container .boosting-codes {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    margin: auto;
+}
+
+.boosting-minigame-container .boosting-codes > div {
+    flex: 1 0 10%;
+    margin: 7px 0;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}
+
+.boosting-minigame-container .boosting-codes > div.red {
+    color: red;
+}
+
+.boosting-minigame-container .boosting-codes > div.green {
+    color: green;
+}
+
+.boosting-minigame-container .mirrored .boosting-find > div,
+.boosting-minigame-container .mirrored .boosting-codes > div {
+    -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+}

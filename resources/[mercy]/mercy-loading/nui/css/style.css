@@ -1,0 +1,243 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Segoe UI", sans-serif;
+  /* BG */
+  background-size: 20%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Background */
+
+#background {
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  filter: blur(4px);
+  background-color: black;
+  background-position: 0 0;
+  z-index: 1;
+}
+
+#background img {
+  position: absolute;
+  background-size: cover;
+  min-height:100vh;
+  left: -300px;
+  opacity: 1;
+  transition: transform .2s, opacity 1s;
+  transform: scale(1.1);
+  animation-fill-mode: forwards;
+  animation: animatedBackground 10s linear;
+  -moz-animation: animatedBackground 10s linear;
+  -webkit-animation: animatedBackground 10s linear;
+  -ms-animation: animatedBackground 10s linear;
+  -o-animation: animatedBackground 10s linear;
+}
+
+/* Other */
+
+#keepingColor {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #2b1d2c;
+}
+
+.loadscreen-main {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	z-index: 2;
+  animation: float 5s ease-in-out infinite;
+
+}
+
+.loadscreen-main img {
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+	width: 15vw;
+	z-index: 2;
+}
+
+#loading-container {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  bottom: 0;
+}
+
+.loading-container {
+  position: absolute;
+  left: 0.0%;
+  right: 0.0%;
+  bottom: -0.3%;
+  z-index: 5;
+  color: #fff;
+  font-family: Arial;
+}
+
+.loading-labels {
+  margin-left: 8px;
+  margin-right: 3px;
+  padding: 5px;
+  text-align: center;
+  position: relative;
+  display: inline;
+  white-space: nowrap;
+}
+
+.loading-labels div {
+  display: none;
+  text-align: left;
+  font-size: 12px;
+  position: relative;
+}
+
+.loading-bar-container {
+  background-color: rgba(190, 140, 110, .9);
+  height: 9px;
+  margin-left: 2px;
+  margin-right: 3px;
+  margin-bottom: 4.8px;
+  box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+  background-color: #1a1a1a;
+  border-radius: 6px;
+  padding-left: 5px;
+  text-align: left;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  white-space: nowrap;
+}
+
+.loading-bar {
+  display: none;
+  height: 5px;
+  border-radius: 3px;
+  margin-bottom: 7px;
+  background-size: 30px 30px;
+  transition: width 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.bgcolor-first {
+  background-color: #e7e7e7;
+}
+
+.bgcolor-second {
+  background-color: #d4d4d4;
+}
+
+.bgcolor-third {
+  background-color: #8f8f8f;
+}
+
+.bgcolor-fourth {
+  background-color: #585858;
+}
+
+.color-first {
+  color: #2D98DA;
+}
+
+.color-second {
+  color: #2774A5;
+}
+
+.color-third {
+  color: #1A4966;
+}
+
+.color-fourth {
+  color: #14374D;
+}
+
+@keyframes animatedBackground {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -300px;
+  }
+}
+
+@-moz-keyframes animatedBackground {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -300px;
+  }
+}
+
+@-webkit-keyframes animatedBackground {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -300px;
+  }
+}
+
+@-ms-keyframes animatedBackground {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -300px;
+  }
+}
+
+@-o-keyframes animatedBackground {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -300px;
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-15px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+.slideout {
+  animation: slideOut 3s linear forwards;
+}
+
+@keyframes slideOut {
+  100% {
+    top: -500vh;
+  }
+}

@@ -1,0 +1,121 @@
+.phone-app-pinger {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-image: url(../../../images/phone/pingerbg.png);
+}
+
+.phone-pinger-title {
+    position: absolute;
+    top: 4vh;
+    
+    width: 100%;
+    height: 5vh;
+
+    font-family: 'Arial';
+    font-size: 2vh;
+
+    text-align: center;
+    line-height: 5vh;
+    color: white;
+
+    text-shadow: 0.1vh 0.1vh 0.1vh black;
+
+    background: linear-gradient(135deg, rgba(247,166,172,1) 0%, rgba(140,32,81,1) 100%);
+}
+
+.phone-pinger-target {
+    position: absolute;
+    top: 11vh;
+    left: 50%;
+
+    width: 50%;
+
+    transform: translateX(-50%);
+}
+
+/* Please don't look, its bad I know */
+.phone-pinger-send-ping {
+    display: flex;
+    flex-direction: row;
+
+    position: absolute;
+    top: 17vh;
+    left: 50%;
+
+    text-align: center;
+    color: white;
+
+    height: 4vh;
+    width: max-content;
+    padding: .2vh 3vh;
+    padding-left: 2vh;
+
+    border-radius: .5vh;
+    background-color: #31475e;
+    transform: translateX(-50%);
+}
+
+.phone-pinger-send-ping > i {
+    font-size: 3vh !important;
+    line-height: 4vh;
+    padding-right: 2vh;
+}
+
+.phone-pinger-send-ping > p {
+    margin-top: -0.2vh;
+
+    font-family: 'Arial';
+    font-size: 2vh;
+
+    height: 4.4vh;
+
+    line-height: 4.4vh;
+}
+
+.phone-pinger-send-anon-ping {
+    display: flex;
+    flex-direction: row;
+
+    position: absolute;
+    top: 22vh;
+    left: 50%;
+
+    text-align: center;
+    color: white;
+
+    height: 4vh;
+    width: max-content;
+    padding: .2vh 2.4vh;
+    padding-left: 1.4vh;
+
+    border-radius: .5vh;
+    background-color: #31475e;
+    transform: translateX(-50%);
+}
+
+.phone-pinger-send-anon-ping > i {
+    font-size: 3vh !important;
+    line-height: 4vh;
+    padding-right: 2vh;
+}
+
+.phone-pinger-send-anon-ping > p {
+    margin-top: -0.2vh;
+
+    font-family: 'Arial';
+    font-size: 2vh;
+
+    height: 4.4vh;
+
+    line-height: 4.4vh;
+}

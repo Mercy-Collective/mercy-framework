@@ -1,0 +1,141 @@
+.phone-app-contacts {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+.phone-contact-search {
+    position: relative;
+    top: 5vh;
+
+    width: 88%;
+
+    margin: 0 auto;
+}
+
+.phone-contact-new {
+    position: absolute;
+    top: 3.5vh;
+    right: .75vw;
+
+    font-size: 2vh;
+
+    z-index: 50;
+
+    color: white;
+}
+
+.phone-contacts-list {
+    position: relative;
+    top: 6vh;
+    
+    margin: 0 auto;
+
+    width: calc(100% - 2vw);
+    height: 42vh;
+
+    overflow-y: auto;
+}
+
+.phone-contacts-item {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    padding: 0.6vh;
+
+    margin-bottom: 1vh;
+
+    border-bottom: 0.15vh solid white;
+
+    font-family: 'Roboto';
+    font-size: 1vh;
+
+    color: white;
+
+    background-color: #31475e;
+}
+
+.phone-contacts-item > i {
+    padding-left: 0.2vw;
+    
+    font-size: 4vh;
+}
+
+.phone-contacts-item > .phone-contacts-item-name {
+    position: absolute;
+    top: 0;
+    left: 3.25vw;
+
+    width: 8vw !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    line-height: 3.5vh;
+}
+
+.phone-contacts-item > .phone-contacts-item-phone {
+    position: absolute;
+    bottom: 0;
+    left: 3.25vw;
+    
+    line-height: 3.5vh;
+}
+
+.phone-contacts-item:hover { border-color: rgba(255, 255, 255, 0.5) }
+.phone-contacts-item:hover .phone-contacts-item-hover { display: block; }
+
+.phone-contacts-item-hover {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    z-index: 25;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-contacts-item-hover-buttons {
+    position: relative;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 50%;
+    height: 100%;
+}
+
+.phone-contacts-item-hover-buttons > i {
+    position: relative;
+    top: 50%;
+    float: left;
+
+    font-size: 1.7vh;
+
+    line-height: 2.5vh;
+
+    width: 25%;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    text-align: center;
+
+    transform: translateY(-50%);
+}

@@ -1,0 +1,383 @@
+.clothes-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.main-clothes-container {
+    display: none;
+    position: absolute;
+
+    top: 0;
+    right: -10vw;
+
+    width: 21vw;
+    height: 100%;
+    
+    overflow: hidden;
+    background-color: #212730;
+    font-family: 'Lato', sans-serif;
+}
+
+.main-clothes-background {
+    display: none;
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(134, 134, 134, 0.5);
+}
+
+.menu-clothes, .menu-face, .menu-tattoos, .menu-accesoire {
+    display: none;
+    position: absolute;
+
+    top: 10vh;
+
+    height: 89.5vh;
+    width: 100%;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+/* Top Bar */
+
+.clothes-top-bar {
+    position: absolute;
+    top: 1vh;
+    width: 100%;
+}
+
+.clothes-top-bar-button {
+    display: block;
+    position: relative;
+
+    left: .5vw;
+    float: left;
+
+    height: 3vh;
+    width: fit-content;
+    
+    padding-left: .6vw;
+    padding-right: .6vw;
+    margin-right: .5vw;
+
+    color: white;
+    font-size: 1.5vh;
+    text-align: center;
+    line-height: 3.1vh;
+
+    cursor: pointer;
+
+    background-color: #2f455c;
+    transition: background-color 0.1s linear;
+}
+
+.clothes-top-bar-button:hover {
+    background-color: #3f5368;
+}
+
+.clothes-top-bar-selected {
+    border-bottom: .2vh solid white;
+}
+
+/* Menu Options */
+
+.clothes-menu-options {
+    position: absolute;
+    width: 100%;
+    top: 5.5vh;
+    left: .5vw;
+}
+
+.menu-option {
+    position: relative;
+    float: left;
+
+    width: 2.8vw;
+    height: 3.5vh;
+
+    margin-right: .62vw;
+    background-color: #2f455c;
+
+    cursor: pointer;
+
+    line-height: 3.8vh;
+    text-align: center;
+    font-size: 2vh;
+    color: white;
+
+    transition: background-color 0.1s linear;
+}
+
+.menu-option:hover {
+    background-color: #3f5368;
+}
+
+/* Confirm Container */
+
+.clothes-confirm-container {
+    display: none;
+    position: absolute;
+
+    top: 30%;
+    left: 50%;
+
+    width: 40vw;
+    height: 17vh;
+
+    background-color: #212730;
+    transform: translate(-50%, -50%);
+}
+
+.clothes-confirm-buttons {
+    position: absolute;
+
+    left: 50%;
+    bottom: 5%;
+
+    height: fit-content;
+    width: fit-content;
+
+    transform: translate(-50%, -50%);
+}
+
+.clothes-confirm-text {
+    position: absolute;
+
+    top: 3vh;
+
+    height: fit-content;
+    width: 100%;
+
+    color: white;
+    font-size: 2vh;
+    font-weight: 530;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+/* Option Block */
+
+.option-block {
+    position: relative;
+    
+    left: .5vw;
+
+    width: 20vw;
+    height: 10vh;
+    max-height: 30vh;
+
+    margin-bottom: 1vh;
+    border-radius: .2vh;
+    background-color: #2f455c;
+}
+
+.option-block-hair {
+    position: relative;
+
+    left: .5vw;
+
+    width: 20vw;
+    overflow: hidden;
+    height: max-content;
+
+
+    margin-bottom: 1vh;
+    border-radius: .2vh;
+    background-color: #2f455c;
+}
+
+.option-block-name {
+    position: absolute;
+
+    top: 1vh;
+    left: .7vw;
+
+    color: white;
+    font-size: 1.5vh;
+    font-weight: 550;
+}
+
+.option-block-buttons {
+    position: relative;
+
+    width: 8vw;
+    height: 5vh;
+
+    float: left;
+    margin-right: 1.5vw;
+}
+
+.option-block-buttons-container {
+    position: absolute;
+    top: 3.5vh;
+    left: .7vw;
+}
+
+.option-block-buttons-title {
+    color: white;
+    font-size: 1.2vh;
+    margin-bottom: .5vh;
+}
+
+.option-block-buttons-left {
+    position: absolute;
+
+    left: 0;
+
+    height: 3vh;
+    width: 3vw;
+    cursor: pointer;
+    
+    text-align: center;
+    color: white;
+    font-size: 1.8vh;
+    line-height: 3.3vh;
+    
+    background-color: #212730;
+    transition: background-color 0.1s linear;
+}
+
+.option-block-buttons-right {
+    position: absolute;
+
+    left: 5.7vw;
+
+    width: 3vw;
+    height: 3vh;
+    background-color: #212730;
+
+    cursor: pointer;
+    
+    text-align: center;
+    color: white;
+    font-size: 1.8vh;
+    line-height: 3.3vh;
+
+    transition: background-color 0.1s linear;
+}
+
+.option-block-buttons-value {
+    position: absolute;
+
+    top: 2.8vh;
+    left: 3.5vw;
+}
+
+.option-block-number {
+    width: 1.5vw;
+
+    color: white;
+    text-align: center;
+    font-weight: 550;
+    font-size: 1.4vh;
+
+    border: none;
+    outline: none;
+    background: none;
+    border-bottom: .2vh solid rgb(211, 211, 211);
+}
+
+.option-block-buttons-left:hover, .option-block-buttons-right:hover {
+    background-color: #2b313a;
+}
+
+/* Color Pallete */
+
+/* Hair */
+
+.pallette-container {
+    position: relative;
+
+    left: .7vw;
+    margin-top: 10.5vh;
+    margin-bottom: 1vh;
+
+    width: 18.85vw;
+    height: fit-content;
+}
+
+.pallete-last {
+    margin-top: 1.5vh;
+}
+
+.pallette {
+    position: relative;
+    display: none;
+    height: 0vh;
+
+    overflow: hidden;
+}
+
+.pallete-name {
+    position: relative;
+
+    padding: .5vh;
+    border-radius: .2vh;
+
+    cursor: pointer;
+
+    text-indent: .1vw;
+    font-size: 1.5vh;
+    font-weight: 550;
+    color: white;
+
+    background-color: #212730;
+}
+
+.hair-pallette-item {
+    position: relative;
+
+    left: .2vw;
+    top: .5vh;
+
+    height: 3.2vh;
+    width: 1.9vw;
+    float: left;
+
+    cursor: pointer;
+
+    margin-right: .2vw;
+    margin-bottom: .2vw;
+
+    border: .2vh solid rgb(170, 164, 164);
+}
+
+.hair-pallette-item:hover {
+    border-color: rgb(216, 206, 206);
+}
+
+.one {background-color: #1b1f22;}.two {background-color: #262a2b;}.three {background-color: #302f2b;}.four {background-color: #32271b;}.five {background-color: #4a321f;}.six {background-color: #5b3a21;}.seven {background-color: #6c4c35;}.eight {background-color: #6a4f3b;}.nine {background-color: #755c45;}.ten {background-color: #7e694e;}
+.eleven{background-color: #97815e;}.twelve {background-color: #a5936a;}.thirdteen {background-color: #ac9c70;}.fourteen {background-color: #ba9f65;}.fifteen {background-color: #d3b87b;}.sixteen {background-color: #d8c390;}.seventeen {background-color: #9d7f58;}.eighteen {background-color: #824f3a;}.nineteen {background-color: #642b1c;}.twenty {background-color: #5e120a;}
+.twentyone {background-color: #630f0a;}.twentytwo {background-color: #78150e;}.twentythree {background-color: #9d2e19;}.twentyfour {background-color: #b44d2a;}.twentyfive {background-color: #9f512e;}.twentysix {background-color: #a54e2a;}.twentyseven {background-color: #626262;}.twentyeight {background-color: #808080;}.twentynine {background-color: #aaaaaa;}.thirty {background-color: #c5c5c5;}
+.thirtyone {background-color: #433a56;}.thirtytwo {background-color: #573e68;}.thirtythree {background-color: #733c73;}.thirtyfour {background-color: #e973df;}.thirtyfive {background-color: #e973df;}.thirtysix {background-color: #07959d;}.thirtyseven {background-color: #025f81;}.thirtyeight {background-color: #023871;}.thirtynine {background-color: #41a06c;}.fourty {background-color: #227b5f;} 
+.fourtyone {background-color: #195c53;}.fourtytwo {background-color: #b4bf36;}.fourtythree {background-color: #70a90e;}.fourtyfour {background-color: #429d14;}.fourtyfive {background-color: #dab857;}.fourtysix {background-color: #e2b108;}.fourtyseven {background-color: #e39106;}.fourtyeight {background-color: #ef8632}.fourtynine {background-color: #f78157}.fifty {background-color: #e18c59;}
+.fiftyone {background-color: #cc593c;}.fiftytwo {background-color: #c93221;}.fiftythree {background-color: #a90b03;}.fiftyfour {background-color: #860503;}.fiftyfive {background-color: #1d1712;}.fiftysix {background-color: #291e19;}.fiftyseven {background-color: #2c221a;}.fiftyeight {background-color: #36291b;}.fiftynine {background-color: #2e1f19;}.sixty {background-color: #211b16;}
+.sixtyone {background-color: #010101;}.sixtytwo {background-color: #6f6c66;}.sixtythree {background-color: #9a7a4f;}
+
+/* Scroll */
+
+.menu-clothes::-webkit-scrollbar-track, .menu-accesoire::-webkit-scrollbar-track, .menu-face::-webkit-scrollbar-track, .menu-tattoos::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+.menu-clothes::-webkit-scrollbar, .menu-accesoire::-webkit-scrollbar, .menu-face::-webkit-scrollbar, .menu-tattoos::-webkit-scrollbar {
+    width: .3vh;
+}
+  
+.menu-clothes::-webkit-scrollbar-thumb, .menu-accesoire::-webkit-scrollbar-thumb, .menu-face::-webkit-scrollbar-thumb, .menu-tattoos::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: .4vh;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    background: none;
+}

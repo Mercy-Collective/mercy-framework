@@ -1,0 +1,416 @@
+/* Recent Bans */
+
+/* Search */
+
+.menu-page-recentbans-list-search:first-child {
+    margin-left: .25vh;
+}
+
+.menu-page-recentbans-list-search {
+    float: left;
+    position: relative;
+
+    width: calc(50% - 1.5px);
+    height: 5.5vh;
+
+    background-color: rgb(43, 48, 56);
+}
+
+.menu-page-recentbans-list-search hr {
+    margin-top: 0.75vh;
+    color: var(--color-white);
+}
+
+.menu-page-recentbans-list-search input {
+    margin-top: .7vh;
+    padding: 10px;
+    width: calc(100% - 20px);
+    background-color: transparent;
+    color: var(--color-white);
+    border: none;
+    outline: none;
+    caret-color: var(--color-white);
+}
+
+.menu-page-recentbans-list-search input::placeholder {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2vh;
+}
+
+/* Types */
+
+.menu-page-recentbans-types {
+    float: left;
+    position: relative;
+
+    width: 100%;
+    height: 2.5vh;
+
+    margin-bottom: 1vh;
+    margin-left: .25vh;
+
+    background-color: rgb(43, 48, 56);
+}
+
+.menu-page-recentbans-types:hover  {
+    background-color: rgb(37, 42, 49);
+}
+
+.menu-page-recentbans-types:hover .select-selected  {
+    background-color: rgb(37, 42, 49);
+}
+
+.menu-page-recentbans-types select {
+    display: none;
+}
+  
+.select-selected {
+    background-color: rgb(43, 48, 56);
+}
+
+.select-items div,.select-selected {
+    line-height: 2.5vh;
+    color: #ffffff;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 1.2vh;
+}
+
+.select-items {
+    position: absolute;
+
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    z-index: 99;
+
+    background-color: rgb(43, 48, 56);
+}
+
+.select-hide {
+    display: none;
+}
+  
+.select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Ban List */
+
+.admin-menu-bans {
+    position: relative;
+    
+    width: 99%;
+    height: max-content;
+    max-height: 72vh;
+
+    overflow-y: auto;
+
+    left: 50%;
+    transform: translateX(-50%);
+    
+    margin-top: 17%;
+    margin-left: 0.1vh;
+    margin-bottom: 2.95%;
+}
+
+.admin-menu-bans::-webkit-scrollbar-thumb {
+    background-color: var(--color-white);
+}
+
+.admin-menu-bans::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0.3vh;
+}
+
+.admin-menu-ban {
+    position: relative;
+
+    width: 100%;
+    min-height: 3.25vh;
+    height: fit-content;
+
+    /* border: none; */
+
+    font-size: 1.2vh;
+
+    line-height: 3.25vh;
+
+    cursor: pointer;
+    
+    border-radius: .2vh;
+    margin-bottom: 1%;
+    margin-top: 1%;
+
+    transition: background-color 250ms;
+}
+
+.admin-menu-ban:nth-child(odd) { background-color: #cecfd1; }
+.admin-menu-ban:nth-child(even) { background-color: #99a4ae; }
+
+.admin-menu-ban:hover {
+    background-color: rgba(138, 138, 138, 0.8);
+}
+
+.admin-menu-ban-name {
+    padding-left: 1vw;
+    width: 80%;
+}
+
+.admin-menu-ban-arrow {
+    position: absolute;
+    width: 2.5vh;
+    height: 2.5vh;
+    right: 1vh;
+    top: 0.40vh;
+    background-color: transparent;
+}
+
+.admin-menu-ban-arrow i {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    font-size: 1.8vh;
+
+    transform: translate(-50%, -50%);
+    color: black;
+}
+
+.admin-menu-ban-arrow.open {
+    animation: open-dropdown 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+    -webkit-animation: open-dropdown 0.3s ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+}
+
+.admin-menu-ban-arrow.closed {
+    -webkit-animation: closed-dropdown 0.3s ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+    animation: closed-dropdown 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.admin-menu-ban-options {
+    display: none;
+    
+    height: max-content;
+    max-height: max-content;
+
+    padding: 1vh;
+    overflow: hidden;
+
+    background-color: var(--menu-bg-color);
+
+    transition: all .1s ease-in-out;
+}
+
+.admin-menu-ban-options .ui-styles-button {
+    line-height: normal !important;
+    font-size: 1.2vh !important;
+}
+
+.admin-menu-ban-option {
+    float: left;
+    position: relative;
+
+    width: 100%;
+
+    margin-bottom: .5vh;
+
+    border-radius: .3vh;
+
+    background-color: rgb(33, 49, 75);
+    transition: all .2s ease-in-out;
+}
+
+.admin-menu-ban-option:hover {
+    background-color: rgb(33, 48, 72);
+}
+
+.admin-menu-ban-option-title p {
+    float: left;
+    font-size: 1.3vh;
+    font-weight: bolder;
+    color: var(--color-white);
+    margin-left: 1vh;
+}
+
+.admin-menu-ban-option-desc {
+    float: right;
+    position: relative;
+    overflow: hidden;
+
+    height: 100%;
+    min-width: 25vh;
+    width: fit-content;
+    max-width: 50vh;
+}
+
+.admin-menu-ban-option-desc p {
+    float: right;
+    margin-right: 1vh;
+    font-size: 1.25vh;
+    color: var(--color-white);
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    padding-left: 4vh;
+}
+
+.admin-menu-ban-option-copy {    
+    position: absolute;
+
+    width: 3vh;
+    height: 3vh;
+
+    top: 50%;
+    transform: translateY(-50%);
+    left: vh;
+
+    border-radius: .3vh;
+}
+
+.admin-menu-ban-option-copy i {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 1.4vh;
+    color: var(--color-white);
+}
+
+.admin-menu-ban-option-copy:hover {
+    background-color: rgb(35, 52, 79);
+}
+
+.admin-menu-ban-option-copy:hover i {
+    color: whitesmoke;
+}
+
+/* No Bans */
+
+.no-bans {
+    display: none;
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+
+    text-align: center;
+    color: var(--color-white);
+    font-size: 1.5vh;
+    font-weight: bolder;
+}
+
+
+.no-bans i {
+    position: relative;
+
+    bottom: 5vh;
+    font-size: 5vh;
+
+    -webkit-animation: shake-icon 2s infinite ease;
+    animation: shake-icon 2s infinite ease;
+}
+
+.no-bans p {
+    overflow: hidden; 
+    border-right: .15em solid rgb(255, 255, 255); 
+    white-space: nowrap; 
+    margin: 0 auto; 
+    letter-spacing: .15em; 
+    animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+/* New */
+.select-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 0 15px 0 0;
+}
+
+.select-dropdown::last-child {
+    margin-right: 0px;
+}
+
+.select-dropdown__button {
+    padding: 10px 35px 10px 15px;
+    background-color: rgb(43, 48, 56);
+    color: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    border: none;
+    outline: none;
+
+    width: 100%;
+}
+
+.select-dropdown__button::focus {
+    outline: none;
+}
+
+.select-dropdown__button .zmdi-chevron-down {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+}
+
+.select-dropdown__list {
+    position: absolute;
+    display: block;
+
+    left: 0;
+    right: 0;
+    top: 0;
+
+    max-height: 300px;
+
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+
+    list-style-type: none;
+    opacity: 0;
+    pointer-events: none;
+    transform-origin: top left;
+    transform: scale(1, 0);
+    transition: all ease-in-out 0.3s;
+    z-index: 2;
+}
+
+.select-dropdown__list.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1, 1);
+}
+
+.select-dropdown__list-item {
+    display: block;
+    list-style-type: none;
+
+    padding: 10px 15px;
+
+    background: rgb(43, 48, 56);
+    font-size: 14px;
+    line-height: 1.4;
+    cursor: pointer;
+    color: var(--color-white);
+    text-align: left;
+
+    transition: all ease-in-out 0.3s;
+}
+.select-dropdown__list-item:hover {
+    background-color: rgb(38, 44, 53);
+    color: var(--color-white);
+    transition: all ease-in-out 0.3s;
+}

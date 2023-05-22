@@ -1,0 +1,120 @@
+.phone-app-twitter {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+/* Twitter Main */
+
+.phone-twitter-search {
+    position: relative;
+    top: 5vh;
+
+    width: 88%;
+
+    margin: 0 auto;
+}
+
+.phone-twitter-new {
+    position: absolute;
+    top: 3.5vh;
+    right: .75vw;
+
+    width: 1vw;
+    height: 2vh;
+
+    font-size: 2vh;
+
+    color: white;
+
+    z-index: 50;
+}
+
+/* Twitter Tweets */
+
+.phone-twitter-tweets {
+    position: relative;
+    top: 6vh;
+    
+    margin: 0 auto;
+
+    width: 100%;
+    height: 42vh;
+
+    overflow-y: auto;
+}
+
+.phone-twitter-tweet {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    background-color: #146cc5;
+    margin-bottom: 1vh;
+
+    padding: .6vh;
+
+    width: calc(100% - 2vw);
+
+    color: white;
+
+    font-family: 'Roboto';
+    font-size: 1.5vh;
+
+    border-radius: 0.4vh;
+}
+
+.phone-twitter-tweet-tweeter {
+    font-weight: 500;
+    font-size: 1.3vh;
+}
+
+.phone-twitter-tweet-message {
+    width: 97%;
+
+    padding-top: 0.75vh;
+    font-size: 1.3vh;
+
+    user-select: text;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.phone-twitter-tweet-time {
+    position: absolute;
+    right: .6vh;
+    bottom: .6vh;
+
+    font-size: 1vh;
+}
+
+.phone-twitter-tweet-actions {
+    position: relative;
+
+    display: flex;
+    margin-top: 1vh;
+
+    width: max-content;
+    height: max-content;
+}
+
+.phone-twitter-tweet-actions > div {
+    position: relative;
+
+    margin-right: 0.7vh;
+    font-size: 1.25vh;
+
+    height: 1.25vh;
+    width: 0.75vw;
+}
+
+.phone-twitter-tweet:last-of-type { margin-bottom: 0; }

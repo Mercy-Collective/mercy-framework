@@ -1,0 +1,113 @@
+.phone-app-details {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+/* Details */
+
+.phone-details-container {
+    position: relative;
+    top: 5vh;
+    
+    width: calc(100% - 2vw);
+    height: 47.5vh;
+
+    overflow-y: auto;
+    margin: 0 auto;
+}
+
+.phone-details-details {
+    width: 100%;
+    height: max-content;
+}
+
+.details-item {
+    position: relative;
+
+    color: white;
+    line-height: 3vh;
+    
+    width: 100%;
+    height: 3vh;
+}
+
+.details-item > .details-item-text {
+    font-size: 1.4vh;
+    font-family: 'Roboto';
+    font-weight: 500;
+}
+
+.details-item > .details-item-icon {
+    float: left;
+
+    font-size: 1.7vh;
+    text-align: center;
+
+    padding-right: 1vh;
+
+    width: 2.25vw;
+}
+
+#phone-details-cashbalance > .details-item-icon > i { color: #acd680; }
+#phone-details-bankbalance > .details-item-icon > i { color: #53cee5; }
+#phone-details-casinobalance > .details-item-icon > i { color: #fd4083; }
+
+/* Licenses */
+
+.phone-details-licenses-title {
+    position: relative;
+    top: 3vh;
+
+    font-family: 'Roboto';
+    font-size: 2vh;
+
+    text-align: center;
+    color: white;
+}
+
+.phone-details-licenses-items {
+    position: relative;
+    top: 4vh;
+}
+
+.phone-details-license {
+    position: relative;
+
+    font-family: 'Roboto';
+    font-size: 1.5vh;
+    
+    height: 3vh;
+
+    line-height: 3vh;
+    color: white;
+}
+
+.phone-license-icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+
+    font-size: 1.6vh;
+    
+    transform: translateY(-50%);
+}
+
+.phone-license-icon.green {
+    color: #afd487;
+}
+
+.phone-license-icon.red {
+    color: #d48787;
+}
+
+.phone-license-text {
+    font-size: 1.5vh;
+}

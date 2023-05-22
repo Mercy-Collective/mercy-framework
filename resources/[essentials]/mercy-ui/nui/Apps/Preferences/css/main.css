@@ -1,0 +1,469 @@
+.preferences-pages-page.Phone {
+  display: none;
+}
+.preferences-pages-page.Voice {
+  display: none;
+}
+.preferences-pages-page.EmoteBinds {
+  display: none;
+}
+
+.preferences-wrapper {
+  display: flex;
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 150 !important;
+}
+
+.preferences-container {
+  display: none;
+  position: relative;
+
+  width: 74vh;
+  height: 55vh;
+
+  user-select: unset;
+  pointer-events: all;
+  color: white;
+  background-color: rgb(48, 71, 94);
+}
+
+.preferences-container .ui-slider-container {
+  left: 2vh;
+  width: 92%;
+  margin-bottom: 3vh;
+}
+
+/* Navbar */
+
+.preferences-navbar {
+  width: 25%;
+  user-select: none;
+}
+
+.preferences-navbar-item {
+  width: 100%;
+  height: 5.1vh;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+}
+
+.preferences-navbar-item > p {
+  margin: 0;
+  letter-spacing: 0.014vh;
+  line-height: 1.25vh;
+  font-size: 1.5vh;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  padding-left: 1.5vh;
+  color: white;
+}
+
+.preferences-navbar-item.active {
+  background-color: rgb(34, 40, 49);
+}
+
+/* Page */
+
+.preferences-pages-page {
+  position: relative;
+  width: calc(100% - 3vh);
+  padding: 1.5vh;
+  margin: 0;
+}
+
+.preferences-flex {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.preferences-flex.column {
+  flex-direction: column;
+}
+
+.preferences-title {
+  font-size: 1.85vh;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.01vh;
+}
+
+.preferences-pages-page hr {
+  margin: 1vh 0 0.7vh 0;
+}
+
+.preferences-pages {
+  flex: 1 1 0%;
+  max-height: 55.5vh;
+  overflow: hidden auto;
+  background-color: rgb(34, 40, 49);
+}
+
+.preferences-pages::-webkit-scrollbar {
+  display: none;
+}
+
+.preferences-title {
+  font-size: 1.85vh;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.01vh;
+  color: white;
+}
+
+.preferences-pages-button {
+  position: relative;
+  float: right;
+  margin-top: 0.5vh;
+  margin-right: 0.5vh;
+  margin-bottom: 1vh;
+  z-index: 1;
+}
+
+.preferences-slider-name {
+  font-family: 'Roboto';
+  font-size: 1.5vh;
+  color: white;
+  margin: 0px;
+}
+
+/* Dropdowns */
+
+.dropdown-container {
+  position: absolute !important;
+
+  user-select: none;
+
+  min-width: max-content;
+  height: max-content;
+  max-height: 50vh;
+
+  margin-top: 2vh;
+
+  z-index: 999;
+
+  overflow-y: auto;
+
+  padding: 0.8vh 0;
+
+  border-radius: 0.4vh;
+
+  background-color: #2e2e2e;
+}
+
+.dropdown-container::-webkit-scrollbar {
+  display: none;
+}
+
+.dropdown-option {
+  height: 3.3vh;
+  line-height: 3.3vh;
+
+  padding-left: 1.5vh;
+  padding-right: 1.5vh;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  cursor: pointer;
+
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1.4vh;
+
+  color: white;
+  letter-spacing: 0.035vh;
+}
+
+.dropdown-option > i {
+  margin-right: 0.5vh;
+}
+
+.dropdown-option:hover {
+  background-color: #3e3e3e;
+}
+
+/* Buttons */
+
+.ui-button {
+  user-select: none;
+
+  position: relative;
+  float: left;
+
+  width: max-content;
+  height: max-content;
+
+  padding: 0.8vh 1vh;
+  border-radius: 0.4vh;
+
+  margin: 0.5vh;
+
+  font-family: "Roboto";
+  font-weight: 500;
+  font-size: 1.2vh;
+
+  box-shadow: 0vh 0.3vh 0.1vh -0.2vh rgb(0 0 0 / 20%),
+    0vh 0.2vh 0.2vh 0vh rgb(0 0 0 / 14%), 0vh 0.1vh 0.5vh 0vh rgb(0 0 0 / 12%);
+
+  letter-spacing: 0.01vh;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.87);
+
+  cursor: pointer;
+
+  transition: background-color 250ms;
+}
+
+.ui-button.disabled {
+  color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.12);
+  cursor: not-allowed;
+}
+.ui-button.default {
+  background-color: #e0e0de;
+}
+.ui-button.error {
+  background-color: #f44336;
+}
+.ui-button.warning {
+  background-color: #f2a365;
+}
+.ui-button.success {
+  background-color: #95ef77;
+}
+
+/* Textfield */
+
+.textfield-component-container:focus-within .textfield-underline {
+  border-color: white;
+}
+
+.textfield-component-container:focus-within input {
+  color: white;
+}
+
+.textfield-component-container {
+  position: relative;
+
+  width: 100%;
+  height: max-content;
+
+  margin-bottom: 1.25vh;
+
+  color: rgb(200, 200, 200);
+
+  font-family: "Roboto";
+  font-size: 1.2vh;
+  font-weight: 500;
+}
+
+.textfield-component-container > i {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  text-align: center;
+  width: 2vh;
+
+  font-size: 1.6vh;
+}
+
+.textfield-component-container > p.textfield-icon {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  text-align: center;
+  width: 2vh;
+
+  float: left;
+
+  margin-top: 0.5vh !important;
+  padding: 0;
+
+  font-size: 1.6vh;
+}
+
+.textfield-component-container > i.right {
+  position: relative;
+  float: right;
+  top: 0.8vh;
+}
+
+.textfield-component-container > .textfield-title {
+  margin: 0;
+  font-size: 1.2vh;
+
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.textfield-component-container > .textfield-sub {
+  font-size: 1.1vh;
+  margin-top: 0.5vh;
+  opacity: 0.8;
+
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.textfield-component-container > .textfield-underline {
+  width: 100%;
+  border-bottom: 0.15vh solid rgb(200, 200, 200);
+}
+
+.textfield-component-container > input {
+  margin: 0;
+  border: none;
+  outline: none;
+
+  color: rgb(200, 200, 200);
+
+  font-family: "Roboto";
+  font-size: 1.5vh;
+
+  margin-top: 0.3vh;
+  background-color: transparent;
+
+  height: 2.5vh;
+  width: calc(100% - 2.9vh);
+}
+
+.textfield-component-container > input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button,
+input::-webkit-calendar-picker-indicator {
+  display: none;
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* checkbox */
+
+.ui-checkbox-container {
+  border: 0;
+  margin: 0;
+  display: inline-flex;
+  padding: 0;
+  position: relative;
+  min-width: 0;
+  flex-direction: column;
+  vertical-align: top;
+}
+
+.ui-checkbox-container,
+hr {
+  width: 100%;
+}
+
+.ui-checkbox-container,
+.ui-checkbox {
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.ui-checkbox {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  margin-left: -1.1vh;
+  margin-right: 1.6vh;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ui-checkbox-root {
+  color: inherit;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+  outline: 0;
+  padding: 0;
+  position: relative;
+  align-items: center;
+  user-select: none;
+  border-radius: 0;
+  vertical-align: middle;
+  -moz-appearance: none;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+
+  flex: 0 0 auto;
+  color: #fff;
+  padding: 1.2vh;
+  overflow: visible;
+  font-size: 2.4vh;
+  text-align: center;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 50%;
+
+  padding: 0.9vh;
+
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ui-checkbox-active {
+  color: #f2a365 !important;
+}
+
+.ui-checkbox-label {
+  width: 100%;
+  display: flex;
+  align-items: inherit;
+  justify-content: inherit;
+}
+
+.ui-checkbox-input {
+  top: 0;
+  left: 0;
+  width: 100%;
+  cursor: inherit;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  z-index: 1;
+  position: absolute;
+}
+
+.ui-checkbox-icon {
+  fill: currentColor;
+  width: 2.3vh;
+  height: 2.3vh;
+  display: inline-block;
+  font-size: 2vh;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.ui-checkbox-text {
+  font-size: 1.5vh;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  margin: 0;
+}

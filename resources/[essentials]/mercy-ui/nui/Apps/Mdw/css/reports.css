@@ -1,0 +1,184 @@
+/* Block Two */
+.mdw-reports-block {
+    position: absolute;
+
+    top: 21%;
+    left: 50%;
+
+    height: 25vh;
+    width: 97%;
+
+    transform: translate(-50%, -50%);
+}
+
+.mdw-reports-block-data {
+    position: absolute;
+
+    right: .25vw;
+    top: .5vh;
+}
+
+#reports-notes-area {
+    position: absolute;
+
+    top: 59%;
+    left: 50%;
+
+    color: white;
+    font-size: 1.3vh;
+    
+    width: 93.5%;
+    height: 63vh;
+    
+    background-color: var(--dark);
+    transform: translate(-50%, -50%);
+}
+
+#reports-notes-area:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.mdw-person-scum-container {
+    position: relative;
+    width: 100%;
+    height: max-content;
+
+    margin-bottom: 0.5vh;
+
+    background-color: var(--primary);
+}
+
+.mdw-person-scum-name {
+    position: relative;
+    top: 0.75vh;
+    left: 0.4vw;
+
+    font-size: 1.5vh;
+    font-family: 'Roboto';
+    font-weight: bolder;
+
+    color: white;
+}
+
+.mdw-person-scum-icons {
+    position: absolute;
+    top: 0.75vh;
+    right: 0.4vw;
+
+    font-size: 1.5vh;
+
+    color: white;
+
+    width: max-content;
+}
+
+.mdw-person-scum-icons > i {
+    margin-right: 0.4vh;
+}
+
+.mdw-person-scum-icons > i:last-of-type {
+    margin-right: 0;
+}
+
+.mdw-person-scum-seperator {
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    margin-top: 1.5vh;
+    margin-bottom: 1.5vh;
+
+    height: 0.2vh;
+    width: 95%;
+
+    background-color: var(--dark);
+}
+
+.mdw-person-scum-charges {
+    margin-top: 2vh;
+    margin-left: 0.4vw;
+
+    overflow: hidden;
+
+    width: 97%;
+    height: max-content;
+}
+
+#mdw-person-scum-edit-charges {
+    cursor: pointer;
+}
+
+.mdw-person-scum-container > .ui-styles-checkbox {
+    left: 0.8vw;
+    margin-bottom: 0;
+}
+
+.mdw-person-scum-guilty {
+    position: relative;
+    left: 0;
+    right: 0; 
+
+    margin: 0 auto;
+
+    overflow: hidden;
+    width: calc(100% - 1.6vw);
+}
+
+.mdw-person-scum-guilty > .ui-styles-checkbox {
+    float : left;
+    width: 43%;
+}
+
+.mdw-person-scum-force {
+    position: relative;
+    left: 0;
+    right: 0; 
+
+    margin: 0 auto;
+
+    overflow: hidden;
+    width: calc(100% - 1.6vw);
+}
+
+.mdw-person-scum-force > .ui-styles-checkbox {
+    float: left;
+    width: 27%;
+}
+
+.mdw-person-scum-reduction {
+    position: relative;
+    right: 0;
+
+    margin: 0 auto;
+
+    width: calc(100% - 1.7vw);
+}
+
+.mdw-person-scum-reduction > input {
+    width: 94% !important;
+}
+
+.mdw-person-scum-final {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+    margin-top: 1vh;
+
+    width: 94%;
+
+    font-size: 1.5vh;
+    font-family: 'Roboto';
+    font-weight: bold;
+
+    color: white;
+}
+
+.mdw-person-scum-final > p {
+    font-size: 2vh;
+    margin: 0;
+}

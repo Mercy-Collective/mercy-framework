@@ -1,0 +1,68 @@
+.color-memory-minigame-container {
+    display: none;
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+  
+    width: 31.7vw;
+    height: 55vh;
+    
+    background-color: #2D3139;
+    transform: translate(-50%, -50%);
+}
+
+.color-memory-blocks {
+    position: absolute;
+
+    top: .9vh;
+    left: .67vw;
+
+    height: 97%;
+    width: 98%;
+}
+
+.color-memory-block {
+    position: relative;
+
+    cursor: pointer;
+    
+    width: 4vw;
+    height: 8vh;
+    float: left;
+    
+    margin-right: .4vw;
+    margin-bottom: .8vh;
+    background-color: #394D61;
+}
+
+.color-memory-loading-container {
+    position: absolute;
+
+    bottom: .8vh;
+    left: .7vw;
+
+    width: 95.5%;
+    height: .7vh;
+    border-radius: .5vh;
+
+    background-color: rgba(0, 0, 0, 0.342);
+}
+
+.color-memory-loading {
+    width: 100%;
+    height: 100%;
+
+    border-radius: .3vh;
+    background-color: #f2a365;
+}
+
+.color-memory-correct {
+    cursor: not-allowed;
+    background-color: #55d14a !important;
+}
+
+.color-memory-incorrect {
+    cursor: not-allowed;
+    background-color: #ec5858 !important;
+}

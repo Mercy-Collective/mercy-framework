@@ -1,0 +1,520 @@
+.phone-app-jobcenter {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+.phone-jobcenter-search {
+    position: absolute;
+    top: 5vh;
+    left: 50%;
+
+    width: 85%;
+
+    transform: translateX(-50%);
+}
+
+/* Job Item */
+.phone-jobcenter-jobs {
+    position: absolute;
+    top: 12vh;
+    left: 50%;
+
+    height: 39vh;
+    width: 85%;
+
+    transform: translateX(-50%);
+}
+
+.phone-jobcenter-job:hover { border-color: rgba(255, 255, 255, 0.5) }
+.phone-jobcenter-job:hover .phone-jobcenter-job-hover { display: block; }
+
+.phone-jobcenter-job {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    margin-bottom: 2vh;
+
+    border-bottom: 0.15vh solid white;
+
+    background-color: #31475e;
+}
+
+.phone-jobcenter-job:last-of-type { margin-bottom: 0; }
+
+.phone-jobcenter-job-icon {
+    padding: 0.7vh;
+    width: 2.36vw;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 4vh;
+}
+
+.phone-jobcenter-job-label {
+    position: absolute;
+    top: 1vh;
+    left: 3.4vw;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    width: 6.5vw;
+
+    color: white;
+
+    font-size: 1.2vh;
+}
+
+.phone-jobcenter-job-salaryRate {
+    position: absolute;
+    bottom: 1vh;
+    left: 3.4vw;
+
+    font-size: 1.7vh;
+
+    letter-spacing: 0.5vh;
+
+    color: rgba(255, 255, 255, 0.2)
+}
+
+.phone-jobcenter-job-salaryRate > i.rated {
+    color: #58af42;
+}
+
+.phone-jobcenter-job-groupsCount {
+    position: absolute;
+    top: 0.8vh;
+    right: 0.8vh;
+
+    color: white;
+    text-align: center;
+
+    font-size: 1.5vh;
+}
+
+.phone-jobcenter-job-employeeCount {
+    position: absolute;
+    bottom: 0.8vh;
+    right: 0.8vh;
+
+    color: white;
+    text-align: center;
+
+    font-size: 1.5vh;
+}
+
+/* Job Groups */
+
+.phone-jobcenter-groups-container {
+    display: none;
+
+    position: absolute;
+    top: 3.5vh;
+    left: 50%;
+
+    height: 49vh;
+    width: 85%;
+
+    overflow-y: auto;
+
+    transform: translateX(-50%);
+}
+
+.phone-jobcenter-group-notice {
+    position: relative;
+    
+    height: 7.25vh;
+
+    color: white;
+    font-size: 1.5vh;
+}
+
+.phone-jobcenter-creategroup {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    margin: 0;
+}
+
+.phone-jobcenter-checkout {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    margin: 0;
+}
+
+
+.phone-jobcenter-groups:first-of-type {
+    margin-top: 0;
+}
+
+.phone-jobcenter-groups {
+    position: relative;
+    border-top: 0.2vh solid rgba(255, 255, 255, 0.7);
+    margin-top: 1vh;
+}
+
+.phone-jobcenter-label {
+    position: relative;
+    padding-top: 1vh;
+
+    color: white;
+
+    font-size: 1.7vh;
+}
+
+.phone-jobcenter-groups-busy-items,
+.phone-jobcenter-groups-idle-items {
+    padding-top: 1vh;
+}
+
+.phone-jobcenter-group {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    margin-bottom: 2vh;
+
+    border-bottom: 0.15vh solid white;
+
+    background-color: #31475e;
+}
+
+.phone-jobcenter-group-icon {
+    padding: 0.7vh;
+
+    color: white;
+
+    font-size: 4.2vh;
+}
+
+.phone-jobcenter-group-label {
+    position: absolute;
+    top: 1.25vh;
+    left: 7vh;
+
+    color: white;
+
+    font-size: 1.3vh;
+}
+
+.phone-jobcenter-group-join {
+    position: absolute;
+    bottom: 1.25vh;
+    left: 7vh;
+
+    color: white;
+
+    font-size: 1.3vh;
+}
+
+.phone-jobcenter-group-employeeCount {
+    position: absolute;
+    bottom: 1vh;
+    right: 1vh;
+
+    color: white;
+
+    font-size: 1.3vh;
+}
+
+/* Job Tasks */
+
+.phone-jobcenter-tasks-wrapper {
+    display: none;
+
+    position: absolute;
+    top: 9vh;
+    left: 50%;
+
+    height: 47vh;
+    width: 85%;
+
+    overflow-y: auto;
+
+    transform: translateX(-50%);
+}
+
+.phone-jobcenter-tasks-header {
+    position: relative;
+    height: 3.5vh;
+
+    padding-bottom: 1vh;
+    border-bottom: 0.2vh solid rgba(255, 255, 255, 0.7);
+}
+
+.phone-jobcenter-tasks-label {
+    float: left;
+
+    line-height: 3.5vh;
+    color: white;
+    font-size: 1.5vh;
+}
+
+.phone-jobcenter-tasks-cancel {
+    position: absolute;
+    top: 0vh;
+    right: 0;
+    
+    color: white;
+    font-size: 1.5vh;
+}
+
+.phone-jobcenter-tasks-time {
+    position: absolute;
+    bottom: 1vh;
+    right: 0;
+    
+    color: white;
+    font-size: 1.3vh;
+}
+
+.phone-jobcenter-tasklist {
+    position: relative;
+    max-height: 39.5vh;
+
+    overflow-y: auto;
+    
+    list-style: none;
+    padding: 0;
+}
+
+.phone-jobcenter-task-item {
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    width: 90%;
+
+    border-bottom: 0.2vh solid rgba(255, 255, 255, 0.7);
+
+    color: white;
+
+    font-size: 1.3vh;
+
+    padding: .8vh;
+
+    background-color: #31475e;
+}
+
+.phone-jobcenter-task-extra {
+    position: relative;
+    right: 0;
+    bottom: 0;
+    
+    text-align: right;
+}
+
+.phone-jobcenter-tasklist > li.phone-jobcenter-finished:before {
+    background-color: rgba(32, 158, 85, 1.0);
+}
+
+.phone-jobcenter-tasklist > .phone-jobcenter-finished > .phone-jobcenter-task-item {
+    text-decoration: line-through;
+}
+
+.phone-jobcenter-tasklist > li {
+    position: relative;
+
+    border-left: 0.1vh solid rgba(255, 255, 255, 0.7);
+    
+    padding-bottom: 1vh;
+    padding-left: 2vh;
+    margin-left: 1vh;
+}
+
+.phone-jobcenter-tasklist > li:last-child {
+    border: 0;
+    padding-bottom: 0;
+}
+
+.phone-jobcenter-tasklist > li:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    transform: translateX(-50%);
+
+    content: '';
+    
+    width: 0.5625vw;
+    height: 1vh;
+
+    background-color: #434da6;
+
+    border: 0.7vh solid #212832;
+    border-radius: 50%;
+}
+
+/* Job */
+
+
+.phone-jobcenter-job-hover {
+    position: absolute;
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    z-index: 25;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-jobcenter-job-hover > i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 2vh;
+
+    color: white;
+    text-align: center;
+}
+
+/* Group Members */
+
+.phone-jobcenter-groupmembers {
+    display: none;
+
+    position: relative;
+    top: 3.5vh;
+
+    height: 52vh;
+    width: 85%;
+
+    margin: 0 auto;
+}
+
+.phone-jobcenter-members-container {
+    width: 100%;
+    height: 44vh;
+
+    overflow-y: scroll;
+}
+
+.phone-jobcenter-groupmembers-loader {
+    display: none;
+
+    position: relative;
+
+    width: 100%;
+    height: 9vh;
+
+    margin: 0 auto;
+
+    padding-bottom: 1.5vh;
+
+    border-bottom: 0.1vh solid white;
+}
+
+.phone-jobcenter-groupmembers-loader > img {
+    width: 100%;
+    height: 100%;
+}
+
+.phone-jobcenter-groupmembers-loader > p {
+    position: relative;
+    top: -2.5vh;
+    
+    width: 100%;
+
+    color: white;
+    text-align: center;
+
+    font-family: 'Roboto';
+    font-size: 1.15vh;
+}
+
+.phone-jobcenter-groupmembers-leader > p,
+.phone-jobcenter-groupmembers-members > p {
+    color: white;
+
+    font-family: 'Roboto';
+    font-size: 1.5vh;
+
+    margin-bottom: .5vh;
+}
+
+.phone-jobcenter-groupmembers-member {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    margin-bottom: 1vh;
+
+    border-bottom: 0.15vh solid white;
+
+    background-color: #31475e;
+}
+
+.phone-jobcenter-member-icon {
+    padding: 0.7vh;
+    padding-left: 1vh;
+
+    color: white;
+
+    font-size: 3.25vh;
+}
+
+.phone-jobcenter-member-name {
+    position: absolute;
+    top: 1vh;
+    left: 5vh;
+
+    color: white;
+
+    font-size: 1.3vh;
+}
+
+.phone-jobcenter-member-dot {
+    position: absolute;
+    top: .75vh;
+    right: .75vh;
+
+    width: 0.28125vw;
+    height: .5vh;
+
+    border-radius: 50%;
+
+    background-color: #43ae46;
+}
+
+.phone-jobcenter-groupmembers-buttons {
+    position: absolute;
+    left: 50%;
+    bottom: 0vh;
+
+    transform: translateX(-50%);
+}
+
+.phone-jobcenter-groupmembers-buttons > .ui-styles-button {
+    position: relative;
+    margin: 0 auto;
+}
+
+.phone-jobcenter-groupmembers-buttons > .ui-styles-button:last-of-type {
+    position: relative;
+    margin-top: .5vh;
+    left: 50%;
+
+    transform: translateX(-50%);
+}

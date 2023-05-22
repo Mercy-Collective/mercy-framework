@@ -1,0 +1,168 @@
+.mdw-charges-container {
+    display: none;
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 89.8%;
+    height: 100%;
+
+    background-color: var(--secondary);
+}
+
+.all-mdw-charges {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 84%;
+
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.mdw-charges-block {
+    position: relative;
+
+    top: .5vh;
+    left: .5vw;
+
+    overflow: hidden;
+    margin-bottom: 1vh;
+
+    width: 98.5%;
+    height: fit-content;
+
+    background-color: var(--primary);
+}
+
+.mdw-charges-block-title {
+    position: relative;
+
+    margin-top: 1vh;
+    left: 1vw;
+    
+    color: white;
+    font-size: 1.4vh;
+    text-shadow: -0.1vh -0.1vh 0 #000, 0.1vh -0.1vh 0 #000, -0.1vh 0.1vh 0 #000, 0.1vh 0.1vh 0 #000;
+}
+
+.mdw-charges-block-charges {
+    position: relative;
+
+    margin-top: 1vh;
+    left: 1vw; 
+}
+
+.mdw-charges-block-charge {
+    position: relative;
+    float: left;
+
+    width: 18.4vw;
+    height: fit-content;
+
+    margin-right: .5vw;
+    margin-bottom: 2vh;
+
+    padding: 1vh;
+
+    user-select: text;
+    border: .25vh solid  #212730;
+}
+
+.mdw-charges-block-charge-info {
+    position: relative;
+
+    margin-top: .5vh;
+    padding-top: .2vh;
+
+    width: 100%;
+
+    color: white;
+    font-size: 1.2vh;
+    text-align: center;
+    text-shadow: -0.1vh -0.1vh 0 #000, 0.1vh -0.1vh 0 #000, -0.1vh 0.1vh 0 #000, 0.1vh 0.1vh 0 #000;
+}
+
+.mdw-charges-block-charge-info-bar {
+    border-top: .1vh solid  #212730;
+}
+
+.mdw-charges-block-charge-info-title {
+    position: relative;
+
+    font-size: 1.3vh;
+}
+
+.mdw-charges-block-charge-title {
+    position: relative;
+
+    color: white;
+    font-size: 1.3vh;
+    text-align: center;
+    text-shadow: -0.1vh -0.1vh 0 #000, 0.1vh -0.1vh 0 #000, -0.1vh 0.1vh 0 #000, 0.1vh 0.1vh 0 #000;
+}
+
+.mdw-charge-info-bar {
+    border-top: .1vh solid #212730;
+}
+
+.mdw-charges-block-charge-normal {
+    background-color: #406f10;
+}
+
+.mdw-charges-block-charge-major {
+    background-color: #7e5802;
+}
+
+.mdw-charges-block-charge-extreme {
+    background-color: #7c2000;
+}
+
+/* Charges Search */
+
+.mdw-charges-search-container {
+    position: absolute;
+
+    top: 1vh;
+    left: .5vw;
+
+    width: 98.5%;
+    height: 11vh;
+
+
+    background-color: var(--primary);
+}
+
+.mdw-charges-search-title {
+    position: absolute;
+
+    top: 6vh;
+    left: .8vw;
+
+    width: 97.5%;
+
+    color: white;
+    font-size: 1.1vh;
+    padding: .5vh;
+
+    background-color: #1e242d;
+    border: .25vh solid  #30363f;
+}
+
+.mdw-charges-search {
+    position: absolute;
+    top: 1vh;
+    right: 2.3vh;
+}
+
+.all-mdw-charges-editor-charges {
+    user-select: none !important;
+}
+
+.all-mdw-charges-editor-charges .mdw-charges-click {
+    cursor: pointer !important;
+}

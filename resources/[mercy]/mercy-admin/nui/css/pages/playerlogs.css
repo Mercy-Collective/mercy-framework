@@ -1,0 +1,157 @@
+/* Recent Bans */
+
+/* Search */
+
+.menu-page-playerlogs-list-search:first-child {
+    margin-left: .25vh;
+}
+
+.menu-page-playerlogs-list-search {
+    float: left;
+    position: relative;
+    display: none;
+
+    width: calc(33.33% - 1.2px);
+    height: 5.5vh;
+
+    background-color: rgb(43, 48, 56);
+}
+
+.menu-page-playerlogs-list-search hr {
+    margin-top: 0.75vh;
+    color: white;
+}
+
+.menu-page-playerlogs-list-search input {
+    margin-top: .7vh;
+    padding: 10px;
+    width: calc(100% - 20px);
+    background-color: transparent;
+    color: var(--color-white);
+    border: none;
+    outline: none;
+    caret-color: var(--color-white);
+}
+
+.menu-page-playerlogs-list-search input::placeholder {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2vh;
+}
+
+/* Logs List */
+
+.admin-menu-logs {
+    float: left;
+    position: relative;
+
+    height: 100%;
+    width: 100%;
+}
+
+/* Small Page Notification */
+
+.logs-availability {
+    display: none;
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+
+    text-align: center;
+    color: var(--color-white);
+    font-size: 1.5vh;
+    font-weight: bolder;
+}
+
+
+.logs-availability i {
+    position: relative;
+
+    bottom: 5vh;
+    font-size: 5vh;
+
+    -webkit-animation: shake-icon 2s infinite ease;
+    animation: shake-icon 2s infinite ease;
+}
+
+.logs-availability p {
+    overflow: hidden;
+    border-right: .15em solid rgb(255, 255, 255);
+    white-space: nowrap;
+    margin: 0 auto; 
+    letter-spacing: .15em; 
+    animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+/* Column Grid */
+
+.admin-menu-logs-grid {
+    float: left;
+    position: relative;
+    display: grid;
+    
+    height: 98%;
+    width: 99.5%;
+
+    margin-left: .3vh;
+
+    grid-template-columns: 12vh 14vh 23vh 10.5vh 6.35vh 36.1vh; /*columns widths*/
+
+    user-select: text;
+    overflow-y: auto;
+}
+
+.admin-menu-logs-grid::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0.3vh;
+}
+
+.admin-menu-logs-grid::-webkit-scrollbar-thumb { background-color: var(--color-white); }
+
+.admin-menu-logs-col { border: solid .5px #19344b; }
+
+.admin-menu-logs-col:nth-child(odd) { background-color: rgb(48, 70, 106); }
+
+.admin-menu-logs-col:nth-child(even) { background-color: rgb(44, 63, 97); }
+
+.admin-menu-logs-col-title {
+    position: relative;
+
+    width: 100%;
+    height: 2vh;
+
+    line-height: 2vh;
+    text-indent: .5vh;
+    font-size: 1.3vh;
+
+    font-weight: bolder;
+    color: var(--color-white);
+
+    border-bottom: solid 2px #19344b;
+}
+
+.admin-menu-logs-col-content {
+    float: left;
+    position: relative;
+
+    width: 100%;
+    max-height: 2vh;
+
+    text-indent: .5vh;
+    padding-top: .4vh;
+    padding-bottom: .4vh;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: 1.1vh;
+
+    color: var(--color-white);
+
+    overflow-y: hidden;
+
+    border-bottom: solid 2px #19344b;
+}

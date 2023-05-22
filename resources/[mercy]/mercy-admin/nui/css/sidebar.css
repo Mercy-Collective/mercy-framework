@@ -1,0 +1,65 @@
+/* Sidebar */
+
+.menu-sidebar {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 4vh;
+    border-right: .2vh solid var(--menu-sidebar-color);
+    background-color: var(--menu-border-color);
+}
+
+.menu-sidebar-pages {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+}
+
+.menu-sidebar-page {
+    position: relative;
+
+    width: 88%;
+    height: 3.5vh;
+
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 1vh;
+
+    border-radius: .3vh;
+    background-color: var(--color-gray);
+    transition: all .1s ease-in-out;
+}
+
+.menu-sidebar-page i {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 1.9vh;
+    color: var(--color-white);
+}
+
+.menu-sidebar-page.selected {
+    background-color: var(--menu-sidebar-selected-color);
+}
+
+.menu-sidebar-page.lower {
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.menu-sidebar-page.enabled i {
+    color: var(--color-red);
+}
+
+.menu-sidebar-page:hover {
+    background-color: var(--menu-sidebar-selected-color);
+}

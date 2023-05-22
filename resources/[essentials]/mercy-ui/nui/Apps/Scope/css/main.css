@@ -1,0 +1,30 @@
+.scope-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.scope-normal {
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    height: 0.18vh;
+    width: 0.18vh;
+    background-color: #ffffffd7;
+    border-radius: 50%;
+    border: .15vh solid rgb(0, 0, 0);
+}
+
+.scope-hunting {
+    display: none;
+}
+
+.scope-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

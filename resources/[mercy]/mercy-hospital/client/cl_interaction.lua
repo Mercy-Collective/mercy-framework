@@ -1,0 +1,73 @@
+
+
+RegisterNetEvent('mercy-hospital/client/heal-player', function()
+    local ClosestPlayer = PlayerModule.GetClosestPlayer(nil, 2.0)
+    if not exports['mercy-inventory']:HasEnoughOfItem('ifak', 1) then 
+        TriggerEvent('mercy-ui/client/notify', 'hospital-interaction-error', "An error occured! (You have no ifaks!)", 'error')
+        return 
+    end
+    if ClosestPlayer['ClosestPlayerPed'] == -1 and ClosestPlayer['ClosestServer'] == -1 then
+        TriggerEvent('mercy-ui/client/notify', 'hospital-interaction-error', "An error occured! (No one near!)", 'error')
+        return
+    end
+    if not IsPedInAnyVehicle(ClosestPlayer['ClosestPlayerPed']) and not IsPedInAnyVehicle(PlayerPedId()) then
+        TriggerEvent('mercy-assets/client/heal-animation', true)
+        exports['mercy-ui']:ProgressBar('Healing..', 3000, false, false, false, true, function(DidComplete)
+            if DidComplete then
+                EventsModule.TriggerServer('mercy-hospital/server/heal-player', ClosestPlayer['ClosestServer'])
+                local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'ifak', 1, false, true)
+            end
+            TriggerEvent('mercy-assets/client/heal-animation', false)
+        end)
+    end
+end)
+
+RegisterNetEvent('mercy-hospital/client/revive-player', function()
+    local ClosestPlayer = PlayerModule.GetClosestPlayer(nil, 2.0)
+    if not exports['mercy-inventory']:HasEnoughOfItem('ifak', 1) then 
+        TriggerEvent('mercy-ui/client/notify', 'hospital-interaction-error', "An error occured! (You have no ifaks!)", 'error')
+        return 
+    end
+    if ClosestPlayer['ClosestPlayerPed'] == -1 and ClosestPlayer['ClosestServer'] == -1 then
+        TriggerEvent('mercy-ui/client/notify', 'hospital-interaction-error', "An error occured! (No one near!)", 'error')
+        return
+    end
+    if not IsPedInAnyVehicle(ClosestPlayer['ClosestPlayerPed']) and not IsPedInAnyVehicle(PlayerPedId()) then
+        TriggerEvent('mercy-assets/client/heal-animation', true)
+        exports['mercy-ui']:ProgressBar('Reviving..', 4500, false, false, false, true, function(DidComplete)
+            if DidComplete then
+                EventsModule.TriggerServer('mercy-hospital/server/revive-player', ClosestPlayer['ClosestServer'])
+                local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'ifak', 1, false, true)
+            end
+            TriggerEvent('mercy-assets/client/heal-animation', false)
+        end)
+    end
+end)
+
+RegisterNetEvent('mercy-hospital/client/take-blood', function()
+    local ClosestPlayer = PlayerModule.GetClosestPlayer(nil, 2.0)
+    if ClosestPlayer['ClosestPlayerPed'] == -1 and ClosestPlayer['ClosestServer'] == -1 then
+        TriggerEvent('mercy-ui/client/notify', 'hospital-interaction-error', "An error occured! (No one near!)", 'error')
+        return
+    end
+    if not IsPedInAnyVehicle(ClosestPlayer['ClosestPlayerPed']) and not IsPedInAnyVehicle(PlayerPedId()) then
+        TriggerEvent('mercy-assets/client/heal-animation', true)
+        exports['mercy-ui']:ProgressBar('Taking Blood..', 4500, false, false, false, true, function(DidComplete)
+            if DidComplete then
+                EventsModule.TriggerServer('mercy-hospital/server/take-blood', ClosestPlayer['ClosestServer'])
+            end
+            TriggerEvent('mercy-assets/client/heal-animation', false)
+        end)
+    end
+end)
+
+RegisterNetEvent('mercy-hospital/client/stomach-pump', function()
+    local ClosestPlayer = PlayerModule.GetClosestPlayer(nil, 2.0)
+    if ClosestPlayer['ClosestPlayerPed'] == -1 and ClosestPlayer['ClosestServer'] == -1 then
+        TriggerEvent('mercy-ui/client/notify', 'hospital-interaction-error', "An error occured! (No one near!)", 'error')
+        return
+    end
+    if not IsPedInAnyVehicle(ClosestPlayer['ClosestPlayerPed']) and not IsPedInAnyVehicle(PlayerPedId()) then
+        -- Pump pump pump pump
+    end
+end)

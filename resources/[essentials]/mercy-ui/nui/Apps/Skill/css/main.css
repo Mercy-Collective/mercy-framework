@@ -1,0 +1,43 @@
+.skill-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+    font-family: 'Lato', sans-serif;
+}
+
+.skill-canvas {
+    position: absolute;
+
+    top: 49.5%;
+    left: 50%;
+    
+    width: 11.5vw;
+    height: 30vh;
+    
+    transform: translate(-50%, -50%);
+}
+
+.main-task-container {
+    display: none;
+    position: absolute;
+
+    top: 59.5%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.skill-press {
+    position: absolute;
+
+    top: 49.5%;
+    left: 50%;
+
+    color: white;
+    font-size: 6.5vh;
+    font-weight: 550;
+    text-align: center;
+    text-shadow: -0.1vh -0.1vh 0 #000, 0.1vh -0.1vh 0 #000, -0.1vh 0.1vh 0 #000, 0.1vh 0.1vh 0 #000;
+
+    transform: translate(-50%, -50%);
+}

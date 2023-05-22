@@ -1,0 +1,1092 @@
+/* Imports */
+@import url('./charges.css');
+@import url('./profiles.css');
+@import url('./staff.css');
+@import url('./reports.css');
+@import url('./legislation.css');
+@import url('./business.css');
+@import url('./evidence.css');
+@import url('./properties.css');
+
+:root {
+    --primary: #1f3a57;
+    --secondary: #2e465e;
+    --dark: #232730;
+}
+
+.mdw-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+    -webkit-user-drag: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Main */
+
+.main-mdw-container {
+    position: absolute;
+    display: none;
+
+    top: 150%;
+    left: 50%;
+    
+    width: 98vw;
+    height: 96.5vh;
+
+    opacity: 1.0;
+    transition: opacity 250ms;
+    
+    border-radius: .2vh;
+    background-color: var(--primary);
+    transform: translate(-50%, -50%);
+}
+
+.mdw-top-things {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 16.8vh;
+}
+
+.mdw-bottom-things {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 79.5vh;
+
+    background-color: var(--secondary);
+    border-top: .2vh solid #ce3340;
+}
+
+.mdw-dashboard { display: block; }
+.mdw-profiles { display: none; }
+.mdw-reports { display: none; }
+.mdw-evidence { display: none; }
+.mdw-properties { display: none; }
+.mdw-staff { display: none; }
+.mdw-legislation { display: none; }
+.mdw-businesses { display: none; }
+
+/* Top Things */
+/* Logo */
+
+.mdw-logo-container {
+    position: absolute;
+
+    top: 4.4vh;
+    left: 5.4vw;
+
+    height: 10vh;
+    width: 13vw;
+}
+
+.mdw-logo {
+    position: absolute;
+    
+    top: -1vh;
+    left: -8vh;
+
+    height: 10vh;
+    width: auto;
+}
+
+.random-message {
+    position: absolute;
+
+    right: .5vw;
+    top: .5vh;
+
+    color: white;
+    text-align: right;
+    
+    font-weight: bold;
+    font-size: 1.3vh;
+}
+
+.mdw-user {
+    position: absolute;
+
+    right: .5vw;
+    top: 14.5vh;
+
+    color: white;
+    font-size: 1.3vh; 
+    font-weight: bold;
+}
+
+/* Bottom Things */
+/* Left Menu */
+
+.mdw-left-menu {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 10vw;
+    height: 100%;
+
+    background-color: var(--dark);
+}
+
+.left-menu-button {
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    height: 5.15vh;
+    width: 100%;
+
+    cursor: pointer;
+
+    color: white;
+    line-height: 5.15vh;
+    text-indent: 0.8vw;
+    font-size: 1.4vh;
+    font-weight: bold;
+}
+
+.left-menu-button:hover {
+    background-color: var(--secondary);
+}
+
+.menu-selected {
+    background-color: var(--secondary);
+}
+
+/* Data Blocks */
+
+.mdw-data-blocks-container {
+    position: absolute;
+
+    top: 0vh;
+    right: 0;
+
+    width: 90%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.mdw-data-block {
+    position: relative;
+
+    top: .5vh;
+    left: .5vw;
+
+    margin-right: .3vw;
+    
+    width: 28.9vw;
+    height: 98.4%;
+    
+    float: left;
+    background-color: var(--primary);
+}
+
+.block-three > .mdw-dashboard {
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary);
+}
+
+.block-three {
+    max-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: transparent;
+}
+
+.mdw-data-block:last-of-type {
+    margin-right: 0;
+}
+
+/* Scroll */
+
+.all-mdw-charges::-webkit-scrollbar-track, .all-mdw-charges-editor-charges::-webkit-scrollbar-track, #reports-notes-area::-webkit-scrollbar-track,
+#profile-notes-area::-webkit-scrollbar-track, #staff-notes-area::-webkit-scrollbar-track, #legislation-notes-area::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+.all-mdw-charges::-webkit-scrollbar,  .all-mdw-charges-editor-charges::-webkit-scrollbar, .block-three::-webkit-scrollbar, #reports-notes-area::-webkit-scrollbar,
+#profile-notes-area::-webkit-scrollbar, #staff-notes-area::-webkit-scrollbar, #legislation-notes-area::-webkit-scrollbar {
+    width: .1vh;
+}
+  
+.all-mdw-charges::-webkit-scrollbar-thumb, .all-mdw-charges-editor-charges::-webkit-scrollbar-thumb, #reports-notes-area::-webkit-scrollbar-thumb,
+#profile-notes-area::-webkit-scrollbar-thumb, #staff-notes-area::-webkit-scrollbar-thumb, #legislation-notes-area::-webkit-scrollbar-thumb
+{
+    background-color: transparent;
+}
+
+/* Cards */
+
+.mdw-cards-container::-webkit-scrollbar {
+    display: none;
+}
+
+.mdw-cards-container {
+    position: absolute;
+    bottom: 0.75vh;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    width: calc(100% - 1vw);
+    height: 70vh;
+    max-height: 70vh;
+
+    overflow-y: auto;
+}
+
+.mdw-card-item {
+    position: relative;
+
+    cursor: pointer;
+
+    background-color: var(--dark);
+
+    color: white;
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+
+    padding: 0.75vh;
+
+    margin-bottom: 0.5vh;
+}
+
+.mdw-card-item:last-of-type {
+    margin-bottom: none;
+}
+
+.mdw-card-title {
+    position: relative;
+
+    width: 60%;
+
+    margin-bottom: 0.5vh;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mdw-card-identifier {
+    position: relative;
+
+    width: 60%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mdw-card-category {
+    position: absolute;
+    top: 0.75vh;
+    right: 0.75vw;
+
+    text-align: right;
+
+    width: 36%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mdw-card-timestamp {
+    position: absolute;
+    bottom: 0.75vh;
+    right: 0.75vw;
+
+    text-align: right;
+
+    width: 36%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Warrent Card */
+
+.mdw-warrent-card {
+    position: relative;
+
+    background-color: var(--dark);
+
+    overflow: hidden;
+
+    color: white;
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+
+    padding: 0.75vh;
+
+    margin-bottom: 0.5vh;
+}
+
+.mdw-warrent-card-mugshot {
+    position: relative;
+    float: left;
+
+    width: 7vw;
+    height: 13.33vh;
+
+    border: .2vh solid var(--dark);
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../../images/mdw/mugshot.png");
+}
+
+.mdw-warrent-card-name {
+    position: relative;
+    top: 0.5vh;
+    left: 0.75vw;
+
+    font-size: 1.5vh;
+    font-weight: bold;
+}
+
+.mdw-warrent-card-report {
+    position: relative;
+    top: 0.5vh;
+    left: 0.75vw;
+
+    max-width: 70%;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+
+    line-break: anywhere;
+}
+
+.mdw-warrent-card-id {
+    position: absolute;
+    bottom: 1vh;
+    left: 8.4vw;
+}
+
+.mdw-warrent-card-expire {
+    position: absolute;
+    bottom: 1vh;
+    right: 0.5vw;
+}
+
+/* Announcement Card */
+
+.mdw-announcement-card {
+    position: relative;
+
+    background-color: var(--dark);
+
+    overflow: hidden;
+
+    color: white;
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+
+    padding: 0.75vh;
+
+    margin-bottom: 0.5vh;
+}
+
+.mdw-announcement-title {
+    font-size: 1.5vh;
+    font-weight: bold;
+
+    padding-bottom: 1vh;
+
+    width: max-content;
+
+    max-width: calc(100% - 1vw);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+
+    line-break: word;
+}
+
+.mdw-announcement-text {
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+    margin-bottom: 2vh;
+
+    padding: 1vh 0.5vw;
+
+    width: calc(100% - 1vw);
+    background-color: var(--secondary);
+}
+
+.mdw-announcement-created {
+    position: absolute;
+    bottom: 0.75vh;
+    right: 0.75vw;
+
+    text-align: right;
+
+    width: 36%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Block Header */
+
+.mdw-block-header {
+    position: relative;
+    top: 1vh;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    font-size: 1.5vh;
+    font-family: 'Roboto';
+    font-weight: bolder;
+
+    color: white;
+
+    width: calc(100% - 1vw);
+}
+
+.mdw-block-header-title {
+    position: relative;
+    float: left;
+}
+
+.mdw-block-header > .ui-styles-input {
+    position: relative;
+    top: 0.5vh;
+    float: right;
+    right: 2vh;
+}
+
+.mdw-block-header-icons {
+    position: absolute;
+    right: 0;
+
+    width: max-content;
+}
+.mdw-block-header-icons > i { margin-right: 0.4vh; cursor: pointer; }
+.mdw-block-header-icons > i:last-of-type { margin-right: 0; }
+
+/* Loader */
+
+.mdw-loader-wrapper {
+    display: none;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mdw-loader-container {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 20vw;
+    height: 20vh;
+
+    background-color: var(--dark);
+    transform: translate(-50%, -50%);
+}
+
+.mdw-loader {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 10vw;
+    height: 20vh;
+
+    transform: translate(-50%, -50%);
+}
+
+/* Profile Selector */
+
+.mdw-profile-selector-wrapper {
+    display: none;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mdw-profile-selector-container {
+    position: relative;
+    top: 50%;
+    left: 50%;
+
+    padding: 0.5vh;
+
+    background-color: var(--dark);
+
+    width: 39vw;
+    height: max-content;
+
+    transform: translate(-50%, -50%);
+}
+
+.mdw-profile-selector-profiles {
+    min-height: 25vh;
+    max-height: 70vh;
+    margin-bottom: 1.5vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    width: 68vh;
+}
+
+.mdw-profile-selector-profiles::-webkit-scrollbar {
+    display: none;
+}
+
+.mdw-profile-selector-close {
+    float: none;
+
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+    margin-bottom: 1vh;
+}
+
+.mdw-profile-selector-search {
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+    margin-top: 1vh;
+    
+    width: calc(100% - 1vw);
+}
+
+.mdw-profile-selector-search > input {
+    width: 96% !important;
+}
+
+.mdw-profile-selector-profiles-item {
+    position: relative;
+    margin-bottom: 2vh;
+}
+
+.mdw-profile-selector-profiles-item-mugshot {
+    position: relative;
+
+    width: 10.5vw;
+    height: 20vh;
+
+    border: .2vh solid var(--dark);
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../../images/mdw/mugshot.png");
+}
+
+.mdw-profile-selector-profiles-item-stateid {
+    position: absolute;
+    top: 1.5vh;
+    left: 11.5vw;
+}
+
+.mdw-profile-selector-profiles-item-name {
+    position: absolute;
+    top: 7vh;
+    left: 11.5vw;
+}
+
+.mdw-profile-selector-profiles-item-add {
+    position: absolute;
+    top: 12vh;
+    left: 11.2vw;
+}
+
+/* Charges Editor */
+.mdw-charges-editor-wrapper {
+    display: none;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mdw-charges-editor-container {
+    position: relative;
+    top: 50%;
+    left: 50%;
+
+    padding: 0.5vh;
+
+    background-color: var(--dark);
+
+    width: 84vw;
+    height: max-content;
+
+    transform: translate(-50%, -50%);
+}
+
+.mdw-charges-editor-buttons > .ui-styles-button {
+    float: left;
+    
+    margin: 0;
+    margin-right: 1vh;
+}
+
+.mdw-charges-editor-buttons {
+    position: absolute;
+    right: 0;
+    top: 1vh;
+
+    overflow: hidden;
+}
+
+.mdw-charges-editor-current {
+    padding-bottom: 1vh;
+    margin-bottom: 1vh;
+
+    overflow: hidden;
+
+    border-bottom: 0.15vh solid white;
+}
+
+.mdw-charges-editor-current > p {
+    font-size: 1.5vh;
+    font-family: 'Roboto';
+
+    color: white;
+    margin: 0;
+    margin-top: 1vh;
+    margin-left: 0.5vw;
+    margin-bottom: 1.75vh;
+}
+
+.mdw-charges-editor-current > .mdw-charges-editor-current-charges {
+    margin-left: 0.5vw;
+    height: max-content;
+    max-height: 20vh;
+    overflow-y: auto;
+}
+
+.mdw-charges-editor-current > .mdw-charges-editor-current-charges::-webkit-scrollbar {
+    display: none;
+}
+
+.mdw-charges-editor-charges-container {
+    position: relative;
+
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--secondary);
+}
+
+.all-mdw-charges-editor-charges {
+    position: relative;
+
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: max-content;
+    max-height: 45vh;
+
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+/* Charges Search */
+
+.mdw-charges-editor-charges-search-container {
+    position: relative;
+
+    top: 1vh;
+    left: .5vw;
+
+    width: 98.5%;
+    height: 11vh;
+
+    margin-bottom: 2vh;
+
+
+    background-color: var(--primary);
+}
+
+.mdw-charges-editor-charges-block-title {
+    position: relative;
+
+    top: 1vh;
+    left: 1vw;
+    
+    color: white;
+    font-size: 1.4vh;
+    text-shadow: -0.1vh -0.1vh 0 #000, 0.1vh -0.1vh 0 #000, -0.1vh 0.1vh 0 #000, 0.1vh 0.1vh 0 #000;
+}
+
+.mdw-charges-editor-charges-search-title {
+    position: absolute;
+
+    top: 6vh;
+    left: .8vw;
+
+    width: 97.5%;
+
+    color: white;
+    font-size: 1.1vh;
+    padding: .5vh;
+
+    background-color: #1e242d;
+    border: .25vh solid  #30363f;
+}
+
+.mdw-charges-editor-charges-search {
+    position: absolute;
+    top: 1vh;
+    right: 2.3vh;
+}
+
+.mdw-tag-search-wrapper {
+    display: none;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mdw-tag-search-container {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 60vw;
+    height: 45vh;
+
+    background-color: var(--dark);
+    transform: translate(-50%, -50%);
+}
+
+.mdw-tag-search-title {
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+    
+    color: white;
+
+    margin-top: 1.5vh;
+    margin-left: 0.75vw;
+}
+
+.mdw-tag-search-search {
+    margin-top: 2vh;
+    margin-left: 0.75vw;
+    margin-bottom: 1vh;
+
+    width: calc(100% - 1.5vw);
+}
+
+.mdw-tag-search-search > input {
+    width: 97.4% !important;
+}
+
+.mdw-tag-search-items {
+    margin-left: 0.75vw;
+    margin-bottom: .75vh;
+
+    width: calc(100% - 1.5vw);
+    height: 29vh;
+    
+    overflow-y: auto;
+}
+
+.mdw-tag-search-items::-webkit-scrollbar {
+    display: none;
+}
+
+.mdw-tag-search-buttons {
+    left: 0;
+    right: 0;
+
+    width: max-content;
+
+    margin: 0 auto;
+}
+
+/* Evidence Creator */
+
+.mdw-evidence-creator-wrapper {
+    display: none;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mdw-evidence-creator-container {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 20vw;
+    height: max-content;
+    padding-bottom: 1vh;
+
+    background-color: var(--dark);
+    transform: translate(-50%, -50%);
+}
+
+.mdw-evidence-creator-title {
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+    
+    color: white;
+
+    margin-top: 1.5vh;
+    margin-left: 0.75vw;
+}
+
+.mdw-evidence-creator-container > .ui-styles-input {
+    margin-top: 2vh;
+    margin-left: 0.75vw;
+    margin-bottom: 1vh;
+
+    width: calc(100% - 1.5vw);
+}
+
+.mdw-evidence-creator-container > .ui-styles-input > input {
+    width: 91.5% !important;
+}
+
+.mdw-evidence-creator-close {
+    float: left !important;
+    margin-left: 0.75vw;
+    margin-top: 0;
+}
+
+.mdw-evidence-creator-create {
+    float: right !important;
+    left: 0 !important;
+    margin-right: 0.75vw !important;
+}
+
+.mdw-evidence-creator-assign,
+.mdw-evidence-creator-create {
+    position: relative !important;
+    float: none;
+    left: calc(82% - 0.75vw);
+    margin: 0;
+}
+
+/* Evidence Pic Viewer */
+.mdw-photo-evidence-viewer {
+    display: none;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    max-width: 30vw;
+
+    z-index: 999;
+
+    pointer-events: none;
+}
+
+.mdw-photo-evidence-viewer > img {
+    max-width: 30vw;
+    min-width: 10vw;
+    width: auto;
+}
+
+/* Announcement Creator thingy */
+.mdw-announcement-creator-wrapper {
+    display: none;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mdw-announcement-creator-container {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 30vw;
+    height: max-content;
+    padding-bottom: 1vh;
+
+    background-color: var(--dark);
+    transform: translate(-50%, -50%);
+}
+
+.mdw-announcement-creator-title {
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+    
+    color: white;
+
+    margin-top: 1.5vh;
+    margin-left: 0.75vw;
+}
+
+.mdw-announcement-creator-container > .ui-styles-input {
+    margin-top: 2vh;
+    margin-left: 0.75vw;
+    margin-bottom: 1vh;
+
+    width: calc(100% - 1.5vw);
+}
+
+.mdw-announcement-creator-container > .ui-styles-input > input {
+    width: 94.8% !important;
+}
+
+.mdw-announcement-creator-close {
+    float: left !important;
+    margin-left: 0.75vw;
+    margin-top: 0;
+}
+
+.mdw-announcement-creator-create {
+    float: right !important;
+    left: 0 !important;
+    margin-right: 0.75vw !important;
+}
+
+#mdw-announcement-creator-notes-area {
+    color: white;
+    font-size: 1.3vh;
+
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+    
+    width: 92%;
+    height: 52.5vh;
+
+    margin-bottom: 1vh;
+    
+    background-color: var(--secondary);
+}
+
+#mdw-announcement-creator-notes-area:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+/* Secondary Container */
+
+.mdw-secondary-container {
+    display: none;
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 89.8%;
+    height: 100%;
+
+    background-color: var(--primary);
+}
+
+.mdw-secondary-container > .block-one {
+    position: absolute;
+
+    top: .35vh;
+    left: .3vw;
+
+    width: 49.5%;
+    height: 99%;
+}
+
+.mdw-secondary-container > .block-two {
+    position: absolute;
+
+    top: .35vh;
+    right: .3vw;
+
+    width: 49.5%;
+    height: 99%;
+}
+
+.mdw-secondary-container > .block-one > .ui-styles-input {
+    position: absolute;
+    top: 1vh;
+    right: 2vh;
+}
+
+.secondary-title {
+    position: absolute;
+
+    top: .5vh;
+    left: .25vw;
+
+    color: white;
+    font-size: 1.3vh;
+}
+
+.secondary-card-container {
+    position: absolute;
+
+    top: 8%;
+    left: .45%;
+
+    overflow-y: auto;
+
+    width: 98%;
+    height: 91%;
+}
+
+.secondary-card-container::-webkit-scrollbar {
+    display: none;
+}

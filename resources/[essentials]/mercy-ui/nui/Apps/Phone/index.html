@@ -1,0 +1,589 @@
+<body>
+    <div class="phone-attachment-viewer">
+        <img src="https://i.imgur.com/63QdtRQ.png">
+    </div>
+
+    <div id="phone-container" class="phone-container">
+        <div class="phone">
+
+            <div class="phone-topbar-container">
+                <div class="phone-topbar-time">12:00</div>
+                <div class="phone-topbar-vpn ui-cursor-pointer"><i class="fas fa-unlock"></i></div>
+                <div class="phone-topbar-network ui-cursor-pointer"><i class="fas fa-signal"></i></div>
+            </div>
+
+            <div class="phone-notifications-wrapper"></div>
+
+            <!-- Apps -->
+
+            <div class="phone-apps-homescreen">
+                <div id="app-details"    class="phone-app ui-cursor-pointer" data-tooltip="Details"             data-apptype="details"><div class="phone-app-icon"></div></div>
+                <div id="app-contacts"   class="phone-app ui-cursor-pointer" data-tooltip="Contacts"            data-apptype="contacts"><div class="phone-app-icon"></div></div>
+                <div id="app-call"       class="phone-app ui-cursor-pointer" data-tooltip="Phone"               data-apptype="calls"><div class="phone-app-icon"></div></div>
+                <div id="app-message"    class="phone-app ui-cursor-pointer" data-tooltip="Messages"            data-apptype="messages"><div class="phone-app-icon"></div></div>
+                <div id="app-pinger"     class="phone-app ui-cursor-pointer" data-tooltip="Ping!"               data-apptype="pinger"><div class="phone-app-icon"></div></div>
+                <div id="app-mail"       class="phone-app ui-cursor-pointer" data-tooltip="Mails"               data-apptype="mails"><div class="phone-app-icon"></div></div>
+                <div id="app-advert"     class="phone-app ui-cursor-pointer" data-tooltip="Yellow Pages"        data-apptype="advert"><div class="phone-app-icon"></div></div>
+                <div id="app-twitter"    class="phone-app ui-cursor-pointer" data-tooltip="Twitter"             data-apptype="twitter"><div class="phone-app-icon"></div></div>
+                <div id="app-garage"     class="phone-app ui-cursor-pointer" data-tooltip="Vehicles"            data-apptype="garage"><div class="phone-app-icon"></div></div>
+                <div id="app-debt"       class="phone-app ui-cursor-pointer" data-tooltip="Debt"                data-apptype="debt"><div class="phone-app-icon"></div></div>
+                <!-- Wenmo -->
+                <div id="app-documents"  class="phone-app ui-cursor-pointer" data-tooltip="Documents"           data-apptype="documents"><div class="phone-app-icon"></div></div> 
+                <div id="app-house"      class="phone-app ui-cursor-pointer" data-tooltip="Housing"             data-apptype="housing"><div class="phone-app-icon"><i class="fas fa-house-user"></i></div></div> 
+                <div id="app-crypto"     class="phone-app ui-cursor-pointer" data-tooltip="Crypto"              data-apptype="crypto"><div class="phone-app-icon"></div></div>
+                <div id="app-jobcenter"  class="phone-app ui-cursor-pointer" data-tooltip="Job Center"          data-apptype="jobcenter"><div class="phone-app-icon"></div></div>
+                <div id="app-employment" class="phone-app ui-cursor-pointer" data-tooltip="Employment"          data-apptype="employment"><div class="phone-app-icon"></div></div>
+                <!-- <div id="app-sports"     class="phone-app ui-cursor-pointer" data-tooltip="Diamond Sports Back" data-apptype="sports"><div class="phone-app-icon"><i class="fas fa-gem"></i></div></div> -->
+                <!-- Calculator -->
+                <!-- Department Of Justice -->
+                <div id="app-dark"       class="phone-app ui-cursor-pointer" data-tooltip="Milk Road"           data-apptype="dark"><div class="phone-app-icon"><i class="fas fa-user-secret"></i></div></div>
+                <!-- <div id="app-race"       class="phone-app ui-cursor-pointer" data-tooltip="Racing"              data-apptype="race"><div class="phone-app-icon"></div></div> -->
+                <div id="app-camera"     class="phone-app ui-cursor-pointer" data-tooltip="Cameras"             data-apptype="camera"><div class="phone-app-icon"><i class="fas fa-camera"></i></div></div>
+            </div>
+
+            <div class="phone-input-wrapper">
+                <div class="phone-input-container"></div>
+            </div>
+
+            <div class="phone-checkmark-wrapper">
+                <div class="phone-checkmark-container"></div>
+            </div>
+
+            <!-- <div class="phone-crossmark-wrapper">
+                <div class="phone-crossmark-container"></div>
+            </div> -->
+
+            <div class="phone-error-wrapper">
+                <div class="phone-error-container">
+                    <i class="fas fa-exclamation"></i>
+                    <p></p>
+                    <div class="ui-styles-button success">Okay</div>
+                </div>
+            </div>
+
+            <div class="phone-loader-wrapper">
+                <div class="phone-loader-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: transparent; display: block; shape-rendering: auto;" width="9.7vh" height="9.7vh" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><g transform="rotate(0 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(30 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(60 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.75s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(90 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(120 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(150 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(180 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(210 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(240 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.25s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(270 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(300 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(330 50 50)"><rect x="47.5" y="24" rx="1.92" ry="1.92" width="5" height="12" fill="#ffffff"><animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animate></rect></g></svg>
+                </div>
+            </div>
+
+            <div class="phone-text-wrapper">
+                <div class="phone-text-container"></div>
+            </div>
+
+            <div class="phone-housing-keys-wrapper">
+                <div class="phone-housing-keys-container">
+                    <div class="phone-housing-keys-inside">
+                        <p>Add:</p>
+                        <div class="ui-styles-input phone-housing-keys-add-input">
+                            <input type="text" class="ui-input-field">
+                            <div class="ui-input-icon"><i class="fas fa-id-card"></i></div>
+                            <div class="ui-input-label">State ID</div>
+                        </div>
+                        <div class="ui-styles-button warning phone-housing-keys-add-cancel">Cancel</div>
+                        <div class="ui-styles-button success phone-housing-keys-add-submit">Submit</div>
+                        <br/>
+                        <div class="phone-housing-keys-splitter"></div>
+                        <p>Remove:</p>
+                        <div class="ui-styles-input phone-housing-keys-remove-input">
+                            <input type="text" class="ui-input-field" readonly>
+                            <div class="ui-input-icon"><i class="fas fa-user"></i></div>
+                            <div class="ui-input-label">User</div>
+                        </div>
+                        <div class="ui-styles-button warning phone-housing-keys-remove-cancel">Cancel</div>
+                        <div class="ui-styles-button success phone-housing-keys-remove-submit">Submit</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phone-app-wrappers">
+                <div class="phone-app-details">
+                    <div class="phone-details-container">
+                        <div class="phone-details-details">
+                            <div id="phone-details-stateid" class="details-item" data-position="bottom" data-tooltip="State ID">
+                                <div class="details-item-icon"><i class="fas fa-id-card"></i></div>
+                                <div class="details-item-text">2000</div>
+                            </div>
+                            <div id="phone-details-banknumber" class="details-item" data-position="bottom" data-tooltip="Bank Number">
+                                <div class="details-item-icon"><i class="fas fa-university"></i></div>
+                                <div class="details-item-text">1234567890</div>
+                            </div>
+                            <div id="phone-details-phonenumber" class="details-item" data-position="bottom" data-tooltip="Phone Number">
+                                <div class="details-item-icon"><i class="fas fa-mobile"></i></div>
+                                <div class="details-item-text">(000) 000-0000</div>
+                            </div>
+                            <div id="phone-details-cashbalance" class="details-item" data-position="bottom" data-tooltip="Cash Balance">
+                                <div class="details-item-icon"><i class="fas fa-wallet"></i></div>
+                                <div class="details-item-text">$0.00</div>
+                            </div>
+                            <div id="phone-details-bankbalance" class="details-item" data-position="bottom" data-tooltip="Personal Bank Balance">
+                                <div class="details-item-icon"><i class="fas fa-piggy-bank"></i></div>
+                                <div class="details-item-text">$0.00</div>
+                            </div>
+                            <div id="phone-details-casinobalance" class="details-item" data-position="bottom" data-tooltip="Casino Balance">
+                                <div class="details-item-icon"><i class="fas fa-dice-three"></i></div>
+                                <div class="details-item-text">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="phone-details-licenses-title">Licenses</div>
+                        <div class="phone-details-licenses-items">
+                            <div class="phone-empty">
+                                <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                                <div class="phone-empty-text">Nothing Here!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phone-app-contacts">
+                    <div class="phone-contact-new ui-cursor-pointer" data-position="left" data-tooltip="Add Contact"><i class="fas fa-user-plus"></i></div>
+                    <div class="ui-styles-input phone-contact-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+                    <div class="phone-contacts-list">
+
+                        <div ContactId='${Contact.id}' ContactData='${JSON.stringify(Contact)}' class="phone-contacts-item">
+                            <div class="phone-contacts-item-hover">
+                                <div class="phone-contacts-item-hover-buttons">
+                                    <i data-tooltip="Delete" id="phone-contact-delete" class="fas fa-user-slash"></i>
+                                    <i data-tooltip="Call" id="phone-contact-call" class="fas fa-phone-alt"></i>
+                                    <i data-tooltip="Message" id="phone-contact-message" class="fas fa-comment"></i>
+                                    <i data-tooltip="Copy" id="phone-contact-copy" class="fas fa-clipboard"></i>
+                                </div>
+                            </div>
+                            <i class="fas fa-user-circle"></i>
+                            <div class="phone-contacts-item-name">Adolf Hitler</div>
+                            <div class="phone-contacts-item-phone">(415) 415-4150</div>
+                        </div>
+
+                        <!-- <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="phone-app-calls">
+                    <div class="phone-call-new ui-cursor-pointer" data-position="left" data-tooltip="Call"><i class="fas fa-phone"></i></div>
+                    <div class="ui-styles-input phone-calls-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+                    <div class="phone-calls-list">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-app-messages">
+                    <div class="phone-messages-home">
+                        <div class="phone-messages-new ui-cursor-pointer" data-position="left" data-tooltip="Send Message"><i class="fas fa-comment"></i></div>
+                        <div class="ui-styles-input phone-messages-search">
+                            <input type="text" class="ui-input-field">
+                            <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                            <div class="ui-input-label">Search</div>
+                        </div>
+    
+                        <div class="phone-messages-list">
+                            <div class="phone-empty">
+                                <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                                <div class="phone-empty-text">Nothing Here!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="phone-messages-chat">
+                        <div class="phone-messages-back ui-cursor-pointer" data-position="left" data-tooltip="Back"><i class="fas fa-chevron-left"></i></div>
+                        <div class="phone-messages-call ui-cursor-pointer" data-position="left" data-tooltip="Call"><i class="fas fa-phone-alt"></i></div>
+                        <div class="ui-styles-input phone-messages-chat-search">
+                            <input type="text" class="ui-input-field">
+                            <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                            <div class="ui-input-label">Search</div>
+                        </div>
+
+                        <div class="phone-messages-chat-contact">
+                            <div class="phone-messages-chat-contact-icon"><i class="fas fa-user-circle"></i></div>
+                            <div class="phone-messages-chat-contact-name">Firstname Lastname<br/>(415) 000-0000</div>
+                        </div>
+                        <div class="phone-messages-chat-messages"></div>
+                        <input type="text" placeholder="Send message..." class="phone-messages-chat-send">
+                    </div>
+                </div>
+
+                <div class="phone-app-pinger">
+                    <div class="phone-pinger-title">🍆 eRPinger 🍑</div>
+                    <div class="ui-styles-input phone-pinger-target">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-id-card-alt"></i></div>
+                        <div class="ui-input-label">Paypal ID</div>
+                    </div>
+                    <div class="phone-pinger-send-ping"><i class="fas fa-map-pin"></i><p>SEND PING</p></div>
+                    <div class="phone-pinger-send-anon-ping"><i class="fas fa-user-secret"></i><p>ANON PING</p></div>
+                </div>
+
+                <div class="phone-app-mails">
+                    <div class="ui-styles-input phone-mails-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+                    <div class="phone-mails-list">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phone-app-advert">
+                    <div class="phone-advert-new ui-cursor-pointer" data-position="left" data-tooltip="Post"><i class="fas fa-plus"></i></div>
+                    <div class="ui-styles-input phone-advert-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+                    <div class="phone-advert-posts">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-app-twitter">
+                    <div class="phone-twitter-new ui-cursor-pointer" data-position="left" data-tooltip="Tweet"><i class="fab fa-twitter"></i></div>
+                    <div class="ui-styles-input phone-twitter-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+                    <div class="phone-twitter-tweets">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-app-garage">
+                    <div class="ui-styles-input phone-garage-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+
+                    <div class="phone-garage-list">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-app-debt">
+                    <div class="ui-styles-input phone-debt-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+
+                    <div class="phone-debt-list">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-app-documents">
+                    <div class="phone-documents-list">
+                        <div class="phone-documents-new ui-cursor-pointer" data-position="left" data-tooltip="New Document"><i class="fas fa-edit"></i></div>
+                        <div class="ui-styles-input phone-documents-search">
+                            <input type="text" class="ui-input-field">
+                            <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                            <div class="ui-input-label">Search</div>
+                        </div>
+                        <div class="ui-styles-input phone-documents-type">
+                            <input type="text" class="ui-input-field" value="Notes" readonly>
+                            <div class="ui-input-label">Type</div>
+                        </div>
+
+                        <div class="phone-documents-items"></div>
+                    </div>
+
+                    <div class="phone-documents-document">
+                        <div class="phone-documents-document-back"><i class="far fa-chevron-left"></i></div>
+                        <div class="phone-documents-document-options"><i class="fas fa-ellipsis-v"></i></div>
+                        <div class="ui-styles-input phone-documents-document-title">
+                            <input type="text" class="ui-input-field">
+                            <div class="ui-input-icon"><i class="fas fa-tags"></i></div>
+                            <div class="ui-input-label">Title</div>
+                        </div>
+                        <div id="phone-documents-textarea"></div>
+                    </div>
+                </div>
+
+                <div class="phone-app-housing">
+                    <div class="phone-housing-topbar">
+                        <div class="phone-housing-option active" data-target='phone-housing-container-main'><i class="fas fa-house-user"></i></div>
+                        <div class="phone-housing-option" data-target='phone-housing-container-nearby'><i class="fas fa-building"></i></div>
+                    </div>
+
+                    <div class="phone-housing-container-main">
+                        <div class="phone-housing-main-current">
+                            <p>Current</p>
+                            <div class="phone-housing-current-items">
+                                <div class="phone-empty">
+                                    <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                                    <div class="phone-empty-text">Nothing Here!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="phone-housing-main-available">
+                            <p>Available</p>
+                            <div class="phone-housing-available-items">
+                                <div class="phone-housing-available-item">
+                                    <div class="phone-housing-available-item-hover">
+                                        <div class="phone-housing-available-item-hover-buttons">
+                                            <i data-tooltip="Purchase Property" class="fas fa-dollar-sign"></i>
+                                            <i data-tooltip="Set GPS" class="fas fa-map-marked"></i>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-home"></i>
+                                    <div class="phone-housing-available-item-price">$210,000.00</div>
+                                    <div class="phone-housing-available-item-street">Pill Box Swiss St</div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="phone-housing-container-nearby">
+                        <div class="phone-housing-nearby-search ui-styles-button success">Check Current Location</div>
+                        <div class="phone-housing-nearby-properties-container">
+                            <div class="phone-housing-nearby-owned">
+                                <p>Owned</p>
+                                <div class="phone-housing-owned-items"></div>
+                            </div>
+                            <div class="phone-housing-nearby-access">
+                                <p>Access</p>
+                                <div class="phone-housing-access-items"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="phone-housing-container-edit">
+                        <div id="housing-leave-edit" class="ui-styles-button success">Leave Edit Mode</div>
+                        <br>
+                        <div class="phone-housing-container-edit-line"></div>
+                        <!-- <div id="housing-place-garage" class="ui-styles-button success">Place Garage Here</div> -->
+                        <div id="housing-place-stash" class="ui-styles-button success">Place Stash Here</div>
+                        <div id="housing-place-backdoor" class="ui-styles-button success">Place Backdoor Here</div>
+                        <div id="housing-place-wardrobe" class="ui-styles-button success">Place Wardrobe Here</div>
+                        <div id="housing-open-furniture" class="ui-styles-button success">Open Furniture</div>
+                        <div id="housing-delete-furniture" class="ui-styles-button error">Delete Furniture</div>
+                    </div>
+                </div>
+
+                <div class="phone-app-crypto">
+                    <div class="ui-styles-input phone-crypto-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+
+                    <div class="phone-crypto-list">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-app-jobcenter">
+                    <div class="ui-styles-input phone-jobcenter-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+
+                    <div class="phone-jobcenter-jobs">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+
+                    <div class="phone-jobcenter-groups-container">
+                        <div class="phone-jobcenter-group-notice">
+                            <p>Join an idle group or browse groups currently busy</p>
+                            <div class="phone-jobcenter-creategroup ui-cursor-pointer ui-styles-button success">Create Group</div>
+                            <div class="phone-jobcenter-checkout ui-cursor-pointer ui-styles-button warning">Check Out</div>
+                        </div>
+                        <div id="phone-jobcenter-groups-idle" class="phone-jobcenter-groups" style="display: none;">
+                            <div class="phone-jobcenter-label">Idle</div>
+                            <div class="phone-jobcenter-groups-idle-items"></div>
+                        </div>
+
+                        <div id="phone-jobcenter-groups-busy" class="phone-jobcenter-groups" style="display: none;">
+                            <div class="phone-jobcenter-label">Busy</div>
+                            <div class="phone-jobcenter-groups-busy-items"></div>
+                        </div>
+                    </div>
+
+                    <div class="phone-jobcenter-groupmembers">
+                        <div class="phone-jobcenter-members-container">
+                            <div class="phone-jobcenter-groupmembers-loader">
+                                <img src="./images/loader-ripple.svg">
+                                <p>Waiting for Job...</p>
+                            </div>
+                            <div class="phone-jobcenter-groupmembers-leader">
+                                <p>Leader</p>
+                            </div>
+                            <div class="phone-jobcenter-groupmembers-members">
+                                <p>Members</p>
+                            </div>
+                        </div>
+                        <div class="phone-jobcenter-groupmembers-buttons">
+                            <div id="phone-jobcenter-ready-group" class="ui-styles-button success">Ready for Jobs</div><br />
+                            <div id="phone-jobcenter-disband-group" class="ui-styles-button success">Disband Group</div>
+                        </div>
+                    </div>
+                    
+                    <div class="phone-jobcenter-tasks-wrapper">
+                        <div class="phone-jobcenter-tasks-header">
+                            <div class="phone-jobcenter-tasks-label">Dark Market Transports</div>
+                            <div class="phone-jobcenter-tasks-cancel"><i class="fas fa-times-circle"></i></div>
+                            <div class="phone-jobcenter-tasks-time">00:0:0</div>
+                        </div>
+                        <ul class="phone-jobcenter-tasklist"></ul>
+                    </div>
+                </div>
+
+                <div class="phone-app-employment">
+                    <div class="phone-employment-businesses-wrapper">
+                        <div class="ui-styles-input phone-employment-search">
+                            <input type="text" class="ui-input-field">
+                            <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                            <div class="ui-input-label">Search</div>
+                        </div>
+                        <div class="phone-employment-businesses">
+                            <div class="phone-empty">
+                                <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                                <div class="phone-empty-text">Nothing Here!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phone-employment-employees-wrapper">
+                        <div class="phone-employment-employees-back"><i class="far fa-chevron-left"></i></div>
+                        <div class="phone-employment-employees-options"><i class="fas fa-ellipsis-v"></i></div>
+                        <div class="ui-styles-input phone-employment-search">
+                            <input type="text" class="ui-input-field">
+                            <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                            <div class="ui-input-label">Search</div>
+                        </div>
+
+                        <div class="phone-employment-employees">
+                            <div class="phone-empty">
+                                <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                                <div class="phone-empty-text">Nothing Here!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diamond Sports Back -->
+                
+                <div class="phone-app-dark">
+                    <div class="phone-dark-list">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="phone-app-race">
+                    <div class="phone-racing-topbar">
+                        <div data-target="races" class="phone-racing-topbar-option active"><i class="fas fa-flag-checkered"></i></div>
+                        <div data-target="tracks" class="phone-racing-topbar-option"><i class="fas fa-map-marker"></i></div>
+                        <div data-target="scoreboard" class="phone-racing-topbar-option"><i class="fas fa-trophy"></i></div>
+                    </div>
+
+                    <div class="phone-racing-races">
+                        <div class="phone-races-items">
+                            <p>Pending</p>
+                            <div class="phone-races-items-race">
+                                <div class="phone-races-race-name">Een race - $500</div>
+                                <div class="phone-races-race-laps">Laps (4) / B</div>
+                                <div class="phone-races-race-length">4.13mi</div>
+                                <div class="phone-races-race-hover">
+                                    <div class="phone-races-race-hover-icons">
+                                        <i data-tooltip="Set GPS" class="fas fa-map-marker"></i>
+                                        <i data-tooltip="Preview" class="fas fa-eye"></i>
+                                        <i data-tooltip="Chat" class="fas fa-comment"></i>
+                                        <i data-tooltip="Join Race" class="fas fa-user-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="phone-races-race-drivers">
+                                    <div class="phone-races-race-drivers-item">
+                                        <div class="phone-races-race-drivers-item-icon"><i class="fas fa-user"></i></div>
+                                        <div class="phone-races-race-drivers-item-name">Eddie Dexter</div>
+                                    </div>
+                                    <div class="phone-races-race-drivers-item">
+                                        <div class="phone-races-race-drivers-item-icon"><i class="fas fa-user"></i></div>
+                                        <div class="phone-races-race-drivers-item-name">Yeet</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Completed</p>
+                            <div class="phone-races-items-race">
+                                <div class="phone-races-race-name">Noon - $500 B/B+ Jet</div>
+                                <div class="phone-races-race-laps">Laps (4) / B</div>
+                                <div class="phone-races-race-length">4.13mi</div>
+                                <div class="phone-races-race-hover">
+                                    <div class="phone-races-race-hover-icons">
+                                        <i data-tooltip="Show Lap" class="fas fa-eye"></i>
+                                        <i data-tooltip="Set GPS" class="fas fa-map-marker"></i>
+                                        <i data-tooltip="Join Race" class="fas fa-user-plus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phone-racing-tracks"></div>
+                    <div class="phone-racing-scoreboard"></div>
+                </div> -->
+
+                <div class="phone-app-camera">
+                    <div class="phone-camera-new ui-cursor-pointer" data-position="left" data-tooltip="Add Camera"><i class="fas fa-plus"></i></div>
+                    <div class="ui-styles-input phone-cameras-search">
+                        <input type="text" class="ui-input-field">
+                        <div class="ui-input-icon"><i class="fas fa-search"></i></div>
+                        <div class="ui-input-label">Search</div>
+                    </div>
+                    <div class="phone-cameras-list">
+                        <div class="phone-empty">
+                            <div class="phone-empty-icon"><i class="fas fa-frown"></i></div>
+                            <div class="phone-empty-text">Nothing Here!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End Apps -->
+
+            <div class="phone-bottombar-container">
+                <div class="ui-cursor-pointer phone-bottombar-notif" data-tooltip="Toggle Notifications"><i class="fas fa-bell"></i></div>
+                <div class="ui-cursor-pointer phone-bottombar-home" data-tooltip="Home"></div>
+                <div class="ui-cursor-pointer phone-bottombar-photo" data-tooltip="Selfie!"><i class="fas fa-camera"></i></div>
+            </div>
+
+        </div>
+        <img src="./images/phone-outline.png" class="phone-outline">
+    </div>
+
+</body>

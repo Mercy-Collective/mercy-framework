@@ -1,0 +1,82 @@
+@import url('./color.css');
+@import url('./figure.css');
+
+.minigames-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.memory-minigame-container {
+    display: none;
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+  
+    width: 31.7vw;
+    height: 55vh;
+    
+    background-color: #2D3139;
+    transform: translate(-50%, -50%);
+}
+
+.memory-blocks {
+    position: absolute;
+
+    top: .9vh;
+    left: .67vw;
+
+    height: 97%;
+    width: 98%;
+}
+
+.memory-block {
+    position: relative;
+
+    cursor: pointer;
+    
+    width: 4vw;
+    height: 8vh;
+    float: left;
+    
+    margin-right: .4vw;
+    margin-bottom: .8vh;
+    background-color: #394D61;
+}
+
+.memory-loading-container {
+    position: absolute;
+
+    bottom: .8vh;
+    left: .7vw;
+
+    width: 95.5%;
+    height: .7vh;
+    border-radius: .5vh;
+
+    background-color: rgba(0, 0, 0, 0.342);
+}
+
+.memory-loading {
+    width: 100%;
+    height: 100%;
+
+    border-radius: .3vh;
+    background-color: #f2a365;
+}
+
+.memory-correct {
+    cursor: not-allowed;
+    background-color: #55d14a;
+}
+
+.memory-incorrect {
+    cursor: not-allowed;
+    background-color: #ec5858;
+}
+
+.memory-show {
+    cursor: not-allowed;
+    background-color: #dadada;
+}

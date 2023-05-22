@@ -1,0 +1,164 @@
+.phone-wrapper {
+    font-family: Arial, Helvetica, sans-serif;
+    user-select: none;
+    overflow: hidden;
+    
+    pointer-events: unset !important;
+}
+
+.phone-container {
+    position: absolute;
+    right: 0.5vw;
+    bottom: -65vh;
+
+    z-index: 2 !important;
+    
+    width: 15vw;
+    height: 62vh;
+}
+
+.phone-outline {
+    position: absolute; 
+
+    width: 15vw;
+    height: 62vh;
+
+    z-index: 150;
+    pointer-events: none;
+}
+
+.phone {
+    position: absolute;
+    top: 0.45vh;
+    left: 0.2vw;
+
+    width: 14.6vw;
+    height: 61vh; 
+
+    border-radius: 0.8vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(https://i.imgur.com/n63X1mU.jpg);
+}
+
+.phone-app-wrappers {
+    z-index: 146;
+}
+
+.phone-wrapper ::-webkit-scrollbar {
+    display: none;
+}
+
+/* Notifications */
+
+.phone-notifications-wrapper {
+    position: absolute;
+    top: 3vh;
+    left: 0;
+    
+    width: 100%;
+    height: fit-content;
+
+    overflow-y: hidden;
+
+    z-index: 150;
+}
+
+.phone-notification {
+    position: relative;
+    margin: 0 auto;
+
+    width: calc(100% - 1.8vw);
+    height: 4.5vh;
+
+    background-color: rgba(53, 49, 52, 0.95);    
+
+    border-radius: 0.8vh;
+
+    padding: 0.6vh;
+    margin-bottom: 0.8vh;
+
+    overflow: hidden;
+
+    color: #e0e0e0;
+    font-size: 1vh;
+
+    cursor: pointer;
+}
+
+.phone-notification-icon {
+    width: 1.125vw;
+    height: 2vh;
+
+    text-align: center;
+    line-height: 2vh;
+
+    border-radius: 0.4vh;
+}
+
+.phone-notification-title {
+    position: absolute;
+    top: 1vh;
+    left: 3vh;
+
+    width: 8vw !important;
+
+    font-weight: bolder;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.phone-notification-time {
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+}
+
+.phone-notification-message {
+    position: relative;
+    margin-top: .75vh;
+
+    /* display: -webkit-box; */
+    /* -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* word-wrap: break-word;
+    overflow-wrap: break-word; */
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    max-height: 1.3vh;
+}
+
+.phone-notification-extra {
+    position: relative;
+    float: right;
+
+    height: 1.5vh;
+    bottom: .5vh;
+
+    font-size: 1.25vh;
+}
+
+.phone-notification-extra i {
+    margin-right: .5vh;
+}
+
+.phone-notification-extra i:last-of-type {
+    margin-right: 0;
+}
+
+.phone-notification-fadeIn {
+    animation: fadeInDown;
+    animation-duration: .2s;
+}
+
+.phone-notification-fadeOut {
+    animation: fadeOutUp;
+    animation-duration: .5s;
+}

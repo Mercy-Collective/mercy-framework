@@ -1,0 +1,571 @@
+/* Input Wrapper */
+
+.phone-input-wrapper {
+    display: none;
+
+    position: absolute;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-input-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    width: 80%;
+    height: auto;
+    max-height: 65%;
+
+    overflow-y: auto;
+    
+    padding: 2vh .5vw;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #30475e;
+}
+
+.phone-input-container > .ui-styles-input {
+    position: relative;
+    left: 50%;
+
+    width: 90%;
+
+    margin-bottom: 1.5vh;
+
+    transform: translateX(-50%);
+}
+
+.phone-input-container > .ui-styles-input:last-of-type {
+    margin-bottom: 0;
+}
+
+.phone-input-container  > .phone-input-buttons {
+    position: relative;
+    left: 50%;
+
+    width: max-content;
+    height: 4vh;
+
+    transform: translateX(-50%);
+}
+
+.phone-input-checkboxes {
+    position: relative;
+
+    margin: 0 auto;
+    margin-bottom: 1vh;
+
+    max-height: 29vh;
+    overflow-y: auto;
+}
+
+.phone-input-checkboxes > .ui-styles-checkbox {
+    left: 1vh;
+}
+
+/* Checkmark */
+.phone-checkmark-wrapper {
+    display: none;
+    
+    position: absolute;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-checkmark-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 80%;
+    height: auto;
+
+    padding: 2vh .5vw;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #30475e;
+}
+
+
+/* Crossmark */
+.phone-crossmark-wrapper {
+    display: none;
+    
+    position: absolute;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-crossmark-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 80%;
+    height: auto;
+
+    padding: 2vh .5vw;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #30475e;
+}
+
+/* Crossmark */
+.phone-loader-wrapper {
+    display: none;
+    
+    position: absolute;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-loader-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 80%;
+    height: auto;
+
+    padding: 2vh .5vw;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #30475e;
+}
+
+/* Textarea */
+
+.phone-textarea {
+    position: relative;
+
+    min-width: 90%;
+    width: max-content;
+    height: max-content;
+
+    margin: 0 auto;
+    margin-bottom: 2vh;
+}
+
+.phone-textarea > .ui-input-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    line-height: 3.5vh;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 1.5vh;
+    transition: color ease 250ms;
+}
+
+.phone-textarea > .ui-input-chars {
+    position: absolute;
+    bottom: -1vh;
+    left: 0;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 1vh;
+    font-weight: bold;
+    font-family: 'Roboto';
+}
+
+.phone-textarea > .ui-input-label {
+    position: absolute;
+    top: -0.5vh;
+    left: 0;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 1vh;
+    font-family: 'Roboto';
+}
+
+.phone-textarea > .ui-input-field {
+    padding-top: 1vh;
+    padding-left: 2vh;
+
+    resize: none;
+    
+    width: 90%;
+
+    color: white;
+
+    font-size: 1.2vh;
+    font-family: 'Roboto';
+
+    margin-bottom: 0.5vh;
+    
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    border-bottom: .15vh solid rgba(255, 255, 255, 0.3);
+
+    position: relative;
+    
+    height: 1vh;
+
+    transition: box-shadow ease 250ms;
+}
+
+.phone-textarea > .ui-input-field.ignorePaddding {
+    padding-left: 0 !important;
+    width: 100% !important;
+}
+
+.phone-textarea > .ui-input-field:focus {
+    border-color: white;
+}
+
+.phone-textarea >  .ui-input-field:focus + .ui-input-icon {
+    color: white !important;
+}
+
+/* Empty Placeholder */
+.phone-empty {
+    padding-top: 5vh;
+
+    font-weight: 400;
+    font-family: 'Roboto';
+    font-size: 2vh;
+
+    color: white;
+    text-align: center;
+    
+    margin: 0 auto;
+}
+
+.phone-empty-icon { font-size: 5vh; }
+
+/* Phone Error Wrapper */
+.phone-error-wrapper {
+    display: none;
+
+    position: absolute;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-error-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    width: 80%;
+    height: auto;
+    max-height: 65%;
+    
+    padding: 2vh .5vw;
+
+    color: white;
+
+    font-family: 'Arial';
+    font-size: 1.5vh;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #30475e;
+}
+
+.phone-error-container > i {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+
+    width: 100%;
+    
+    font-size: 3vh;
+    
+    text-align: center;
+    color: #f2b565;
+}
+
+.phone-error-container > p {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+    margin-bottom: 1vh;
+
+    width: 90%;
+
+    text-align: center;
+}
+
+.phone-error-container > .ui-styles-button {
+    position: relative;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    margin: 0 auto;
+
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+/* Text Wrapper */
+.phone-text-wrapper {
+    display: none;
+
+    position: absolute;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-text-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    width: 80%;
+    height: auto;
+    max-height: 65%;
+    
+    padding: 2vh .5vw;
+
+    color: white;
+
+    font-family: 'Arial';
+    font-size: 1.5vh;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #30475e;
+}
+
+.phone-text-container > p {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    width: 90%;
+
+    margin-bottom: 1vh;
+}
+
+.phone-text-container  > .phone-text-buttons {
+    position: relative;
+    left: 50%;
+
+    width: max-content;
+    height: 4vh;
+
+    transform: translateX(-50%);
+}
+
+/* Housing Keys Wrapper */
+.phone-housing-keys-wrapper {
+    display: none;
+
+    position: absolute;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.phone-housing-keys-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    width: 80%;
+    height: auto;
+    max-height: 65%;
+    
+    padding: 2vh .5vw;
+
+    color: white;
+
+    font-family: 'Roboto';
+    font-size: 1.5vh;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #30475e;
+}
+
+.phone-housing-keys-container p {
+    position: relative;
+    left: 0;
+    right: 0;
+    
+    margin: 0 auto;
+    margin-bottom: 1vh;
+}
+
+.phone-housing-keys-container .ui-styles-input {
+    width: 93%;
+}
+
+.phone-housing-keys-splitter {
+    margin-top: 4vh;
+    margin-bottom: 2vh;
+
+    height: 0.1vh;
+    width: 100%;
+
+    background-color: white;
+}
+
+.phone-housing-keys-add-cancel,
+.phone-housing-keys-remove-cancel {
+    float: left;
+}
+
+.phone-housing-keys-add-submit,
+.phone-housing-keys-remove-submit {
+    float: right;
+}
+
+.phone-housing-keys-inside {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    width: 90%;
+
+    margin: 0 auto;
+}
+
+/* Attachments */
+
+.phone-attachments-hidden {
+    display: none;
+}
+
+.phone-attachments-view {
+    width: 10vw;
+
+    position: relative;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    border-radius: .5vh;
+    border: 0.15vh solid white;
+}
+
+.phone-attachments-view > i {
+    position: relative;
+    width: 100%;
+
+    font-size: 4vh;
+
+    color: black;
+    text-align: center;
+}
+
+.phone-attachments-hide,
+.phone-attachments-counter {
+    position: relative;
+    margin-bottom: .5vh;
+
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+
+    color: white;
+}
+
+.phone-attachments-hide {
+    text-decoration: underline;
+}
+
+.phone-attachments-view-title {
+    width: 100%;
+    text-align: center;
+
+    color: white;
+
+    font-family: 'Roboto';
+    font-size: 1.2vh;
+    font-weight: bold;
+
+    margin-bottom: .5vh;
+}
+
+.phone-attachments-view-description {
+    width: 100%;
+    text-align: center;
+
+    color: white;
+
+    font-family: 'Roboto';
+    font-size: 1vh;
+}
+
+.phone-attachments-item {
+    max-width: 10vw;
+    width: fit-content;
+    position: relative;
+    left: 0;
+    right: 0;
+    
+    margin: 0 auto;
+}
+
+.phone-attachments-item > img {
+    max-width: 10vw;
+    max-height: 20vh;
+    width: auto;
+}
+
+.phone-attachment-viewer {
+    display: none;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    max-width: 30vw;
+
+    z-index: 999;
+
+    pointer-events: none;
+}
+
+.phone-attachment-viewer > img {
+    max-width: 30vw;
+    min-width: 10vw;
+    width: auto;
+}

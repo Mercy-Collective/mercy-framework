@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mercy- Inventory</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+    <body>
+        <div class="wrapper">
+            <div class="logs"></div>
+            <div class="inventory-item-move"></div>
+            <div class="block-info">
+                <div class="block-name-inv">INVENTORY</div>
+                <div class="block-inv-option-info"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="block-inv-option-close"><i class="fa-solid fa-circle-xmark"></i></div>
+            </div>
+            <div class="inventory-item-info"><div class="info-name"></div><div class="info-desc"></div><div class="info-stroke"></div><div class="info-sub"><strong>Weight</strong>: 11.00 | <strong>Amount</strong>: 1 | <strong>Quality</strong>: 99</div></div>
+
+            <div class="mercy-inventory-split">
+                <div class="mercy-inventory-split-left">1</div>
+                <div class="mercy-inventory-split-right">2</div>
+            </div>
+
+            <div class="mercy-inventory-player">
+                <div class="mercy-inventory-player-title">
+                    <div class="mercy-inventory-player-title-buttons">
+                        <input class="inventory-option-amount" tabindex="-1" type="number" max="9999" min="0" placeholder="0" oninput="validity.valid||(value='');"/>
+                        <div class="inventory-option-steal"> <i class="fa-solid fa-people-robbery"></i> </div>
+                    </div>
+                    <div class="my-inventory-weight-container"><div class="my-inventory-weight"><div class="inventory-weight-fill"></div></div></div>
+                    <span id="mercy-inventory-player-label">Kane Stoned<span id="mercy-inventory-player-money">$1000</span></span>
+                </div>
+                <div class="my-inventory">
+                    <div class="my-inventory-blocks" data-type="my">
+                        <!-- Generated -->
+                    </div>
+                </div>
+            </div>
+            <div class="mercy-other-inventory">
+                <div class="mercy-other-inventory-title">
+                    <div class="other-inventory-name">Grond</div>
+                    <div class="other-inventory-weight-container"><div class="other-inventory-weight"><div class="inventory-weight-fill"></div></div></div>
+                </div>
+                <div class="other-inventory">
+                    <div class="other-inventory-blocks" data-type="other">
+                        <!-- Generated -->
+                    </div>
+                </div>
+            </div>
+            <div class="inventory-info-container">
+                <h3>About</h3>
+                <!-- <p>To move a full stack, make sure the "AMOUNT" spot is empty.</p> -->
+                <h3>Keybinds (Defaults)</h3>
+                <ul>
+                    <li><tag>Ctrl + C</tag> Copies the item information you hover over.</li>
+                    <li><tag>Shift + Right Click</tag> Moves half of the stack to opposite inventory.</li>
+                    <li><tag>Ctrl + Right Click</tag>  Moves one of the stack to opposite inventory.</li>
+                    <li><tag>Left Click</tag> Drag Item</li>
+                    <li><tag>Right Click</tag> Quick Move</li>
+                    <li><tag>Middle Click</tag> Use Item</li>
+                    <li><tag>Scroll Wheel</tag> While focussing on the "AMOUNT" field will increase / decrease value</span></li>
+                    <li><tag>Numbers 0 - 9</tag> Will input the typed number.</li>
+                </ul>
+                <h3>Stores</h3>
+                <p>Put in the amount you want to buy in the AMOUNT field and then drag the shop item into your inventory.</p>
+                <h3>Crafting</h3>
+                <p>
+                    Make sure you have enough items to craft what you want.
+                </p>
+                <h3>Item Durability</h3>
+                <p>Almost all items will decay or get damage over time (including weapons). The background of each item will slowly
+                    decrease in height as it
+                    decays / takes damage more and more, then eventually fade to a reddish color. Once an item is fully destroyed, it
+                    will have a solid
+                    red bar.</p>
+            </div>
+            <!-- <img src="./img/loader.svg"> Als ik dit ooit ga gebruiken -->
+        </div>
+        <div class="item-box-container">
+            <!-- Auto Generated -->
+            </div>
+        <div class="item-needed-container">
+            <!-- Auto Generated -->
+        </div>
+        <div class="item-hotbar-container">
+            <!-- Auto Generated -->
+        </div>
+    </body>
+    <script src="https://kit.fontawesome.com/8271b7d679.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
+    <script type="text/javascript" src="./js/utils.js"></script>
+</html>

@@ -1,0 +1,228 @@
+.phone-app-employment {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+/* Businesses */
+
+.phone-employment-businesses-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0%;
+
+    width: 100%;
+    height: 100%;
+}
+
+.phone-employment-search {
+    position: relative;
+    top: 5vh;
+
+    width: 88%;
+
+    margin: 0 auto;
+}
+
+.phone-employment-businesses {
+    position: relative;
+    top: 6vh;
+    
+    margin: 0 auto;
+
+    width: calc(100% - 2vw);
+    height: 42vh;
+
+    overflow-y: auto;
+}
+
+.phone-employment-business {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    font-family: 'Roboto';
+    font-size: 1.25vh;
+
+    color: #e5e5e5;
+
+    padding: 0.6vh;
+    margin-bottom: 1vh;
+    border-bottom: 0.15vh solid white;
+
+    background-color: #31475e;
+}
+
+.phone-employment-businesses-icon {
+    position: relative;
+    left: 0.25vw;
+
+    font-size: 4vh;
+}
+
+.phone-employment-businesses-name {
+    position: absolute;
+    top: 1vh;
+    left: 3.5vw;
+
+    width: 8vw !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.phone-employment-businesses-rang {
+    position: absolute;
+    top: 3.3vh;
+    left: 3.5vw;
+}
+
+/* Employees */
+
+.phone-employment-employees-wrapper {
+    display: none;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+.phone-employment-employees-wrapper > .phone-employment-search {
+    width: 75%;
+}
+
+.phone-employment-employees-back {
+    position: absolute;
+    top: 5vh;
+    left: 1vh;
+
+    line-height: 5vh;
+
+    color: white;
+
+    font-size: 1.75vh;
+
+    z-index: 50;
+}
+
+.phone-employment-employees-options {
+    position: absolute;
+    top: 5vh;
+    right: 1vh;
+
+    line-height: 5vh;
+    width: 1.125vw;
+
+    text-align: center;
+    color: white;
+
+    font-size: 1.75vh;
+
+    z-index: 50;
+}
+
+.phone-employment-employees {
+    position: relative;
+    top: 6vh;
+    
+    margin: 0 auto;
+
+    width: calc(100% - 2vw);
+    height: 42vh;
+
+    overflow-y: auto;
+}
+
+.phone-employment-employee {
+    position: relative;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    font-family: 'Roboto';
+    font-size: 1.2vh;
+
+    color: #e5e5e5;
+
+    padding: 0.6vh;
+    margin-bottom: 1vh;
+    border-bottom: 0.15vh solid white;
+
+    background-color: #31475e;
+}
+
+.phone-employment-employee-icon {
+    position: relative;
+    left: 0.25vw;
+
+    font-size: 3vh;
+}
+
+.phone-employment-employee-name {
+    position: absolute;
+    top: .7vh;
+    left: 2.7vw;
+
+    width: 8vw !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.phone-employment-employee-rang {
+    position: absolute;
+    bottom: .7vh;
+    left: 2.7vw;
+}
+
+.phone-employment-employee-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 9;
+
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.phone-employment-employee:hover { border-color: rgba(255, 255, 255, 0.5) }
+.phone-employment-employee:hover .phone-employment-employee-hover {
+    display: block;
+}
+
+.phone-employment-employee-hover-icons {
+    position: relative;
+
+    margin: 0 auto;
+
+    line-height: 4.95vh;
+
+    font-size: 1.7vh;
+    
+    width: max-content;
+    height: 100%;
+}
+
+.phone-employment-employee-hover-icons > i {
+    width: 1.6875vw;
+}

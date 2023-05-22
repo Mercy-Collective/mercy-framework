@@ -1,0 +1,579 @@
+.financials-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-bank-container {
+    display: none;
+    position: absolute;
+    
+    top: 50%;
+    left: 50%;
+    
+    height: 84vh;
+    width: 89.2vw;
+    
+    border-radius: .3vh;
+    background-color: #222831;
+
+    transform: translate(-50%, -50%);
+}
+
+.bank-loader, .banking-loader {
+    display: none;
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    
+    height: 15vh;
+    width: auto;
+
+    z-index: 999;
+    transform: translate(-50%, -50%);
+}
+
+.bank-accounts-container {
+    position: absolute;
+
+    top: 1vh;
+    left: .7vw;
+
+    width: 20vw;
+    height: 80vh;
+}
+
+.bank-transactions-container {
+    position: absolute;
+
+    top: 1vh;
+    left: 22vw;
+
+    width: 66vw;
+    height: 80vh; 
+}
+
+.bank-transactions {
+    position: absolute;
+
+    top: 3vh;
+    left: .5vw;
+    
+    width: 65vw;
+    height: 79vh; 
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.bank-accounts-title, .bank-transactions-title {
+    position: absolute;
+
+    top: .2vh;
+    left: .4vw;
+
+    color: white;
+    font-size: 1.8vh;
+    font-weight: 540;
+}
+
+.bank-accounts {
+    position: absolute;
+
+    top: 3vh;
+    
+    width: 100%;
+    height: 77vh;
+    
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.bank-account-card {
+    position: relative;
+
+    margin: 0 auto;
+    margin-bottom: 1vh;
+
+    cursor: pointer;
+
+    height: 12vh;
+    width: 95%;
+
+    background-color: #1e3a56;
+    border: .2vh solid #6288ae;
+    border-radius: .3vh;
+}
+
+.bank-account-card-disabled {
+    border-color: azure;
+    background-color: rgb(135, 135, 135) !important; 
+    /* cursor: not-allowed !important; */
+}
+
+.bank-account-card-title {
+    position: absolute;
+
+    top: .4vh;
+    left: .3vw;
+
+    color: white;
+    font-size: 1.3vh;
+    font-weight: 540;
+}
+
+.bank-account-card-name {
+    position: absolute;
+
+    top: 2.2vh;
+    left: .3vw;
+
+    color: white;
+    font-size: 1.3vh;
+    font-weight: 540;
+}
+
+.bank-account-card-owner {
+    position: absolute;
+
+    top: 3.9vh;
+    left: .3vw;
+
+    color: white;
+    font-size: 1.3vh;
+    font-weight: 540;
+}
+
+.bank-account-card-balance {
+    position: absolute;
+
+    top: 3.5vh;
+    right: .3vw;
+
+    color: white;
+    font-size: 1.7vh;
+    font-weight: 540; 
+}
+
+.bank-account-card-subtext {
+    position: absolute;
+
+    top: 5.5vh;
+    right: .3vw;
+
+    color: white;
+    font-size: 1.3vh;
+    font-weight: 540; 
+}
+
+.bank-account-card-withdraw {
+    position: absolute;
+
+    bottom: 1vh;
+    left: .3vw;
+
+    cursor: pointer;
+    
+    font-size: 1.3vh;
+    font-weight: 540;
+
+    padding: .6vh 1.2vh;
+    border-radius: .4vh;
+
+    height: fit-content;
+    width: fit-content; 
+
+    transition: background-color 250ms;
+
+    background-color: #f2a365;
+    box-shadow: 0.0vh 0.3vh 0.1vh -0.2vh rgb(0 0 0 / 20%), 0.0vh 0.2vh 0.2vh 0.0vh rgb(0 0 0 / 14%), 0.0vh 0.1vh 0.5vh 0.0vh rgb(0 0 0 / 12%);
+}
+
+.bank-account-card-withdraw-disabled {
+    background-color: #dbb191 !important;
+    cursor: not-allowed;
+}
+
+.bank-account-card-withdraw:hover {
+    background-color: rgb(169, 114, 70)
+}
+
+.bank-account-card-deposit {
+    position: absolute;
+
+    bottom: 1vh;
+    left: 7.5vw;
+
+    cursor: pointer;
+    
+    font-size: 1.3vh;
+    font-weight: 540;
+
+    padding: .6vh 1.2vh;
+    border-radius: .4vh;
+
+    height: fit-content;
+    width: fit-content; 
+
+    transition: background-color 250ms;
+
+    background-color: #85d573;
+    box-shadow: 0.0vh 0.3vh 0.1vh -0.2vh rgb(0 0 0 / 20%), 0.0vh 0.2vh 0.2vh 0.0vh rgb(0 0 0 / 14%), 0.0vh 0.1vh 0.5vh 0.0vh rgb(0 0 0 / 12%);
+}
+
+.bank-account-card-deposit-disabled {
+    background-color: #a3c59c !important;
+    cursor: not-allowed;
+}
+
+.bank-account-card-deposit:hover {
+    background-color: rgb(104, 167, 83)
+}
+
+.bank-account-card-transfer {
+    position: absolute;
+
+    bottom: 1vh;
+    right: .3vw;
+
+    cursor: pointer;
+    
+    font-size: 1.3vh;
+    font-weight: 540;
+
+    padding: .6vh 1.2vh;
+    border-radius: .4vh;
+
+    height: fit-content;
+    width: fit-content; 
+
+    transition: background-color 250ms;
+
+    background-color: #ffffff;
+    box-shadow: 0.0vh 0.3vh 0.1vh -0.2vh rgb(0 0 0 / 20%), 0.0vh 0.2vh 0.2vh 0.0vh rgb(0 0 0 / 14%), 0.0vh 0.1vh 0.5vh 0.0vh rgb(0 0 0 / 12%);
+}
+
+.bank-account-card-transfer-disabled {
+    background-color: #dddddd !important;
+    cursor: not-allowed;
+}
+
+.bank-account-card-transfer:hover {
+    background-color: #9e9e9e
+}
+
+/* Transactions */
+
+.bank-transactions-subtitle {
+    position: absolute;
+
+    top: .2vh;
+    right: .4vw;
+
+    color: white;
+    font-size: 1.8vh;
+    font-weight: 540;
+}
+
+.bank-transaction-card {
+    position: relative;
+
+    height: auto;
+    width: 100%;
+
+    overflow: hidden;
+    margin-bottom: 1vh;
+
+    border-radius: .2vh;
+    background-color: #30475e;
+}
+
+.bank-transaction-card-title {
+    position: relative;
+
+    margin-top: 1vh;
+    margin-left: .5vw;
+    margin-bottom: .3vh;
+
+    width: 100%;
+    height: fit-content;
+
+    color: white;
+    font-size: 1.3vh;
+    font-weight: 540;
+}
+
+.bank-transaction-card-id {
+    position: absolute;
+
+    top: 0;
+    right: 1.4vw;
+    float: right;
+}
+
+.bank-transaction-card-line {
+    position: relative;
+
+    margin-top: .1vh;
+    margin-left: .5vw;
+
+    width: 98%;
+    height: .2vh;
+
+    border-bottom: .2vh solid white;
+}
+
+.bank-transaction-card-line-dot {
+    position: relative;
+
+    margin-top: .1vh;
+    margin-left: .5vw;
+
+    width: 98%;
+    height: .2vh;
+
+    border-bottom: .2vh dotted rgba(255, 255, 255, 0.4);
+}
+
+.bank-transaction-card-info {
+    position: relative;
+    float: right;
+    
+    height: fit-content;
+    width: fit-content;
+    
+    margin-top: -3vh;
+    margin-right: 1vw;
+    margin-bottom: 1vh;
+
+    color: white;
+    font-size: 1.3vh;
+    font-weight: 540;
+}
+
+.bank-transaction-card-amount {
+    position: relative;
+
+    margin-top: 1vh;
+    margin-left: .5vw;
+    margin-bottom: 1vh;
+
+    font-size: 1.8vh;
+    font-weight: 540;
+}
+
+.bank-transaction-card-who {
+    position: relative;
+
+    margin-right: 40vw;
+
+    color: white;
+    font-size: 1.6vh;
+
+    float: right;
+}
+
+.bank-transaction-card-reason {
+    position: relative;
+
+    margin-top: 1vh;
+    margin-left: .5vw;
+    margin-bottom: 1vh;
+
+    font-size: 1.3vh;
+    font-weight: 540;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.bank-transaction-plus {
+    color: #91e975;
+}
+
+.bank-transaction-minus {
+    color: #e79d64;
+}
+
+/* Banking */
+
+.bank-banking-container {
+    display: none;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(134, 134, 134, 0.5);
+}
+
+.bank-banking-block {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    height: 30vh;
+    width: 30vw;
+
+    background-color: #30475e;
+    transform: translate(-50%, -50%);
+}
+.transfer-block { display: none; }
+
+.bank-banking-block-title {
+    position: absolute;
+
+    top: 3vh;
+    left: 10vw;
+
+    width: 9vw;
+    
+    color: white;
+    font-size: 1.9vh;
+    font-weight: 540;
+    text-align: center;
+}
+
+.bank-banking-input-block {
+    position: relative;
+
+    top: 9vh;
+    left: 6vw;
+
+    height: 5vh;
+    width: 5vw;
+
+    margin-bottom: 1vh;
+}
+
+.bank-banking-input {
+    position: absolute;
+
+    top: 2vh;
+    left: .5vw;
+
+    height: 2vh;
+    width: 16.5vw;
+
+    color: white;
+    font-size: 1.5vh;
+    font-family: 'Roboto';
+
+    padding-bottom: .3vh;
+    text-indent: .8vw;
+    
+    outline: none;
+    border: none;
+    background-color: transparent;
+    
+    border-bottom: .15vh solid rgba(255, 255, 255, 0.3);
+    transition: box-shadow ease 250ms;
+}
+
+.bank-banking-input-title {
+    position: absolute;
+
+    top: .5vh;
+    left: .6vw;
+
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.3vh;
+    font-weight: 540;
+}
+
+.bank-banking-input-icon {
+    position: absolute;
+
+    top: 2.4vh;
+    left: .6vw;
+
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.3vh;
+}
+
+.bank-banking-input:focus {
+    border-color: white;
+}
+
+.bank-banking-card-cancel {
+    position: absolute;
+
+    bottom: 3vh;
+    left: 6.5vw;
+
+    cursor: pointer;
+    
+    font-size: 1.3vh;
+    font-weight: 540;
+
+    padding: .6vh 1.2vh;
+    border-radius: .4vh;
+
+    height: fit-content;
+    width: fit-content; 
+
+    transition: background-color 250ms;
+
+    background-color: #f2a365;
+    box-shadow: 0.0vh 0.3vh 0.1vh -0.2vh rgb(0 0 0 / 20%), 0.0vh 0.2vh 0.2vh 0.0vh rgb(0 0 0 / 14%), 0.0vh 0.1vh 0.5vh 0.0vh rgb(0 0 0 / 12%);
+}
+
+.bank-banking-card-cancel:hover {
+    background-color: rgb(169, 114, 70)
+}
+
+.bank-banking-card-accept {
+    position: absolute;
+
+    bottom: 3vh;
+    left: 19.2vw;
+
+    cursor: pointer;
+    
+    font-size: 1.3vh;
+    font-weight: 540;
+
+    padding: .6vh 1.2vh;
+    border-radius: .4vh;
+
+    height: fit-content;
+    width: fit-content; 
+
+    transition: background-color 250ms;
+
+    background-color: #85d573;
+    box-shadow: 0.0vh 0.3vh 0.1vh -0.2vh rgb(0 0 0 / 20%), 0.0vh 0.2vh 0.2vh 0.0vh rgb(0 0 0 / 14%), 0.0vh 0.1vh 0.5vh 0.0vh rgb(0 0 0 / 12%);
+}
+
+.bank-banking-card-accept:hover {
+    background-color: rgb(104, 167, 83)
+}
+
+/* Scroll */
+
+.bank-accounts::-webkit-scrollbar-track, .bank-transactions::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+.bank-accounts::-webkit-scrollbar, .bank-transactions::-webkit-scrollbar {
+    width: .3vh;
+}
+  
+.bank-accounts::-webkit-scrollbar-thumb, .bank-transactions::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: .4vh;
+}
+
+.my-cash-balance {
+    display: none;
+    position: absolute;
+
+    left: 0.4vw;
+    bottom: 0.5vh;
+
+    color: white;
+    font-size: 1.4vh;
+    font-weight: 540;
+    font-family: Arial, Helvetica, sans-serif;
+}

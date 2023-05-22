@@ -1,0 +1,354 @@
+/* Topbar */
+
+.phone-topbar-container {
+    position: absolute;
+    top: 1.2vh;
+    left: .4vw;
+
+    width: calc(100% - 0.8vw);
+    height: 1.6vh;
+
+    color: white;
+    
+    font-weight: 550;
+    font-size: 1.3vh;
+
+    z-index: 147;
+}
+
+.phone-topbar-time {
+    position: absolute;
+    left: 0vw;
+}
+
+.phone-topbar-vpn {
+    position: absolute;
+    right: 1.5vw;
+
+    color: white;
+    opacity: 0.5;
+}
+
+.phone-topbar-network {
+    position: absolute;
+    right: .1vw;
+    color: white;
+    opacity: 0.5;
+}
+
+/* Bottombar */
+
+.phone-bottombar-container {
+    position: absolute;
+    bottom: .3vh;
+
+    width: 100%;
+    height: 4vh;
+
+    background-color: rgba(0, 0, 0, 0.3);
+    border-top: .1vh solid rgba(0, 0, 0, 0.5);
+}
+
+.phone-bottombar-home {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    height: 1.6vh;
+    width: 0.9vw;
+
+    border-radius: 50%;
+    border: solid white .25vh;
+    transition: border-color ease 0.15s;
+}
+
+.phone-bottombar-home:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.phone-bottombar-notif {
+    position: absolute;
+    top: 50%;
+    left: 25%;
+
+    transform: translate(-50%, -50%);
+    
+    font-size: 1.4vh;
+
+    text-align: center;
+    color: white;
+
+    transition: color ease 0.15s;
+}
+
+.phone-bottombar-photo {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+
+    margin: 0;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 1.4vh;
+
+    text-align: center;
+    color: white;
+
+    transition: color ease 0.15s;
+}
+
+.phone-bottombar-notif:hover, .phone-bottombar-photo:hover {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Apps */
+
+.phone-apps-homescreen {
+    position: absolute;
+    top: 4vh;
+    left: 0.5vw;
+
+    width: 14vw;
+}
+
+.phone-app {
+    position: relative;
+    width: 3vw;
+    height: 5.5vh;
+    float: left;
+    margin-right: .5vw;
+    margin-bottom: 1.3vh;
+    border-radius: 1.3vh;
+    transition: background-color ease 0.15s;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.phone-app > .phone-app-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 3vh;
+    color: white;
+}
+
+/* App Colors */
+
+.phone-app-alert {
+    position: absolute;
+    top: -0.5vh;
+    right: -0.5vh;
+    
+    width: 0.28vw;
+    height: .5vh;
+    
+    border: 0.7vh solid red;
+
+    border-radius: 50%;
+
+    z-index: 1;
+
+    background-color: white;
+
+}
+
+#app-details .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/details.png");
+    background-size: contain;
+    background-position: center;
+}
+
+#app-contacts .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/contacts.png");
+    background-size: contain;
+    background-position: center;
+}
+
+#app-call .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/calls.png");
+    background-size: contain;
+    background-position: center;
+}
+
+#app-message .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/conversations.png");
+    background-size: contain;
+    background-position: center;
+}
+
+#app-twitter .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/twitter.png");
+    background-size: contain;
+    background-position: center;
+}
+
+#app-advert .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/yellow-pages.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-garage .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/vehicles.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-debt .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/debt.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-crypto .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/crypto.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-jobcenter .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/jobs.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-employment .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/employment.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-race .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/racing.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-documents .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/documents.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-pinger .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/pinger.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-mail .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/email.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-calculator .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/calculator.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-dept .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/dept.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-wenmo .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/wenmo.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#app-dark { background-color: #7056af; }
+#app-house { background-color: #46a145; }
+#app-camera { background-color: #1fa4c5; }
+#app-sports { background-color: black; }
+
+/* Colors */
+
+.color-green { background-color: rgb(48, 158, 63); }
+.color-green:hover { background-color: rgb(59, 199, 77); }
+.color-blue { background-color: rgb(69, 139, 204); }
+.color-blue:hover { background-color: rgb(78, 156, 230) }
+.color-darkblue { background-color: rgb(29, 79, 242); }
+.color-darkblue:hover { background-color: rgb(41, 91, 255) }
+.color-police-blue { background-color: #004682; }
+.color-police-blue:hover { background-color: #155b97; }
+.color-twitter-blue { background-color: rgb(29, 160, 242); }
+.color-twitter-blue:hover { background-color: rgb(87, 174, 255) }
+.color-orange { background-color: rgb(204, 145, 69); }
+.color-orange:hover { background-color: rgb(230, 164, 79); }
+.color-lightgreen { background-color: rgb(130, 204, 95); }
+.color-lightgreen:hover { background-color: rgb(146, 204, 119); }
+.color-red { background-color: rgb(204, 69, 69); }
+.color-red:hover { background-color: rgb(224, 79, 79) }
+.color-pink { background-color: rgb(184, 57, 129); }
+.color-pink:hover { background-color: rgb(180, 81, 137) }
+.color-grey { background-color: rgb(70, 70, 70); }
+.color-grey:hover { background-color: rgb(100, 100, 100) }
+.color-darkgrey { background-color: rgb(30, 30, 30); }
+.color-darkgrey:hover { background-color: rgb(45, 45, 45) }
+.color-purple { background-color: rgb(159, 66, 206); }
+.color-purple:hover { background-color: rgb(185, 93, 231) }
+.color-yellow { background-color: rgb(204, 173, 94); }
+.color-yellow:hover { background-color: rgb(233, 201, 121) }

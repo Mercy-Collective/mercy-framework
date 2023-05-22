@@ -1,0 +1,94 @@
+<body>
+    <div class="characters">
+        <div class="characters-item" data-char="1"></div>
+        <div class="characters-item" data-char="2"></div>
+        <div class="characters-item" data-char="3"></div>
+        <div class="characters-item" data-char="4"></div>
+    </div>
+
+    <div class="character-options">
+        <div class="char-options-name">Select a Character</div>
+        <div class="ui-styles-button warning char-button-disabled char-options-delete">Delete</div>
+        <div class="ui-styles-button success char-button-disabled char-options-play">Spawn <i class="fas fa-map"></i></div>
+    </div>
+
+    <div class="character-create">
+        <div class="character-create-gender">
+            <div class="character-create-gender-title">Choose Gender:</div>
+            <div class="character-create-gender-images">
+                <input id="char-gender-male" type="radio" name="gender" value="Male" checked/>
+                <label for="char-gender-male">
+                    <img class="character-create-image" src="./images/char-male.png" draggable="false" />
+                </label>
+
+                <input id="char-gender-female" type="radio" name="gender" value="Female"/>
+                <label for="char-gender-female">
+                    <img class="character-create-image" src="./images/char-female.png" draggable="false" />
+                </label>
+            </div>
+        </div>
+
+        <div class="character-create-form">
+            <div class="char-create-input char-create-input-firstname">
+                <div class="char-input-label">First Name</div>
+                <input type="text" class="char-input-field">
+            </div>
+            <div class="char-create-input char-create-input-lastname">
+                <div class="char-input-label">Last Name</div>
+                <input type="text" class="char-input-field">
+            </div>
+            <div class="char-create-input char-create-input-birthdate">
+                <div class="char-input-label">Born</div>
+                <input type="date" class="char-input-field" min="1921-01-01" max="2003-12-31">
+            </div>
+        </div>
+
+        <div class="character-create-buttons">
+            <div class="character-create-button-close ui-styles-button warning">Cancel</div>
+            <div class="character-create-button-create ui-styles-button success">Create</div>
+        </div>
+    </div>
+
+    <div class="character-buttons">
+        <div class="character-buttons-button character-create-prompt"><i class="fas fa-plus"></i></div>
+        <div class="character-buttons-button character-create-refresh"><i class="fas fa-sync"></i></div>
+    </div>
+
+    <div class="character-delete">
+        <div class="char-options-name">Are you sure you want to delete this character?</div>
+        <div class="character-delete-button-close ui-styles-button success">Cancel</div>
+        <div class="character-delete-button-confirm ui-styles-button warning">Yes, Delete</div>
+    </div>
+
+    <div class="character-controls-container noselect" id="helpScreen">
+        <div class="character-controls-box">
+            <div style="font-size: 2.2vh">Help Menu</div>
+            <div class="character-controls-line"></div>
+            <div class="char-control-header">
+                <div class="char-control-header-title">Action</div>
+                <div class="char-control-header-description">Description</div>
+            </div>
+            <div class="char-control-text">
+                <div class="char-control-key">Single click</div>
+                <div class="char-control-info">Select character</div>
+            </div>
+            <div class="char-control-text">
+                <div class="char-control-key">Double click</div>
+                <div class="char-control-info">Spawn selected character</div>
+            </div>
+            <div class="char-control-text">
+                <div class="char-control-key">Hover</div>
+                <div class="char-control-info">Display current character</div>
+            </div>
+            <div style="padding-top: 3%; font-size: 1.6vh">Creating a New Character:</div>
+            <div class="char-control-text">
+                <div class="char-control-key">Double Click</div>
+                <div class="char-control-info">On blank character slot</div>
+            </div>
+            <div class="char-control-text">
+                <div class="char-control-key">Icon</div>
+                <div class="char-control-info">Lower left plus icon</div>
+            </div>
+        </div>
+    </div>
+</body>

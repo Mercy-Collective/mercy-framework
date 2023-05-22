@@ -1,0 +1,35 @@
+.eye-wrapper { display: none; user-select: none; }
+
+.eye {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 4.5vh;
+    height: 4.5vh;
+}
+
+.eye-options {
+    position: absolute;
+    top: 52vh;
+    left: 49.6vw;
+}
+
+.eye-options > .option {
+    color: white;
+    cursor: pointer;
+    font-size: 1.7vh;
+    font-weight: 600;
+    margin-bottom: 0.6vh;
+    text-shadow: -0.1vh -0.1vh 0 rgba(0, 0, 0, 0.5), 0.1vh -0.1vh 0 rgba(0, 0, 0, 0.5), -0.1vh 0.1vh 0 rgba(0, 0, 0, 0.5), 0.1vh 0.1vh 0 rgba(0, 0, 0, 0.5);
+}
+
+.eye-options > .option:hover {
+    color: #00f8b9;
+}
+
+.eye-options > .option > i {
+    color: #00f8b9;
+}

@@ -1,0 +1,375 @@
+.characters-wrapper {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+
+    user-select: none;
+}
+
+.characters {
+    width: 100vw;
+    height: 100vh;
+}
+
+.character-delete {
+    display: none;
+}
+
+.character-delete,
+.character-options {
+    font-family: RDR-Lino;
+    
+    position: absolute;
+    left: 50%;
+    top: 8.5vh;
+    
+    transform: translateX(-50%);
+    
+    background-color: #222831e8;
+    padding: 1vh 2vh;
+    
+    border-radius: 1vh;
+    border-width: .6vh;
+    
+    min-width: 32vh;
+    width: max-content;
+    min-height: 8vh;
+    height: max-content;
+    
+    border-radius: 1vh;
+    border-width: .6vh;
+
+    color: white;
+
+    text-align: center;
+}
+
+.char-options-name {
+    width: 100%;
+
+    font-size: 2vh;
+
+    height: 3vh;
+
+    border-bottom: solid 0.1vh white;
+}
+
+.character-delete > .ui-styles-button,
+.character-options > .ui-styles-button {
+    margin-top: 1.5vh;
+
+    width: 41%;
+    height: 1.5vh;
+
+    font-size: 1.15vh;
+
+    border-radius: 1.5vh;
+
+    text-align: center;
+
+    pointer-events: all;
+}
+
+.char-button-disabled {
+    background-color: #4d4a4a !important;
+}
+
+.character-delete > div:last-of-type,
+.character-options > div:last-of-type {
+    margin-right: 0 !important;
+}
+
+.characters-item {
+    /* display: none; */
+    position: absolute;
+
+    width: 18vh;
+    height: 55vh;
+
+    padding: 2vh;
+
+    transform: translate(-50%, -50%);
+    /* background-color: rgba(255, 0, 0, 0.575); */
+}
+
+.characters-item[data-char="1"] {
+    top: 44vh;
+    left: 89vh;
+    width: 15vh;
+    height: 15vh;
+}
+
+.characters-item[data-char="2"] {
+    top: 53vh;
+    left: 50vh;
+    width: 18vh;
+    height: 34vh;
+}
+
+.characters-item[data-char="3"] {
+    top: 44vh;
+    right: 33vh;
+    width: 13vh;
+    height: 15vh;
+}
+
+.characters-item[data-char="4"] {
+    top: 44vh;
+    right: 51vh;
+    width: 14vh;
+    height: 15vh;
+}
+
+.character-controls-box {
+    background-color: #222831e8;
+
+    font-family: RDR-Lino;
+    
+    color: white;
+    text-align: center;
+
+    padding: 1% 2% 3% 2%;
+    border-top-left-radius: 1vh;
+    border-bottom-left-radius: 1vh;
+}
+  
+.character-controls-container {
+    position: absolute;
+    top: 1%;
+    bottom: 0;
+    right: 0;
+
+    width: 20%;
+    height: max-content;
+}
+  
+.character-controls-line {
+    width: 90%;
+
+    margin: 0 auto;
+    padding-bottom: .5vh;
+
+    border-bottom: solid 0.2vh white;
+}
+  
+.char-control-text {
+    display: flex;
+    margin-top: 2%;
+    background-color: #191e25c2;
+}
+  
+.char-control-key {    
+    width: 30%;
+    
+    font-size: 1.4vh;
+    
+    padding: 0.5vh 1vh;
+    border-radius: 0.5vh;
+
+    margin-left: 2%;
+    margin: 0 1vh;
+}
+  
+.char-control-info {
+    width: 64%;
+    
+    font-size: 1.4vh;    
+    
+    margin-left: 2%;
+    line-height: 3vh;
+    background-color: #191e25;
+    border-radius: 0.5vh;
+}
+  
+.char-control-header {
+    flex-grow: 1;
+    display: flex;
+    margin-top: 2%;
+}
+  
+.char-control-header-title {
+    margin-left: 2.5%;
+    width: 30%;
+    font-size: 1.8vh;
+}
+  
+.char-control-header-description {
+    margin-left: 2%;
+    font-size: 1.8vh;
+    width: 65%;
+}
+
+.character-create {
+    display: none;
+
+    position: absolute;
+    top: 14%;
+    left: 0;
+    right: 0;
+
+    width: 24vw;
+    height: 66vh;
+    
+    margin: 0 auto;
+    padding: 1vh;
+    border-radius: 1.0vh;
+    background: #222831e8;
+
+    font-family: 'Roboto';
+}
+
+.character-create-gender-title {
+    margin-top: 2vh;
+
+    font-size: 1.6vh;
+    
+    color: white;
+    text-align: center;
+}
+
+.character-create-gender-images {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 2%;
+}
+  
+.character-create-gender-images input {
+    appearance: none;
+}
+  
+.character-create-gender-images input:checked + label {
+    filter: drop-shadow(0 0 .5vh #00f8ba57);
+}
+  
+.character-create-gender-images label {
+    transition: all 100ms ease-in;
+    filter: brightness(1) grayscale(1) opacity(0.3);
+}
+
+.character-create-image {
+    max-height: 35vh;
+}
+
+.character-create-form {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1vh;
+}
+
+.character-create-buttons {
+    position: absolute;
+    bottom: 1vh;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+}
+
+.character-create-buttons > .ui-styles-button {
+    text-align: center;
+    width: 43%;
+
+    border-radius: 1vh;
+
+    height: 2.5vh;
+    line-height: 2.5vh;
+}
+
+.character-create-buttons > .ui-styles-button:last-of-type {
+    margin-right: 0 !important;
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+
+/* Inputs */
+
+.char-create-input {
+    position: relative;
+    left: 16vh;
+
+    width: max-content;
+    height: max-content;
+
+    margin-bottom: .5vh;
+
+    font-family: "Roboto";
+    font-size: 1.5vh;
+
+    color: white;
+}
+
+.char-create-input > .char-input-label {
+    position: absolute;
+    left: -10vh;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+
+    width: 10vh;
+}
+
+.char-create-input > .char-input-field {
+    height: 3.3vh;
+
+    width: 20vh;
+
+    color: white;
+
+    margin-bottom: 0.5vh;
+    
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    border-bottom: .15vh solid rgba(255, 255, 255, 0.3);
+
+    transition: box-shadow ease 250ms;
+}
+
+.char-create-input > .char-input-field:focus {
+    border-color: #64ffda;
+}
+
+.character-buttons-button {
+    position: relative;
+
+    margin: 0.5vh;
+
+    background-color: #222831e8;
+    
+    color: rgba(220, 220, 220, 1);
+    
+    text-align: center;
+    line-height: 4.5vh;
+    
+    border-radius: 50%;
+    
+    height: 4vh;
+    width: 4vh;
+}
+
+.character-buttons-button > i {
+    font-size: 2vh;
+}
+  
+.character-buttons-button:hover {
+    color: rgba(150, 150, 150, 0.842);
+}
+
+.character-buttons {
+    display: flex; 
+
+    position: absolute;
+    bottom: 2vh;
+    left: 50%;
+    
+    transform: translateX(-50%);
+}

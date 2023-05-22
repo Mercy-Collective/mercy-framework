@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<title>Generate Password Hash</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="style.css">
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<h1>Generate Password Hash</h1>
+		<form onsubmit="generateHash(); return false">
+			<div class="form-group">
+				<label for="input">Password:</label>
+				<input id="input" type="password" class="form-control" autocomplete="off">
+			</div>
+			<button type="submit" class="btn btn-primary">Generate Hash</button>
+		</form>
+		<form>
+			<div class="form-group">
+				<label for="output">Hash:</label>
+				<input id="output" type="text" class="form-control" readonly>
+			</div>
+		</form>
+	</body>
+</html>

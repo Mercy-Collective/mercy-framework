@@ -1,0 +1,311 @@
+.hud-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.hud-status {
+    position: absolute;
+    left: 0.5vh;
+    bottom: 0.2vh;
+}
+
+.hud-circle > i {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    
+    color: white;
+    font-size: 1.3vh;
+
+    transform: translate(-50%, -50%);
+}
+
+.hud-circle {
+    position: relative;
+    float: left;
+
+    width: 4vh !important;
+    height: 4vh !important;
+
+    margin: 0.3vh;
+    border-radius: 50%;
+
+    background-color: transparent;
+    background: radial-gradient(circle, rgba(30, 30, 30, 255) 0%, rgba(30, 30, 30, 255) 52%, transparent 53%, transparent 100%);
+}
+
+.money-container {
+    position: absolute;
+    top: 12.2vh;
+    right: 2vh;
+}
+
+.current-money {
+    display: none;
+    position: absolute;
+    
+    right: 2vh;
+    top: 10vh;
+
+    font-family: gta;
+    font-weight: 400;
+    font-size: 2.5vh;
+    color: rgb(255, 255, 255);
+    text-shadow: -0.1vh -0.1vh 0 #000, 0.1vh -0.1vh 0 #000, -0.1vh 0.1vh 0 #000, 0.1vh 0.1vh 0 #000; 
+}
+
+.money {
+    position: relative;
+    
+    margin-left: 1vh;
+    float: right;
+
+    font-family: gta;
+    font-weight: 400;
+    font-size: 2.5vh;
+    color: white;
+    text-shadow: -0.1vh -0.1vh 0 #000, 0.1vh -0.1vh 0 #000, -0.1vh 0.1vh 0 #000, 0.1vh 0.1vh 0 #000;
+}
+   
+.plus {
+    color: #277418;
+}
+   
+.minus {
+    color: #801e1f;
+}
+   
+.reset-color {
+    color: white;
+}
+
+/* Car Hud */
+
+.hud-car-wrapper {
+    position: absolute;
+
+    left: 16.5vw;
+    bottom: 6vh;
+
+    width: fit-content;
+    height: fit-content;
+}
+
+.hud-car { float: left;}
+.hud-speed, .hud-alt {
+    position: relative;
+
+    width: 7vh !important;
+    height: 7vh !important;
+    
+    margin-right: .7vw;
+
+    color: white;
+    text-align: center;
+    font-size: 0.75vh;
+    font-variant: small-caps;
+    text-transform: capitalize;
+    font-family: 'Archivo Black';
+}
+.hud-speed > svg { transform: rotate(125deg); }
+.hud-alt > svg { transform: rotate(150deg); }
+
+.hud-speed > p, .hud-alt > p {
+    position: absolute;
+    top: 17%;
+    left: 50%;
+
+    line-height: 1.5vh;
+
+    text-shadow: 0.05vh 0.05vh 0.5vh rgba(0, 0, 0, 0.5);
+
+    transform: translateX(-50%);
+}
+
+.hud-speed > p > span, .hud-alt > p > span {
+    font-family: 'Arial Black' !important;
+    font-size: 1.75vh;
+}
+
+.hud-fuel {
+    position: absolute;
+    top: 3.8vh;
+    left: 2.8vw;
+
+    width: 3vh !important;
+    height: 3vh !important;
+}
+
+.hud-fuel > svg { transform: rotate(150deg); }
+
+.hud-fuel > i {
+    position: absolute;
+    top: 50%;
+    left: 52%;
+
+    transform: translate(-50%, -50%);
+
+    color: white;
+
+    font-size: 1vh;
+}
+
+.hud-belt {
+    position: relative;
+
+    top: 2.4vh;
+}
+
+.hud-belt > i {
+    font-size: 1.7vh;
+    color: #ce3d23;
+}
+
+.hud-car-border {
+    display: none;
+    position: absolute;
+
+    left: 1.5vw;
+    bottom: 5.5vh;
+
+    height: 15.5vh;
+    width: 13.8vw;
+
+    border-radius: .15vh;
+    border: .3vh solid rgba(255, 255, 255, 0.7);
+}
+
+.hud-waypoint {
+    display: none;
+    position: absolute;
+
+    bottom: -1.25vh;
+    left: 1vh;
+    
+    font-weight: bolder;
+    font-size: 1.7vh;
+
+    text-shadow: rgb(55, 71, 79) -0.1vh 0.1vh 0, rgb(55, 71, 79) 0.1vh 0.1vh 0, rgb(55, 71, 79) 0.1vh -0.1vh 0, rgb(55, 71, 79) -0.1vh -0.1vh 0;
+    color: rgb(224, 224, 224);
+}
+
+/* Animation */
+
+.anim-fade-in-out {
+    animation: Fade-In-Out 5s infinite;
+}
+
+@keyframes Fade-In-Out {
+    0% { 
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% { 
+        opacity: 1.0;
+    }
+}
+
+/* Compass */
+
+.hud-compass-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    width: 100vw;
+    height: 2.96vh;
+
+    display: none;
+    pointer-events: none;
+    place-content: center;
+
+    color: white;
+}
+
+.hud-compass {
+    width: 100vw;
+    height: 2.96vh;
+
+    display: flex;
+    justify-content: center;
+}
+
+.hud-compass-inside {
+    width: 100vw;
+    height: 2.96vh;
+    
+    display: flex;
+    justify-content: center;
+}
+
+.hud-compass-area {
+    flex: 1 1 0%;
+    display: flex;
+    justify-content: center;
+
+    margin: 0 1.48vh;
+
+    align-items: center;
+    text-align: right;
+}
+
+.hud-compass-area > p {
+    text-shadow: rgb(55, 71, 79) -0.1vh 0.1vh 0, rgb(55, 71, 79) 0.1vh 0.1vh 0, rgb(55, 71, 79) 0.1vh -0.1vh 0, rgb(55, 71, 79) -0.1vh -0.1vh 0;
+    letter-spacing: 0;
+    text-decoration: none;
+    text-transform: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-variant: small-caps;
+    
+    width: 100%;
+}
+
+.hud-compass-image {
+    display: flex;
+    position: relative;
+    
+    width: 9.375vw;
+    
+    overflow: hidden;
+    background-image: url(../../../images/compass.png);
+    background-repeat: repeat;
+    background-size: 18.75vw 2.96vh;
+
+    justify-content: center;
+}
+
+.hud-compass-current {
+    height: 1.11vh;
+}
+
+.hud-compass-street {
+    flex: 1 1 0%;
+    display: flex;
+    justify-content: center;
+
+    margin: 0 1.48vh;
+
+    text-align: left;
+    align-items: center;
+}
+
+.hud-compass-street > p {
+    text-shadow: rgb(55, 71, 79) -0.1vh 0.1vh 0, rgb(55, 71, 79) 0.1vh 0.1vh 0, rgb(55, 71, 79) 0.1vh -0.1vh 0, rgb(55, 71, 79) -0.1vh -0.1vh 0;
+    letter-spacing: 0;
+    text-transform: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: small-caps;
+
+    width: 100%;
+}

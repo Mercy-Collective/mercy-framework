@@ -1,0 +1,85 @@
+/* .progress-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.progress-bar-title {
+    position: absolute;
+
+    top: .45vh;
+
+    width: 100%;
+    height: fit-content;
+    
+    color: white;
+    font-size: 1.45vh;
+    text-align: center;
+}
+
+.progress-bar {
+    display: none;
+    position: absolute;
+
+    bottom: 15.5vh;
+    left: 42.5vw;
+
+    width: 15vw;
+    height: 3vh;
+
+    border: .2vh solid white;
+
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+
+    background-color: #4F7CAC;
+}
+ */
+
+ 
+.progress-circle-container {
+    position: absolute;
+
+    bottom: 10%;
+    left: 50%;
+
+    width: fit-content;
+    height: fit-content;
+
+    transform: translate(-50%, -50%);
+}
+
+.progress-circle {
+    position: relative;
+    float: left;
+    
+    width: 4.2vh;
+    height: 4.2vh;
+}
+
+.progressbar-text {
+    display: none;
+
+    position: relative;
+    float: left;
+
+    height: 4.4vh;
+    line-height: 4.4vh;
+
+    padding-left: 1vh;
+    
+    font-size: 1.5vh;
+    font-style: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-variant: small-caps;
+    
+    color: white;
+    text-shadow: rgb(55 71 79) -0.1vh 0.1vh 0, rgb(55 71 79) 0.1vh 0.1vh 0, rgb(55 71 79) 0.1vh -0.1vh 0, rgb(55 71 79) -0.1vh -0.1vh 0;
+    text-transform: none;
+    text-decoration: none;
+}

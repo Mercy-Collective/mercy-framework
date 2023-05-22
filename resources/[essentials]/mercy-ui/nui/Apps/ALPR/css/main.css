@@ -1,0 +1,125 @@
+.alpr-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    
+    width: 100vw;
+    height: 100vh;
+
+    font-family: 'Roboto';
+
+    color: white;
+    font-size: 1.25vh;
+}
+
+.alpr-container {
+    display: none;
+
+    position: absolute;
+    bottom: 2vh;
+    right: 1vw;
+}
+
+/* License Plates */
+.alpr-licenses-container {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    background-color: #212730;
+
+    width: max-content;
+    height: max-content;
+
+    margin-top: 1vh;
+    overflow: hidden;
+
+    border-radius: 1vh;
+    padding: 1.5vh .75vw;
+}
+
+.alpr-licenses-container > .alpr-license {
+    float: left;
+    background-color: #30475e;
+    text-align: center;
+
+    width: 10vw;
+
+    margin-right: 1vh;
+}
+
+.alpr-licenses-container > .alpr-license:last-of-type {
+    margin-right: 0 !important;
+}
+
+.alpr-licenses-container > .alpr-license > span {
+    line-height: 2.5vh;
+}
+
+.alpr-licenses-container > .alpr-license  > p {
+    font-family: Roboto;
+    font-size: 3vh;
+    font-weight: bold;
+
+    line-height: 5vh;
+
+    margin: 0;
+    background-color: #212730;
+}
+
+/* Speedometers */
+
+.alpr-speeds {
+    position: relative;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
+
+    background-color: #212730;
+
+    width: max-content;
+    height: max-content;
+
+    overflow: hidden;
+
+    border-radius: 1vh;
+    padding: 1.5vh .75vw;
+}
+
+
+.alpr-speeds > .alpr-speeds-front,
+.alpr-speeds > .alpr-speeds-back {
+    float: left;
+    background-color: #30475e;
+    text-align: center;
+
+    width: 8vw;
+
+    margin-right: 1vh;
+}
+
+
+.alpr-speeds > .alpr-speeds-front:last-of-type,
+.alpr-speeds > .alpr-speeds-back:last-of-type {
+    margin-right: 0 !important;
+}
+
+.alpr-speeds > .alpr-speeds-front > span,
+.alpr-speeds > .alpr-speeds-back > span {
+    line-height: 2.5vh;
+}
+
+.alpr-speeds > .alpr-speeds-front > p,
+.alpr-speeds > .alpr-speeds-back > p {
+    font-family: Roboto;
+    font-size: 3vh;
+    font-weight: bold;
+
+    line-height: 5vh;
+
+    margin: 0;
+    background-color: #212730;
+}

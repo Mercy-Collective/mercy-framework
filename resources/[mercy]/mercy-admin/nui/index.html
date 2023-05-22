@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercy Collective - Admin Menu</title>
+    <!-- CSS CDN -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" >
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS -->
+    <link href="./webfonts/all.css" rel="stylesheet">
+    <link href="./webfonts/all.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+    <link href="css/sidebar.css" rel="stylesheet" type="text/css"/>
+    <link href="css/pages/commands.css" rel="stylesheet" type="text/css"/>
+    <link href="css/pages/playerlist.css" rel="stylesheet" type="text/css"/>
+    <link href="css/pages/pinnedplayers.css" rel="stylesheet" type="text/css"/>
+    <link href="css/pages/recentbans.css" rel="stylesheet" type="text/css"/>
+    <link href="css/pages/playerlogs.css" rel="stylesheet" type="text/css"/>
+    <link href="css/pages/chats.css" rel="stylesheet" type="text/css"/>
+    <link href="css/pages/options.css" rel="stylesheet" type="text/css"/>
+</head>
+    <body>
+        <div class="menu-main-container">
+            <!-- Sidebar -->
+            <div class="menu-size-change" data-tippy-content="Expand / Shrink">
+                <i class="fa-solid fa-chevron-left"></i>
+            </div>
+            <div class="menu-sidebar">
+                <div class="menu-sidebar-pages">
+                    <!-- Upper -->
+                    <div class="menu-sidebar-page selected waves-effect waves-light" data-tippy-content="Commands" data-Action="Commands">
+                        <i class="fa-solid fa-hat-wizard"></i>
+                    </div>
+                    <div class="menu-sidebar-page waves-effect waves-light" data-tippy-content="Player List" data-Action="PlayerList">
+                        <i class="fa-solid fa-list-ul"></i>
+                    </div>
+                    <div class="menu-sidebar-page waves-effect waves-light" data-tippy-content="Recently Banned" data-Action="RecentBans">
+                        <i class="fa-solid fa-gavel"></i>
+                    </div>
+                    <div class="menu-sidebar-page waves-effect waves-light" data-tippy-content="Player Logs" data-Action="PlayerLogs">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div class="menu-sidebar-page waves-effect waves-light" data-tippy-content="Chats" data-Action="Chats">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div class="menu-sidebar-page waves-effect waves-light" data-tippy-content="Options" data-Action="Options">
+                        <i class="fa-solid fa-cogs"></i>
+                    </div>
+                    <!-- Lower -->
+                    <div class="menu-sidebar-page lower waves-effect waves-light" data-tippy-content="Admin Mode" data-Action="DevMode">
+                        <i class="fa-solid fa-terminal"></i>
+                    </div>
+                    <div class="menu-sidebar-page lower waves-effect waves-light" data-tippy-content="Show / Hide Pinned Targets" data-Action="PinnedTargets">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                    <div class="menu-sidebar-page lower waves-effect waves-light" data-tippy-content="Show / Hide Menu" data-Action="ToggleMenu">
+                        <i class="fa-solid fa-compress-arrows-alt"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-checkmark-wrapper">
+                <div class="menu-checkmark-container"></div>
+            </div>
+            <div class="menu-crossmark-wrapper">
+                <div class="menu-crossmark-container"></div>
+            </div>
+            <!-- Pages -->
+            <div class="menu-pages">
+                <!-- Commands -->
+                <div class="menu-page" data-Page="Commands">
+                    <div class="menu-page-commands-header-categories">
+                        <div class="menu-page-commands-header-category active" data-Type="All"> <div class="menu-page-commands-header-category-title"><p>All</p></div> </div>
+                        <div class="menu-page-commands-header-category" data-Type="Player"> <div class="menu-page-commands-header-category-title"><p>Player</p></div> </div>
+                        <div class="menu-page-commands-header-category" data-Type="Utility"> <div class="menu-page-commands-header-category-title"><p>Utility</p></div> </div>
+                        <div class="menu-page-commands-header-category" data-Type="User"> <div class="menu-page-commands-header-category-title"><p>User</p></div> </div>
+                        <div class="menu-page-commands-header-category" data-Type="Fun"> <div class="menu-page-commands-header-category-title"><p>Fun</p></div> </div>
+                    </div>
+                    <div class="menu-page-commands-search">
+                        <input type="text" name="action-search" id="action-search" placeholder="Begin typing to filter commands">
+                        <hr>
+                    </div>
+                    <div class="menu-current-target"></div>
+                    <div class="admin-menu-items">
+                        <!-- Auto Gen -->
+                    </div>
+                </div>
+
+                <!-- PlayerList -->
+                <div class="menu-page" data-Page="PlayerList">
+                    <div class="menu-page-player-list-search"> <input type="text" name="list-serverid" id="list-serverid" placeholder="Search with ServerId"> <hr> </div>
+                    <div class="menu-page-player-list-search"> <input type="text" name="list-steamsearch" id="list-steamsearch" placeholder="Search with SteamId"> <hr> </div>
+                    <div class="menu-current-target"></div>
+                    <div class="admin-menu-players">
+                        <!-- Auto Gen -->
+                    </div>
+                </div>
+
+                <!-- Recent Bans -->
+                <div class="menu-page" data-Page="RecentBans">
+                    <div class="menu-page-recentbans-topbar">
+                        <div class="menu-page-recentbans-list-search"> <input type="text" name="banslist-discordid" id="banslist-discordid" placeholder="Search with Discord"> <hr> </div>
+                        <div class="menu-page-recentbans-list-search"> <input type="text" name="banslist-license" id="banslist-license" placeholder="Search with License / Steam"> <hr> </div>
+                        <div class="menu-page-recentbans-types">
+                            <!-- Auto Gen -->
+                        </div>
+                    </div>
+                    <div class="no-bans"><i class="fa-regular fa-ban"></i><p>Sorry, there are no bans.</p></div>
+                    <div class="admin-menu-bans">
+                        <!-- Auto Gen -->
+                    </div>
+                </div>
+
+                <!-- Player Logs -->
+                <div class="menu-page" data-Page="PlayerLogs">
+                    <div class="menu-page-playerlogs-list-search"> <input type="text" name="log-type" id="log-type" placeholder="Search with Type"> <hr> </div>
+                    <div class="menu-page-playerlogs-list-search"> <input type="text" name="log-steam" id="log-steam" placeholder="Search with Steam"> <hr> </div>
+                    <div class="menu-page-playerlogs-list-search"> <input type="text" name="log-cid" id="log-cid" placeholder="Search with Cid"> <hr> </div>
+                    <div class="admin-menu-logs">
+                        <div class="logs-availability"><i class="fa-regular fa-face-frown-slight"></i> <p>Sorry, logs are not available in this size.</p></div>
+                        <div class="admin-menu-logs-grid" style="display: none;">
+                            <div class="admin-menu-logs-col">
+                                <div class="admin-menu-logs-col-title">Type</div>
+                                <div class="admin-menu-logs-col-contents" id="logs-types">
+                                    <!-- Auto Gen -->
+                                </div>
+                            </div>
+                            <div class="admin-menu-logs-col">
+                                <div class="admin-menu-logs-col-title">Steam</div>
+                                <div class="admin-menu-logs-col-contents" id="logs-steam">
+                                    <!-- Auto Gen -->
+                                </div>
+                            </div>
+                            <div class="admin-menu-logs-col">
+                                <div class="admin-menu-logs-col-title">Log</div>
+                                <div class="admin-menu-logs-col-contents" id="logs-desc">
+                                    <!-- Auto Gen -->
+                                </div>
+                            </div>
+                            <div class="admin-menu-logs-col">
+                                <div class="admin-menu-logs-col-title">Date</div>
+                                <div class="admin-menu-logs-col-contents" id="logs-date">
+                                    <!-- Auto Gen -->
+                                </div>
+                            </div>
+                            <div class="admin-menu-logs-col">
+                                <div class="admin-menu-logs-col-title">Cid</div>
+                                <div class="admin-menu-logs-col-contents" id="logs-cid">
+                                    <!-- Auto Gen -->
+                                </div>
+                            </div>
+                            <div class="admin-menu-logs-col">
+                                <div class="admin-menu-logs-col-title">Data</div>
+                                <div class="admin-menu-logs-col-contents" id="logs-data">
+                                    <!-- Auto Gen -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chats -->
+                <div class="menu-page" data-Page="Chats">
+                    <div class="menu-page-chats-header-categories">
+                        <div class="menu-page-chats-header-category active" data-Type="Staff"> <div class="menu-page-chats-header-category-title"><p>Staffchat</p></div> </div>
+                        <div class="menu-page-chats-header-category" data-Type="Reports"> <div class="menu-page-chats-header-category-title"><p>Reports</p></div> </div>
+                    </div>
+
+                    <div class="admin-menu-staffchat">
+                        <div class="admin-menu-staff-chat-list">
+                            <!-- Auto Gen -->
+                        </div>
+                        <div class="ui-styles-chat-input" data-Content="Staff">
+                            <input type="text" placeholder="Message" spellcheck="false">
+                            <i class="fa-solid fa-paper-plane" id="chat-send"></i>
+                        </div>
+                    </div>
+
+                    <div class="admin-menu-reports">
+                        <!-- Auto Gen -->
+                    </div>
+
+                    <div class="admin-menu-opened-report">
+                        <div class="admin-menu-opened-report-header">
+                            <div class="admin-menu-opened-report-header-button left" data-Action="Delete"><i class="fa-solid fa-trash-can"></i></div>
+                            <div class="admin-menu-opened-report-header-title"><p>Report <strong># <span id="report-id">69420</span></strong></p></div>
+                            <div class="admin-menu-opened-report-header-button right" data-Action="Close"><i class="fa-regular fa-times"></i></div>
+                        </div>
+                        <div class="admin-menu-opened-report-chat-list">
+                            <!-- Auto Gen -->
+                        </div>
+                        <div class="ui-styles-chat-input" data-Content="Reports">
+                            <input type="text" placeholder="Message" spellcheck="false">
+                            <i class="fa-solid fa-paper-plane" id="chat-send"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="no-reports"><i class="fa-solid fa-flag"></i><p>No reports found.</p></div>
+                </div>
+
+                <!-- Options -->
+                <div class="menu-page" data-Page="Options">
+                    <div class="menu-page-options-spinner">
+                        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                        <p>Loading Options</p>
+                    </div>
+                    <div class="menu-page-options-items">
+                        <div class="menu-page-options-item waves-effect waves-light">
+                            <label id="LargeDefault" class="ui-styles-checkbox">
+                                <span>Large Menu Default</span>
+                                <input type="checkbox" focus>
+                                <div class="ui-styles-checkbox-input"></div>
+                            </label>
+                        </div>
+                        <div class="menu-page-options-item waves-effect waves-light">
+                            <label id="BindOpen" class="ui-styles-checkbox">
+                                <span>Open menu with keybind</span>
+                                <input type="checkbox" focus>
+                                <div class="ui-styles-checkbox-input"></div>
+                            </label>
+                        </div>
+                        <div class="menu-page-options-item waves-effect waves-light">
+                            <label id="Tooltips" class="ui-styles-checkbox">
+                                <span>Show Tooltips</span>
+                                <input type="checkbox" focus>
+                                <div class="ui-styles-checkbox-input"></div>
+                            </label>
+                        </div>
+                        <div class="menu-page-options-item waves-effect waves-light">
+                            <label id="Resizer" class="ui-styles-checkbox">
+                                <span>Show Resizer</span>
+                                <input type="checkbox" focus>
+                                <div class="ui-styles-checkbox-input"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pinned Players -->
+                <div class="menu-pinned-players">
+                    <div class="menu-pinned-players-header"><strong>Pinned</strong> Targets</div>
+                    <div class="menu-pinned-players-list">
+                        <!-- Auto Gen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <!-- JS -->
+    <script src="./js/needs/jquery.min.js"></script>
+    <script src="./js/needs/jquery.color.min.js"></script>
+    <script src="./js/needs/jquery-ui.min.js"></script>
+    <script src="./js/needs/materialize.min.js"></script>
+    <script src="./js/needs/popper.min.js"></script>
+    <script src="./js/needs/tippy-bundle.umd.min.js"></script>
+    <script src="./js/app.js" type="text/javascript"></script>
+    <script src="./js/utils.js" type="text/javascript"></script>
+    <script src="./js/sidebar.js" type="text/javascript"></script>
+    <script src="./js/pages/commands.js" type="text/javascript"></script>
+    <script src="./js/pages/playerlist.js" type="text/javascript"></script>
+    <script src="./js/pages/recentbans.js" type="text/javascript"></script>
+    <script src="./js/pages/playerlogs.js" type="text/javascript"></script>
+    <script src="./js/pages/chats.js" type="text/javascript"></script>
+    <script src="./js/pages/options.js" type="text/javascript"></script>
+</html>
+

@@ -1,0 +1,142 @@
+.tooltip-css {
+    position: absolute;
+    padding: .5vh;
+    z-index: 100000;
+    pointer-events: none;
+}
+
+.tooltip-css-inner {
+    background-color: #505355;
+    padding: .5vh .5vw;
+
+    /* max-width: 10.41vw; */
+
+    width: max-content;
+    
+    color: #FFF;
+    text-align: center;
+
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 1.25vh;
+
+    border-radius: 0.45vh;
+}
+
+.tooltip-css-inner.tooltip-css-inner-html {
+    /* max-width: 15.625vw; */
+}
+
+.tooltip-object .tooltip-css-inner.tooltip-css-inner-html {
+    max-width: 41.7vw;
+}
+
+
+.tooltip-css-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    border: .5vh dashed #505355;
+}
+
+.tooltip-css-arrow-n { border-bottom-color: #505355; }
+.tooltip-css-arrow-s { border-top-color: #505355; }
+.tooltip-css-arrow-e { border-left-color: #505355; }
+.tooltip-css-arrow-w { border-right-color: #505355; }
+
+.tooltip-css-n .tooltip-css-arrow {
+    top: 0;
+    left: 50%;
+    margin-left: -.26vw;
+    border-bottom-style: solid;
+    border-top: none;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.tooltip-css-nw .tooltip-css-arrow {
+    top: 0;
+    left: .52vw;
+    border-bottom-style: solid;
+    border-top: none;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.tooltip-css-ne .tooltip-css-arrow {
+    top: 0;
+    right: .52vw;
+    border-bottom-style: solid;
+    border-top: none;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.tooltip-css-s .tooltip-css-arrow {
+    bottom: 0;
+    left: 50%;
+    margin-left: -.26vw;
+    border-top-style: solid;
+    border-bottom: none;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.tooltip-css-sw .tooltip-css-arrow {
+    bottom: 0;
+    left: .52vw;
+    border-top-style: solid;
+    border-bottom: none;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.tooltip-css-se .tooltip-css-arrow {
+    bottom: 0;
+    right: .52vw;
+    border-top-style: solid;
+    border-bottom: none;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.tooltip-css-e .tooltip-css-arrow {
+    right: 0;
+    top: 50%;
+    margin-top: -.26vw;
+    border-left-style: solid;
+    border-right: none;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.tooltip-css-w .tooltip-css-arrow {
+    left: 0;
+    top: 50%;
+    margin-top: -.26vw;
+    border-right-style: solid;
+    border-left: none;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+/* .tooltip-css-inner .detail-root {
+    padding: .5%;
+    min-width: 20%;
+    max-width: 50%;
+    text-align: left;
+}
+
+.tooltip-css-inner .detail-li-level0 .detail-key {
+    width: auto;
+    max-width: 15%;
+    min-width: 5%;
+}
+
+.tooltip-css-inner .detail-li-level0 .detail-value {
+    width: auto;
+    min-width: 5%;
+}
+
+.tooltip-css-inner tr.detail-li-level0:hover { background-color: #333; } */
