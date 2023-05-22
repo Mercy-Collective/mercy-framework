@@ -44,6 +44,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 ---
 
-We appreciate your interest in the Mercy Framework. We hope it serves as a valuable tool for your FiveM server development. If you have any questions or need further assistance, please don't hesitate to reach out to us on Discord.
+We appreciate your interest in the Mercy Framework. If you have any questions or need further assistance, please don't hesitate to reach out to us on Discord.
 
 Happy developing!
