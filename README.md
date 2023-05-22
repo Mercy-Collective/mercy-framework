@@ -38,7 +38,7 @@ Join our Discord server to connect with other developers, seek assistance, and s
 
 ## License
 
-Mercy Framework is released under the [MIT License](LICENSE). Uou can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+Mercy Framework is released under the [GNU General Public License](LICENSE). You can redistribute it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
