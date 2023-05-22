@@ -1,9 +1,5 @@
 # Mercy Framework
 
-Welcome to the Mercy Framework, a custom FiveM framework developed by Mercy Collective.
-
-## Introduction
-
 Mercy Framework is a powerful and flexible framework designed specifically for FiveM, a modification framework for Grand Theft Auto V. 
 
 ## Features
