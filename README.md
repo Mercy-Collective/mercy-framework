@@ -10,13 +10,15 @@ Mercy Framework is a powerful and flexible framework designed specifically for F
 
 ## Getting Started
 
+You can download the [assets here](https://gofile.io/d/H2yjOj),
 To get started with Mercy Framework, follow the steps below:
 
     1. Clone the Mercy Framework repository to your local machine.
     2. Create a database and import the .SQL file provided.
-    3. Configure the CFG files to your liking.
-    4. Customize the framework according to your specific server requirements.
-    5. Play with your community!
+    3. Drag the assets into your resources folder.
+    4. Configure the CFG files to your liking.
+    5. Customize the framework according to your specific server requirements.
+    6. Play with your community!
    
 
 If you still have questions, feel free to join our discord server. We are more then happy to help you over there!
