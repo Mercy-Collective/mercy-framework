@@ -15,10 +15,13 @@ To get started with Mercy Framework, follow the steps below:
 
     1. Clone the Mercy Framework repository to your local machine.
     2. Create a database and import the .SQL file provided.
-    3. Drag the assets into your resources folder.
+    3. Drag the assets into your resources folder. (IMPORTANT STEP!!)
     4. Configure the CFG files to your liking.
     5. Customize the framework according to your specific server requirements.
     6. Play with your community!
+    
+*Make sure you have Onesync* ***legacy*** *or* ***infinity*** *enabled (through txAdmin if you are using it) otherwise your server won't work.*
+ 
    
 
 If you still have questions, feel free to join our discord server. We are more then happy to help you over there!
