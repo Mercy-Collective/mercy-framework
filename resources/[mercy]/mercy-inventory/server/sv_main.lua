@@ -33,7 +33,6 @@ AddEventHandler('Modules/server/ready', function()
 			local Slots = Slots ~= nil and Slots or DropSlots
 			TriggerEvent('mercy-inventory/server/inventory-opened', Source, Type, OtherData)
 			local TotalData = {}
-			print('Opening ', Type)
 			if Type == 'Glovebox' or Type == 'Trunk' or Type == 'Stash' or Type == 'Crafting' or Type == 'Temp' then
 				if not OpenInventories[string.sub(Type, 1, 1)..OtherData] then
 					if Type ~= 'Crafting' and Type ~= 'Temp' then -- Crafting and Temp does not have database items
@@ -125,14 +124,14 @@ AddEventHandler('Modules/server/ready', function()
 			if ToInventory == '.my-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
 				if Type == 'Store' then
 					local StoreItem = Shared.ItemList[OtherInventoryItems[FromSlot]['ItemName']:lower()]
-					if Player.Functions.RemoveMoney('Cash', (Shared.ItemList[StoreItem].Price * Amount)) then
-						if Shared.ItemList[StoreItem]['Type'] == 'Weapon' and not Shared.ItemList[StoreItem]['Melee'] then
+					if Player.Functions.RemoveMoney('Cash', (StoreItem.Price * Amount)) then
+						if StoreItem['Type'] == 'Weapon' and not StoreItem['Melee'] then
 							local SerialNumber = SubType == 'PoliceStore' and Player.PlayerData.Job.Serial or Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()
 							OtherInventoryItems[FromSlot].Info = {Quality = 100.0, Ammo = 5, Serial = SerialNumber}
 						else
 							OtherInventoryItems[FromSlot].Info = {Quality = 100.0}
 						end
-						if Player.Functions.AddItem(StoreItem, Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
+						if Player.Functions.AddItem(StoreItem['ItemName'], Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
 							Cb(true)
 						else
 							Cb(false)
