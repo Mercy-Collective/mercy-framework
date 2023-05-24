@@ -109,7 +109,12 @@ Citizen.CreateThread(function()
     end
     
     function FormatPhone(PhoneNumber)
-        return '('..string.sub(PhoneNumber, 0, 3)..')'..string.sub(PhoneNumber, 4, 6)..'-'..string.sub(PhoneNumber, 7, (string.len(PhoneNumber) + 1))
+        local digitsOnly = PhoneNumber:gsub("%D", "")
+        return string.format("(%s) %s-%s",
+            digitsOnly:sub(1, 3),
+            digitsOnly:sub(4, 6),
+            digitsOnly:sub(7, 10)
+        )
     end
     
     EventsModule.RegisterServer("mercy-phone/server/contacts/call-contact", function(Source, Data)
