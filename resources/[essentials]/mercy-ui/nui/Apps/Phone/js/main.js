@@ -591,7 +591,9 @@ DoPhoneEmpty = (Class) => {
 }
 
 FormatPhone = (PhoneNumber) => {
-    return `(${PhoneNumber.substring(0, 3)}) ${PhoneNumber.substring(3, 6)}-${PhoneNumber.substring(6, (PhoneNumber.length + 1))}`
+    const digitsOnly = PhoneNumber.replace(/\D/g, '');
+  
+    return `(${digitsOnly.slice(0, 3)}) ${digitsOnly.slice(3, 6)}-${digitsOnly.slice(6)}`;
 }
 
 DoPhoneText = (Text, Buttons, TextOptions) => {
