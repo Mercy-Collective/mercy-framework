@@ -175,6 +175,7 @@ Hud.addNuiListener('SetComponentValues', (Data) => {
                 Armor.trail.setAttribute("stroke", "rgba(21, 101, 192, 0.35)")
             }
         } else if (Key === 'Food' && CurrentHudValues.Food.Value != Value.Value && HudPreferences.ShowFood) {
+            if (Value.Value > 100) { Value.Value = 100; }
             Food.animate(Value.Value / 100);
             if (Value.Value <= 10) {
                 $('.hud-hunger').addClass('anim-fade-in-out');
@@ -184,6 +185,7 @@ Hud.addNuiListener('SetComponentValues', (Data) => {
                 Food.trail.setAttribute("stroke", "rgba(255, 109, 0, 0.35)")
             }
         } else if (Key === 'Water' && CurrentHudValues.Water.Value != Value.Value && HudPreferences.ShowWater) {
+            if (Value.Value > 100) { Value.Value = 100; }
             Water.animate(Value.Value / 100);
             if (Value.Value <= 10) {
                 $('.hud-thirst').addClass('anim-fade-in-out');
