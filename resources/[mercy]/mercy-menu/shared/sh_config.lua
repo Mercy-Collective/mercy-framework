@@ -194,20 +194,6 @@ Config.Menu = {
         end,
     },
     {
-        Id = "open-mdw",
-        DisplayName = "MDW",
-        Icon = "#police-tablet",
-        Close = true,
-        FunctionType = "Client",
-        FunctionName = "mercy-mdw/client/open-MDW",
-        FunctionParameters = {Type = 'Police'},
-        EnableMenu = function()
-            if not exports['mercy-hospital']:IsDead() and PlayerData.Job.Name == 'police' and PlayerData.Job.Duty then
-                return true
-            end
-        end,
-    },
-    {
         Id = "walkstyles",
         DisplayName = "Walk Style",
         Icon = "#global-walk",
