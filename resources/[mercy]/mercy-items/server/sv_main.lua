@@ -837,14 +837,16 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer("mercy-items/server/add-food", function(Source, Amount)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player then
-            Player.Functions.SetMetaData("Food", tonumber(Player.PlayerData.MetaData['Food']) + tonumber(Amount))
+            local NewValue = tonumber(Player.PlayerData.MetaData['Food']) + tonumber(Amount)
+            Player.Functions.SetMetaData("Food", math.min(NewValue, 100))
         end
     end)
     
     EventsModule.RegisterServer("mercy-items/server/add-water", function(Source, Amount)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player then
-            Player.Functions.SetMetaData("Water", tonumber(Player.PlayerData.MetaData['Water']) + tonumber(Amount))
+            local NewValue = tonumber(Player.PlayerData.MetaData['Water']) + tonumber(Amount)
+            Player.Functions.SetMetaData("Water", math.min(NewValue, 100))
         end
     end)
     
