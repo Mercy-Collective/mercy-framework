@@ -5,7 +5,7 @@
 function InitAdminMenu()
     if PlayerModule.IsPlayerAdmin() then DebugPrint('permission', Lang:t("info.has_perm")) else DebugPrint('permission', Lang:t("info.has_no_perm")) end
     if (GetServerConvar('steam_webApiKey') == 'none') then DebugPrint('steam', Lang:t("info.steam_key")) end
-    KeybindsModule.Add("openAdminMenu", 'Admin', Lang:t('info.keymapping_desc'), Config.Settings['DefaultOpenKeybind'], nil, 'mc-admin/client/try-open-menu')
+    KeybindsModule.Add("openAdminMenu", 'Admin', Lang:t('info.keymapping_desc'), '', nil, 'mc-admin/client/try-open-menu')
     KeybindsModule.Add("toggleNoclip", 'Admin', 'Toggle Noclip', '', nil, 'mercy-admin/client/toggle-noclip')
     Citizen.Wait(100)
     RefreshMenu('all')

@@ -47,7 +47,7 @@ Citizen.CreateThread(function()
     end, 'admin')
 
     CommandsModule.Add(Config.Commands['MenuOpen'], Lang:t("info.keymapping_desc"), {}, false, function(source)
-        TriggerClientEvent('mc-admin/client/try-open-menu', source, true)
+        TriggerClientEvent('mc-admin/client/try-open-menu', source, false)
     end, 'admin')
 
     CommandsModule.Add(Config.Commands['MenuDebug'], Lang:t("info.menu_debug"), {}, false, function(source)
