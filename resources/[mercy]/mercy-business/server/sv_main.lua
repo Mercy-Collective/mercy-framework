@@ -90,11 +90,12 @@ Citizen.CreateThread(function()
                     BusinessName
                 }, function(AccountResult)
                     if AccountResult[1] == nil then
-                        DatabaseModule.Insert("INSERT INTO player_accounts (CitizenId, Type, Name, BankId) VALUES (?, ?, ?, ?)", {
+                        DatabaseModule.Insert("INSERT INTO player_accounts (CitizenId, Type, Name, BankId, Balance) VALUES (?, ?, ?, ?, ?)", {
                             StateId,
                             'Business',
                             BusinessName,
-                            exports['mercy-financials']:GetUniqueAccountId()
+                            exports['mercy-financials']:GetUniqueAccountId(),
+                            0
                         })
                         TriggerClientEvent('mercy-ui/client/notify', Source, "gave-business-acc", "Successfully created a business account. ("..BusinessName..")", 'success')
                     else
