@@ -41,7 +41,7 @@ RegisterNetEvent('mercy-financials/client/open-banking', function(IsBank, Entity
             if DidComplete then
                 local BankData = CallbackModule.SendCallback('mercy-financials/server/get-accounts')
                 for AccountId, AccountData in pairs(BankData) do
-                    if AccountData['Monitoring'] and not SendedAlert then
+                    if AccountData['Monitoring'] == 1 and not SendedAlert then
                         SendedAlert = true
                         local PlayerCoords = GetEntityCoords(PlayerPedId())
                         for k, v in pairs(Config.BankLocations) do
