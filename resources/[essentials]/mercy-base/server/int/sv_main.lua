@@ -179,7 +179,7 @@ AddEventHandler('Modules/server/ready', function()
 
         CallbackModule.CreateCallback('mercy-base/server/has-enough-crypto', function(Source, Cb, Type, Amount)
             local Player = PlayerModule.GetPlayerBySource(Source)
-            if Player.PlayerData.Money[Type] >= Amount then
+            if Player.PlayerData.Money['Crypto'][Type] >= Amount then
                 Cb(true)
             else
                 Cb(false)
@@ -250,7 +250,7 @@ AddEventHandler('Modules/server/ready', function()
         
         EventsModule.RegisterServer("mercy-base/server/remove-crypto", function(Source, Type, Amount)
             local Player = PlayerModule.GetPlayerBySource(Source)
-            Player.Functions.RemoveMoney(Type, Amount)
+            Player.Functions.RemoveCrypto(Type, Amount)
         end)
                 
         EventsModule.RegisterServer("mercy-base/server/receive-salary", function(Source)
