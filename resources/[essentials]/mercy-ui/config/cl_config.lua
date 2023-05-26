@@ -161,8 +161,8 @@ Config.EyeEntries = {
                 EventType = 'Client',
                 EventName = 'mercy-jobs/client/sanitation/throw-in-trash',
                 EventParams = {},
-                Enabled = function(Entity)                    
-                    if not exports['mercy-phone']:IsJobCenterTaskActive('sanitation', 4) or not exports['mercy-phone']:IsJobCenterTaskActive('sanitation', 6) then return false end
+                Enabled = function(Entity)
+                    if exports['mercy-phone']:IsJobCenterTaskActive('sanitation', 4) == false and exports['mercy-phone']:IsJobCenterTaskActive('sanitation', 6) == false then return end
 
                     if GetEntityModel(Entity) == GetHashKey("trash") and GetBoneDistanceFromVehicle(2, "boot") < 5.0 and GetVehicleDoorAngleRatio(Entity, 5) > 0.0 then
                         return true
