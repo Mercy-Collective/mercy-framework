@@ -230,139 +230,143 @@ function ChangeVariation(Data)
     local Category = Data.ClothingType
     local Type = Data.Type
     local Item = Data.ArticleNumber
+    local EntityModel = GetEntityModel(PlayerPed)
     if Item then
         ---
         -- Parents
         ---
-        if Category == "Face" then
-            if Type == "Item" then
-                SetPedHeadBlendData(PlayerPed, 
-                tonumber(Item), 
-                Config.SkinData['Skin']["Face2"].Item, 
-                Config.SkinData['Skin']["Face3"].Item, 
-                Config.SkinData['Skin']["Face"].Texture, 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                Config.SkinData['Skin']["Face3"].Texture,
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
+        if (EntityModel == `mp_f_freemode_01` or EntityModel == `mp_m_freemode_01`) then
+            if Category == "Face" then
+                if Type == "Item" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    tonumber(Item), 
+                    Config.SkinData['Skin']["Face2"].Item, 
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    Config.SkinData['Skin']["Face3"].Texture,
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
 
-                Config.SkinData['Skin']["Face"].Item = Item
-            elseif Type == "Texture" then
-                SetPedHeadBlendData(PlayerPed, 
-                Config.SkinData['Skin']["Face"].Item, 
-                Config.SkinData['Skin']["Face2"].Item, 
-                Config.SkinData['Skin']["Face3"].Item, 
-                tonumber(Item), 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                Config.SkinData['Skin']["Face3"].Texture, 
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Face"].Item = Item
+                elseif Type == "Texture" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    Config.SkinData['Skin']["Face"].Item, 
+                    Config.SkinData['Skin']["Face2"].Item, 
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    tonumber(Item), 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    Config.SkinData['Skin']["Face3"].Texture, 
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
 
-                Config.SkinData['Skin']["Face"].Texture = Item
+                    Config.SkinData['Skin']["Face"].Texture = Item
+                end
+            elseif Category == "Face2" then
+                if Type == "Item" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    Config.SkinData['Skin']["Face"].Item, 
+                    tonumber(Item), 
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    Config.SkinData['Skin']["Face3"].Texture, 
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+
+                    Config.SkinData['Skin']["Face2"].Item = Item
+                elseif Type == "Texture" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    Config.SkinData['Skin']["Face"].Item, 
+                    Config.SkinData['Skin']["Face2"].Item,
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    tonumber(Item), 
+                    Config.SkinData['Skin']["Face3"].Texture, 
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+
+                    Config.SkinData['Skin']["Face2"].Texture = Item
+                end
+            elseif Category == "Face3" then
+                if Type == "Item" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    Config.SkinData['Skin']["Face"].Item, 
+                    Config.SkinData['Skin']["Face2"].Item, 
+                    tonumber(Item), 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    Config.SkinData['Skin']["Face3"].Texture, 
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+
+                    Config.SkinData['Skin']["Face3"].Item = Item
+                elseif Type == "Texture" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    Config.SkinData['Skin']["Face"].Item, 
+                    Config.SkinData['Skin']["Face2"].Item, 
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    tonumber(Item), 
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+
+                    Config.SkinData['Skin']["Face3"].Texture = Item
+                end
+            elseif Category == "Facemix" then
+                if Type == "Item" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    Config.SkinData['Skin']["Face"].Item, 
+                    Config.SkinData['Skin']["Face2"].Item, 
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    Config.SkinData['Skin']["Face3"].Texture, 
+                    Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+
+                    Config.SkinData['Skin']["Facemix"].Item = Item
+                end
+            elseif Category == "Skinmix" then
+                if Type == "Item" then
+                    SetPedHeadBlendData(PlayerPed,
+                    Config.SkinData['Skin']["Face"].Item, 
+                    Config.SkinData['Skin']["Face2"].Item, 
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    Config.SkinData['Skin']["Face3"].Texture, 
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Item, 
+                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+
+                    Config.SkinData['Skin']["Skinmix"].Item = Item
+                end
+            elseif Category == "Thirdmix" then
+                if Type == "Item" then
+                    SetPedHeadBlendData(PlayerPed, 
+                    Config.SkinData['Skin']["Face"].Item, 
+                    Config.SkinData['Skin']["Face2"].Item, 
+                    Config.SkinData['Skin']["Face3"].Item, 
+                    Config.SkinData['Skin']["Face"].Texture, 
+                    Config.SkinData['Skin']["Face2"].Texture, 
+                    Config.SkinData['Skin']["Face3"].Texture, 
+                    Config.SkinData['Skin']["Facemix"].Item, 
+                    Config.SkinData['Skin']["Skinmix"].Item, 
+                    Item, true)
+
+                    Config.SkinData['Skin']["Thirdmix"].Item = Item
+                end
             end
-        elseif Category == "Face2" then
-            if Type == "Item" then
-                SetPedHeadBlendData(PlayerPed, 
-                Config.SkinData['Skin']["Face"].Item, 
-                tonumber(Item), 
-                Config.SkinData['Skin']["Face3"].Item, 
-                Config.SkinData['Skin']["Face"].Texture, 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                Config.SkinData['Skin']["Face3"].Texture, 
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
-
-                Config.SkinData['Skin']["Face2"].Item = Item
-            elseif Type == "Texture" then
-                SetPedHeadBlendData(PlayerPed, 
-                Config.SkinData['Skin']["Face"].Item, 
-                Config.SkinData['Skin']["Face2"].Item,
-                Config.SkinData['Skin']["Face3"].Item, 
-                Config.SkinData['Skin']["Face"].Texture, 
-                tonumber(Item), 
-                Config.SkinData['Skin']["Face3"].Texture, 
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
-
-                Config.SkinData['Skin']["Face2"].Texture = Item
-            end
-        elseif Category == "Face3" then
-            if Type == "Item" then
-                SetPedHeadBlendData(PlayerPed, 
-                Config.SkinData['Skin']["Face"].Item, 
-                Config.SkinData['Skin']["Face2"].Item, 
-                tonumber(Item), 
-                Config.SkinData['Skin']["Face"].Texture, 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                Config.SkinData['Skin']["Face3"].Texture, 
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
-
-                Config.SkinData['Skin']["Face3"].Item = Item
-            elseif Type == "Texture" then
-                SetPedHeadBlendData(PlayerPed, 
-                Config.SkinData['Skin']["Face"].Item, 
-                Config.SkinData['Skin']["Face2"].Item, 
-                Config.SkinData['Skin']["Face3"].Item, 
-                Config.SkinData['Skin']["Face"].Texture, 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                tonumber(Item), 
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
-
-                Config.SkinData['Skin']["Face3"].Texture = Item
-            end
-        elseif Category == "Facemix" then
-            if Type == "Item" then
-                SetPedHeadBlendData(PlayerPed, 
-                Config.SkinData['Skin']["Face"].Item, 
-                Config.SkinData['Skin']["Face2"].Item, 
-                Config.SkinData['Skin']["Face3"].Item, 
-                Config.SkinData['Skin']["Face"].Texture, 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                Config.SkinData['Skin']["Face3"].Texture, 
-                Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
-
-                Config.SkinData['Skin']["Facemix"].Item = Item
-            end
-        elseif Category == "Skinmix" then
-            if Type == "Item" then
-                SetPedHeadBlendData(PlayerPed,
-                Config.SkinData['Skin']["Face"].Item, 
-                Config.SkinData['Skin']["Face2"].Item, 
-                Config.SkinData['Skin']["Face3"].Item, 
-                Config.SkinData['Skin']["Face"].Texture, 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                Config.SkinData['Skin']["Face3"].Texture, 
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Item, 
-                Config.SkinData['Skin']["Thirdmix"].Item, true)
-
-                Config.SkinData['Skin']["Skinmix"].Item = Item
-            end
-        elseif Category == "Thirdmix" then
-            if Type == "Item" then
-                SetPedHeadBlendData(PlayerPed, 
-                Config.SkinData['Skin']["Face"].Item, 
-                Config.SkinData['Skin']["Face2"].Item, 
-                Config.SkinData['Skin']["Face3"].Item, 
-                Config.SkinData['Skin']["Face"].Texture, 
-                Config.SkinData['Skin']["Face2"].Texture, 
-                Config.SkinData['Skin']["Face3"].Texture, 
-                Config.SkinData['Skin']["Facemix"].Item, 
-                Config.SkinData['Skin']["Skinmix"].Item, 
-                Item, true)
-
-                Config.SkinData['Skin']["Thirdmix"].Item = Item
-            end
+        end
         ---
         -- Hair
         ---
