@@ -40,8 +40,8 @@ RegisterNetEvent('mercy-clothing/client/create-new-char', function()
         if PlayerData.CharInfo.Gender == 'Female' then
             DefaultPed = "mp_f_freemode_01"
         end
-        Config.SkinData['Skin']['Model'].Item = DefaultPed
-        print('Setting default Model', Config.SkinData['Skin']['Model'].Item)
+        Config.SkinData['Skin']['Model'] = DefaultPed
+        print('Setting default Model', Config.SkinData['Skin']['Model'])
         NetworkSetEntityInvisibleToNetwork(PlayerPedId(), true)
         EventsModule.TriggerServer('mercy-base/server/bucketmanager/set-routing-bucket')
         TriggerEvent('mercy-weathersync/client/set-default-weather', 15)
@@ -104,11 +104,13 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     if PlayerPed == nil then PlayerPed = PlayerPedId() end
     local SkinData = Data['Skin']
     local TattoosData = Data['Tattoos']
-    local ModelData = Data['Model']
+    local EntityModel = GetEntityModel(PlayerPed)
+
     if SkinData == nil then
         DebugLog('SkinLoad', 'Skin data is nil. Can\'t load skin...')
         return
     end
+
     if TattoosData == nil then
         DebugLog('TattoosLoad', 'Tattoos data is nil. Can\'t load tattoos...')
         return
@@ -118,6 +120,7 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     for i = 0, 11 do
         SetPedComponentVariation(PlayerPed, i, 0, 0, 0)
     end
+
     for i = 0, 7 do
         ClearPedProp(PlayerPed, i)
     end
@@ -125,23 +128,22 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     ---
     -- Parents
     ---
+    if not SkinData["Facemix"] or not SkinData["Skinmix"] or not SkinData["Thirdmix"] or not SkinData["Face"] or not SkinData["Face2"] or not SkinData["Face3"] then
+        DebugLog('Parents', 'Missing parents data, applying default.')
+        SkinData["Facemix"] = Config.SkinData['Skin']["Facemix"]
+        SkinData["Skinmix"] = Config.SkinData['Skin']["Skinmix"]
+        SkinData["Thirdmix"] = Config.SkinData['Skin']["Thirdmix"]
 
-    if (ModelData == GetHashKey("mp_f_freemode_01") or ModelData == GetHashKey("mp_m_freemode_01")) then
-        if not SkinData["Facemix"] or not SkinData["Skinmix"] or not SkinData["Thirdmix"] or not SkinData["Face"] or not SkinData["Face2"] or not SkinData["Face3"] then
-            DebugLog('Parents', 'Missing parents data, applying default.')
-            SkinData["Facemix"] = Config.SkinData['Skin']["Facemix"]
-            SkinData["Skinmix"] = Config.SkinData['Skin']["Skinmix"]
-            SkinData["Thirdmix"] = Config.SkinData['Skin']["Thirdmix"]
+        SkinData["Facemix"].Item = SkinData["Facemix"].defaultItem
+        SkinData["Skinmix"].Item = SkinData["Skinmix"].defaultItem
+        SkinData["Thirdmix"].Item = SkinData["Thirdmix"].defaultItem
 
-            SkinData["Facemix"].Item = SkinData["Facemix"].defaultItem
-            SkinData["Skinmix"].Item = SkinData["Skinmix"].defaultItem
-            SkinData["Thirdmix"].Item = SkinData["Thirdmix"].defaultItem
-
-            SkinData["Face"] = Config.SkinData['Skin']["Face"]
-            SkinData["Face2"] = Config.SkinData['Skin']["Face2"]
-            SkinData["Face3"] = Config.SkinData['Skin']["Face3"]
-        end
-        SetPedHeadBlendData(PlayerPed, SkinData["Face"].Item, SkinData["Face2"].Item, SkinData["Face3"].Item, SkinData["Face"].Texture, SkinData["Face2"].Texture, SkinData["Face3"].Texture, SkinData["Facemix"].Item, SkinData["Skinmix"].Item, SkinData["Thirdmix"].Item, true)
+        SkinData["Face"] = Config.SkinData['Skin']["Face"]
+        SkinData["Face2"] = Config.SkinData['Skin']["Face2"]
+        SkinData["Face3"] = Config.SkinData['Skin']["Face3"]
+    end
+    if (EntityModel == `mp_f_freemode_01` or EntityModel == `mp_m_freemode_01`) then
+        SetPedHeadBlendData(PlayerPed, SkinData["Face"].Item, SkinData["Face2"].Item, SkinData["Face3"].Item, SkinData["Face"].Texture, SkinData["Face2"].Texture, SkinData["Face3"].Texture, SkinData["Facemix"].Item, SkinData["Skinmix"].Item, SkinData["Thirdmix"].Item, false)
         DebugLog('Parents', 'Applied parents to ped.')
     end
 
