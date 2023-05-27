@@ -370,7 +370,7 @@ function ChangeVariation(Data)
         ---
         -- Hair
         ---
-        elseif Category == "Hair" then
+        if Category == "Hair" then
             if Type == "Item" then
                 SetPedComponentVariation(PlayerPed, 2, Item, 0, 0)
                 Config.SkinData['Skin']["Hair"].Item = Item
