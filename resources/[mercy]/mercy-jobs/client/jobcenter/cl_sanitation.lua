@@ -251,7 +251,7 @@ RegisterNetEvent('mercy-jobs/client/sanitation/return-veh', function(Data, Entit
     TriggerEvent('mercy-phone/client/jobcenter/request-task-success', 7, true)
 end)
 
-RegisterNetEvent('mercy-jobs/client/sanitation-pickup-trash', function(Data, Entity)
+RegisterNetEvent('mercy-jobs/client/sanitation/pickup-trash', function(Data, Entity)
     if Jobs.Sanitation.HasBag then exports['mercy-ui']:Notify("sanitation-error", "You already have a trash bag..", "error") return end
     
     local IsEmpty = CallbackModule.SendCallback("mercy-jobs/server/sanitation/is-dumpster-empty", ObjToNet(Entity))

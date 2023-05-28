@@ -83,13 +83,15 @@ function BuildCharacterProps()
         local Model = SkinData.Model ~= nil and SkinData.Model or GetHashKey("m_character_select")
         local IsCustomSkin = Config.CustomSkins[Model] or false
         if IsCustomSkin then 
-            local NoSkinHash = GetHashKey("m_character_select")
-            local ModelLoaded = FunctionsModule.RequestModel(NoSkinHash)
+            local ModelLoaded = FunctionsModule.RequestModel(Model)
             if ModelLoaded then
-                local Ped = CreatePed(3, NoSkinHash, MULTICHARACTER.peds[cid].x, MULTICHARACTER.peds[cid].y, MULTICHARACTER.peds[cid].z, MULTICHARACTER.peds[cid].h, false, false)
+                local Ped = CreatePed(3, Model, MULTICHARACTER.peds[cid].x, MULTICHARACTER.peds[cid].y, MULTICHARACTER.peds[cid].z, MULTICHARACTER.peds[cid].h, false, false)
                 SetEntityCoordsNoOffset(Ped, MULTICHARACTER.peds[cid].x, MULTICHARACTER.peds[cid].y, MULTICHARACTER.peds[cid].z)
                 SetEntityHeading(Ped, MULTICHARACTER.peds[cid].h)
                 -- SetEntityAlpha(Ped, 205, false)
+                
+                -- print('Applying skin to ped', json.encode(SkinData), Ped)
+                TriggerEvent('mercy-clothing/client/load-clothing', SkinData, Ped)
                 
                 if Anim then
                     FunctionsModule.RequestAnimDict(Anim['Dict'])
