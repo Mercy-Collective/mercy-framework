@@ -92,13 +92,11 @@ RegisterNetEvent("mc-clothing/client/load-skin", function(Model, Skin, Tattoos)
             SetPlayerModel(PlayerId(), GetHashKey(Model)) 
             SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 0) 
         end
-        SkinData['Model'] = Model
         SkinData['Skin'] = Skin
         SkinData['Tattoos'] = Tattoos
         TriggerEvent('mercy-clothing/client/load-clothing', SkinData, PlayerPedId())
     end)
 end)
-
 
 RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed)
     if PlayerPed == nil then PlayerPed = PlayerPedId() end
@@ -110,7 +108,6 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
         DebugLog('SkinLoad', 'Skin data is nil. Can\'t load skin...')
         return
     end
-
     if TattoosData == nil then
         DebugLog('TattoosLoad', 'Tattoos data is nil. Can\'t load tattoos...')
         return
@@ -120,7 +117,6 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     for i = 0, 11 do
         SetPedComponentVariation(PlayerPed, i, 0, 0, 0)
     end
-
     for i = 0, 7 do
         ClearPedProp(PlayerPed, i)
     end
