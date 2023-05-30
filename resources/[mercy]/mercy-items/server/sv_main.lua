@@ -830,8 +830,8 @@ Citizen.CreateThread(function()
         for i = 1, PresentAmount, 1 do
             local RandomItem = Config.RandomPresentItems[math.random(1, #Config.RandomPresentItems)]
             Player.Functions.AddItem(RandomItem, 1, false, false, true)
-            Player.Functions.AddItem('phone', 1, false, false, true)
         end
+        Player.Functions.AddItem('phone', 1, false, false, true)
     end)
 
     EventsModule.RegisterServer("mercy-items/server/add-food", function(Source, Amount)
