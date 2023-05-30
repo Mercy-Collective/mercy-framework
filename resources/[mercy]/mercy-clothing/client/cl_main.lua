@@ -40,8 +40,8 @@ RegisterNetEvent('mercy-clothing/client/create-new-char', function()
         if PlayerData.CharInfo.Gender == 'Female' then
             DefaultPed = "mp_f_freemode_01"
         end
-        Config.SkinData['Skin']['Model'] = DefaultPed
-        print('Setting default Model', Config.SkinData['Skin']['Model'])
+        Config.SkinData['Skin']['Model'].Item = DefaultPed
+        print('Setting default Model', Config.SkinData['Skin']['Model'].Item)
         NetworkSetEntityInvisibleToNetwork(PlayerPedId(), true)
         EventsModule.TriggerServer('mercy-base/server/bucketmanager/set-routing-bucket')
         TriggerEvent('mercy-weathersync/client/set-default-weather', 15)
@@ -685,11 +685,11 @@ RegisterNUICallback('SetCurrentPed', function(Data, Cb)
     local Ped = Data.Ped
     local Type = Data.Type:lower()
     if Type == 'male' then
-        Config.SkinData['Skin']['Model'] = Config.ManPlayerModels[Ped]
+        Config.SkinData['Skin']['Model'].Item = Config.ManPlayerModels[Ped]
         ChangeToSkinNoUpdate(Config.ManPlayerModels[Ped])
         Cb(Config.ManPlayerModels[Ped])
     else
-        Config.SkinData['Skin']['Model'] = Config.WomanPlayerModels[Ped]
+        Config.SkinData['Skin']['Model'].Item = Config.WomanPlayerModels[Ped]
         ChangeToSkinNoUpdate(Config.WomanPlayerModels[Ped])
         Cb(Config.WomanPlayerModels[Ped])
     end
