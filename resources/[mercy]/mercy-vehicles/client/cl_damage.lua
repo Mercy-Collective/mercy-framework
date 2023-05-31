@@ -13,6 +13,8 @@ Citizen.CreateThread(function()
     while KeybindsModule == nil do Citizen.Wait(10) end
 
     KeybindsModule.Add('toggleBelt', 'Vehicle', 'Toggle Belt', 'B', function(OnPress)
+        if not OnPress then return end
+        
         local Vehicle = GetVehiclePedIsIn(PlayerPedId())
         local VehicleClass = GetVehicleClass(Vehicle)
         local HarnessLevel = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, "Harness")
