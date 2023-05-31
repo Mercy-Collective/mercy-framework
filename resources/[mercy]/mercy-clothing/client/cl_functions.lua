@@ -247,7 +247,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture,
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Face"].Item = Item
                 elseif Type == "Texture" then
@@ -260,7 +260,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Face"].Texture = Item
                 end
@@ -275,7 +275,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Face2"].Item = Item
                 elseif Type == "Texture" then
@@ -288,7 +288,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Face2"].Texture = Item
                 end
@@ -303,7 +303,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Face3"].Item = Item
                 elseif Type == "Texture" then
@@ -316,7 +316,7 @@ function ChangeVariation(Data)
                     tonumber(Item), 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Face3"].Texture = Item
                 end
@@ -331,7 +331,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Facemix"].Item = Item
                 end
@@ -346,7 +346,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Item, 
-                    Config.SkinData['Skin']["Thirdmix"].Item, true)
+                    Config.SkinData['Skin']["Thirdmix"].Item, false)
 
                     Config.SkinData['Skin']["Skinmix"].Item = Item
                 end
@@ -361,7 +361,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Item, true)
+                    Item, false)
 
                     Config.SkinData['Skin']["Thirdmix"].Item = Item
                 end
