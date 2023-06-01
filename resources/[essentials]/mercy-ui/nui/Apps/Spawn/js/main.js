@@ -104,7 +104,7 @@ var SetupSpawns = (Spawns) => {
 
     $.each(Spawns, function(i, Elem){
         if (Elem.Favorited) {
-            FavoritedSpawns++;
+            // FavoritedSpawns++;
             $('.no-favorites').remove();
             $('.map-fav-items').append(`<div data-spawn="${Elem.Id}" class="map-fav-item favorited">${Elem.Name}</div>`);
         };
