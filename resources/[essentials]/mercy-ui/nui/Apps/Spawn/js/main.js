@@ -104,7 +104,7 @@ var SetupSpawns = (Spawns) => {
 
     $.each(Spawns, function(i, Elem){
         if (Elem.Favorited) {
-            // FavoritedSpawns++;
+            FavoritedSpawns++;
             $('.no-favorites').remove();
             $('.map-fav-items').append(`<div data-spawn="${Elem.Id}" class="map-fav-item favorited">${Elem.Name}</div>`);
         };
@@ -165,7 +165,7 @@ $(document).on({
                 }
 
                 FavoritedSpawns++;
-                $('.map-fav-items').empty();
+                $('.map-fav-items').remove();
                 $('.map-fav-items').append(`<div data-spawn="${Data.Id}" class="map-fav-item favorited">${Data.Name}</div>`);
             } else {                
                 $(`[data-id="${Data.Id}"]`).removeClass('marker-favorited');
