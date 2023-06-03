@@ -165,7 +165,7 @@ $(document).on({
                 }
 
                 FavoritedSpawns++;
-                $('.map-fav-items').empty();
+                $('.map-fav-items').remove();
                 $('.map-fav-items').append(`<div data-spawn="${Data.Id}" class="map-fav-item favorited">${Data.Name}</div>`);
             } else {                
                 $(`[data-id="${Data.Id}"]`).removeClass('marker-favorited');
