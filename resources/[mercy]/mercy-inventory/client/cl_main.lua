@@ -581,7 +581,7 @@ function FormatNoDataItems(ItemData)
             ['Price'] = v.Price ~= nil and v.Price or 0,
             ['Description'] = Data['Description'],
             ['Combinable'] = Data['Combinable'],
-            ['CreateDate'] = Data['CreateDate'],
+            ['CreateDate'] = v.CreateDate,
             ['Cost'] = Data['Cost'],
         }
     end

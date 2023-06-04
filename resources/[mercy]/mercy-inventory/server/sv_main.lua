@@ -93,6 +93,7 @@ AddEventHandler('Modules/server/ready', function()
 					Citizen.SetTimeout(5, function()
 						OpenInventories['D'..OtherData['SubType']] = true
 					end)
+					return
 				else
 					TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
 					return
@@ -219,6 +220,7 @@ AddEventHandler('Modules/server/ready', function()
 									Slot = ToSlot,
 									Amount = Amount,
 									Info = Player.PlayerData.Inventory[FromSlot].Info,
+									CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
 								}
 							else
 								Config.Drops[SubType]['Items'][ToSlot].Amount = Config.Drops[SubType]['Items'][ToSlot].Amount + Amount
@@ -239,7 +241,7 @@ AddEventHandler('Modules/server/ready', function()
 							Config.Drops[SubType] = {
 								['SubType'] = SubType,
 								['Type'] = 'Drop',
-								['InvName'] = 'Ground',
+								['InvName'] = 'Drop'..SubType,
 								['InvSlots'] = DropSlots,
 								['Coords'] = vector3(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z),
 								['Heading'] = PlayerCoords.w,
@@ -250,6 +252,7 @@ AddEventHandler('Modules/server/ready', function()
 										Slot = ToSlot,
 										Amount = Amount,
 										Info = Player.PlayerData.Inventory[FromSlot].Info,
+										CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
 									},
 								},
 							}
@@ -276,6 +279,7 @@ AddEventHandler('Modules/server/ready', function()
 								Slot = ToSlot,
 								Amount = Amount,
 								Info = Player.PlayerData.Inventory[FromSlot].Info,
+								CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
 							}
 						else
 							DBItems[ToSlot].Amount = DBItems[ToSlot].Amount + Amount
@@ -304,8 +308,8 @@ AddEventHandler('Modules/server/ready', function()
 					if ExtraData == 'Swap' then
 						local DataFrom = Config.Drops[SubType]['Items'][FromSlot]
 						local DataTo = Config.Drops[SubType]['Items'][ToSlot]
-						Config.Drops[SubType]['Items'][ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, }
-						Config.Drops[SubType]['Items'][FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info, }
+						Config.Drops[SubType]['Items'][ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
+						Config.Drops[SubType]['Items'][FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info, CreateDate = DataTo.CreateDate, }
 						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
 						TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
 						Cb(true)
@@ -316,6 +320,7 @@ AddEventHandler('Modules/server/ready', function()
 							Slot = ToSlot,
 							Amount = NewAmount,
 							Info = Config.Drops[SubType]['Items'][FromSlot].Info,
+							CreateDate = Config.Drops[SubType]['Items'][FromSlot].CreateDate,
 						}
 						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
 						Config.Drops[SubType]['Items'][FromSlot] = nil
@@ -328,6 +333,7 @@ AddEventHandler('Modules/server/ready', function()
 								Slot = ToSlot,
 								Amount = Amount,
 								Info = Config.Drops[SubType]['Items'][FromSlot].Info,
+								CreateDate = Config.Drops[SubType]['Items'][FromSlot].CreateDate,
 							}
 							Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
 							Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
@@ -346,25 +352,25 @@ AddEventHandler('Modules/server/ready', function()
 					if ExtraData == 'Swap' then
 						local DataFrom = DBItems[FromSlot]
 						local DataTo = DBItems[ToSlot]
-						DBItems[ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, }
-						DBItems[FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info, }
+						DBItems[ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
+						DBItems[FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info,  CreateDate = DataTo.CreateDate, }
 						SaveInventoryData(Type, SubType, DBItems)
 						Cb(true)
 					elseif DBItems[FromSlot].Amount == Amount then
 						if DBItems[ToSlot] == nil then
-							DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, }
+							DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
 							DBItems[FromSlot] = nil
 							SaveInventoryData(Type, SubType, DBItems)
 							Cb(true)
 						else
-							DBItems[ToSlot] = { ItemName = DBItems[ToSlot].ItemName, Slot = ToSlot, Amount = DBItems[ToSlot].Amount + Amount, Info = DBItems[ToSlot].Info, }
+							DBItems[ToSlot] = { ItemName = DBItems[ToSlot].ItemName, Slot = ToSlot, Amount = DBItems[ToSlot].Amount + Amount, Info = DBItems[ToSlot].Info, CreateDate = DBItems[Info].CreateDate, }
 							DBItems[FromSlot] = nil
 							SaveInventoryData(Type, SubType, DBItems)
 							Cb(true)
 						end
 					elseif DBItems[FromSlot].Amount > Amount then
 						if DBItems[ToSlot] == nil then
-							DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, }
+							DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
 							DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
 							SaveInventoryData(Type, SubType, DBItems)
 							Cb(true)
@@ -394,6 +400,7 @@ AddEventHandler('Modules/server/ready', function()
 							Unique = ItemDataFrom["Unique"], 
 							Image = ItemDataFrom["Image"], 
 							Combinable = ItemDataFrom["Combinable"],
+							CreateDate = ItemDataFrom["CreateDate"],
 							Quality = ItemDataFrom["Quality"]
 						}
 						OtherItems[FromSlot] = {
@@ -408,6 +415,7 @@ AddEventHandler('Modules/server/ready', function()
 							Unique = ItemDataTo["Unique"], 
 							Image = ItemDataTo["Image"],  
 							Combinable = ItemDataTo["Combinable"],
+							CreateDate = ItemDataTo["CreateDate"],
 							Quality = ItemDataTo["Quality"]
 						}
 						OtherPlayer.Functions.SetItemData(OtherItems)
@@ -431,6 +439,7 @@ AddEventHandler('Modules/server/ready', function()
 								Unique = ItemDataFrom["Unique"], 
 								Image = ItemDataFrom["Image"], 
 								Combinable = ItemDataFrom["Combinable"],
+								CreateDate = ItemDataFrom["CreateDate"],
 								Quality = ItemDataFrom["Quality"]
 							}
 							OtherItems[FromSlot] = nil
@@ -454,6 +463,7 @@ AddEventHandler('Modules/server/ready', function()
 								Unique = ItemDataTo["Unique"], 
 								Image = ItemDataTo["Image"], 
 								Combinable = ItemDataTo["Combinable"],
+								CreateDate = ItemDataTo["CreateDate"],
 								Quality = ItemDataTo["Quality"]
 							}
 							OtherItems[FromSlot] = nil
@@ -476,6 +486,7 @@ AddEventHandler('Modules/server/ready', function()
 								Unique = ItemDataFrom["Unique"], 
 								Image = ItemDataFrom["Image"], 
 								Combinable = ItemDataFrom["Combinable"],
+								CreateDate = ItemDataFrom["CreateDate"],
 								Quality = ItemDataFrom["Quality"]
 							}
 							OtherItems[FromSlot].Amount = OtherItems[FromSlot].Amount - Amount
@@ -608,6 +619,7 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 					Slot = GetFreeSlotInDrop(DropSlots, k),
 					Amount = Amount,
 					Info = Info,
+					CreateDate = os.date(),
 				}
 				TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[k], k)
 				goto continue
@@ -615,12 +627,13 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 			end
 		end
 	end
+
 	-- Drop is not close to another drop
 	local RandomId = math.random(1111111, 9999999)
 	Config.Drops[RandomId] = {
 		['SubType'] = RandomId,
 		['Type'] = 'Drop',
-		['InvName'] = 'Ground',
+		['InvName'] = 'Drop'..RandomId,
 		['InvSlots'] = DropSlots,
 		['Coords'] = vector3(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z),
 		['Heading'] =  PlayerCoords.w,
@@ -631,6 +644,7 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 				Slot = 1,
 				Amount = Amount,
 				Info = Info,
+				CreateDate = os.date(),
 			},
 		},
 	}
@@ -704,6 +718,8 @@ function SaveInventoryData(Type, Name, Items)
 			NewData.Slot = v.Slot
 			NewData.Amount = v.Amount
 			NewData.Info = v.Info
+			NewData.Quality = v.Quality
+			NewData.CreateDate = v.CreateDate
 			ItemsJson[#ItemsJson+1] = NewData
 		end
 	end
