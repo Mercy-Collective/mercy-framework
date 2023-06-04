@@ -126,6 +126,10 @@ function SetupPeds()
                     EventName = 'mercy-phone/server/jobcenter/check-in',
                     EventParams = Job['Name'],
                     Enabled = function(Entity)
+                        if Job['RequiresVPN'] and not exports['mercy-inventory']:HasEnoughOfItem('vpn', 1) then
+                            return false
+                        end
+
                         return exports['mercy-phone']:GetCurrentJob() == false
                     end,
                 },
@@ -137,6 +141,10 @@ function SetupPeds()
                     EventName = 'mercy-phone/server/jobcenter/check-out',
                     EventParams = {},
                     Enabled = function(Entity)
+                        if Job['RequiresVPN'] and not exports['mercy-inventory']:HasEnoughOfItem('vpn', 1) then
+                            return false
+                        end
+
                         return exports['mercy-phone']:GetCurrentJob() ~= false
                     end,
                 },

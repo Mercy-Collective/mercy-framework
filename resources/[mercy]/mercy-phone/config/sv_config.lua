@@ -107,7 +107,7 @@ ServerConfig.Jobs = {
         ["Icon"] = 'fas fa-home',
         ["Label"] = "House Cleaning",
         ["Name"] = "houses",
-        ["Location"] = vector4(-969.73, 524.84, 81.47, 147.54),
+        ["Location"] = vector4(-969.73, 524.84, 80.47, 147.54),
         ["RequiresVPN"] = true,
         -- Don't touch
         ["GroupCount"] = 0,
