@@ -495,7 +495,7 @@ function InitFoodzones()
                     Icon = 'fas fa-hamburger',
                     Label = 'Make Food',
                     EventType = 'Client',
-                    EventName = 'mercy-business/client/prepare-meal',
+                    EventName = 'mercy-business/client/foodchain/prepare-meal',
                     EventParams = 'Main',
                     Enabled = function(Entity)
                         local ClockData = exports['mercy-business']:GetClockedData()
