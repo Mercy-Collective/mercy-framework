@@ -669,7 +669,7 @@ function InitFoodzones()
                     Icon = 'fas fa-box',
                     Label = 'Food Tray',
                     EventType = 'Client',
-                    EventName = 'mercy-business/client/open-storage',
+                    EventName = 'mercy-business/client/foodchain/open-storage',
                     EventParams = 'bs-food-tray',
                     Enabled = function(Entity)
                         return true
