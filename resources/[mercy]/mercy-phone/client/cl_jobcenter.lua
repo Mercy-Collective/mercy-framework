@@ -33,7 +33,8 @@ end)
 -- Functions
 function JobCenter.Render()
     local Jobs = CallbackModule.SendCallback("mercy-phone/server/jobcenter/get-jobs")
-    JobCenter.Jobs = Jobs
+    local FilteredJobs = FilterJobs(Jobs)
+    JobCenter.Jobs = FilteredJobs
 
     exports['mercy-ui']:SendUIMessage("Phone", "RenderJobCenterApp", {
         Jobs = JobCenter.Jobs
@@ -45,12 +46,28 @@ function JobCenter.Render()
     end
 end
 
+function FilterJobs(Jobs)
+    local FilteredJobs = {}
+    local VPNItem = exports['mercy-inventory']:HasEnoughOfItem('vpn', 1)
+    for k, v in pairs(Jobs) do
+        if v['RequiresVPN'] then
+            if VPNItem then
+                table.insert(FilteredJobs, v) 
+            end
+        else
+            table.insert(FilteredJobs, v)
+        end
+    end
+    return FilteredJobs
+end
+
 -- Events
 
 
 RegisterNetEvent("mercy-phone/client/jobcenter/update", function()
     local Jobs = CallbackModule.SendCallback("mercy-phone/server/jobcenter/get-jobs")
-    JobCenter.Jobs = Jobs
+    local FilteredJobs = FilterJobs(Jobs)
+    JobCenter.Jobs = FilteredJobs
 end)
 
 RegisterNetEvent('mercy-phone/client/jobcenter/check-out', function()

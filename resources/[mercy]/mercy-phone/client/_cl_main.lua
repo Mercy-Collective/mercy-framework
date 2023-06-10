@@ -45,11 +45,12 @@ RegisterNetEvent('mercy-base/client/on-login', function()
         local Posts = CallbackModule.SendCallback("mercy-phone/server/adverts/get-posts")
         local ContactsData = CallbackModule.SendCallback("mercy-phone/server/contacts/get-contacts")
         local Jobs = CallbackModule.SendCallback("mercy-phone/server/jobcenter/get-jobs")
+        local FilteredJobs = FilterJobs(Jobs)
 
         Twitter.Tweets = Tweets
         Adverts.Posts = Posts
         Contacts.Contacts = ContactsData
-        JobCenter.Jobs = Jobs
+        JobCenter.Jobs = FilteredJobs
 
         exports['mercy-ui']:SendUIMessage("Phone", "SetPhonePlayerData", GetPhonePlayerData())
     end)

@@ -15,12 +15,8 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback('mercy-phone/server/jobcenter/get-jobs', function(Source, Cb)
-        local FilteredJobs = {}
         local Player = PlayerModule.GetPlayerBySource(Source)
-        for JobId, Job in pairs(ServerConfig.Jobs) do
-            FilteredJobs[JobId] = Job
-        end
-        Cb(FilteredJobs)
+        Cb(ServerConfig.Jobs)
     end)
 
     CallbackModule.CreateCallback('mercy-phone/server/jobcenter/get-groups', function(Source, Cb, Job)

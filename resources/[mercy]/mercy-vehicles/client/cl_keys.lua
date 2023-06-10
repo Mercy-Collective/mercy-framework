@@ -140,7 +140,7 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
 
     if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
         SetVehRadioStation(Vehicle, "OFF")
-        SetVehicleRadioEnabled(Vehicle, false)
+        -- SetVehicleRadioEnabled(Vehicle, false)
     end
 
     if HasKeysToVehicle(Plate) then 
