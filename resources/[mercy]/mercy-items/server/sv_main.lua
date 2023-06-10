@@ -622,89 +622,315 @@ Citizen.CreateThread(function()
         end
     end)
 
-    FunctionsModule.CreateUseableItem("clutch-a", function(Source, Item)
-        local Player = PlayerModule.GetPlayerBySource(Source)
-        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Clutch', 'A', 'clutch-a')
-        end
-    end)
+    -- Parts
+    
+    -- Axle
 
-    FunctionsModule.CreateUseableItem("clutch-b", function(Source, Item)
+    FunctionsModule.CreateUseableItem("axle-s", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Clutch', 'B', 'clutch-b')
-        end
-    end)
-
-    FunctionsModule.CreateUseableItem("clutch-s", function(Source, Item)
-        local Player = PlayerModule.GetPlayerBySource(Source)
-        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Clutch', 'S', 'clutch-s')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'axle-s', 'Axle', 'S')
         end
     end)
 
     FunctionsModule.CreateUseableItem("axle-a", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Axle', 'A', 'axle-a')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'axle-a', 'Axle', 'A')
         end
     end)
 
     FunctionsModule.CreateUseableItem("axle-b", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Axle', 'B', 'axle-b')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'axle-b', 'Axle', 'B')
         end
     end)
 
-    FunctionsModule.CreateUseableItem("axle-s", function(Source, Item)
+    FunctionsModule.CreateUseableItem("axle-c", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Axle', 'S', 'axle-s')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'axle-c', 'Axle', 'C')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("axle-d", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'axle-d', 'Axle', 'D')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("axle-e", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'axle-e', 'Axle', 'E')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("axle-m", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'axle-e', 'Axle', 'M')
+        end
+    end)
+
+    -- Brakes
+
+    FunctionsModule.CreateUseableItem("brakes-s", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'brakes-s', 'Brakes', 'S')
         end
     end)
 
     FunctionsModule.CreateUseableItem("brakes-a", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Brakes', 'A', 'brakes-a')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'brakes-a', 'Brakes', 'A')
         end
     end)
 
     FunctionsModule.CreateUseableItem("brakes-b", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Brakes', 'B', 'brakes-b')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'brakes-b', 'Brakes', 'B')
         end
     end)
 
-    FunctionsModule.CreateUseableItem("brakes-s", function(Source, Item)
+    FunctionsModule.CreateUseableItem("brakes-c", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Brakes', 'S', 'brakes-s')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'brakes-c', 'Brakes', 'C')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("brakes-d", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'brakes-d', 'Brakes', 'D')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("brakes-e", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'brakes-e', 'Brakes', 'E')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("brakes-m", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'brakes-e', 'Brakes', 'M')
+        end
+    end)
+
+    -- Clutch
+    
+    FunctionsModule.CreateUseableItem("clutch-s", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'clutch-s', 'Clutch', 'S')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clutch-a", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'clutch-a', 'Clutch', 'A')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clutch-b", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'clutch-b', 'Clutch', 'B')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clutch-c", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'clutch-c', 'Clutch', 'C')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clutch-d", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'clutch-d', 'Clutch', 'D')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clutch-e", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'clutch-e', 'Clutch', 'E')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clutch-m", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'clutch-e', 'Clutch', 'M')
+        end
+    end)
+
+    -- Engine
+    
+    FunctionsModule.CreateUseableItem("engine-s", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'engine-s', 'Engine', 'S')
         end
     end)
 
     FunctionsModule.CreateUseableItem("engine-a", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Engine', 'A', 'engine-a')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'engine-a', 'Engine', 'A')
         end
     end)
 
     FunctionsModule.CreateUseableItem("engine-b", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Engine', 'B', 'engine-b')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'engine-b', 'Engine', 'B')
         end
     end)
 
-    FunctionsModule.CreateUseableItem("engine-s", function(Source, Item)
+    FunctionsModule.CreateUseableItem("engine-c", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes-uses-part', Source, 'Engine', 'S', 'engine-s')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'engine-c', 'Engine', 'C')
         end
     end)
+
+    FunctionsModule.CreateUseableItem("engine-d", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'engine-d', 'Engine', 'D')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("engine-e", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'engine-e', 'Engine', 'E')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("engine-m", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'engine-e', 'Engine', 'M')
+        end
+    end)
+
+    -- Injectors
+
+    FunctionsModule.CreateUseableItem("injectors-s", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'injectors-s', 'Injectors', 'S')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("injectors-a", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'injectors-a', 'Injectors', 'A')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("injectors-b", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'injectors-b', 'Injectors', 'B')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("injectors-c", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'injectors-c', 'Injectors', 'C')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("injectors-d", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'injectors-d', 'Injectors', 'D')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("injectors-e", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'injectors-e', 'Injectors', 'E')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("injectors-m", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'injectors-e', 'Injectors', 'M')
+        end
+    end)
+
+    -- Transmission
+
+    FunctionsModule.CreateUseableItem("transmission-s", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-s', 'Transmission', 'S')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("transmission-a", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-a', 'Transmission', 'A')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("transmission-b", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-b', 'Transmission', 'B')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("transmission-c", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-c', 'Transmission', 'C')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("transmission-d", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-d', 'Transmission', 'D')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("transmission-e", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-e', 'Transmission', 'E')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("transmission-m", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-e', 'Transmission', 'M')
+        end
+    end)
+
+    -- Misc
     
     FunctionsModule.CreateUseableItem("goldpan-s", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)

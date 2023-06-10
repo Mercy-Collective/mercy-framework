@@ -388,7 +388,7 @@ RegisterNetEvent('mercy-vehicles/client/take-out-depot', function(Data)
 
     local VehicleData = CallbackModule.SendCallback("mercy-vehicles/server/get-veh-by-plate", Data.Plate)
 
-    if Data.SelfRetrieve and VehicleData.citizenid ~= PlayerModule.GetPlayerData().citizenid then
+    if Data.SelfRetrieve and VehicleData.citizenid ~= PlayerModule.GetPlayerData().CitizenId then
         exports['mercy-ui']:Notify('not-your-veh', "The employee looks at you and says this is not your vehicle.", "error")
         return
     end

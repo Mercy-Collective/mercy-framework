@@ -1,13 +1,13 @@
-FunctionsModule, CallbackModule, EventsModule, PlayerModule, VehicleModule = nil, nil, nil, nil, nil
+FunctionsModule, CallbackModule, EventsModule, PlayerModule, VehicleModule = nil
 ClockedData = {Business = 'None', Clocked = false}
 
 AddEventHandler('Modules/client/ready', function()
     TriggerEvent('Modules/client/request-dependencies', {
-        'Functions',
         'Callback',
+        'Functions',
         'Events',
-        'Vehicle',
         'Player',
+        'Vehicle',
     }, function(Succeeded)
         if not Succeeded then return end
         CallbackModule = exports['mercy-base']:FetchModule('Callback')

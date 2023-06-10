@@ -593,13 +593,13 @@ function GetItemData(ItemName)
 end
 exports('GetItemData', GetItemData)
 
-function GetItemByName(ItemName)
-    if Shared.ItemList[ItemName] == nil then return false end
+function GetItemByName(Item)
+    if Shared.ItemList[Item] == nil then return false end
 
     local TotalItems = 0
     local PlayerData = PlayerModule.GetPlayerData()
     for k, ItemData in pairs(PlayerData.Inventory) do
-        if v.ItemName == ItemName then
+        if ItemData.ItemName == Item then
             return ItemData
         end
     end

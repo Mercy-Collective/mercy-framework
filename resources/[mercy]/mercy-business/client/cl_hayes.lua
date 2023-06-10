@@ -65,7 +65,6 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
         return
     end
 
-    
     DoingPartsCheck = true
     Citizen.CreateThread(function()
         while DoingPartsCheck do
@@ -209,12 +208,12 @@ RegisterNetEvent("mercy-business/client/hayes/mount-part", function(Item, Type, 
     if IsPedInAnyVehicle(PlayerPedId()) then
         return exports['mercy-ui']:Notify("hayes-error", "You cannot mount a vehicle part from here..", "error")
     end
-
-    local Entity, EntityType, EntityCoords = exports["mercy-ui"]:GetEntityPlayerIsLookingAt(4.0, 0.2, 286, PlayerPedId())
-    if Entity <= 0 or EntityType ~= 2 or Shared.Vehicles[GetEntityModel(Entity)] == nil then return end
+    local Entity, EntityType, EntityCoords = FunctionsModule.GetEntityPlayerIsLookingAt(4.0, 0.2, 286, PlayerPedId())
+    if Entity == nil or Entity <= 0 or EntityType == nil or EntityType ~= 2 or Shared.Vehicles[GetEntityModel(Entity)] == nil then return exports['mercy-ui']:Notify("hayes-error", "Looks like this part does not fit on this vehicle..", "error") end
 
     local Model = GetEntityModel(Entity)
     local VehicleData = Shared.Vehicles[GetEntityModel(Entity)]
+
 
     if VehicleData.Class ~= Class then
         return exports['mercy-ui']:Notify("hayes-error", "Looks like this part does not fit on this vehicle..", "error")

@@ -426,7 +426,13 @@ RegisterNUICallback('PurchaseUpgrade', function(Data, Cb)
             return
         end
         
-        local VehicleMeta = { ['Engine'] = math.floor(GetVehicleEngineHealth(Vehicle)), ['Body'] = math.floor(GetVehicleBodyHealth(Vehicle)), ['Fuel'] = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'Fuel'), ['Nitrous'] = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'Nitrous') }
+        local VehicleMeta = { 
+            ['Engine'] = math.floor(GetVehicleEngineHealth(Vehicle)), 
+            ['Body'] = math.floor(GetVehicleBodyHealth(Vehicle)), 
+            ['Fuel'] = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'Fuel'),
+            ['Nitrous'] = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'Nitrous'),
+            ['Harness'] = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'Harness'),
+        }
         local SaveMods = VehicleModule.SaveVehicle(Vehicle, Plate, VehicleMeta, exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) and 'Police' or 'None')
         VehicleMods = VehicleModule.GetVehicleMods(Vehicle)
 

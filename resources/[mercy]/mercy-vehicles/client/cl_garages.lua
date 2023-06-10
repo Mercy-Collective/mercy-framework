@@ -200,6 +200,14 @@ RegisterNetEvent("mercy-vehicles/client/park-vehicle", function(Data)
         return exports['mercy-ui']:Notify('aircraft-no', "An aircraft does not fit here..", "error")
     end
 
+    local VehicleMeta = { 
+        ['Engine'] = math.floor(GetVehicleEngineHealth(Data.Entity)), 
+        ['Body'] = math.floor(GetVehicleBodyHealth(Data.Entity)), 
+        ['Fuel'] = exports['mercy-vehicles']:GetVehicleMeta(Data.Entity, 'Fuel'),
+        ['Nitrous'] = exports['mercy-vehicles']:GetVehicleMeta(Data.Entity, 'Nitrous'),
+        ['Harness'] = exports['mercy-vehicles']:GetVehicleMeta(Data.Entity, 'Harness'),
+    }
+    VehicleModule.SaveVehicle(Data.Entity, VehiclePlate, VehicleMeta)
     TriggerServerEvent("mercy-business/server/hayes/unload-parts", VehiclePlate)
     TriggerServerEvent("mercy-vehicles/server/park-vehicle", VehToNet(Data.Entity), CurrentGarage)
 end)

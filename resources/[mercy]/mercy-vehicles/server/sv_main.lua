@@ -231,7 +231,7 @@ Citizen.CreateThread(function()
     CallbackModule.CreateCallback('mercy-vehicles/server/get-depot-vehicles', function(Source, Cb)
         local Player = PlayerModule.GetPlayerBySource(Source)
         local DepotVehs = {}
-        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE state = ? AND citizenid = ?", {'depot', Player.PlayerData.CitizenId}, function(VehData)
+        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE garage = ? AND citizenid = ?", {'depot', Player.PlayerData.CitizenId}, function(VehData)
             if VehData ~= nil and VehData[1] ~= nil then
                 for k, v in pairs(VehData) do
                     if v.impounddata ~= nil then
@@ -313,10 +313,6 @@ Citizen.CreateThread(function()
     end)
 
     -- [ Events ] --
-
-    EventsModule.RegisterServer("mercy-vehicles/server/garage-set-depot-price", function(Source, Plate, Price)
-        DatabaseModule.Update("UPDATE player_vehicles SET depotprice = ?, garage = ? WHERE plate = ? ", {Price, 'depot', Plate})
-    end)
     
     EventsModule.RegisterServer("mercy-vehicles/server/receive-rental-papers", function(Source, RandomPlate)
         local Player = PlayerModule.GetPlayerBySource(Source)
@@ -332,8 +328,6 @@ end)
 RegisterNetEvent("mercy-vehicles/server/send-message-to-impound", function()
     for k, v in pairs(PlayerModule.GetPlayers()) do
         local Player = PlayerModule.GetPlayerBySource(v)
-        print(Player.PlayerData.Source)
-        print(exports['mercy-business']:IsPlayerInBusiness(Player, 'Los Santos Depot'))
         if exports['mercy-business']:IsPlayerInBusiness(Player, 'Los Santos Depot') then
             TriggerClientEvent('mercy-chat/client/post-message', Player.PlayerData.Source, "Help is required at the depot!", "normal")
         end
@@ -349,7 +343,30 @@ RegisterNetEvent("mercy-vehicles/server/park-vehicle", function(VehNet, CurrentG
 end)
 
 RegisterNetEvent("mercy-vehicles/server/set-veh-state", function(Plate, State, NetId)
-    DatabaseModule.Update("UPDATE player_vehicles SET state = ? WHERE plate = ? ", {State, Plate})
+    local src = source
+    local Player = PlayerModule.GetPlayerBySource(src)
+    local Veh = NetworkGetEntityFromNetworkId(NetId)
+    if State:lower() ~= 'out' then return end
+
+    DatabaseModule.Execute('SELECT * FROM player_vehicles WHERE plate = ?', {
+        Plate
+    }, function(Result)
+        if Result[1] == nil then return end
+        local ImpoundData = {
+            Reason = "Illegal parking.",
+            Fee = 200,
+            Strikes = 0,
+            RetainedUntil = os.time(),
+            ImpoundDate = os.date("%d/%m/%Y %H:%M", os.time()),
+            Plate = Plate,
+            Issuer = "LSPD",
+            ReleaseTxt = os.date("%d/%m/%Y %H:%M", os.time()), -- 4 hours default
+            Vehicle = GetEntityModel(Veh),
+            VIN = Result[1].vin,
+        }
+        DatabaseModule.Update("UPDATE player_vehicles SET garage = ?, state = ?, impounddata = ? WHERE plate = ?", {'depot', State, json.encode(ImpoundData), Plate})
+    end)
+
 end)
 
 RegisterNetEvent("mercy-vehicles/server/depot-vehicle", function(NetId, ImpoundId, InputResult)
@@ -372,7 +389,7 @@ RegisterNetEvent("mercy-vehicles/server/depot-vehicle", function(NetId, ImpoundI
             }
             DatabaseModule.Update("UPDATE player_vehicles SET garage = ?, state = ?, impounddata = ? WHERE plate = ? ", {
                 'depot', 
-                'depot', 
+                'out', 
                 json.encode(ImpoundData),
                 Plate,
             }, function(Result)

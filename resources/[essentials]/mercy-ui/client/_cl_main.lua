@@ -174,6 +174,7 @@ RegisterNUICallback('Context/CloseContext', function(Data, Cb)
 end)
 
 RegisterNUICallback('Context/ContextEvent', function(Data, Cb)
+    if Data.MenuData == nil then return end
     if Data.MenuData.Type == 'Client' then
         TriggerEvent(Data.MenuData.Event, Data.MenuData)
     else

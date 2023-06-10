@@ -89,18 +89,15 @@ end)
 
 RegisterNetEvent("mercy-business/server/hayes/load-parts", function(Plate, Parts)
     if Parts ~= nil then
-        print('Setting Vehicle Parts', Plate, json.encode(Parts))
         Config.VehicleParts[Plate] = Parts
     else
         local VehicleParts = LoadVehicleParts(Plate) or {}
-        print('Loading Vehicle Parts', Plate, json.encode(VehicleParts))
         Config.VehicleParts[Plate] = VehicleParts
         TriggerClientEvent('mercy-business/client/hayes/sync-parts', -1, Plate, Config.VehicleParts[Plate])
     end
 end)
 
 RegisterNetEvent("mercy-business/server/hayes/unload-parts", function(Plate)
-    print('Unloading Vehicle Parts for ', Plate)
     SaveVehicleParts(Plate, Config.VehicleParts[Plate])
     Config.VehicleParts[Plate] = nil
     TriggerClientEvent('mercy-business/client/hayes/sync-parts', -1, Plate, Config.VehicleParts[Plate])

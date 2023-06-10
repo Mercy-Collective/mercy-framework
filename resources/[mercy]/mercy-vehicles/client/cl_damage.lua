@@ -25,14 +25,13 @@ Citizen.CreateThread(function()
             if HarnessLevel and HarnessLevel > 0.0 then
                 local Text = HasHarness and "Taking off harness" or "Putting on harness"
                 local Duration = HasHarness and 2000 or 5000
-                if exports['mercy-progressbar']:IsProgressBarActive() then return end
 
                 exports['mercy-ui']:ProgressBar(Text, Duration, false, false, false, false, function(DidComplete)
                     if DidComplete then
-                        if CurrentVehicle == 0 or CurrentVehicle == -1 then return end
+                        if Vehicle == 0 or Vehicle == -1 then return end
 
-                        local CurrentHarnessLevel = GetVehicleMeta(CurrentVehicle, "Harness")
-                        SetVehicleMeta(CurrentVehicle, "Harness", CurrentHarnessLevel - 1.0)
+                        local CurrentHarnessLevel = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, "Harness")
+                        SetVehicleMeta(Vehicle, "Harness", CurrentHarnessLevel - 1.0)
         
                         HasHarness, HasBelt = not HasHarness, false
                         TriggerEvent('mercy-ui/client/play-sound', HasHarness and 'vehicle.on' or 'vehicle.off', 0.45)
@@ -50,7 +49,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(4)
         if LocalPlayer.state.LoggedIn then
-            if CurrentVehicle == 0 or CurrentVehicle == -1 or not HasHarness then goto SkipLoop end
+            if Vehicle == 0 or Vehicle == -1 or not HasHarness then goto SkipLoop end
 
             DisableControlAction(0, 75, true)
             if IsDisabledControlJustReleased(1, 75) then

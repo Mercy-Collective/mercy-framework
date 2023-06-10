@@ -2708,6 +2708,21 @@ Shared.ItemList["nitrous"] = {
 	['Price'] = 1,
 }
 
+Shared.ItemList["harness"] = {
+	['ItemName'] = "harness",
+	['Label'] = "Harness",
+	['Weight'] = 2.1,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_harness.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "So you don't fall out of your vehicle..",
+	['DecayRate'] = 0.1,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
 Shared.ItemList["megaphone"] = {
 	['ItemName'] = "megaphone",
 	['Label'] = "Megaphone",
@@ -4200,7 +4215,6 @@ Shared.ItemList["engine-m"] = {
 		{Item = 'generic-mechanic-part-m', Amount = 4 },
 	}
 }
-
 
 -- Injectors
 
