@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `player_accounts` (
   `Type` varchar(50) DEFAULT NULL,
   `Name` varchar(50) DEFAULT NULL,
   `BankId` varchar(50) DEFAULT NULL,
-  `Balance` bigint(60) DEFAULT NULL,
+  `Balance` bigint(60) DEFAULT 0,
   `Authorized` varchar(500) DEFAULT NULL,
   `Transactions` varchar(60000) DEFAULT '[]',
   `Active` int(11) DEFAULT 1,
