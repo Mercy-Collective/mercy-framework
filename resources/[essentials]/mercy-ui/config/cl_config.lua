@@ -33,10 +33,9 @@ function GetBoneDistanceFromVehicle(EntityType, BoneName)
     if PeekingEntity ~= nil and DoesEntityExist(PeekingEntity) then
         if GetEntityType(PeekingEntity) == EntityType then
             local Bone = GetEntityBoneIndexByName(PeekingEntity, BoneName)
-        
+
             local BoneCoords = GetWorldPositionOfEntityBone(PeekingEntity, Bone)
-            local PlayerCoords = GetEntityCoords(PlayerPedId())
-        
+            local PlayerCoords = GetEntityCoords(PlayerPedId())        
             return #(BoneCoords - PlayerCoords)
         end
     end
@@ -121,7 +120,7 @@ Config.EyeEntries = {
                 EventName = 'mercy-vehicles/client/get-in-trunk',
                 EventParams = {},
                 Enabled = function(Entity)
-                    return (GetBoneDistanceFromVehicle(2, "trunk") < 1.0 and GetVehicleDoorAngleRatio(Entity, 5) > 0.0)
+                    return ((GetBoneDistanceFromVehicle(2, "boot") < 1.20) and (GetVehicleDoorAngleRatio(Entity, 5) > 0.0))
                 end,
             },
             {

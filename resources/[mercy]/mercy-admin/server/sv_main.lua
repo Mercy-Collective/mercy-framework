@@ -292,7 +292,7 @@ RegisterNetEvent("mc-admin/server/unban-player", function(BanId)
     local src = source
     if not AdminCheck(src) then return end
 
-    local Player = PlayerModule.GetPlayer(src)
+    local Player = PlayerModule.GetPlayerBySource(src)
     local BanData = MySQL.query.await('SELECT * FROM bans WHERE banid = ?', {BanId})
     if BanData and BanData[1] ~= nil then
         MySQL.query('DELETE FROM bans WHERE banid = ?', {BanId})
@@ -306,7 +306,7 @@ RegisterNetEvent("mc-admin/server/ban-player", function(ServerId, Expires, Reaso
     local src = source
     if not AdminCheck(src) then return end
 
-    local Player = PlayerModule.GetPlayer(src)
+    local Player = PlayerModule.GetPlayerBySource(src)
     local Identifier = FunctionsModule.GetIdentifier(ServerId, 'license') ~= nil and FunctionsModule.GetIdentifier(ServerId, 'license') or FunctionsModule.GetIdentifier(ServerId, 'steam')
     local BanData = MySQL.query.await('SELECT * FROM bans WHERE steam = ? or license = ?', {Identifier, Identifier})
     if BanData and BanData[1] ~= nil then

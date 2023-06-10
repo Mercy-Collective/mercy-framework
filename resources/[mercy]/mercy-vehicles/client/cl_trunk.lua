@@ -116,3 +116,4 @@ end
 function GetInTrunkState()
     return DoesCamExist(TrunkCam)
 end
+exports('GetInTrunkState', GetInTrunkState)
