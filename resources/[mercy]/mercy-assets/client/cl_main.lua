@@ -1,9 +1,9 @@
 EntityModule, FunctionsModule, BlipModule, PlayerModule, KeybindsModule, EventsModule, CallbackModule = nil, nil, nil, nil, nil, nil, nil
 local RelationshipTypes = {"PLAYER","COP","MISSION2","MISSION3","MISSION4","MISSION5","MISSION6","MISSION7","MISSION8"}
-local RadioStations = {
-	'RADIO_01_CLASS_ROCK','RADIO_02_POP','RADIO_03_HIPHOP_NEW','RADIO_04_PUNK','RADIO_05_TALK_01','RADIO_06_COUNTRY','RADIO_07_DANCE_01','RADIO_08_MEXICAN','RADIO_09_HIPHOP_OLD',--[['RADIO_12_REGGAE',]]'RADIO_13_JAZZ','DLC_BATTLE_MIX4_CLUB_PRIV','DLC_BATTLE_MIX2_CLUB_PRIV','DLC_BATTLE_MIX1_CLUB_PRIV','RADIO_23_DLC_XM19_RADIO','RADIO_34_DLC_HEI4_KULT','RADIO_35_DLC_HEI4_MLR','RADIO_36_AUDIOPLAYER',
-	'RADIO_14_DANCE_02','RADIO_15_MOTOWN','RADIO_20_THELAB','RADIO_16_SILVERLAKE','RADIO_17_FUNK','RADIO_18_90S_ROCK','RADIO_21_DLC_XM17','RADIO_11_TALK_02','RADIO_22_DLC_BATTLE_MIX1_RADIO','RADIO_23_DLC_BATTLE_MIX2_CLUB','RADIO_24_DLC_BATTLE_MIX3_CLUB','RADIO_25_DLC_BATTLE_MIX4_CLUB','RADIO_26_DLC_BATTLE_CLUB_WARMUP',
-}
+-- local RadioStations = {
+-- 	'RADIO_01_CLASS_ROCK','RADIO_02_POP','RADIO_03_HIPHOP_NEW','RADIO_04_PUNK','RADIO_05_TALK_01','RADIO_06_COUNTRY','RADIO_07_DANCE_01','RADIO_08_MEXICAN','RADIO_09_HIPHOP_OLD',--[['RADIO_12_REGGAE',]]'RADIO_13_JAZZ','DLC_BATTLE_MIX4_CLUB_PRIV','DLC_BATTLE_MIX2_CLUB_PRIV','DLC_BATTLE_MIX1_CLUB_PRIV','RADIO_23_DLC_XM19_RADIO','RADIO_34_DLC_HEI4_KULT','RADIO_35_DLC_HEI4_MLR','RADIO_36_AUDIOPLAYER',
+-- 	'RADIO_14_DANCE_02','RADIO_15_MOTOWN','RADIO_20_THELAB','RADIO_16_SILVERLAKE','RADIO_17_FUNK','RADIO_18_90S_ROCK','RADIO_21_DLC_XM17','RADIO_11_TALK_02','RADIO_22_DLC_BATTLE_MIX1_RADIO','RADIO_23_DLC_BATTLE_MIX2_CLUB','RADIO_24_DLC_BATTLE_MIX3_CLUB','RADIO_25_DLC_BATTLE_MIX4_CLUB','RADIO_26_DLC_BATTLE_CLUB_WARMUP',
+-- }
 
 AddEventHandler('Modules/client/ready', function()
     TriggerEvent('Modules/client/request-dependencies', {
@@ -70,7 +70,7 @@ RegisterNetEvent('mercy-base/client/on-login', function()
 	
 	Citizen.SetTimeout(1500, function()
 		TriggerEvent('mercy-assets/client/set-my-walkstyle')
-		LoadPlayerRadioStations() 
+		-- LoadPlayerRadioStations() 
 		LoadPlayerRelations()
 		LoadMapData() 
 		AddBlips() 
@@ -231,13 +231,13 @@ Citizen.CreateThread(function()
     end
 end)
 
-function LoadPlayerRadioStations()
-	Citizen.CreateThread(function()
-		for k, v in pairs(RadioStations) do
-			SetRadioStationIsVisible(v, false)
-		end
-	end)
-end
+-- function LoadPlayerRadioStations()
+-- 	Citizen.CreateThread(function()
+-- 		for k, v in pairs(RadioStations) do
+-- 			SetRadioStationIsVisible(v, false)
+-- 		end
+-- 	end)
+-- end
 
 function LoadMisc()
 	Citizen.CreateThread(function()
