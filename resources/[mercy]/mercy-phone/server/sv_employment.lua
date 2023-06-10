@@ -9,9 +9,22 @@ Citizen.CreateThread(function()
 
     CallbackModule.CreateCallback('mercy-phone/server/get-businesses-by-citizenid', function(Source, Cb)
         local Player = PlayerModule.GetPlayerBySource(Source)
-        DatabaseModule.Execute('SELECT * FROM player_business WHERE owner = ?', {Player.PlayerData.CitizenId}, function(Businesses)
-            Cb(Businesses)
-        end)
+        local Businesses = {}
+        DatabaseModule.Execute("SELECT * FROM player_business", {}, function(BusinessData)
+            if BusinessData ~= nil then
+                for BusinessId, BusinessData in pairs(BusinessData) do
+                    local Employees = json.decode(BusinessData.employees)
+                    if Employees ~= nil then
+                        for EmployeeId, EmployeeData in pairs(Employees) do
+                            if Player.PlayerData.CitizenId == EmployeeData.CitizenId then
+                                table.insert(Businesses, BusinessData)
+                            end
+                        end
+                    end
+                end
+            end
+        end, true)
+        Cb(Businesses)
     end)
 
     CallbackModule.CreateCallback('mercy-phone/server/get-specific-business', function(Source, Cb, Name)
