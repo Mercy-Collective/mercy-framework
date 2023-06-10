@@ -28,6 +28,7 @@ Citizen.CreateThread(function()
         Config.Houses.Houses[HouseId].Locked = Bool
         Config.Houses.Houses[HouseId].Timer = 35
         Config.Houses.Houses[HouseId].Loot = {}
+        TriggerClientEvent('mercy-heists/client/housing/sync-house', -1, 'ResetCurrent', HouseId, Config.Houses.Houses[HouseId])
         TriggerClientEvent('mercy-heists/client/housing/sync-house', -1, 'Reset', HouseId, Config.Houses.Houses[HouseId])
     end)
 
