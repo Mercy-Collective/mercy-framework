@@ -30,7 +30,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(4)
         if LocalPlayer.state.LoggedIn then
             local Stress = Config.HudValues['Stress']['Value']
-            local WaitTime = 50000
+            local WaitTime = 50000 -- 50 Seconds
             if Stress ~= nil then
                 if Stress >= 5 and Stress <= 25 then
                     WaitTime = 30000
@@ -146,9 +146,17 @@ RegisterNetEvent('mercy-ui/client/set-hud-values', function(Type, SubType, Data)
                 end
             end
         end
+        Config.HudValues['Voice'].OnRadio = exports['mercy-ui']:RadioConnected()
+        Config.HudValues['Health'].IsDead = exports['mercy-hospital']:IsDead()
         SendUIMessage('Hud', 'SetComponentValues', Config.HudValues)
         SendUIMessage('Hud', 'ToggleComponentVisibility', Config.HudValues)
     end
+end)
+
+RegisterNetEvent('mercy-ui/client/update-radio-values', function()
+    Config.HudValues['Voice'].OnRadio = exports['mercy-ui']:RadioConnected()
+    Config.HudValues['Health'].IsDead = exports['mercy-hospital']:IsDead()
+    SendUIMessage('Hud', 'SetComponentValues', Config.HudValues)
 end)
 
 RegisterNetEvent("mercy-threads/entered-vehicle", function() 

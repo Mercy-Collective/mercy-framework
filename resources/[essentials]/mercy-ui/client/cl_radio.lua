@@ -57,6 +57,7 @@ RegisterNetEvent('mercy-ui/client/remove-from-radio', function()
         TriggerServerEvent('mercy-voice/server/remove-player-from-radio', CurrentChannel)
         TriggerEvent("mercy-ui/client/play-sound", "radio-disconnect", 0.25)
         CurrentChannel = 0
+        TriggerEvent('mercy-ui/client/update-radio-values')
     end
 end)
 
@@ -119,6 +120,7 @@ RegisterNUICallback('Radio/JoinRadio', function(Data, Cb)
         Citizen.SetTimeout(50, function()
             if CanJoinChannel and CurrentChannel ~= (ChannelToJoin + 0.0) then
                 CurrentChannel = ChannelToJoin + 0.0
+                TriggerEvent('mercy-ui/client/update-radio-values')
                 TriggerServerEvent('mercy-voice/server/add-player-to-radio', CurrentChannel, true)
                 TriggerEvent('mercy-ui/client/notify', "radio-connect", "Connected to "..CurrentChannel..' Mhz.', 'success')
             else
@@ -145,6 +147,10 @@ end)
 RegisterNUICallback('Radio/Click', function(Data, Cb)
     PlaySound(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
     Cb('Ok')
+end)
+
+exports('RadioConnected', function()
+    return RadioOn and (CurrentChannel > 0)
 end)
 
 exports('IsRadioOn', function()

@@ -160,12 +160,19 @@ Hud.addNuiListener('InitializeHud', (Data) => {
 
 Hud.addNuiListener('SetComponentValues', (Data) => {
     $.each(Data, function(Key, Value) {
-        if (Key === 'Health' && CurrentHudValues.Health.Value != Value.Value && HudPreferences.ShowHealth) {
-            Health.animate((Value.Value - 100) / 100);
-            if ((Value.Value - 100) <= 10) {
-                Health.trail.setAttribute("stroke", "rgba(227, 14, 14, 1.0)")
-            } else {
-                Health.trail.setAttribute("stroke", "rgba(59, 178, 115, 0.35)")
+        if (Key === 'Health') {
+            if (Value.IsDead) {
+                Health.animate(0.0);
+                Health.trail.setAttribute("stroke", "rgba(227, 14, 14, 1.0)");
+                return;
+            }
+            if (CurrentHudValues.Health.Value != Value.Value && HudPreferences.ShowHealth) {
+                Health.animate((Value.Value - 100) / 100);
+                if ((Value.Value - 100) <= 10) {
+                    Health.trail.setAttribute("stroke", "rgba(227, 14, 14, 1.0)")
+                } else {
+                    Health.trail.setAttribute("stroke", "rgba(59, 178, 115, 0.35)")
+                }
             }
         } else if (Key === 'Armor' && CurrentHudValues.Armor.Value != Value.Value && HudPreferences.ShowArmor) {
             Armor.animate(Value.Value / 100);
@@ -214,8 +221,19 @@ Hud.addNuiListener('SetComponentValues', (Data) => {
             DriftMode.animate(1.0);
         } else if (Key === 'DevMode' && CurrentHudValues.DevMode.Value != Value.Value) {
             DevMode.animate(1.0);
-        } else if (Key === 'Voice' && CurrentHudValues.Voice.Value != Value.Value) {
-            Voice.animate(Value.Value / 100);
+        } else if (Key === 'Voice') {
+            if (Value.OnRadio) {
+                if ($('.hud-voice').find('i').hasClass('fa-microphone')) {
+                    $('.hud-voice').find('i').removeClass('fa-microphone').addClass('fa-headset');
+                }
+            } else {
+                if ($('.hud-voice').find('i').hasClass('fa-headset')) {
+                    $('.hud-voice').find('i').removeClass('fa-headset').addClass('fa-microphone');
+                }
+            }
+            if (CurrentHudValues.Voice.Value != Value.Value) {
+                Voice.animate(Value.Value / 100);
+            }
         } else if (Key === 'Stress' && CurrentHudValues.Stress.Value != Value.Value && HudPreferences.ShowStress) {
             Stress.animate(Value.Value / 100);
         } else if (Key === 'Nos' && CurrentHudValues.Nos.Value != Value.Value) {
