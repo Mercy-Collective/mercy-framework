@@ -37,6 +37,32 @@ CREATE TABLE IF NOT EXISTS `hotel_rooms` (
   `Available` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+INSERT INTO `hotel_rooms` (`RoomId`, `RoomInfo`, `Available`) VALUES
+	(501, 'Room-501', 1),
+	(502, 'Room-502', 1),
+	(503, 'Room-503', 1),
+	(504, 'Room-504', 1),
+	(505, 'Room-505', 1),
+	(506, 'Room-506', 1),
+	(507, 'Room-507', 1),
+	(508, 'Room-508', 1),
+	(509, 'Room-509', 1),
+	(510, 'Room-510', 1),
+	(511, 'Room-511', 1),
+	(512, 'Room-512', 1),
+	(513, 'Room-513', 1),
+	(514, 'Room-514', 1),
+	(515, 'Room-515', 1),
+	(516, 'Room-516', 1),
+	(517, 'Room-517', 1),
+	(518, 'Room-518', 1),
+	(519, 'Room-519', 1),
+	(520, 'Room-520', 1),
+	(521, 'Room-521', 1),
+	(522, 'Room-522', 1),
+	(523, 'Room-523', 1),
+	(524, 'Room-524', 1);
+
 -- Data exporteren was gedeselecteerd
 
 -- Structuur van  tabel mercy-framework.logs wordt geschreven
