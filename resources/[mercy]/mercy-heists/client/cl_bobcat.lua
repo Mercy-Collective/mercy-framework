@@ -136,21 +136,22 @@ end)
 
 function SpawnSecurity()
     for k, v in pairs(Config.BobcatSecurity) do
-        print(v['Model'], v['Coords'].x, v['Coords'].y, v['Coords'].z, v['Coords'].w)
-        local Security = CreatePed(4, GetHashKey(v['Model']), v['Coords'].x, v['Coords'].y, v['Coords'].z, v['Coords'].w, true, false)
-        SetPedShootRate(Security, 750)
-        SetPedCombatAttributes(Security, 46, true)
-        SetPedFleeAttributes(Security, 0, 0)
-        SetPedAsEnemy(Security, true)
-        SetPedMaxHealth(Security, 900)
-        SetPedAlertness(Security, 3)
-        SetPedCombatRange(Security, 0)
-        SetPedCombatMovement(Security, 3)
-        TaskCombatPed(Security, GetPlayerPed(-1), 0, 16)
-        GiveWeaponToPed(Security, GetHashKey("WEAPON_SMG"), 5000, true, true)
-        SetPedRelationshipGroupHash( Security, GetHashKey("HATES_PLAYER"))
-        SetPedDropsWeaponsWhenDead(Security, false)
-        SetEntityCollision(Security, true, true)
+        if FunctionsModule.RequestModel(v['Model']) then
+            local Security = CreatePed(4, GetHashKey(v['Model']), v['Coords'].x, v['Coords'].y, v['Coords'].z, v['Coords'].w, true, false)
+            SetPedShootRate(Security, 750)
+            SetPedCombatAttributes(Security, 46, true)
+            SetPedFleeAttributes(Security, 0, 0)
+            SetPedAsEnemy(Security, true)
+            SetPedMaxHealth(Security, 900)
+            SetPedAlertness(Security, 3)
+            SetPedCombatRange(Security, 0)
+            SetPedCombatMovement(Security, 3)
+            TaskCombatPed(Security, GetPlayerPed(-1), 0, 16)
+            GiveWeaponToPed(Security, GetHashKey("WEAPON_SMG"), 5000, true, true)
+            SetPedRelationshipGroupHash( Security, GetHashKey("HATES_PLAYER"))
+            SetPedDropsWeaponsWhenDead(Security, false)
+            SetEntityCollision(Security, true, true)
+        end
     end
 end
 
