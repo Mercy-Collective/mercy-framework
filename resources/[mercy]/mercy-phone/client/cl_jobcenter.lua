@@ -52,10 +52,10 @@ function FilterJobs(Jobs)
     for k, v in pairs(Jobs) do
         if v['RequiresVPN'] then
             if VPNItem then
-                table.insert(FilteredJobs, v) 
+                FilteredJobs[k] = v
             end
         else
-            table.insert(FilteredJobs, v)
+            FilteredJobs[k] = v
         end
     end
     return FilteredJobs

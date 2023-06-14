@@ -364,8 +364,10 @@ CreateThread(function()
         local CuffedPlayer = PlayerModule.GetPlayerBySource(tonumber(TargetServer))
         if CuffedPlayer then
             TriggerClientEvent("mercy-police/client/getting-cuffed", CuffedPlayer.PlayerData.Source)
-            TriggerClientEvent("mercy-police/client/do-cuff-anim", Player.PlayerData.Source, 'Cuff', Player.PlayerData.Source)
-            TriggerClientEvent("mercy-police/client/do-cuff-anim", CuffedPlayer.PlayerData.Source, not CuffedPlayer.PlayerData.MetaData['Handcuffed'] and 'Getcuff' or 'Uncuff', Player.PlayerData.Source)
+            TriggerClientEvent("mercy-police/client/do-cuff-anim", Player.PlayerData.Source, CuffedPlayer.PlayerData.MetaData['Handcuffed'] and 'Uncuff' or 'Cuff')
+            if not CuffedPlayer.PlayerData.MetaData['Handcuffed'] then
+                TriggerClientEvent("mercy-police/client/do-cuff-anim", CuffedPlayer.PlayerData.Source, 'Getcuff', Player.PlayerData.Source)
+            end
         else
             Player.Functions.Notify('no-near', 'No person is near you..', 'error')
         end

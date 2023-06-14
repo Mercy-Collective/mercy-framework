@@ -41,7 +41,6 @@ RegisterNetEvent('mercy-clothing/client/create-new-char', function()
             DefaultPed = "mp_f_freemode_01"
         end
         Config.SkinData['Skin']['Model'].Item = DefaultPed
-        print('Setting default Model', Config.SkinData['Skin']['Model'].Item)
         NetworkSetEntityInvisibleToNetwork(PlayerPedId(), true)
         EventsModule.TriggerServer('mercy-base/server/bucketmanager/set-routing-bucket')
         TriggerEvent('mercy-weathersync/client/set-default-weather', 15)
@@ -155,7 +154,7 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     local Gender = "Female"
     local Model = GetEntityModel(PlayerPed)
     if Model == `mp_m_freemode_01` then Gender = "Male" end
-    local FacialDec = Config.HairFades[Gender][Config.SkinData['Skin']["HairFade"].Item]
+    local FacialDec = Config.HairFades[Gender][SkinData["HairFade"].Item]
     if Model ~= nil and FacialDec then
         SetPedFacialDecoration(PlayerPed, FacialDec[1], FacialDec[2])
     end

@@ -71,6 +71,7 @@ RegisterNetEvent('mercy-police/client/enter-jail', function(Time, Parole, Forced
     else
         TriggerEvent('mercy-ui/client/play-sound', 'jail-door', 0.5)
     end
+    TriggerEvent('mercy-assets/client/attach-items')
     local RandomSpawn = Config.JailSpawns[math.random(1, #Config.JailSpawns)]
     SetEntityCoords(PlayerPedId(), RandomSpawn.x, RandomSpawn.y, RandomSpawn.z)
     SetEntityHeading(PlayerPedId(), RandomSpawn.w)

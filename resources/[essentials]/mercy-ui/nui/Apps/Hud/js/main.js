@@ -162,7 +162,7 @@ Hud.addNuiListener('SetComponentValues', (Data) => {
     $.each(Data, function(Key, Value) {
         if (Key === 'Health') {
             if (Value.IsDead) {
-                Health.animate(0.0);
+                Health.animate(1.0);
                 Health.trail.setAttribute("stroke", "rgba(227, 14, 14, 1.0)");
                 return;
             }
