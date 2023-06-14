@@ -9,15 +9,16 @@ Citizen.CreateThread(function()
 
     CallbackModule.CreateCallback('mercy-illegal/server/get-plants', function(Source, Cb)
         DatabaseModule.Execute('SELECT * FROM player_weedplants', {}, function(Result)
-            if Result[1] == nil then return Cb({}) end
+            if Result[1] == nil then return Cb(Config.WeedPlants) end
             for _, Plant in pairs(Result) do
                 local PlantData = json.decode(Plant.PlantData)
-                Config.WeedPlants[Plant.PlantId] = {
+                Config.WeedPlants[#Config.WeedPlants + 1] = {
                     Stage = PlantData.Stage,
                     Water = PlantData.Water,
                     Fertilizer = PlantData.Fertilizer,
                     Health = PlantData.Health,
                     Pregnant = PlantData.Pregnant,
+                    Progress = PlantData.Progress,
                     Id = Plant.PlantId,
                     Coords = { 
                         X = PlantData.Coords.X,
@@ -32,14 +33,15 @@ Citizen.CreateThread(function()
     end)
     
     EventsModule.RegisterServer("mercy-illegal/server/plants-plant", function(Source, Coords)
-        local PlantId = math.random(1111, 9999)
-        Config.WeedPlants[PlantId] = {
+        local NewId = math.random(1111, 9999)
+        Config.WeedPlants[NewId] = {
             Stage = 0,
             Water = 100,
             Fertilizer = 100,
             Health = 100,
             Pregnant = 'False',
-            Id = PlantId,
+            Progress = 0,
+            Id = NewId,
             Coords = { 
                 X = Coords.x,
                 Y = Coords.y,
@@ -47,11 +49,12 @@ Citizen.CreateThread(function()
                 H = Heading
             },
         }
+        print('[DEBUG:WeedPlants]: Inserting Plant in Database: ' .. NewId .. ' - ' .. json.encode(Config.WeedPlants[NewId]))
         DatabaseModule.Insert('INSERT INTO player_weedplants (PlantId, PlantData) VALUES (?, ?)', {
-            PlantId,
-            json.encode(Config.WeedPlants[PlantId])
+            NewId,
+            json.encode(Config.WeedPlants[NewId])
         })
-        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 2, Config.WeedPlants[PlantId])
+        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 2, Config.WeedPlants[NewId])
     end)
 end)
 
@@ -59,39 +62,40 @@ Citizen.CreateThread(function()
     Citizen.SetTimeout(750, function()
         while true do
             local RandomValue = math.random(1, 3)
-            for k, Plants in pairs(Config.WeedPlants) do
-                for weed, Plant in pairs(Plants) do
-                    if Plant['Fertilizer'] > 0 and Plant['Fertilizer'] - RandomValue > 0 then
-                        Plant['Fertilizer'] = Plant['Fertilizer'] - RandomValue
-                    else
-                        Plant['Fertilizer'] = 0
-                    end
-                    if Plant['Fertilizer'] < 50 then
-                        if Plant['Health'] > 0 then
-                            Plant['Health'] = Plant['Health'] - 5
-                        else
-                            Plant['Health'] = 0
-                        end
-                    elseif Plant['Fertilizer'] > 50 then
-                        if Plant['Health'] < 100 and Plant['Health'] ~= 0 then
-                            Plant['Health'] = Plant['Health'] + 5
-                        else
-                            Plant['Health'] = 100
-                        end
-                    end
-                    if Plant['Health'] > 0 then
-                        if Plant['Progress'] < 100 then
-                            local RandomGrowth = math.random(1, 3)
-                            Plant['Stage'] = Plant['Stage'] + RandomGrowth
-                        end
-                    end
-                    DatabaseModule.Update('UPDATE player_weedplants SET PlantData = ? WHERE PlantId = ?', {
-                        json.encode(Plant),
-                        Plant['Id']
-                    })
+            local UpdatedPlants = {}
+            for _, Plant in pairs(Config.WeedPlants) do
+                if Plant['Fertilizer'] > 0 and Plant['Fertilizer'] - RandomValue > 0 then
+                    Plant['Fertilizer'] = Plant['Fertilizer'] - RandomValue
+                else
+                    Plant['Fertilizer'] = 0
                 end
+                if Plant['Fertilizer'] < 50 then
+                    if Plant['Health'] > 0 then
+                        Plant['Health'] = Plant['Health'] - 5
+                    else
+                        Plant['Health'] = 0
+                    end
+                elseif Plant['Fertilizer'] > 50 then
+                    if Plant['Health'] < 100 and Plant['Health'] ~= 0 then
+                        Plant['Health'] = Plant['Health'] + 5
+                    else
+                        Plant['Health'] = 100
+                    end
+                end
+                if Plant['Health'] > 0 then
+                    if Plant['Progress'] < 100 then
+                        local RandomGrowth = math.random(3, 6)
+                        Plant['Stage'] = Plant['Stage'] + RandomGrowth
+                    end
+                end
+                -- print('[DEBUG:WeedPlants]: Updating Plant Data for plant: ' .. Plant['Id'] .. ' - ' .. Plant['Stage'] .. ' - ' .. Plant['Water'] .. ' - ' .. Plant['Fertilizer'] .. ' - ' .. Plant['Health'] .. ' - ' .. Plant['Pregnant'] .. ' - ' .. json.encode(Plant['Coords']) .. ' - ' .. Plant['Progress'])
+                DatabaseModule.Update('UPDATE player_weedplants SET PlantData = ? WHERE PlantId = ?', {
+                    json.encode(Plant),
+                    Plant['Id']
+                })
+                UpdatedPlants[#UpdatedPlants + 1] = Plant
             end
-            TriggerClientEvent('mercy-illegal/client/plants-action', -1, 1, Config.WeedPlants)
+            TriggerClientEvent('mercy-illegal/client/plants-action', -1, 1, UpdatedPlants)
             Citizen.Wait((60 * 1000) * Config.WeedUpdateTime)
         end
     end)
@@ -103,49 +107,67 @@ RegisterNetEvent("mercy-illegal/server/do-plant-stuff", function(Type, PlantId, 
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
     local RandomWeedAmount = math.random(3, 6)
+    local Plant = GetPlantById(PlantId)
+    if not Plant then return end
     if Type == 'Harvest' then
-        if Config.WeedPlants[PlantId] ~= nil then
-            Config.WeedPlants[PlantId].Stage = 0
-            TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Config.WeedPlants[PlantId])    
-            Player.Functions.AddItem('weed-dried-bud-one', RandomWeedAmount, false, false, true)
-            if math.random(1,5) <= 2 then
-                Player.Functions.AddItem('weed-seed-female', 1, false, false, true)
-            end
+        Plant.Stage = 0
+        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Plant)
+        
+        Player.Functions.AddItem('weed-branch', math.random(1, 3), false, false, true)
+        if math.random(1,5) <= 2 then
+            Player.Functions.AddItem('weed-seed-female', 1, false, false, true)
         end
     elseif Type == 'Water' then
-        if Config.WeedPlants[PlantId].Water < 100 then
-            if Config.WeedPlants[PlantId].Water + Amount < 100 then
-                Config.WeedPlants[PlantId].Water = Config.WeedPlants[PlantId].Water + Amount 
+        if Plant.Water < 100 then
+            if Plant.Water + Amount < 100 then
+                Plant.Water = Plant.Water + Amount 
             else
-                Config.WeedPlants[PlantId].Water = 100
+                Plant.Water = 100
             end
         end 
-        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Config.WeedPlants[PlantId])
+        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Plant)
     elseif Type == 'Fertilizer' then
-        if Config.WeedPlants[PlantId].Fertilizer < 100 then
-            if Config.WeedPlants[PlantId].Fertilizer + Amount < 100 then
-                Config.WeedPlants[PlantId].Fertilizer = Config.WeedPlants[PlantId].Fertilizer + Amount 
+        if Plant.Fertilizer < 100 then
+            if Plant.Fertilizer + Amount < 100 then
+                Plant.Fertilizer = Plant.Fertilizer + Amount 
             else
-                Config.WeedPlants[PlantId].Fertilizer = 100
+                Plant.Fertilizer = 100
             end
         end 
-        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Config.WeedPlants[PlantId])
+        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Plant)
     elseif Type == 'Pregnant' then
-        Config.WeedPlants[PlantId].Pregnant = 'True'
-        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Config.WeedPlants[PlantId])
-    elseif Type == 'Destroy' then  
-        Player.Functions.AddItem('weed-branch', math.random(1, 3), false, false, true)
-        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 4, Config.WeedPlants[PlantId])
-        Config.WeedPlants[PlantId] = nil
+        Plant.Pregnant = 'True'
+        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 3, Plant)
+    elseif Type == 'Destroy' then
+        print('[DEBUG:WeedPlants]: Deleting plant from Database: ' .. PlantId)
+        DatabaseModule.Execute('DELETE FROM player_weedplants WHERE PlantId = ?', {
+            PlantId
+        })
+        TriggerClientEvent('mercy-illegal/client/plants-action', -1, 4, Plant)
+        for PlantCId, Plant in pairs(Config.WeedPlants) do
+            if Plant['Id'] == PlantId then
+                Config.WeedPlants[PlantCId] = nil
+            end
+        end
     end
-    if Config.WeedPlants[PlantId] ~= nil then
+
+    -- Update plant
+    if Plant ~= nil and Type ~= 'Destroy' then
+        print('[DEBUG:WeedPlants]: Updating plant data for plant: ' .. PlantId .. ' - ' .. json.encode(Plant))
         DatabaseModule.Update('UPDATE player_weedplants SET PlantData = ? WHERE PlantId = ?', {
-            json.encode(Config.WeedPlants[PlantId]),
+            json.encode(Plant),
             PlantId
-        })
-    else
-        DatabaseModule.Delete('DELETE FROM player_weedplants WHERE PlantId = ?', {
-            PlantId
-        })
+        }) 
     end
 end)
+
+-- [ Functions ] --
+
+function GetPlantById(Id)
+    for _, Plant in pairs(Config.WeedPlants) do
+        if Plant['Id'] == Id then
+            return Plant
+        end
+    end
+    return false
+end

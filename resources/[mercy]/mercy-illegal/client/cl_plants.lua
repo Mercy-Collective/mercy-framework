@@ -18,6 +18,7 @@ Citizen.CreateThread(function()
                     Citizen.Wait(0)
                 end
 
+
                 if #(PlayerCoords - vector3(v.Coords.X, v.Coords.Y, v.Coords.Z)) < 50.0 then
                     local CurrentStage = GetStageFromPlant(v.Stage)
                     local IsChanged = (ActivePlants[v.Id] and ActivePlants[v.Id].Stage ~= CurrentStage)
@@ -306,6 +307,12 @@ function GetStageFromPlant(Stage)
         return 5
     end
 end
+
+AddEventHandler('onResourceStop', function(ResourceName)
+    if ResourceName == GetCurrentResourceName() then
+        RemoveAllPlants()
+    end
+end)
 
 function RemoveAllPlants()
     for k, v in pairs(ActivePlants) do

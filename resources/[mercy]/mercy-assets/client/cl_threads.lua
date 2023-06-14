@@ -274,3 +274,26 @@ Citizen.CreateThread( function()
 		end
 	end
 end)
+
+-- Make ped look at ped who talks
+Citizen.CreateThread(function()
+	while true do
+		if LocalPlayer.state.LoggedIn then
+			local onlinePlayers = GetActivePlayers()
+			local playerPed = PlayerPedId()
+			for i=1, #onlinePlayers do
+				if onlinePlayers[i] ~= PlayerId() and NetworkIsPlayerActive(onlinePlayers[i]) then
+					if MumbleIsPlayerTalking(onlinePlayers[i]) then
+						local targetPed = GetPlayerPed(onlinePlayers[i])
+						if #(GetEntityCoords(targetPed) - GetEntityCoords(playerPed)) < 20 then
+							TaskLookAtEntity(playerPed, targetPed, 3000, 2048, 3)
+						end
+					end
+				end
+			end
+		else
+			Wait(1000)
+		end
+		Wait(500)
+	end
+end)

@@ -1,9 +1,10 @@
 Config = Config or {}
 
 Config.WeedPlants = {}
-Config.WeedUpdateTime = 30 -- Every 30 minutes
+Config.WeedUpdateTime = 15 -- Every 15 minutes
+Config.WeedRackDryTime = 2 -- 2 Minutes
 
-Config.ContainerWhitelist = { '9432', '7078'}
+Config.ContainerWhitelist = { '9432', '7078' }
 
 Config.GrowthObjects = {
     {
