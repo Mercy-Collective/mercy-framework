@@ -140,16 +140,21 @@ PlayerModule = {
             if DeleteData[1] ~= nil then
                 local Identifiers = json.decode(DeleteData[1].Identifiers)
                 if Identifiers.steam == Steam then
-                    -- Character Identifier
-                    local CharacterTables = { [1] = { ['Name'] = 'players', } }
-                    for k, v in pairs(CharacterTables) do
-                        Database.Execute('DELETE FROM '..v['Name']..' WHERE Identifiers LIKE ? AND Cid = ? ', {"%"..Steam.."%", Cid}, function(Result) end)
-                    end
+                    Database.Execute('DELETE FROM players WHERE Identifiers LIKE ? AND Cid = ? ', {"%"..Steam.."%", Cid}, function(Result) end)
 
-                    -- Character Skins
-                    local SkinTables = { [1] = { ['Name'] = 'player_skins', } }
-                    for k, v in pairs(SkinTables) do
-                        Database.Execute('DELETE FROM '..v['Name']..' WHERE CitizenId LIKE ? ', {CitizenId}, function(Result) end)
+                    -- Character Housing, Vehicles,..
+                    local LowerTables = { 
+                        'player_skins', 
+                        'player_outfits', 
+                        'player_vehicles', 
+                        'player_houses',
+                        'player_phone_debts',
+                        'player_phone_contacts',
+                        'player_phone_documents',
+                        'player_phone_messages',
+                    }
+                    for TableId, TableName in pairs(LowerTables) do
+                        Database.Execute('DELETE FROM '..TableName..' WHERE citizenid LIKE ? ', {CitizenId}, function(Result) end)
                     end
                 end
             end
