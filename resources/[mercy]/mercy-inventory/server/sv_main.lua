@@ -670,42 +670,44 @@ function GetFreeSlotInDrop(InvSlots, DropId)
 end
 
 function GetDBItems(Type, Name)
-	local ReturnItems = {}
-	local Promise = promise:new()
-	if Type == 'Glovebox' or Type == 'Trunk' or Type == 'Stash' then
-		local Table = (Type == 'Stash' and 'stash' or 'vehicle')
-		local ExtraQuery = ((Type == 'Glovebox' or Type == 'Trunk') and ' WHERE plate = ?' or ' WHERE stash = ?')
-		DatabaseModule.Execute("SELECT * FROM `player_inventory-"..Table.."`"..ExtraQuery, {
-			Name
-		}, function(Result)
-			if Result ~= nil and Result[1] ~= nil then
-				local DBItems = json.decode(Type == 'Glovebox' and Result[1].gloveboxitems or Type == 'Trunk' and Result[1].trunkitems or Result[1].items)
-				if DBItems ~= nil and DBItems[1] ~= nil then
-					for k,v in pairs(DBItems) do
-						if DBItems[k] ~= nil then
-							if v ~= nil and v.ItemName ~= nil and Shared.ItemList[v.ItemName:lower()] ~= nil then
-								local ItemInfo = Shared.ItemList[v.ItemName:lower()]
-								ReturnItems[v.Slot] = {
-									ItemName = ItemInfo["ItemName"],
-									Amount = tonumber(v.Amount),
-									Info = v.Info ~= nil and v.Info or "",
-									Slot = v.Slot,
-								}
-							end
-						end
-						Promise:resolve(ReturnItems)
-					end
-				else
-					ReturnItems = {}
-					Promise:resolve(ReturnItems)
-				end
-			else
-				ReturnItems = {}
-				Promise:resolve(ReturnItems)
-			end
-		end)
-	end
-	return Citizen.Await(Promise)
+    local ReturnItems = {}
+    local Promise = promise:new()
+    if Type == 'Glovebox' or Type == 'Trunk' or Type == 'Stash' then
+        local Table = (Type == 'Stash' and 'stash' or 'vehicle')
+        local ExtraQuery = ((Type == 'Glovebox' or Type == 'Trunk') and ' WHERE plate = ?' or ' WHERE stash = ?')
+        DatabaseModule.Execute("SELECT * FROM `player_inventory-"..Table.."`"..ExtraQuery, {
+            Name
+        }, function(Result)
+            if Result ~= nil and Result[1] ~= nil then
+                local DBItems = json.decode(Type == 'Glovebox' and Result[1].gloveboxitems or Type == 'Trunk' and Result[1].trunkitems or Result[1].items)
+                if DBItems ~= nil and DBItems[1] ~= nil then
+                    for k,v in pairs(DBItems) do
+                        if DBItems[k] ~= nil then
+                            if v ~= nil and v.ItemName ~= nil and Shared.ItemList[v.ItemName:lower()] ~= nil then
+                                local ItemInfo = Shared.ItemList[v.ItemName:lower()]
+                                ReturnItems[v.Slot] = {
+                                    ItemName = ItemInfo["ItemName"],
+                                    Amount = tonumber(v.Amount),
+                                    Info = v.Info ~= nil and v.Info or "",
+                                    Slot = v.Slot,
+									Quality = v.Quality ~= nil and v.Quality or 100,
+									CreateDate = v.CreateDate ~= nil and v.CreateDate or os.date(),
+                                }
+                            end
+                        end
+                    end
+                    Promise:resolve(ReturnItems)
+                else
+                    ReturnItems = {}
+                    Promise:resolve(ReturnItems)
+                end
+            else
+                ReturnItems = {}
+                Promise:resolve(ReturnItems)
+            end
+        end)
+    end
+    return Citizen.Await(Promise)
 end
 exports('GetDBItems', GetDBItems)
 
