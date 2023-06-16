@@ -136,12 +136,10 @@ PlayerModule = {
         local Database = exports[GetCurrentResourceName()]:FetchModule('Database')    
         local Functions = exports[GetCurrentResourceName()]:FetchModule('Functions')
         local Steam = Functions.GetIdentifier(Source, "steam")
-        Database.Execute("SELECT * FROM players WHERE Identifiers LIKE ? ", {"%"..Steam.."%"}, function(DeleteData)
+        Database.Execute("SELECT * FROM players WHERE Identifiers LIKE ? AND Cid = ? ", {"%"..Steam.."%", Cid}, function(DeleteData)
             if DeleteData[1] ~= nil then
                 local Identifiers = json.decode(DeleteData[1].Identifiers)
                 if Identifiers.steam == Steam then
-                    Database.Execute('DELETE FROM players WHERE Identifiers LIKE ? AND Cid = ? ', {"%"..Steam.."%", Cid}, function(Result) end)
-
                     -- Character Housing, Vehicles,..
                     local LowerTables = { 
                         'player_skins', 
@@ -154,8 +152,9 @@ PlayerModule = {
                         'player_phone_messages',
                     }
                     for TableId, TableName in pairs(LowerTables) do
-                        Database.Execute('DELETE FROM '..TableName..' WHERE citizenid LIKE ? ', {CitizenId}, function(Result) end)
+                        Database.Execute('DELETE FROM '..TableName..' WHERE citizenid LIKE ? ', {DeleteData[1].CitizenId}, function(Result) end)
                     end
+                    Database.Execute('DELETE FROM players WHERE Identifiers LIKE ? AND Cid = ? ', {"%"..Steam.."%", Cid}, function(Result) end)
                 end
             end
         end)
