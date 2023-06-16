@@ -130,10 +130,6 @@ function CanLootSpot(BoxId)
     return Config.LootSpots[BoxId] ~= nil and Config.LootSpots[BoxId] or false
 end
 
-RegisterCommand('spawnpeds', function()
-    SpawnSecurity()
-end)
-
 function SpawnSecurity()
     for k, v in pairs(Config.BobcatSecurity) do
         if FunctionsModule.RequestModel(v['Model']) then

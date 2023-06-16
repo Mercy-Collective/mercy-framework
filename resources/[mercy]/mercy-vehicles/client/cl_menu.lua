@@ -23,6 +23,33 @@ RegisterNetEvent('mercy-vehicles/client/switch-seat', function(SeatNumber, IsMen
     end
 end)
 
+RegisterNetEvent('mercy-vehicles/client/toggle-door-data', function(Data)
+    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local LockStatus = GetVehicleDoorLockStatus(Vehicle)
+    if Vehicle == nil or Vehicle == 0 or Vehicle == -1 then
+        local Entity, EntityType, EntityCoords = FunctionsModule.GetEntityPlayerIsLookingAt(8.0, 0.2, 286, PlayerPedId())
+        if Entity and EntityType ~= 0 then
+            if EntityType == 2 then
+                Vehicle = Entity
+            end
+        end
+    end
+    if LockStatus == 1 or LockStatus == 0 then
+        local TrunkAngle = GetVehicleDoorAngleRatio(Vehicle, Data.DoorNumber)
+        if (TrunkAngle == 0) then
+            VehicleModule.SetVehicleDoorOpen(Vehicle, Data.DoorNumber)
+        else
+            VehicleModule.SetVehicleDoorShut(Vehicle, Data.DoorNumber)
+        end
+        if Data.IsMenu then
+            Citizen.Wait(500)
+            exports['mercy-ui']:SendUIMessage('Vehicle', 'RefreshData', {
+                Settings = CalculateSettings()
+            })
+        end
+    end
+end)
+
 RegisterNetEvent('mercy-vehicles/client/toggle-door', function(DoorNumber, IsMenu)
     local Vehicle = GetVehiclePedIsIn(PlayerPedId())
     local LockStatus = GetVehicleDoorLockStatus(Vehicle)

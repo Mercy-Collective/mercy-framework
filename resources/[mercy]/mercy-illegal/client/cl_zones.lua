@@ -27,7 +27,7 @@ function InitZones()
                     EventName = 'mercy-illegal/client/open-crafting-bench',
                     EventParams = '',
                     Enabled = function(Entity)
-                        if exports['mercy-illegal']:IsInsideBenchContainer() and exports['mercy-illegal']:IsContainerWhitelisted() then
+                        if exports['mercy-illegal']:IsInsideBenchContainer() then
                             return true
                         end
                     end,

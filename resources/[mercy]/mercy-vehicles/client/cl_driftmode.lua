@@ -9,9 +9,10 @@ local HandleMods = {
 	{"fTractionCurveLateral", 2.5},
 	{"fLowSpeedTractionLossMult", -0.57}
 }
+local ToggledDriftMode = false
+
 -- [ Threads ] --
 
-local ToggledDriftMode = false
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(200)
@@ -54,6 +55,7 @@ function ToggleDrift(Veh)
 	for index, value in ipairs(HandleMods) do
 		SetVehicleHandlingFloat(Veh, "CHandlingData", value[1], GetVehicleHandlingFloat(Veh, "CHandlingData", value[1]) + value[2] * Modifier)
 	end
+	-- Toggle Drift Mode
 	local VehSpeed = GetEntitySpeed(Veh)
 	if VehSpeed <= 1 then 
         exports['mercy-ui']:ProgressBar('Toggling drift mode..', 2000, false, false, true, false, function(DidComplete)

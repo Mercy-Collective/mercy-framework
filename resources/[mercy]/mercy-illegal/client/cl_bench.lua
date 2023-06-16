@@ -37,13 +37,13 @@ function IsInsideBenchContainer()
 end
 exports("IsInsideBenchContainer", IsInsideBenchContainer)
 
-function IsContainerWhitelisted()
-    local CitizenId = PlayerModule.GetPlayerData().CitizenId
-    for k, v in pairs(Config.ContainerWhitelist) do
-        if CitizenId == v then
-            return true
-        end
-    end
-    return false
-end
-exports("IsContainerWhitelisted", IsContainerWhitelisted)
+-- function IsContainerWhitelisted()
+--     local CitizenId = PlayerModule.GetPlayerData().CitizenId
+--     for k, v in pairs(Config.ContainerWhitelist) do
+--         if CitizenId == v then
+--             return true
+--         end
+--     end
+--     return false
+-- end
+-- exports("IsContainerWhitelisted", IsContainerWhitelisted)

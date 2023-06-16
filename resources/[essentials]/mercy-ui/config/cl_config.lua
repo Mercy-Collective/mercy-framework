@@ -113,6 +113,34 @@ Config.EyeEntries = {
                 end,
             },
             {
+                Name = 'close_trunk',
+                Label = 'Close Trunk',
+                Icon = 'fas fa-truck-ramp',
+                EventType = 'Client',
+                EventName = 'mercy-vehicles/client/toggle-door-data',
+                EventParams = {
+                    IsMenu = false,
+                    DoorNumber = 5,
+                },
+                Enabled = function(Entity)
+                    return ((GetBoneDistanceFromVehicle(2, "boot") < 1.20) and (GetVehicleDoorAngleRatio(Entity, 5) > 0.0))
+                end,
+            },
+            {
+                Name = 'open_trunk',
+                Label = 'Open Trunk',
+                Icon = 'fas fa-truck-ramp',
+                EventType = 'Client',
+                EventName = 'mercy-vehicles/client/toggle-door-data',
+                EventParams = {
+                    IsMenu = false,
+                    DoorNumber = 5,
+                },
+                Enabled = function(Entity)
+                    return ((GetBoneDistanceFromVehicle(2, "boot") < 1.20) and (GetVehicleDoorAngleRatio(Entity, 5) == 0.0))
+                end,
+            },
+            {
                 Name = 'get_in_trunk',
                 Label = 'Enter Trunk',
                 Icon = 'fas fa-user-secret',
