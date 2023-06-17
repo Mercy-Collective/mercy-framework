@@ -577,6 +577,8 @@ RegisterNetEvent('mercy-inventory/server/done-crafting', function(ItemName, Amou
 	for k, v in pairs(Cost) do
 		Player.Functions.RemoveItem(v['Item'], (v['Amount'] * Amount), false, true)
 	end
+	Player.Functions.AddItem(ItemName, Amount, false, Info, true)
+	Player.Functions.Notify('craft-done', 'You crafted '..Amount..'x of '..ItemName..'!', 'success')
 end)
 
 RegisterNetEvent('mercy-inventory/server/done-combinding', function(FromSlot, FromItem, ToSlot, ToItem, Reward)
