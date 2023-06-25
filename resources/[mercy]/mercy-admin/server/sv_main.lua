@@ -308,11 +308,14 @@ RegisterNetEvent("mc-admin/server/ban-player", function(ServerId, Expires, Reaso
 
     local Player = PlayerModule.GetPlayerBySource(src)
     local Identifier = FunctionsModule.GetIdentifier(ServerId, 'license') ~= nil and FunctionsModule.GetIdentifier(ServerId, 'license') or FunctionsModule.GetIdentifier(ServerId, 'steam')
+    if Identifier == nil then
+        Player.Functions.Notify('ban-fail', "Identifiers of player not found..", 'error')
+        return
+    end
+    
     local BanData = MySQL.query.await('SELECT * FROM bans WHERE steam = ? or license = ?', {Identifier, Identifier})
     if BanData and BanData[1] ~= nil then
-        -- for k, v in pairs(BanData) do
-            Player.Functions.Notify('already-banned', Lang:t('bans.already_banned', {player = GetPlayerName(ServerId), reason = BanData[1].reason}), 'error')
-        -- end
+        Player.Functions.Notify('already-banned', Lang:t('bans.already_banned', {player = GetPlayerName(ServerId), reason = BanData[1].reason}), 'error')
     else
         local Expiring, ExpireDate = GetBanTime(Expires)
         local Time = os.time()

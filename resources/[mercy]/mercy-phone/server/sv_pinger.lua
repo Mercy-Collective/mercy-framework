@@ -15,9 +15,7 @@ Citizen.CreateThread(function()
         else
             local Receiver = PlayerModule.GetPlayerBySource(tonumber(Data.Receiver))
             if not Receiver then return print('[DEBUG:Pings]: Could not find ping receiver..') end
-            local ReceiverContact = IsInContacts(Receiver, Player.PlayerData.CharInfo.PhoneNumber:gsub('%-', ''))
-            local SenderName = ReceiverContact and ReceiverContact[1] or FormatPhone(Player.PlayerData.CharInfo.PhoneNumber) or FormatPhone(Player.PlayerData.CharInfo.PhoneNumber)
-            TriggerClientEvent('mercy-phone/client/pinger/receive', Data.Receiver, Coords, Source, SenderName)
+            TriggerClientEvent('mercy-phone/client/pinger/receive', Data.Receiver, Coords, Source, Player.PlayerData.CharInfo.Firstname .. ' ' .. Player.PlayerData.CharInfo.Lastname)
         end
     end)
 end)
