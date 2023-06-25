@@ -148,7 +148,7 @@ Citizen.CreateThread(function()
         if CurrentBalance >= tonumber(Data['Amount']) then
             local NewBalance = (CurrentBalance - tonumber(Data['Amount']))
             Player.Functions.AddMoney('Cash', tonumber(Data['Amount']), Data['Reason'])
-            if Player.PlayerData.CharInfo['BankNumber'] == Data['AccountId'] then -- Update Main Account
+            if tonumber(Player.PlayerData.CharInfo['BankNumber']) == tonumber(Data['AccountId']) then -- Update Main Account
                 Player.Functions.RemoveMoney('Bank', tonumber(Data['Amount']))
             end
             DatabaseModule.Update("UPDATE player_accounts SET Balance = ? WHERE BankId = ?", {
@@ -167,7 +167,7 @@ Citizen.CreateThread(function()
         local CurrentBalance = GetCurrentAccountBalance(Data['AccountId'])
         if Player.Functions.RemoveMoney('Cash', tonumber(Data['Amount']), Data['Reason']) then
             local NewBalance = (CurrentBalance + tonumber(Data['Amount']))
-            if Player.PlayerData.CharInfo['BankNumber'] == Data['AccountId'] then -- Update Main Account
+            if tonumber(Player.PlayerData.CharInfo['BankNumber']) == tonumber(Data['AccountId']) then -- Update Main Account
                 Player.Functions.AddMoney('Bank', tonumber(Data['Amount']))
             end
             DatabaseModule.Update("UPDATE player_accounts SET Balance = ? WHERE BankId = ?", {
