@@ -2,6 +2,12 @@
 
 -- [ Events ] --
 
+RegisterNetEvent("Admin:Set:Ammo", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+   TriggerEvent('mercy-weapons/client/set-ammo', Result['amount'])
+end)
+
 RegisterNetEvent("Admin:Bennys", function(Result)
     if not PlayerModule.IsPlayerAdmin() then return end
     TriggerEvent('mc-admin/client/force-close')

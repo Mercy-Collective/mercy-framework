@@ -254,10 +254,10 @@ RegisterNetEvent('mercy-inventory/client/use-weapon', function(ItemData)
 
     if GetHashKey(WeaponName) == CurrentWeapon then -- If we have the weapon out
         exports['mercy-assets']:DoHolsterAnim()
-        TriggerEvent('mercy-weapons/client/set-current-weapon', nil)
-        TriggerEvent('mercy-assets/client/attach-items')
         RemoveAllPedWeapons(PlayerPedId(), true)
         SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
+        TriggerEvent('mercy-weapons/client/set-current-weapon', nil)
+        TriggerEvent('mercy-assets/client/attach-items')
         return
     end
 
@@ -355,7 +355,7 @@ RegisterNetEvent("mercy-inventory/client/update-player", function()
         Weight = GetTotalWeight(PlayerData.Inventory),
         PlayerData = PlayerModule,
     })
-    TriggerEvent('mercy-assets/client/attach-items')
+-- TriggerEvent('mercy-assets/client/attach-items')
 end)
 
 RegisterNetEvent("mercy-inventory/client/craft", function(ItemName, Amount, ToSlot, Info, Cost)

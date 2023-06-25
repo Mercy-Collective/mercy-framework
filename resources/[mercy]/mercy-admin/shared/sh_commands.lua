@@ -4,7 +4,7 @@ Config.CommandList = {
     -- Player
     {
         ['Id'] = 'player',
-        ['Name'] = 'Player',
+        ['Name'] = 'Target (Not Required)',
         ['Items'] = {
             {
                 ['Id'] = 'noclip',
@@ -29,7 +29,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -53,7 +53,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -71,7 +71,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -89,7 +89,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -107,7 +107,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -155,7 +155,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -173,7 +173,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -191,7 +191,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -238,7 +238,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -256,7 +256,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -274,7 +274,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -292,7 +292,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -310,7 +310,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -328,7 +328,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -438,7 +438,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -602,7 +602,7 @@ Config.CommandList = {
             --     ['Options'] = {
             --         {
             --             ['Id'] = 'player',
-            --             ['Name'] = 'Player',
+            --             ['Name'] = 'Target (Not Required)',
             --             ['Type'] = 'input-choice',
             --             ['PlayerList'] = true,
             --         },
@@ -626,7 +626,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -650,7 +650,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -680,7 +680,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -710,7 +710,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -740,7 +740,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -758,7 +758,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -810,7 +810,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['Choices'] = {}
                     },
@@ -828,9 +828,9 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
-                        ['Choices'] = {}
+                        ['PlayerList'] = true,
                     },
                     {
                         ['Id'] = 'amount',
@@ -852,7 +852,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -895,7 +895,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -920,7 +920,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -938,7 +938,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -956,7 +956,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -974,7 +974,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },
@@ -992,7 +992,7 @@ Config.CommandList = {
                 ['Options'] = {
                     {
                         ['Id'] = 'player',
-                        ['Name'] = 'Player',
+                        ['Name'] = 'Target (Not Required)',
                         ['Type'] = 'input-choice',
                         ['PlayerList'] = true,
                     },

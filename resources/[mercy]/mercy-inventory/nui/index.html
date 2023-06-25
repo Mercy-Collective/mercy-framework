@@ -1,98 +1,140 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mercy- Inventory</title>
+    <title>Mercy - Inventory</title>
     <!-- CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
     <body>
-        <div class="wrapper">
-            <div class="logs"></div>
-            <div class="inventory-item-move"></div>
-            <div class="block-info">
-                <div class="block-name-inv">INVENTORY</div>
-                <div class="block-inv-option-info"><i class="fa-solid fa-circle-question"></i></div>
-                <div class="block-inv-option-close"><i class="fa-solid fa-circle-xmark"></i></div>
-            </div>
-            <div class="inventory-item-info"><div class="info-name"></div><div class="info-desc"></div><div class="info-stroke"></div><div class="info-sub"><strong>Weight</strong>: 11.00 | <strong>Amount</strong>: 1 | <strong>Quality</strong>: 99</div></div>
+        <div class="wrapper absolute w-full h-full m-0 p-0 top-0 left-0">
+            <div class="logs absolute drop-shadow-md text-white/75 bottom-0 left-[60%] text-md h-[12%] max-h-[20%] overflow-hidden font-lato"></div>
+            <div class="inventory-item-move rounded-lg z-50 w-[10.6vh] h-[12vh] bg-black/30 pointer-events-none relative"></div>
 
-            <div class="mercy-inventory-split">
-                <div class="mercy-inventory-split-left">1</div>
-                <div class="mercy-inventory-split-right">2</div>
+            <!-- Top Info -->
+            <div class="block-info absolute top-0 w-full h-fit font-lato text-white">
+                <div class="block-name-inv text-3xl uppercase ml-8 mt-8 drop-shadow-md font-bold">Inventory</div>
+                <div class="block-inv-option-info text-3xl ml-8 w-fit h-fit drop-shadow-md hover:text-white/50 transition duration-300 ease-in-out" data-tippy-content="Information"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="block-inv-option-close absolute right-8 bottom-0 text-3xl w-fit h-fit drop-shadow-md hover:text-white/50 transition duration-300 ease-in-out" data-tippy-content="Close Inventory"><i class="fa-solid fa-circle-xmark"></i></div>
             </div>
 
-            <div class="mercy-inventory-player">
-                <div class="mercy-inventory-player-title">
-                    <div class="mercy-inventory-player-title-buttons">
-                        <input class="inventory-option-amount" tabindex="-1" type="number" max="9999" min="0" placeholder="0" oninput="validity.valid||(value='');"/>
-                        <div class="inventory-option-steal"> <i class="fa-solid fa-people-robbery"></i> </div>
-                    </div>
-                    <div class="my-inventory-weight-container"><div class="my-inventory-weight"><div class="inventory-weight-fill"></div></div></div>
-                    <span id="mercy-inventory-player-label">Kane Stoned<span id="mercy-inventory-player-money">$1000</span></span>
+            <!-- Hover Info -->
+            <div class="inventory-item-info absolute flex flex-col items-center justify-center h-fit w-fit p-2 min-w-[15vh] max-w-[25vh] rounded-lg bg-zinc-900/80 border-3 border-zinc-800/80 text-white z-50">
+                <div class="info-name w-full h-fit text-xl font-semibold"></div>
+                <div class="info-desc w-full h-fit mb-2 text-xs"></div>
+                <div class="relative w-full h-1 mb-2 rounded-md bg-zinc-800/90"></div>
+                <div class="info-sub w-full h-fit mb-2 text-xs flex flex-col justify-center">
+                    <span class="flex items-center"><span class="border-2 border-zinc-800/80 bg-zinc-800/75 rounded-md h-fit w-fit p-1 mt-1 mr-8">Weight</span> <p class="text-md font-semibold" id="info-weight bg-ta">11.00</p></span>
+                    <span class="flex items-center"><span class="border-2 border-zinc-800/80 bg-zinc-800/75 rounded-md h-fit w-fit p-1 mt-1 mr-8">Amount</span> <p class="text-md font-semibold" id="info-amount">1</p></span>
+                    <span class="flex items-center"><span class="border-2 border-zinc-800/80 bg-zinc-800/75 rounded-md h-fit w-fit p-1 mt-1 mr-8">Quality</span> <p class="text-md font-semibold" id="info-quality">99</p></span>
+                    <span class="info-container flex items-center"></span>
                 </div>
-                <div class="my-inventory">
-                    <div class="my-inventory-blocks" data-type="my">
+            </div>
+
+            <!-- Center Split -->
+            <div class="inventory-split absolute h-[65vh] w-[0.5vh] bg-zinc-900/60 top-[45%] -translate-y-1/2 left-1/2 rounded-bl-md rounded-br-md -translate-x-1/2 text-white font-lato">
+                <div class="absolute right-[0.5vh] bg-zinc-900/60 rounded-tl-md rounded-bl-md text-sm w-[2.5vh] h-[2.5vh] text-center leading-[2.5vh]">1</div>
+                <div class="absolute left-[0.5vh]  bg-zinc-900/60 rounded-tr-md rounded-br-md text-sm w-[2.5vh] h-[2.5vh] text-center leading-[2.5vh]">2</div>
+            </div>
+
+            <!-- Player -->
+            <div class="mercy-inventory-player absolute left-[31.75%] top-[47%] -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vh] z-30">
+                <!-- Topbar -->
+                <div class="flex w-full h-[7vh] bg-zinc-900/60 drop-shadow-md rounded-lg text-white border-2 border-zinc-800/80 font-lato">
+                    <!-- Weight -->
+                    <div class="my-inventory-weight-container flex justify-center items-center ml-4">
+                        <div class="my-inventory-weight flex flex-col w-[.8vh] h-[5vh] bg-zinc-800/75 border-2 border-zinc-800/80 rounded-md overflow-hidden rotate-180">
+                            <div class="inventory-weight-fill h-[0%] w-full max-h-full bg-[#359e2d] transition-all duration-1000 ease-in-out"></div>
+                        </div>
+                    </div>
+                    <!-- Name / Money -->
+                    <div class="flex items-center justify-center w-fit h-full ml-4 font-semibold">
+                        <p class="flex justify-center items-center text-center m-2 text-lg drop-shadow-md" id="player-name">Kane Stoned</p>
+                        <p class="flex justify-center items-center text-center p-1 m-2 text-sm bg-[#38952c] border-2 border-[#328328] drop-shadow-md rounded-md" id="player-cash" data-tippy-content="Cash">$1000</p>
+                    </div>
+                    <!-- Icons -->
+                    <div class="flex justify-end items-center w-1/2 h-full">
+                        <div class="flex justify-center items-center w-[5vh] h-[5vh] border-2 border-zinc-800/80 bg-zinc-800/50 hover:bg-zinc-800/75 rounded-md mr-4 transition duration-300 ease-in-out hidden inventory-option-steal hover:cursor-pointer" data-tippy-content="Steal Money"> <i class="fa-solid fa-people-robbery"></i> </div>
+                        <div class="flex justify-center items-center w-[5vh] h-[5vh] border-2 border-zinc-800/80 bg-zinc-800/50 hover:bg-zinc-800/75 rounded-md mr-4 transition duration-300 ease-in-out inventory-option-use hover:cursor-grabbing" data-tippy-content="Use Item"> <i class="fa-solid fa-hand"></i> </div>
+                        <input class="flex justify-center items-center w-[5vh] h-[5vh] border-2 border-zinc-800/80 bg-zinc-800/50 hover:bg-zinc-800/75 focus:bg-zinc-800/75 rounded-md text-center mr-4 outline-none transition duration-300 ease-in-out inventory-option-amount" data-tippy-content="Move Amount" tabindex="-1" type="number" max="9999" min="0" placeholder="0" oninput="validity.valid||(value='');"/>
+                    </div>
+                </div>
+                <!-- Blocks -->
+                <div class="my-inventory flex justify-center mt-2 w-[50vh] h-[53.5vh] bg-zinc-900/60 border-2 outline-none rounded-lg border-zinc-800/80 no-scrollbar overflow-x-hidden overflow-y-scroll">
+                    <div class="my-inventory-blocks mt-3 ml-4 grid grid-cols-4 " data-type="my">
                         <!-- Generated -->
                     </div>
                 </div>
             </div>
-            <div class="mercy-other-inventory">
-                <div class="mercy-other-inventory-title">
-                    <div class="other-inventory-name">Grond</div>
-                    <div class="other-inventory-weight-container"><div class="other-inventory-weight"><div class="inventory-weight-fill"></div></div></div>
+
+            <!-- Other -->
+            <div class="mercy-other-inventory absolute right-[31.75%] top-[47%] translate-x-1/2 -translate-y-1/2 h-[60vh] w-[50vh] z-30 font-lato">
+                <!-- Topbar -->
+                <div class="flex w-full h-[7vh] bg-zinc-900/60 drop-shadow-md rounded-lg text-white border-2 border-zinc-800/80">
+                    <!-- Weight -->
+                    <div class="other-inventory-weight-container flex justify-center items-center ml-4">
+                        <div class="other-inventory-weight flex flex-col w-[.8vh] h-[5vh] bg-zinc-800/75 border-2 border-zinc-800/80 rounded-md overflow-hidden rotate-180">
+                            <div class="inventory-weight-fill h-[0%] w-full max-h-full bg-[#359e2d] transition-all duration-1000 ease-in-out"></div>
+                        </div>
+                    </div>
+                    <!-- Name -->
+                    <div class="flex justify-end items-center w-full h-full">
+                            <p class="flex items-center justify-center w-fit h-full mr-6 font-semibold text-lg drop-shadow-md other-inventory-name">Grond</p>
+                        </div>
                 </div>
-                <div class="other-inventory">
-                    <div class="other-inventory-blocks" data-type="other">
+                <!-- Blocks -->
+                <div class="other-inventory flex justify-center mt-2 w-[50vh] h-[53.5vh] bg-zinc-900/60 border-2 outline-none rounded-lg border-zinc-800/80 no-scrollbar overflow-x-hidden overflow-y-scroll">
+                    <div class="other-inventory-blocks mt-3 ml-4 grid grid-cols-4" data-type="other">
                         <!-- Generated -->
                     </div>
                 </div>
+
+                <!-- Info -->
+                <div class="inventory-info-container absolute top-0 right-0 w-[50vh] h-fit text-white p-3 z-50 bg-zinc-900/90 border-2 border-zinc-800/80 rounded-lg">
+                    <p class="font-bold text-xl text-center">Information</p>
+                    <hr class="rounded-md h-1 m-3">
+                    <p class="font-semibold text-md text-center">Keybinds (Defaults)</p>
+                    <ul>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Ctrl + C</span> Copies the item information you hover over.</li>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Shift + Right Click</span> Moves half of the stack to opposite inventory.</li>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Ctrl + Right Click</span>  Moves one of the stack to opposite inventory.</li>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Left Click</span> Drag Item</li>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Right Click</span> Quick Move</li>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Middle Click</span> Use Item</li>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Scroll Wheel</span> While focussing on the "AMOUNT" field will increase / decrease value</span></li>
+                        <li class="text-white/75 mt-2"><span class="border-2 border-zinc-800/80 bg-zinc-800/50 rounded-md h-fit w-fit p-1">Numbers 0 - 9</span> Will input the typed number.</li>
+                    </ul>
+                    <p class="font-semibold text-md mt-2 text-center">Stores</p>
+                    <p class="text-white/75 text-center">Put in the amount you want to buy in the AMOUNT field and then drag the shop item into your inventory.</p>
+                    <p class="font-semibold text-md mt-2 text-center">Crafting</p>
+                    <p class="text-white/75 text-center"> Make sure you have enough items to craft what you want. </p>
+                    <p class="font-semibold text-md mt-2 text-center">Item Durability</p>
+                    <p class="text-white/75 text-center">Almost all items will decay or get damage over time (including weapons). The background of each item will slowly
+                        decrease in height as it
+                        decays / takes damage more and more, then eventually fade to a reddish color. Once an item is fully destroyed, it
+                        will have a solid
+                        red background.</p>
+                </div>                
             </div>
-            <div class="inventory-info-container">
-                <h3>About</h3>
-                <!-- <p>To move a full stack, make sure the "AMOUNT" spot is empty.</p> -->
-                <h3>Keybinds (Defaults)</h3>
-                <ul>
-                    <li><tag>Ctrl + C</tag> Copies the item information you hover over.</li>
-                    <li><tag>Shift + Right Click</tag> Moves half of the stack to opposite inventory.</li>
-                    <li><tag>Ctrl + Right Click</tag>  Moves one of the stack to opposite inventory.</li>
-                    <li><tag>Left Click</tag> Drag Item</li>
-                    <li><tag>Right Click</tag> Quick Move</li>
-                    <li><tag>Middle Click</tag> Use Item</li>
-                    <li><tag>Scroll Wheel</tag> While focussing on the "AMOUNT" field will increase / decrease value</span></li>
-                    <li><tag>Numbers 0 - 9</tag> Will input the typed number.</li>
-                </ul>
-                <h3>Stores</h3>
-                <p>Put in the amount you want to buy in the AMOUNT field and then drag the shop item into your inventory.</p>
-                <h3>Crafting</h3>
-                <p>
-                    Make sure you have enough items to craft what you want.
-                </p>
-                <h3>Item Durability</h3>
-                <p>Almost all items will decay or get damage over time (including weapons). The background of each item will slowly
-                    decrease in height as it
-                    decays / takes damage more and more, then eventually fade to a reddish color. Once an item is fully destroyed, it
-                    will have a solid
-                    red bar.</p>
-            </div>
-            <!-- <img src="./img/loader.svg"> Als ik dit ooit ga gebruiken -->
         </div>
-        <div class="item-box-container">
+        <div class="item-box-container absolute bottom-[20vh] left-[47%]">
             <!-- Auto Generated -->
             </div>
-        <div class="item-needed-container">
+        <div class="item-needed-container absolute bottom-[17vh] left-[36.5%]">
             <!-- Auto Generated -->
         </div>
-        <div class="item-hotbar-container">
+        <div class="item-hotbar-container absolute bottom-[10vh] left-[36.5%]">
             <!-- Auto Generated -->
         </div>
     </body>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/8271b7d679.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="./js/script.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
+    <script type="text/javascript" src="./js/needs/popper.min.js"></script>
+    <script type="text/javascript" src="./js/needs/tippy-bundle.umd.min.js"></script>
 </html>
