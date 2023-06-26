@@ -125,7 +125,7 @@ AddEventHandler('Modules/server/ready', function()
 			if ToInventory == '.my-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
 				if Type == 'Store' then
 					local StoreItem = Shared.ItemList[OtherInventoryItems[FromSlot]['ItemName']:lower()]
-					if Player.Functions.RemoveMoney('Cash', (StoreItem.Price * Amount)) then
+					if Player.Functions.RemoveMoney('Cash', FunctionsModule.GetTaxPrice((StoreItem.Price * Amount), 'Goods')) then
 						if StoreItem['Type'] == 'Weapon' and not StoreItem['Melee'] then
 							local SerialNumber = SubType == 'PoliceStore' and Player.PlayerData.Job.Serial or Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()
 							OtherInventoryItems[FromSlot].Info = {Quality = 100.0, Ammo = 5, Serial = SerialNumber}

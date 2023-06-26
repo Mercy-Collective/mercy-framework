@@ -216,3 +216,17 @@ HandleInventoryInfo = function (ItemData) {
     }
     $(".inventory-item-description").show(150);
 };
+
+DisableTooltips = function(item) {
+    for (let i = 0; i < $(item).length; i++) {
+        var tippyInstance = $(item)[i]._tippy;
+        tippyInstance.disable();
+    }
+}
+
+EnableTooltips = function(item) {
+    for (let i = 0; i < $(item).length; i++) {
+        var tippyInstance = $(item)[i]._tippy;
+        tippyInstance.enable();
+    }
+}

@@ -52,17 +52,17 @@ body {
 
 .inventory-block,
 .inventory-hotbar-block {
-  float: left;
-  position: relative;
+    float: left;
+    position: relative;
 
-  width: 10.6vh;
-  height: 12vh;
+    width: 10.6vh;
+    height: 12vh;
 
-  background-color: rgba(0, 0, 0, 0.329);
-  margin-bottom: 1vh;
-  margin-right: 1.4vh;
-  opacity: 1;
-  border-radius: 1vh;
+    background-color: rgba(0, 0, 0, 0.329);
+    margin-bottom: 1vh;
+    margin-right: 1.4vh;
+    opacity: 1;
+    border-radius: 1vh;
 }
 
 .inventory-block:hover,
@@ -71,175 +71,188 @@ body {
 }
 
 .inventory-block-number {
-  position: absolute;
-  top: 0;
-  left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-  margin: 0.6vh;
+    margin: 0.6vh;
 
-  color: rgb(17, 17, 17);
-  font-weight: 700 !important;
-  font-size: 1.1vh;
-  background-color: rgb(255, 255, 255);
+    color: rgb(17, 17, 17);
+    font-weight: 700 !important;
+    font-size: 1.1vh;
+    background-color: rgb(255, 255, 255);
 
-  padding: 0.2vh;
-  padding-left: 0.5vh;
-  padding-right: 0.5vh;
+    padding: 0.2vh;
+    padding-left: 0.5vh;
+    padding-right: 0.5vh;
 
-  text-align: center;
-  z-index: 60;
+    text-align: center;
+    z-index: 60;
 
-  border-radius: 0.5vh;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 0.5vh;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
 }
 
 .inventory-block-img {
-  position: absolute;
+    position: absolute;
 
-  width: 75%;
-  height: 70%;
+    width: 75%;
+    height: 70%;
 
-  margin: 0 auto;
-  left: 0;
-  right: 0;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
 
-  top: 53%;
-  transform: translateY(-50%);
+    top: 53%;
+    transform: translateY(-50%);
 
-  z-index: 999;
+    z-index: 999;
 }
 
 .inventory-block-amount {
-  position: absolute;
-  top: 0;
-  right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
 
-  margin: 0.6vh;
+    margin: 0.6vh;
 
-  color: white;
-  font-weight: 700 !important;
-  font-size: 1.1vh;
-  background-color: rgb(56, 149, 44);
+    color: white;
+    font-weight: 700 !important;
+    font-size: 1.1vh;
+    background-color: rgb(56, 149, 44);
 
-  padding: 0.2vh;
-  padding-left: 0.5vh;
-  padding-right: 0.5vh;
+    padding: 0.2vh;
+    padding-left: 0.5vh;
+    padding-right: 0.5vh;
 
-  text-align: center;
+    text-align: center;
 
-  border-radius: 0.5vh;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 0.5vh;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
 
-  z-index: 1000;
+    z-index: 1000;
 }
 
 .inventory-block-name {
-  position: absolute;
+    position: absolute;
 
-  bottom: 0;
+    bottom: 0;
 
-  font-weight: bolder;
+    font-weight: bolder;
 
-  color: rgb(17, 17, 17);
-  font-size: 1vh;
+    color: rgb(17, 17, 17);
+    font-size: 1vh;
 
-  text-align: center;
-  padding: 0.25vh;
-  padding-left: 0.5vh;
-  padding-right: 0.5vh;
-  border-radius: 0.5vh;
+    text-align: center;
+    padding: 0.25vh;
+    padding-left: 0.5vh;
+    padding-right: 0.5vh;
+    border-radius: 0.5vh;
 
-  max-width: 80%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-  margin: 0.75vh;
+    margin: 0.75vh;
 
-  background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 
-  text-transform: capitalize;
+    text-transform: capitalize;
 
-  z-index: 1000;
+    z-index: 1000;
 }
 
 .inventory-block-price {
-  position: absolute;
+    position: absolute;
 
-  top: 0;
-  left: 0;
+    top: 0;
+    left: 0;
 
-  font-size: 1.1vh;
-  color: rgba(255, 255, 255, 1);
-  background-color: rgb(56, 149, 44);
+    font-size: 1.1vh;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgb(56, 149, 44);
 
-  margin: 0.6vh;
-  padding: 0.2vh;
-  padding-left: 0.5vh;
-  padding-right: 0.5vh;
+    margin: 0.6vh;
+    padding: 0.2vh;
+    padding-left: 0.5vh;
+    padding-right: 0.5vh;
 
-  letter-spacing: 0.5px;
-  font-weight: 700 !important;
-  text-align: center;
-  border-radius: 0.5vh;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+    letter-spacing: 0.5px;
+    font-weight: 700 !important;
+    text-align: center;
+    border-radius: 0.5vh;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
 /* Crafting */
 
 .crafting-inventory-blocks {
-  position: relative;
-  float: left;
+    position: relative;
 
-  width: 49%;
+    width: 96%;
+    min-height: 12.5vh;
+    height: fit-content;
+    margin-left: .25vh;
 
-  min-height: 12.5vh;
-  height: fit-content;
-
-  background-color: rgba(0, 0, 0, 0.6);
-
-  margin: 0.125vh;
-  border-radius: 0.3vh;
-  z-index: -2;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 0.3vh;
+    z-index: 10;
 }
 
 .inventory-block-crafting {
-  float: left;
-  position: relative;
+    float: left;
+    position: relative;
 
-  margin: 0.5em;
+    width: 10.6vh;
+    min-height: 12vh;
+    height: fit-content;
 
-  width: 10.6vh;
-  height: 12vh;
+    margin: .5vh;
 
-  background-color: rgba(0, 0, 0, 0.329);
-  opacity: 1;
-  border-radius: 1vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    border-radius: 1vh;
 }
 
 .crafting-needed-text {
-  position: absolute;
-  top: 1.2vh;
-  left: 16vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    width: 100%;
+    margin-bottom: .5vh;
 }
 
 .crafting-text {
-  position: relative;
-  color: white;
-  font-size: 1.2vh;
-  font-weight: 500;
-  margin-bottom: 1.5vh;
+    float: left;
+    position: relative;
+    
+    height: fit-content;
+    width: fit-content;
+    margin: 0.1vh;
+
+    color: white;
+    font-weight: 700 !important;
+    font-size: 1.1vh;
+    background-color: rgb(44, 102, 149);
+
+    padding: 0.4vh;
+    padding-left: 0.5vh;
+    padding-right: 0.5vh;
+
+    text-align: center;
+
+    border-radius: 0.5vh;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
 }
 
 .crafting-img {
-  position: absolute;
-
-  top: -0.5vh;
-  left: -4vh;
-
-  width: 3vh;
-  height: 3vh;
+    width: 2.5vh;
+    height: 2.5vh;
 }
 
 /* Item Slot Quality */

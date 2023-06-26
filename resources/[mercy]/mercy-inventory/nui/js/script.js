@@ -31,6 +31,7 @@ ClosePlayerInventory = function () {
             OtherInv: CurrentOtherInventory["Type"],
             OtherName: CurrentOtherInventory["SubType"],
         }));
+        DisableTooltips('[data-tippy-content]');
         $(".my-inventory-weight > .inventory-weight-fill").css({ height: "0%" });
         $(".other-inventory-weight > .inventory-weight-fill").css({ height: "0%" });
         $(".my-inventory-blocks").html("");
@@ -52,6 +53,7 @@ ClosePlayerInventory = function () {
 RefreshInventory = function (data) {
     $(".my-inventory-blocks").html("");
     $(".inventory-item-move").hide(0);
+    DisableTooltips('[data-tippy-content]');
     // Load Slots
     for (i = 1; i < data.Slots + 1; i++) {
         let ItemSlotInfo = `<div class="inventory-block" data-slot='${i}'>${(i == 1 || i == 2 || i == 3 || i == 4) ? `<div class="inventory-block-number">${i}</div>` : ""}</div>`;
@@ -75,20 +77,15 @@ RefreshInventory = function (data) {
     }); 
     // Update Weight
     $(".my-inventory-weight > .inventory-weight-fill").animate( { height: data.Weight / 2.5 + "%" }, 1 );
+    EnableTooltips('[data-tippy-content]');
 };
 
 SetupInventory = function (BlockAmount, OtherData, data) {
     $(".my-inventory-blocks").html("");
     $(".other-inventory-blocks").html("");
-
     $("#player-name").html(data.PlayerData.CharInfo.Firstname + " " + data.PlayerData.CharInfo.Lastname);
     $("#player-cash").html(Formatter.format(data.PlayerData.Money.Cash));
     $(".wrapper").show();
-    tippy('[data-tippy-content]', {
-        theme: 'mercy',
-        animation: 'scale',
-        inertia: true,
-    });
     
     // Create Blocks
     for (i = 1; i < BlockAmount + 1; i++) {
@@ -114,6 +111,15 @@ SetupInventory = function (BlockAmount, OtherData, data) {
     });
 
     // Create Other Inv
+
+    // For Crafting stuff
+    if (!$(".other-inventory-blocks").hasClass("pl-4")) {
+        $(".other-inventory-blocks").addClass("pl-4");
+    }
+    if ($(".other-inventory-blocks").hasClass("gap-2")) {
+        $(".other-inventory-blocks").removeClass("gap-2");
+    }
+    
     if (data.OtherExtra != "Empty") {
         if (OtherData != null && OtherData != undefined) {
             CurrentOtherInventory = OtherData;
@@ -127,9 +133,12 @@ SetupInventory = function (BlockAmount, OtherData, data) {
                     $(".other-inventory-blocks").append(ItemSlotInfo);
                 }
             } else if (OtherData["Type"] == "Crafting") {
+
                 OtherData["InvSlots"] = OtherData["Items"].length;
                 for (i = 1; i < OtherData["Items"].length + 1; i++) {
                     let ItemSlotInfo = `<div class="crafting-inventory-blocks" data-slot=${i}></div>`;
+                    $(".other-inventory-blocks").removeClass("pl-4");
+                    $(".other-inventory-blocks").addClass("gap-2");
                     $(".other-inventory-blocks").append(ItemSlotInfo);
                 }
             } else {
@@ -154,12 +163,12 @@ SetupInventory = function (BlockAmount, OtherData, data) {
                 } else if (OtherData["Type"] == "Crafting") {
                     let CraftingText = "";
                     $.each(ItemData["Cost"], function (_, CostData) {
-                    CraftingText = CraftingText + `<div class="crafting-text"><img src="${GetItemImage('m_'+CostData['Item'])}.png" class="crafting-img">${CostData["Item"]}: ${CostData["Amount"]}</div>`;
+                        CraftingText = CraftingText + `<div class="crafting-text cursor-help" data-tippy-content="${CostData['Item']} (${CostData['Amount']}x)"><img src="${GetItemImage('m_'+CostData['Item'])}.png" class="crafting-img">${CostData["Amount"]}x</div>`;
                     });
-                    let ItemSlotInfo = `<div class="inventory-block-crafting draghandle" data-craftslot=${ItemData["Slot"]}>
-                                        <img src="${GetItemImage(ItemData['Image'])}" class="inventory-block-img">
-                                        <div class="inventory-block-amount">${ItemData["Amount"]}x</div>
-                                        <div class="inventory-block-name">${ItemData["Label"]}</div>
+                    let ItemSlotInfo = `<div class="inventory-block-crafting draghandle cursor-grab" data-tippy-content="${ItemData["Label"]} (${ItemData["Amount"]}x)" data-craftslot=${ItemData["Slot"]}>
+                                            <img src="${GetItemImage(ItemData['Image'])}" class="inventory-block-img">
+                                            <div class="inventory-block-amount">${ItemData["Amount"]}x</div>
+                                            <div class="inventory-block-name">${ItemData["Label"]}</div>
                                         </div>
                                         <div class="crafting-needed-text">${CraftingText}</div>`;
                     $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.OtherItems[key]);
@@ -203,6 +212,12 @@ SetupInventory = function (BlockAmount, OtherData, data) {
         $(".mercy-other-inventory").fadeIn(450);
         InventoryOpened = true;
     });
+    tippy('[data-tippy-content]', {
+        theme: 'mercy',
+        animation: 'scale',
+        inertia: true,
+    });
+    EnableTooltips('[data-tippy-content]');
 };
 
 HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
@@ -1249,10 +1264,10 @@ $(document).on({
                 InventoryType = $(this).parent().parent().data("type");
                 ThisSlot = $(this).attr("data-craftslot");
             }
-            let FromData = $(".my-inventory-blocks") .find(`[data-slot=${ThisSlot}]`) .data("ItemData");
+            let FromData = $(".my-inventory-blocks").find(`[data-slot=${ThisSlot}]`).data("ItemData");
             // Other Inventory
             if (InventoryType == "other") {
-                FromData = $(".other-inventory-blocks") .find(`[data-slot=${ThisSlot}]`) .data("ItemData");
+                FromData = $(".other-inventory-blocks").find(`[data-slot=${ThisSlot}]`).data("ItemData");
             }
             if (InventoryType == "my" || (InventoryType == "other" && CurrentOtherInventory["Type"] == "Stash") || CurrentOtherInventory["Type"] == "Glovebox" || CurrentOtherInventory["Type"] == "Trunk" || CurrentOtherInventory["Type"] == "Drop" || CurrentOtherInventory["Type"] == "Player" ) {
                 if (FromData != null && FromData != undefined) {
