@@ -4,7 +4,7 @@
 
 Contacts = {
     CallId = nil,
-    Contacts = {} -- Added by kane
+    Contacts = {}
 }
 
 -- Untested, needs testing.

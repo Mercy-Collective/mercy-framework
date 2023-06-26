@@ -53,7 +53,6 @@ ClosePlayerInventory = function () {
 RefreshInventory = function (data) {
     $(".my-inventory-blocks").html("");
     $(".inventory-item-move").hide(0);
-    DisableTooltips('[data-tippy-content]');
     // Load Slots
     for (i = 1; i < data.Slots + 1; i++) {
         let ItemSlotInfo = `<div class="inventory-block" data-slot='${i}'>${(i == 1 || i == 2 || i == 3 || i == 4) ? `<div class="inventory-block-number">${i}</div>` : ""}</div>`;

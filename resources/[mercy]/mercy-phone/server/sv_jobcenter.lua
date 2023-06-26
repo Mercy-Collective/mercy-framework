@@ -79,19 +79,20 @@ Citizen.CreateThread(function()
                         print('[DEBUG:Jobs]: Adding Money to Player for completing job. Source: ', MemberData['Source'])
                         -- Add Money
                         local Money = ServerConfig.Jobs[Job]['Money']
-                        GroupMember.Functions.SetMetaData('JobsPaycheck', GroupMember.PlayerData.MetaData['JobsPaycheck'] + Money)
-                        -- Notif
-                        TriggerClientEvent('mercy-phone/client/notification', MemberData['Source'], {
-                            Id = math.random(11111111, 99999999),
-                            Title = "Job Center",
-                            Message = "You have earned $"..Money.." for completing the job",
-                            Icon = "fas fa-briefcase",
-                            IconBgColor = "#4f5efc",
-                            IconColor = "white",
-                            Sticky = false,
-                            Duration = 5000,
-                            Buttons = {},
-                        })
+                        if Money ~= nil then -- Add Money
+                            GroupMember.Functions.SetMetaData('JobsPaycheck', GroupMember.PlayerData.MetaData['JobsPaycheck'] + Money)
+                            TriggerClientEvent('mercy-phone/client/notification', MemberData['Source'], {
+                                Id = math.random(11111111, 99999999),
+                                Title = "Job Center",
+                                Message = "You have earned $"..Money.." for completing the job",
+                                Icon = "fas fa-briefcase",
+                                IconBgColor = "#4f5efc",
+                                IconColor = "white",
+                                Sticky = false,
+                                Duration = 5000,
+                                Buttons = {},
+                            })
+                        end
                         TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', MemberData['Source'], Group)
                     end
                 end

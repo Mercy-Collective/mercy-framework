@@ -253,11 +253,7 @@ RegisterNetEvent('mercy-inventory/client/use-weapon', function(ItemData)
     local CurrentWeapon = GetSelectedPedWeapon(PlayerPedId())
 
     if GetHashKey(WeaponName) == CurrentWeapon then -- If we have the weapon out
-        exports['mercy-assets']:DoHolsterAnim()
-        RemoveAllPedWeapons(PlayerPedId(), true)
-        SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
-        TriggerEvent('mercy-weapons/client/set-current-weapon', nil)
-        TriggerEvent('mercy-assets/client/attach-items')
+        TriggerEvent('mercy-inventory/client/reset-weapon', true)
         return
     end
 
@@ -265,39 +261,41 @@ RegisterNetEvent('mercy-inventory/client/use-weapon', function(ItemData)
 
     Citizen.SetTimeout(15, function()
         exports['mercy-assets']:DoHolsterAnim()
+            if Config.Throwables[WeaponName] then Ammo = 1 end
 
-        if Config.Throwables[WeaponName] then Ammo = 1 end
+            GiveWeaponToPed(PlayerPedId(), GetHashKey(WeaponName), Ammo, false, false)
+            SetPedAmmo(PlayerPedId(), GetHashKey(WeaponName), Ammo)
+            SetCurrentPedWeapon(PlayerPedId(), GetHashKey(WeaponName), true)
 
-        GiveWeaponToPed(PlayerPedId(), GetHashKey(WeaponName), Ammo, false, false)
-        SetPedAmmo(PlayerPedId(), GetHashKey(WeaponName), Ammo)
-        SetCurrentPedWeapon(PlayerPedId(), GetHashKey(WeaponName), true)
-
-        if WeaponName == 'weapon_glock' then
-            GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_GLOCK_FLSH'))
-        elseif WeaponName == 'weapon_mpx' then
-            GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_MPX_LASR'))
-            GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_SCOPE_MPX_02'))
-        elseif WeaponName == 'weapon_m4' then
-            GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_M4_FLSH'))
-            GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_M4_AFGRIP'))
-            GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_SCOPE_M4'))
-        end
-
-        local Attachments = HasAnyAttachments()
-        if Attachments ~= nil then
-            for k, v in pairs(Attachments) do
-                GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey(Config.Attachments[v][WeaponName]))
+            local Attachments = HasAnyAttachments()
+            if Attachments ~= nil then
+                for k, v in pairs(Attachments) do
+                    GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey(Config.Attachments[v][WeaponName]))
+                end
             end
-        end
-        
-        SetWeaponsNoAutoswap(true)
-        TriggerEvent('mercy-weapons/client/set-current-weapon', ItemData)
-        TriggerEvent('mercy-assets/client/attach-items')
+
+            if WeaponName == 'weapon_glock' then
+                GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_GLOCK_FLSH'))
+            elseif WeaponName == 'weapon_mpx' then
+                GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_MPX_LASR'))
+                GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_SCOPE_MPX_02'))
+            elseif WeaponName == 'weapon_m4' then
+                GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_M4_FLSH'))
+                GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_M4_AFGRIP'))
+                GiveWeaponComponentToPed(PlayerPedId(), GetHashKey(WeaponName), GetHashKey('COMPONENT_AT_SCOPE_M4'))
+            end
+            
+            SetWeaponsNoAutoswap(true)
+            TriggerEvent('mercy-weapons/client/set-current-weapon', ItemData)
+            TriggerEvent('mercy-assets/client/attach-items')
     end)
 end)
 
-RegisterNetEvent("mercy-inventory/client/reset-weapon", function()
+RegisterNetEvent("mercy-inventory/client/reset-weapon", function(Anim)
     TriggerEvent('mercy-assets/client/reset-holster')
+    if Anim then
+        exports['mercy-assets']:DoHolsterAnim()
+    end
     Citizen.SetTimeout(100, function()
         DisablePlayerFiring(PlayerId(), false)
         SetPlayerCanDoDriveBy(PlayerId(), true)
@@ -723,10 +721,10 @@ RegisterNUICallback('CloseInventory', function(Data, Cb)
     TriggerServerEvent('mercy-inventory/server/check-other', Data.OtherInv, Data.OtherName)
     TriggerEvent('animations:client:EmoteCommandStart', { "c" })
     CurrentStealNumber = nil
-    -- UsingKey = true
-    -- Citizen.SetTimeout(500, function()
-    --     UsingKey = false
-    -- end)
+    UsingKey = true
+    Citizen.SetTimeout(500, function()
+        UsingKey = false
+    end)
     SetNuiFocus(false, false)
     Cb('Ok')
 end)

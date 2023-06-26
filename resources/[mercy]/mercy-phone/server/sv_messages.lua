@@ -65,7 +65,7 @@ Citizen.CreateThread(function()
                         local ContactData = IsInContacts(Receiver, SenderPhone) -- Checks if caller in in receiver contacts.
                         local SenderName = ContactData ~= false and ContactData[2] ~= nil and ContactData[2] or SenderPhone or SenderPhone -- Get name by checking if sender is in receiver's contacts.
 
-                        print('[DEBUG]: Checked if Sender is in Receiver\'s contacts.', ContactData[1], ContactData[2], SenderName)
+                        print('[DEBUG]: Checked if Sender is in Receiver\'s contacts.', SenderName)
 
                         -- Check if target already has chat with person
                         DatabaseModule.Execute('SELECT * FROM player_phone_messages WHERE citizenid = ? AND number = ? AND name = ?', {
@@ -145,7 +145,7 @@ Citizen.CreateThread(function()
                         local ContactData = IsInContacts(Receiver, SenderPhone) -- Checks if caller in in receiver contacts.
                         local SenderName = ContactData ~= false and ContactData[2] ~= nil and ContactData[2] or SenderPhone or SenderPhone-- Get name by checking if sender is in receiver's contacts.
 
-                        print('[DEBUG:NEW]: Checked if Sender is in Receiver\'s contacts.', ContactData[1], ContactData[2], SenderName)
+                        print('[DEBUG:NEW]: Checked if Sender is in Receiver\'s contacts.', SenderName)
 
                         -- Check if target already has chat with person
                         DatabaseModule.Execute('SELECT * FROM player_phone_messages WHERE citizenid = ? AND number = ? AND name = ?', {
