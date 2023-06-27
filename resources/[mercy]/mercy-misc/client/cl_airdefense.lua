@@ -24,17 +24,14 @@ function ShootMeDaddy()
     local Distance = #(GetEntityCoords(PlayerPedId()) - vector3(1693.33, 2569.51, 45.55))
     if Distance >= 290 then return end
 
-    if FunctionsModule.RequestModel(AirstrikeRocket) then
-        while not HasModelLoaded(AirstrikeRocket) do Citizen.Wait(4) print('Loading model') end
-        RequestWeaponAsset(AirstrikeRocket, 31, 26)
-        while not HasWeaponAssetLoaded(AirstrikeRocket) do Citizen.Wait(4) print('Loading rocket') end
+    FunctionsModule.RequestModel(AirstrikeRocket)
+    RequestWeaponAsset(AirstrikeRocket, 31, 26)
+    while not HasWeaponAssetLoaded(AirstrikeRocket) do Citizen.Wait(4) print('Loading rocket') end
 
-        local StartCoords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 10.0, 0.0)
-        local EndCoords = GetPedBoneCoords(PlayerPedId(), GetPedBoneIndex(PlayerPedId(), "SKEL_Head"))
+    local EndCoords = GetPedBoneCoords(PlayerPedId(), 39317, 0, 0, 0) -- Solution From https://forum.cfx.re/t/bone-index/98730/6
 
-        if EndCoords.z > 65.0 then
-            ShootSingleBulletBetweenCoords(AirstrikeStart.x, AirstrikeStart.y, EndCoords.z, EndCoords.x, EndCoords.y, EndCoords.z, 500, true, AirstrikeRocket, false, true, true, 1500.0)
-        end
+    if EndCoords.z > 65.0 then
+        ShootSingleBulletBetweenCoords(AirstrikeStart.x, AirstrikeStart.y, AirstrikeStart.z, EndCoords.x, EndCoords.y, EndCoords.z, 500, true, AirstrikeRocket, 0, true, false, 1500.0)
     end
 
     Citizen.SetTimeout(1000, function()
