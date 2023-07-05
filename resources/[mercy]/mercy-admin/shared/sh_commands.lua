@@ -4,7 +4,7 @@ Config.CommandList = {
     -- Player
     {
         ['Id'] = 'player',
-        ['Name'] = 'Target (Not Required)',
+        ['Name'] = 'Player',
         ['Items'] = {
             {
                 ['Id'] = 'noclip',

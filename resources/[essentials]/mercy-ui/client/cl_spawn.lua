@@ -44,7 +44,11 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
         })
     
         local Locations = {}
-        local PlayerData = exports['mercy-base']:FetchModule('Player').GetPlayerData()
+        local PlayerData = PlayerModule.GetPlayerData()
+        while PlayerData == nil do
+            Wait(100)
+            PlayerData = PlayerModule.GetPlayerData()
+        end
         
         if PlayerData.MetaData['Jail'] > 0 then
             SendUIMessage('Spawn', 'SetupSpawns', {

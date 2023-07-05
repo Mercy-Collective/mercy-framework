@@ -1,38 +1,38 @@
-var Spawn = RegisterApp('Spawn');
-var AllSpawns = {};
-var FavoritedSpawns = 0;
-var SpawnsClose = {};
-var HoveringSpawn = -1;
-var SelectedSpawn = -1;
+let Spawn = RegisterApp('Spawn');
+let AllSpawns = {};
+let FavoritedSpawns = 0;
+let SpawnsClose = {};
+let HoveringSpawn = -1;
+let SelectedSpawn = -1;
 
-var ConvertCoords = (X, Y) => {
-    var TopRight = { X: 3780, Y: 4740 }
+let ConvertCoords = (X, Y) => {
+    let TopRight = { X: 3780, Y: 4740 }
 
-    var MapCornerOffsets = $(".map-corner").offset();
-    var MapParentOffsets = $(".map-corner").parent().offset();
+    let MapCornerOffsets = $(".map-corner").offset();
+    let MapParentOffsets = $(".map-corner").parent().offset();
 
-    var Offsets = {
+    let Offsets = {
         Top: MapCornerOffsets.top - MapParentOffsets.top,
         Left: MapCornerOffsets.left - MapParentOffsets.left
     }
 
-    var MaxY = $(".map").width() - Offsets.Left
-    var MaxX = $(".map").height() - Offsets.Top
+    let MaxY = $(".map").width() - Offsets.Left
+    let MaxX = $(".map").height() - Offsets.Top
 
-    var RetvalX = Offsets.Top -  ScaleBetween(X, MaxX, TopRight.X)
-    var RetvalY =  Offsets.Left - ScaleBetween(Y, MaxY, TopRight.Y)
+    let RetvalX = Offsets.Top -  ScaleBetween(X, MaxX, TopRight.X)
+    let RetvalY =  Offsets.Left - ScaleBetween(Y, MaxY, TopRight.Y)
 
     return [RetvalX, RetvalY]
 };
 
-var ScaleBetween = (UnscaledNum, MaxAllowed, Max) => {
+let ScaleBetween = (UnscaledNum, MaxAllowed, Max) => {
     return MaxAllowed * (UnscaledNum) / (Max);
 };
 
-var IsNearPoint = (Spawns, Index) => {
-    var Spawn = Spawns[Index];
-    var Dist = 30;
-    var NearList = [];
+let IsNearPoint = (Spawns, Index) => {
+    let Spawn = Spawns[Index];
+    let Dist = 30;
+    let NearList = [];
 
     for (let i = Spawns.length - 1; i >= 0; i--) {
         const Elem = Spawns[i];
@@ -47,20 +47,20 @@ var IsNearPoint = (Spawns, Index) => {
     return NearList;
 };
 
-var ObtainParent = (Spawns, Index) => {
-    var Retval = Index
+let ObtainParent = (Spawns, Index) => {
+    let Retval = Index
 
-    for (var i = SpawnsClose[Index].length - 1; i >= 0; i--) {
-        var Pos = SpawnsClose[Index][i]
-        var ClosestTable = Spawns[Pos]
+    for (let i = SpawnsClose[Index].length - 1; i >= 0; i--) {
+        let Pos = SpawnsClose[Index][i]
+        let ClosestTable = Spawns[Pos]
         if (ClosestTable.Parent != null) Retval = ClosestTable.Parent;
     }
 
     return Retval
 }
 
-var GetSpawnsFromGroup = (Spawns, Group) => {
-    var Retval = [];
+let GetSpawnsFromGroup = (Spawns, Group) => {
+    let Retval = [];
     for (let i = 0; i < Spawns.length; i++) {
         const Elem = Spawns[i];
         if (Elem.Parent == Group) Retval.push(Elem);
@@ -68,28 +68,28 @@ var GetSpawnsFromGroup = (Spawns, Group) => {
     return Retval;
 }
 
-var SetupSpawns = (Spawns) => {
+let SetupSpawns = (Spawns) => {
     FavoritedSpawns = 0;
     $('.map-fav-items').html('<div data-spawn="none" class="map-fav-item no-favorites">No Favorited Spawn</div>');
     $('.map').empty();
 
     for (let i = 0; i < Spawns.length; i++) {
         const Spawn = Spawns[i];
-        var Coords = ConvertCoords(Spawn.Coords.X, Spawn.Coords.Y)
+        let Coords = ConvertCoords(Spawn.Coords.X, Spawn.Coords.Y)
 
         Spawns[i].CoordsX = Coords[0];
         Spawns[i].CoordsY = Coords[1];
         Spawns[i].SpawnIndex = i;
     }
 
-    for (var i = Spawns.length - 1; i >= 0; i--) {
-        var IsNear = IsNearPoint(Spawns, i)
+    for (let i = Spawns.length - 1; i >= 0; i--) {
+        let IsNear = IsNearPoint(Spawns, i)
         SpawnsClose[i] = IsNear
     }
 
-    for (var i = 0; i <= Spawns.length - 1; i++) {
+    for (let i = 0; i <= Spawns.length - 1; i++) {
         if (SpawnsClose[i].length >= 1 ) {
-            var Parent = ObtainParent(Spawns, i)
+            let Parent = ObtainParent(Spawns, i)
             Spawns[i].Parent = Parent
             Spawns[i].Stacked = true;
             Spawns[i].Spawns = {}
@@ -204,7 +204,7 @@ $(document).on({
                 $('.spawn-hover').html(`<p>${Result.Name}</p>`);
             });
         } else {
-            var Spawns = GetSpawnsFromGroup(AllSpawns, $(this).attr("data-parent"));
+            let Spawns = GetSpawnsFromGroup(AllSpawns, $(this).attr("data-parent"));
             
             $('.spawn-hover').empty();
             for (let i = 0; i < Spawns.length; i++) {
