@@ -147,7 +147,6 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback('mercy-business/server/edit-rank', function(Source, Cb, Data) 
-        -- BusinessName, Data['name'], Data
         DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
             Data['BusinessName']
         }, function(BusinessResult)
@@ -155,8 +154,8 @@ Citizen.CreateThread(function()
                 local Business = BusinessResult[1]
                 local Ranks = json.decode(Business.ranks)
                 for k, v in pairs(Ranks) do
-                    if v.Name == Data['name'] then
-                        Ranks[k] = Data
+                    if v.Name == Data.Result['name'] then
+                        Ranks[k].Permissions = Data.Result
                     end
                 end
                 DatabaseModule.Update("UPDATE player_business SET ranks = ? WHERE name = ?", {
@@ -171,7 +170,6 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback('mercy-business/server/remove-rank', function(Source, Cb, Data) 
-        -- BusinessName, Data.Result['name']
         DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
             Data['BusinessName']
         }, function(BusinessResult)
