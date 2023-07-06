@@ -19,7 +19,7 @@ var Config = {
     },
     StaffTags: {
         0: {Text: 'Air-1 Certification', Color: '#53c93e'}, 
-        1: {Text: 'Inteceptor Certification', Color: '#3ec9c9'},
+        1: {Text: 'Interceptor Certification', Color: '#3ec9c9'},
         2: {Text: 'FTO Certification', Color: '#326fa8'},
         3: {Text: 'FTI Certification', Color: '#326fa8'},
         4: {Text: 'Motorcycle Certification', Color: '#c93e3e'},

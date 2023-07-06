@@ -1,11 +1,11 @@
-var ReportsNoteEditor = null;
-var LoadingReports = false;
+let ReportsNoteEditor = null;
+let LoadingReports = false;
 
 // jQuery
 
 $(document).on('click', '.mdw-reports > .mdw-block-header > .mdw-block-header-icons > i', function(Event) {
     Event.preventDefault();
-    var ClickType = $(this).data('tooltip')
+    let ClickType = $(this).data('tooltip')
     if ( !MdwData.ReportData.EditingReport && !MdwData.ReportData.CreatingReport ) { return };
 
     if (ClickType == 'Save') {
@@ -54,7 +54,7 @@ $(document).on('click', '.mdw-reports > .mdw-block-header > .mdw-block-header-ic
 });
 
 $(document).on('click', '.block-two > .mdw-reports > .mdw-reports-block > .mdw-reports-block-data #category', function(Event) {
-    var Categories = []
+    let Categories = []
     $.each(Config.Reports.Categories, function(Key, Value) {
         Categories.push({
             Text: `${Value}`,
@@ -76,13 +76,13 @@ $(document).on('click', '.block-one > .mdw-reports > .mdw-cards-container > .mdw
 
 $(document).on('click', '.block-three > .mdw-reports .mdw-information-add > i', async function(Event) {
     Event.preventDefault();
-    var ClickType = $(this).data('tooltip')
+    let ClickType = $(this).data('tooltip')
     if ( !MdwData.ReportData.EditingReport ) { return };
-    var Parent = $(this).parent().parent().attr("id");
+    let Parent = $(this).parent().parent().attr("id");
 
     if (Parent == "tags") {
         if (ClickType == 'Add') {
-            var Tags = []
+            let Tags = []
 
             $.each(Config.Reports.Tags, function(Key, Value) {
                 Tags.push({
@@ -109,10 +109,10 @@ $(document).on('click', '.block-three > .mdw-reports .mdw-information-add > i', 
         DoMdwPicker('Profiles', function(e){            
             $(`.mdw-profile-selector-wrapper`).hide();
 
-            var ProfileData = $(this).parent().data('ProfileData');
+            let ProfileData = $(this).parent().data('ProfileData');
             if (ProfileData == undefined) return;
 
-            var ScumId = ProfileData.id;
+            let ScumId = ProfileData.id;
 
             $.post("https://mercy-mdw/MDW/Reports/AddCriminalScum", JSON.stringify({
                 Id: MdwData.ReportData.CurrentEditingData.id,
@@ -127,7 +127,7 @@ $(document).on('click', '.block-three > .mdw-reports .mdw-information-add > i', 
     } else if (Parent == "officersinvolved") {
         $.post('https://mercy-mdw/MDW/Staff/GetStaffProfiles', JSON.stringify({}), function(Profiles) {
             if (Profiles == undefined || Profiles == false) { return };
-            var Tags = [];
+            let Tags = [];
 
             $.each(Profiles, function(Key, Value) {
                 Tags.push({
@@ -178,16 +178,16 @@ $(document).on('click', '.block-three > .mdw-reports .mdw-information-add > i', 
 $(document).on('click', '.block-three > .mdw-reports > #personsinvolved > .mdw-person-scum-container > .mdw-person-scum-icons > i', function(e){
     e.preventDefault();
 
-    var ClickType = $(this).data('tooltip')
+    let ClickType = $(this).data('tooltip')
     if (!MdwData.ReportData.EditingReport) { return };
 
     if (ClickType == 'Save') {
-        var Warrent = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-warrent'));
-        var PleadedGuilty = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-pleaded-guilty'));
-        var Processed = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-processed'));
-        var UsedForce = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-used-force'));
-        var ForceAllowed = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-force-allowed'));
-        var ForceDenied = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-force-denied'));
+        let Warrent = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-warrent'));
+        let PleadedGuilty = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-pleaded-guilty'));
+        let Processed = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-processed'));
+        let UsedForce = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-used-force'));
+        let ForceAllowed = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-force-allowed'));
+        let ForceDenied = Styles.IsCheckboxChecked($(this).parent().parent().find('#mdw-person-scum-force-denied'));
 
         $.post("https://mercy-mdw/MDW/Reports/SaveScumData", JSON.stringify({
             Id: MdwData.ReportData.CurrentEditingData.id,
@@ -216,18 +216,18 @@ $(document).on('click', '.block-three > .mdw-reports > #personsinvolved > .mdw-p
 });
 
 $(document).on('click', '.block-three > .mdw-reports > #personsinvolved > .mdw-person-scum-container > .mdw-person-scum-reductions > .mdw-person-scum-reduction > input', function(e){
-    var Scum = $(this).parent().parent().parent();
+    let Scum = $(this).parent().parent().parent();
 
     $.post("https://mercy-mdw/MDW/Reports/GetScumData", JSON.stringify({
         Id: MdwData.ReportData.CurrentEditingData.id,
         ScumId: Scum.attr("data-scumId"),
     }), function(ScumData){
-        var Months = 0;
-        var Fine = 0;
-        var Points = 0;
+        let Months = 0;
+        let Fine = 0;
+        let Points = 0;
     
         $.each(ScumData.Charges, function(Key, Value){
-            var ChargeData = GetChargeById(Value.Category, Value.Id)
+            let ChargeData = GetChargeById(Value.Category, Value.Id)
             if (Value.ExtraId) {
                 Months = Months + ChargeData.Extra[Number(Value.ExtraId)].Months
                 Fine = Fine + ChargeData.Extra[Number(Value.ExtraId)].Price
@@ -239,7 +239,7 @@ $(document).on('click', '.block-three > .mdw-reports > #personsinvolved > .mdw-p
             }
         });
 
-        var Reductions = [
+        let Reductions = [
             {
                 Text: GetReductionText(true, 0, Months, Fine, Points), // 0%
                 Callback: () => {
@@ -300,7 +300,7 @@ $(document).on('click', '.block-three > .mdw-reports > #personsinvolved > .mdw-p
 
 $(document).on('click', '.block-three > .mdw-reports > #personsinvolved > .mdw-person-scum-container > .mdw-person-scum-charges > #mdw-person-scum-edit-charges', function(e){
     e.preventDefault();
-    var Scum = $(this).parent().parent();
+    let Scum = $(this).parent().parent();
 
     $.post("https://mercy-mdw/MDW/Reports/GetScumData", JSON.stringify({
         Id: MdwData.ReportData.CurrentEditingData.id,
@@ -324,7 +324,7 @@ $(document).on('click', '.block-three > .mdw-reports > #tags > .mdw-information-
     Event.preventDefault();
     if ( $(this).parent().data('TagData') == undefined ) { return };
     
-    var TagIndex = Number($(this).parent().data('TagData'));
+    let TagIndex = Number($(this).parent().data('TagData'));
     $.post('https://mercy-mdw/MDW/Reports/RemoveTag', JSON.stringify({
         Id: MdwData.ReportData.CurrentEditingData.id,
         Tag: TagIndex,
@@ -339,7 +339,7 @@ $(document).on('click', '.block-three > .mdw-reports > #evidence > .mdw-informat
     Event.preventDefault();
     if ( $(this).parent().data('EvidenceData') == undefined ) { return };
     
-    var EvidenceIndex = Number($(this).parent().data('EvidenceData').id);
+    let EvidenceIndex = Number($(this).parent().data('EvidenceData').id);
     $.post('https://mercy-mdw/MDW/Reports/RemoveEvidence', JSON.stringify({
         Id: MdwData.ReportData.CurrentEditingData.id,
         Evidence: EvidenceIndex,
@@ -354,7 +354,7 @@ $(document).on('click', '.block-three > .mdw-reports > #officersinvolved > .mdw-
     Event.preventDefault();
     if ( $(this).parent().data('ProfileId') == undefined ) { return };
     
-    var OfficerIndex = Number($(this).parent().data('ProfileId'));
+    let OfficerIndex = Number($(this).parent().data('ProfileId'));
     $.post("https://mercy-mdw/MDW/Reports/RemoveOfficer", JSON.stringify({
         Id: MdwData.ReportData.CurrentEditingData.id,
         Officer: OfficerIndex
@@ -366,7 +366,7 @@ $(document).on('click', '.block-three > .mdw-reports > #officersinvolved > .mdw-
 });
 
 $(document).on('mouseenter', '.block-three > .mdw-reports > #evidence > .mdw-information-data > .mdw-information-data-tag', function(e){
-    var EvidenceData = $(this).data("EvidenceData");
+    let EvidenceData = $(this).data("EvidenceData");
     if (EvidenceData.type != "Photo") {
         $(".mdw-photo-evidence-viewer").hide();
         return
@@ -374,11 +374,11 @@ $(document).on('mouseenter', '.block-three > .mdw-reports > #evidence > .mdw-inf
 
     $(".mdw-photo-evidence-viewer").find('img').attr("src", EvidenceData.identifier);
     $(".mdw-photo-evidence-viewer").show();
-    var Pos = $(this)[0].getBoundingClientRect();
-    var ViewerPos = $(".mdw-photo-evidence-viewer")[0].getBoundingClientRect();
+    let Pos = $(this)[0].getBoundingClientRect();
+    let ViewerPos = $(".mdw-photo-evidence-viewer")[0].getBoundingClientRect();
 
-    var Top = Pos.top - (ViewerPos.height / 2);
-    var Left = Pos.left - (ViewerPos.width);
+    let Top = Pos.top - (ViewerPos.height / 2);
+    let Left = Pos.left - (ViewerPos.width);
 
     $(".mdw-photo-evidence-viewer").css({
         top: Top,
@@ -387,7 +387,7 @@ $(document).on('mouseenter', '.block-three > .mdw-reports > #evidence > .mdw-inf
 });
 
 $(document).on('mouseleave', '.block-three > .mdw-reports > #evidence > .mdw-information-data > .mdw-information-data-tag', function(e){
-    var EvidenceData = $(this).data("EvidenceData");
+    let EvidenceData = $(this).data("EvidenceData");
     if (!EvidenceData.type == "Photo") return;
 
     $(".mdw-photo-evidence-viewer").hide();
@@ -444,7 +444,7 @@ ClickedOnReport = async function(ReportData) {
         $.each(JSON.parse(ReportData.tags), function(Key, Value) {
             const TagData = Config.Reports.Tags[Number(Value)]
             if (TagData != undefined) {
-                var Tag = `<div id="mdw-reports-tag-${Key}" class="mdw-information-data-tag" style="background-color: ${TagData.Color != undefined && TagData.Color || 'white'};">${TagData.Text} <i class="fas fa-times-circle"></i></div>`
+                let Tag = `<div id="mdw-reports-tag-${Key}" class="mdw-information-data-tag" style="background-color: ${TagData.Color != undefined && TagData.Color || 'white'};">${TagData.Text} <i class="fas fa-times-circle"></i></div>`
                 $('.block-three > .mdw-reports > #tags > .mdw-information-data').append(Tag)
                 $(`.block-three > .mdw-reports > #tags > .mdw-information-data > #mdw-reports-tag-${Key}`).data("TagData", Value)
             }
@@ -453,14 +453,14 @@ ClickedOnReport = async function(ReportData) {
         $.post('https://mercy-mdw/MDW/Reports/GetReportData', JSON.stringify({Id: ReportData.id}), function(Result) {
             $.each(Result.Scums, function(Key, Value){
                 if (Value) {
-                    var Charges = ``;
-                    var Months = 0;
-                    var Fine = 0;
-                    var Points = 0;
+                    let Charges = ``;
+                    let Months = 0;
+                    let Fine = 0;
+                    let Points = 0;
 
-                    var ListCharges = [];
+                    let ListCharges = [];
                     $.each(Value.Charges, function(Key, Value){
-                        var ChargeData = GetChargeById(Value.Category, Value.Id)
+                        let ChargeData = GetChargeById(Value.Category, Value.Id)
                         if (Value.ExtraId) {
                             Months = Months + ChargeData.Extra[Number(Value.ExtraId)].Months
                             Fine = Fine + ChargeData.Extra[Number(Value.ExtraId)].Price
@@ -471,7 +471,7 @@ ClickedOnReport = async function(ReportData) {
                             Points = Points + ChargeData.Points
                         }
 
-                        var ChargeIndex = DoesChargeExist(ListCharges, Value.Category, Value.Id, Value.ExtraId)
+                        let ChargeIndex = DoesChargeExist(ListCharges, Value.Category, Value.Id, Value.ExtraId)
                         if (!ChargeIndex) {
                             ListCharges.push({
                                 Tags: Value.Tags,
@@ -487,12 +487,12 @@ ClickedOnReport = async function(ReportData) {
                     });
 
                     $.each(ListCharges, function(Key, Value){
-                        var Tags = ``;
+                        let Tags = ``;
                         for (let i = 0; i < Value.Tags.length; i++) { Tags += `(${Value.Tags[i]}) ` };
                         Charges += `<div id="mdw-charges-editor-charge-${Key}" class="mdw-information-data-tag mdw-tag-black">${Value.Amount > 1 ? '(' + Value.Amount + 'x)' : ''} ${Tags}${Value.Name}</div>`;
                     });
 
-                    var Reductions = ``;
+                    let Reductions = ``;
                     if (Value.Charges) {
                         Reductions = `<div ${Value.Charges.length == 0 && `style='display: none;'`} class='mdw-person-scum-reductions'>
                             <div class="mdw-person-scum-seperator"></div>
@@ -508,7 +508,7 @@ ClickedOnReport = async function(ReportData) {
                         </div>`;
                     }
 
-                    var ScumCard = `<div data-scumId="${Value.Id}" class="mdw-person-scum-container">
+                    let ScumCard = `<div data-scumId="${Value.Id}" class="mdw-person-scum-container">
                         <div class="mdw-person-scum-name">${Value.Profile.name} (#${Value.Profile.citizenid})</div>
                         <div class="mdw-person-scum-icons">
                             <i data-tooltip="Delete" class="ui-cursor-pointer fas fa-trash-alt"></i>
@@ -561,14 +561,14 @@ ClickedOnReport = async function(ReportData) {
             });
             
             $.each(Result.Officers, function(Key, Value){
-                var OfficerCard = `<div id="mdw-officer-${Value.id}" class="mdw-information-data-tag">(${Value.callsign}) ${Value.name} <i class="fas fa-times-circle"></i></div>`;
+                let OfficerCard = `<div id="mdw-officer-${Value.id}" class="mdw-information-data-tag">(${Value.callsign}) ${Value.name} <i class="fas fa-times-circle"></i></div>`;
                 $('.block-three > .mdw-reports > #officersinvolved > .mdw-information-data').append(OfficerCard);
                 $(`.block-three > .mdw-reports > #officersinvolved > .mdw-information-data > #mdw-officer-${Value.id}`).data("ProfileId", Value.id)
             });
 
             $.each(Result.Evidence, function(Key, Value) {
                 const TagData = Config.Evidence.Types[Value.type]
-                var Tag = `<div id="evidence-remove-${Value.id}" class="mdw-information-data-tag" ${Value.type ? `data-tooltip="${Value.identifier}"` : '' } style="background-color: ${TagData != undefined && TagData.Color != undefined && TagData.Color || 'white'};">(${Value.type}) ${Value.description} <i class="fas fa-times-circle"></i></div>`
+                let Tag = `<div id="evidence-remove-${Value.id}" class="mdw-information-data-tag" ${Value.type ? `data-tooltip="${Value.identifier}"` : '' } style="background-color: ${TagData != undefined && TagData.Color != undefined && TagData.Color || 'white'};">(${Value.type}) ${Value.description} <i class="fas fa-times-circle"></i></div>`
                 $('.block-three > .mdw-reports > #evidence > .mdw-information-data').append(Tag)
                 $(`#evidence-remove-${Value.id}`).data('EvidenceData', Value);  
             });
@@ -596,15 +596,15 @@ LoadReports = async (ReportId) => {
     }
 
     if (MdwData.ReportData.CreatingReport) {
-        var CurrentTimestamp = new Date();
-        var Year = CurrentTimestamp.getUTCFullYear();
-        var Month = CurrentTimestamp.getUTCMonth();
-        var Day = CurrentTimestamp.getUTCDate();
-        var Hours = CurrentTimestamp.getUTCHours();
-        var Minutes = CurrentTimestamp.getUTCMinutes();
+        let CurrentTimestamp = new Date();
+        let Year = CurrentTimestamp.getUTCFullYear();
+        let Month = CurrentTimestamp.getUTCMonth();
+        let Day = CurrentTimestamp.getUTCDate();
+        let Hours = CurrentTimestamp.getUTCHours();
+        let Minutes = CurrentTimestamp.getUTCMinutes();
         if (Minutes < 10) Minutes = `0${Minutes}`;
 
-        var DefaultText = Config.Reports.DefaultText.replace("[department]", MdwData.UserData.Department).replace("[timestamp]", `${new Date().toLocaleString('en-us', {timeZone: 'Europe/Amsterdam', hour12: false})} UTC+1`).replace("[reporting_officer]", `@${MdwData.UserData.Callsign} ${MdwData.UserData.Name}`)
+        let DefaultText = Config.Reports.DefaultText.replace("[department]", MdwData.UserData.Department).replace("[timestamp]", `${new Date().toLocaleString('en-us', {timeZone: 'Europe/Amsterdam', hour12: false})} UTC+1`).replace("[reporting_officer]", `@${MdwData.UserData.Callsign} ${MdwData.UserData.Name}`)
         ReportsNoteEditor.setData(DefaultText);
     }
 
@@ -612,7 +612,7 @@ LoadReports = async (ReportId) => {
     $.post('https://mercy-mdw/MDW/Reports/GetReports', JSON.stringify({}), function(Reports) {
         if (Reports == undefined || Reports == false) { return };
         $.each(Reports, function(Key, Value) {
-            var ReportCard = `<div class="mdw-card-item" id="report-${Value.id}">
+            let ReportCard = `<div class="mdw-card-item" id="report-${Value.id}">
                 <div class="mdw-card-title">${Value.title}</div>
                 <div class="mdw-card-identifier">ID: ${Value.id}</div>
                 <div class="mdw-card-category">${Value.category}</div>
@@ -626,8 +626,10 @@ LoadReports = async (ReportId) => {
                 ClickedOnReport(Value);
             }
         });
-        LoadingReports = false;
     });
+    setTimeout(() => {
+        LoadingReports = false;
+    }, 1000);
 }
 
 GetReportInputValue = function(What) {
@@ -641,15 +643,15 @@ GetReportInputValue = function(What) {
 }
 
 ClearEditReport = () => {
-    var CurrentTimestamp = new Date();
-    var Year = CurrentTimestamp.getUTCFullYear();
-    var Month = CurrentTimestamp.getUTCMonth();
-    var Day = CurrentTimestamp.getUTCDate();
-    var Hours = CurrentTimestamp.getUTCHours();
-    var Minutes = CurrentTimestamp.getUTCMinutes();
+    let CurrentTimestamp = new Date();
+    let Year = CurrentTimestamp.getUTCFullYear();
+    let Month = CurrentTimestamp.getUTCMonth();
+    let Day = CurrentTimestamp.getUTCDate();
+    let Hours = CurrentTimestamp.getUTCHours();
+    let Minutes = CurrentTimestamp.getUTCMinutes();
     if (Minutes < 10) Minutes = `0${Minutes}`;
 
-    var DefaultText = Config.Reports.DefaultText.replace("[department]", MdwData.UserData.Department).replace("[timestamp]", `${new Date().toLocaleString('en-us', {timeZone: 'Europe/Amsterdam', hour12: false})} UTC+1`).replace("[reporting_officer]", `@${MdwData.UserData.Callsign} ${MdwData.UserData.Name}`)
+    let DefaultText = Config.Reports.DefaultText.replace("[department]", MdwData.UserData.Department).replace("[timestamp]", `${new Date().toLocaleString('en-us', {timeZone: 'Europe/Amsterdam', hour12: false})} UTC+1`).replace("[reporting_officer]", `@${MdwData.UserData.Callsign} ${MdwData.UserData.Name}`)
     ReportsNoteEditor.setData(DefaultText);
 
     $('.block-two > .mdw-reports > .mdw-reports-block > .mdw-reports-block-data > .ui-styles-input > #category').val('');
@@ -680,11 +682,11 @@ Mdw.onReady(() => {
     });
 });
 
-var LastReportSearch = new Date().getTime()
-var ScumSearched = [];
+let LastReportSearch = new Date().getTime()
+let ScumSearched = [];
 
 $(document).on('input', '.block-one > .mdw-reports > .mdw-block-header > .ui-styles-input > .ui-input-field', function(e) {
-    var SearchText = $(this).val().toLowerCase();
+    let SearchText = $(this).val().toLowerCase();
     $('.block-one > .mdw-reports > .mdw-cards-container > .mdw-card-item').each(function(Elem, Obj){
         if ($(this).find(".mdw-card-title").html().toLowerCase().includes(SearchText) || $(this).find(".mdw-card-identifier").html().toLowerCase().includes(SearchText)) {
             $(this).show();

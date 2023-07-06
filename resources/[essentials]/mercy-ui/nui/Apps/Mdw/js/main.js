@@ -91,7 +91,6 @@ DoMdwStartup = async function(CitizenId, IsPublic) {
         $.post('https://mercy-mdw/MDW/Main/GetUser', JSON.stringify({
             CitizenId: CitizenId,
         }), function(Data) {
-            console.log("USER", JSON.stringify(Data));
             MdwData.UserData.HighCommand = Data.HighCommand
             MdwData.UserData.Department = Data.Department
             MdwData.UserData.Callsign = Data.Callsign

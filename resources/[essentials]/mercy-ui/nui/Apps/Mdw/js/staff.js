@@ -13,7 +13,6 @@ LoadStaffProfiles = async function(Id) {
 
     $('.block-one > .mdw-staff > .mdw-cards-container').empty();
     $.post('https://mercy-mdw/MDW/Staff/GetStaffProfiles', JSON.stringify({}), function(Profiles) {
-        console.log("STAFF", JSON.stringify(Profiles));
         if (Profiles == undefined || Profiles == false) { return };
         $.each(Profiles, function(Key, Value) {
             var StaffCard = `<div class="mdw-card-item" id="sprofile-${Value.citizenid}">

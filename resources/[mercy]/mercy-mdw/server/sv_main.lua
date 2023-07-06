@@ -176,12 +176,11 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/create-profile", function(Source, Data)
-        DatabaseModule.Insert('INSERT INTO mdw_profiles (citizenid, name, image, notes, created) VALUES (?, ?, ?, ?, ?)', {
+        DatabaseModule.Insert('INSERT INTO mdw_profiles (citizenid, name, image, notes) VALUES (?, ?, ?, ?)', {
             Data.CitizenId,
             Data.Name,
             Data.Image,
             Data.Notes,
-            os.date()
         })
     end)
 
@@ -445,7 +444,6 @@ Citizen.CreateThread(function()
                     end
                 end, true)
         
-                print('Returning Report Data', json.encode(ReportList))
                 Cb(ReportList)
             end)
         end)
@@ -490,7 +488,6 @@ Citizen.CreateThread(function()
             if ReportData[1] ~= nil then
                 DatabaseModule.Execute('SELECT * FROM mdw_profiles WHERE id = ?', {Data.ScumId}, function(ProfileData)
                     local Scums = json.decode(ReportData[1].scums)
-                    print(json.encode(ProfileData[1]))
                     Scums[#Scums + 1] = {
                         ['Id'] = Data.ScumId,
                         ['Profile'] = {
@@ -547,7 +544,7 @@ Citizen.CreateThread(function()
                 local Scums = json.decode(ReportData[1].scums)
                 for k, v in pairs(Scums) do
                     if tonumber(v['Id']) == tonumber(Data.ScumId) then
-                        Scums[k]['Charges'] = Data.Charges
+                        Scums[v['Id']]['Charges'] = Data.Charges
                         DatabaseModule.Update('UPDATE mdw_reports SET scums = ? WHERE id = ?', {
                             json.encode(Scums),
                             Data.Id,
@@ -559,7 +556,6 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback("mercy-mdw/server/reports/get-scum-data", function(Source, Cb, Data)
-        -- Id, ScumId
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Scums = json.decode(ReportData[1].scums)
@@ -575,7 +571,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/save-scum-data", function(Source, Data)
-        -- Id, ScumId, Warrent, PleadedGuilty, Processed, UsedForce, ForceAllowed, ForceDenied
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Scums = json.decode(ReportData[1].scums)
@@ -587,7 +582,6 @@ Citizen.CreateThread(function()
                         Scums[k]['UsedForce'] = Data.UsedForce
                         Scums[k]['ForceAllowed'] = Data.ForceAllowed
                         Scums[k]['ForceDenied'] = Data.ForceDenied
-                        print('Yeet', Data.Warrent)
                         if Data.Warrent then
                             DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
                                 if ReportData[1] == nil then
