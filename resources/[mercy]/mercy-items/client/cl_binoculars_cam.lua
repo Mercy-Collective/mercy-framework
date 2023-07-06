@@ -24,6 +24,7 @@ end)
 
 
 -- Binoculars
+
 local FovMin, FovMax = 30.0, 150.0
 local CurrentFov = (FovMin + FovMax) * 0.5
 
@@ -101,6 +102,7 @@ function HandleZoom(Camera, Fov)
 end
 
 -- PD Camera
+
 local PDCamFovMin, PDCamFovMax = 10.0, 40.0
 function TogglePDCamera(Bool)
     DoingPDCamera = Bool

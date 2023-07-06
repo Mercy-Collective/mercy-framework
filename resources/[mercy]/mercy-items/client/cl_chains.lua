@@ -15,6 +15,11 @@ local ItemsToChain = {
         Pos = vector3(-0.02, 0.02, -0.06),
         Rot = vector3(-366.0, 19.0, -163.0)
     },
+    ["esv-chain"] = {
+        Model = "esv_chain",
+        Pos = vector3(-0.02, 0.02, -0.06),
+        Rot = vector3(-366.0, 19.0, -163.0)
+    },
     ["gg-chain"] = {
         Model = "gg_chain",
         Pos = vector3(-0.02, 0.02, -0.06),
@@ -59,6 +64,7 @@ RegisterNetEvent("mercy-inventory/client/update-player", function()
         local CerberusChain = exports['mercy-inventory']:HasEnoughOfItem('cerberus-chain', 1)
         local CGChain = exports['mercy-inventory']:HasEnoughOfItem('cg-chain', 1)
         local CG2Chain = exports['mercy-inventory']:HasEnoughOfItem('cg2-chain', 1)
+        local ESVChain = exports['mercy-inventory']:HasEnoughOfItem('esv-chain', 1)
         local GGChain = exports['mercy-inventory']:HasEnoughOfItem('gg-chain', 1)
         local GSFChain = exports['mercy-inventory']:HasEnoughOfItem('gsf-chain', 1)
         local KoilChain = exports['mercy-inventory']:HasEnoughOfItem('koil-chain', 1)
@@ -66,7 +72,7 @@ RegisterNetEvent("mercy-inventory/client/update-player", function()
         local NBCChain = exports['mercy-inventory']:HasEnoughOfItem('nbc-chain', 1)
         local RLChain = exports['mercy-inventory']:HasEnoughOfItem('rl-chain', 1)
         local SeasideChain = exports['mercy-inventory']:HasEnoughOfItem('seaside-chain', 1)
-        if not CerberusChain or not CGChain or not CG2Chain or not GGChain or not GSFChain or not KoilChain or not MDMChain or not NBCChain or not RLChain or not SeasideChain then
+        if not CerberusChain or not CGChain or not CG2Chain or not ESVChain or not GGChain or not GSFChain or not KoilChain or not MDMChain or not NBCChain or not RLChain or not SeasideChain then
             DeleteObject(ChainObject)
             ChainObject, CurrentChain = nil, nil
             exports['mercy-ui']:Notify("chain-gone", "Chain left the chat..", "error")

@@ -114,9 +114,14 @@ end)
 -- [ Functions ] --
 
 function LoadMapData()
+	local MapTries = 0
 	RequestStreamedTextureDict("squaremap", false)
 	while not HasStreamedTextureDictLoaded("squaremap") do
-		Wait(100)
+		Wait(250)
+		MapTries = MapTries + 1
+		if MapTries > 50 then
+			return print("Failed to load map textures, please report this to an admin. (No map asset found)")
+		end
 	end
 
 	AddReplaceTexture("platform:/textures/graphics", "radarmasksm", "squaremap", "radarmasksm")

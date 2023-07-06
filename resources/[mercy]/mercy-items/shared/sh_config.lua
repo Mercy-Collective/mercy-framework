@@ -5,7 +5,6 @@ Config.RandomPresentItems = {
     'bandage',
     'bread',
     'water',
-    
 }
 
 Config.SpecialFood = {
