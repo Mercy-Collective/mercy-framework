@@ -544,7 +544,7 @@ Citizen.CreateThread(function()
                 local Scums = json.decode(ReportData[1].scums)
                 for k, v in pairs(Scums) do
                     if tonumber(v['Id']) == tonumber(Data.ScumId) then
-                        Scums[v['Id']]['Charges'] = Data.Charges
+                        Scums[k]['Charges'] = Data.Charges
                         DatabaseModule.Update('UPDATE mdw_reports SET scums = ? WHERE id = ?', {
                             json.encode(Scums),
                             Data.Id,
