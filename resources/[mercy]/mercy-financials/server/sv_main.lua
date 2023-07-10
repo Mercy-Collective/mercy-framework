@@ -205,7 +205,7 @@ Citizen.CreateThread(function()
                 if TargetPlayer then -- Target is online
                     print('[DEBUG]: Adding Target\'s money to MAIN account (ONLINE)')
                     -- Update Target Money
-                    TargetPlayer.Functions.AddMoney('Bank', tonumber(Data['Amount'], Data['Reason']))
+                    TargetPlayer.Functions.AddMoney('Bank', tonumber(Data['Amount']), Data['Reason'])
                     -- Create Transactions
                     AddTransactionCard({['Title'] = 'Money sent', ['Who'] = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname, ['Id'] = Data['AccountId'], ['Amount'] = Data['Amount'], ['Reason'] = Data['Reason'], ['Type'] = 'Transfer'})
                     SetTimeout(250, function()
