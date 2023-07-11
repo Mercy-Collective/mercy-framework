@@ -135,6 +135,8 @@ AddEventHandler('Modules/server/ready', function()
 						if Player.Functions.AddItem(StoreItem['ItemName'], Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
 							Cb(true)
 						else
+							Player.Functions.AddMoney('Cash', (StoreItem.Price * Amount))
+							Player.Functions.Notify('invalid-action', 'Failed to buy item. Maybe we are full ?', 'error')
 							Cb(false)
 						end
 					else
