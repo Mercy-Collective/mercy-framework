@@ -1,8 +1,3 @@
-Jobs.Delivery = {
-    Location = nil,
-    HasPackage = false,
-}
-
 -- [ Code ] --
 
 -- [ Events ] --
