@@ -1,5 +1,8 @@
 EntityModule, LoggerModule, EventsModule, CallbackModule, BlipModule, PedsModule, FunctionsModule, VehicleModule = nil, nil, nil, nil, nil, nil, nil, nil
-
+Jobs.Delivery = {
+    Location = nil,
+    HasPackage = false,
+}
 local _Ready = false
 AddEventHandler('Modules/client/ready', function()
     if not _Ready then
@@ -106,8 +109,8 @@ function SetupPeds()
             }
         }
     })
-    local Jobs = CallbackModule.SendCallback("mercy-phone/server/jobcenter/get-jobs")
-    for k, Job in pairs(Jobs) do
+    local JobsTable = CallbackModule.SendCallback("mercy-phone/server/jobcenter/get-jobs")
+    for k, Job in pairs(JobsTable) do
         exports['mercy-ui']:AddEyeEntry("job_ped_" .. Job['Name'] .. "_" .. k, {
             Type = 'Entity',
             EntityType = 'Ped',
