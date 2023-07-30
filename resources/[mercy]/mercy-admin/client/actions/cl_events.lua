@@ -2,6 +2,18 @@
 
 -- [ Events ] --
 
+RegisterNetEvent("Admin:Permissions:Set", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    TriggerServerEvent('mc-admin/server/set-permissions', Result['player'], Result['group'])
+end)
+
+RegisterNetEvent("Admin:Permissions:Refresh", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    TriggerServerEvent('mc-admin/server/refresh-permissions', Result['player'])
+end)
+
 RegisterNetEvent("Admin:Set:Ammo", function(Result)
     if not PlayerModule.IsPlayerAdmin() then return end
 

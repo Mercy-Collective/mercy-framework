@@ -68,6 +68,17 @@ PlayerModule = {
         end
         return ClosestPlayers
     end,
+    RefreshPermissions = function(Source)
+        local Functions = exports[GetCurrentResourceName()]:FetchModule('Functions')
+        local Database = exports[GetCurrentResourceName()]:FetchModule('Database')
+        local SteamIdentifier = Functions.GetIdentifier(Source, "steam")
+        Database.Execute("SELECT * FROM server_users WHERE steam = ? ", {SteamIdentifier}, function(UserData)
+            if UserData[1] ~= nil then
+                PlayerPermission[Source] = {}
+                PlayerPermission[Source].permission = UserData[1].permission
+            end
+        end, true)
+    end,
     GetPermission = function(Source, Cb)
         local Functions = exports[GetCurrentResourceName()]:FetchModule('Functions')
         local Database = exports[GetCurrentResourceName()]:FetchModule('Database')
@@ -771,6 +782,18 @@ PlayerModule = {
         PlayerModule.Save(source)
         Citizen.Wait(200)
         ServerPlayers[source] = nil
+    end,
+    SetPermission = function(Source, Group)
+        local Functions = exports[GetCurrentResourceName()]:FetchModule('Functions')
+        local Database = exports[GetCurrentResourceName()]:FetchModule('Database')
+        local SteamIdentifier = Functions.GetIdentifier(Source, "steam")
+        if PlayerPermission[Source] == nil then
+            PlayerPermission[Source] = {}
+        end
+        PlayerPermission[Source].permission = Group
+        Database.Execute("UPDATE server_users SET permission = ? WHERE steam = ? ", {Group, SteamIdentifier}, function(Result)
+            PlayerModule.DebugLog('SetPermission', 'Set Permission for '..Source..' to '..Group)
+        end, true)
     end,
     HasPermission = function(Source, Cb, Perm)
         local Retval = false

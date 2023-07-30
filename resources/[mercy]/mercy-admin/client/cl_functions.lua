@@ -565,6 +565,27 @@ function GetDeletionTypes()
     return DeletionTypes
 end
 
+function GetPlayerGroups()
+    local Prom = promise:new()
+    local Groups = {}
+    local GroupList = Shared.Groups
+    if GroupList ~= nil then
+        for k, v in pairs(GroupList) do
+            Groups[#Groups + 1] = {
+                Text = k,
+                Label = ' [' .. v .. ']'
+            }
+            table.sort(Groups, function(a, b)
+                return a.Text < b.Text
+            end)
+        end
+    else
+        DebugPrint('groups', 'Could not access Shared.Groups, please check if you have any typo\'s in the config.')
+    end
+    Prom:resolve(Groups)
+    return Citizen.Await(Prom)
+end
+
 function GetModels()
     local Models = {}
     local ModelList = Config.Models

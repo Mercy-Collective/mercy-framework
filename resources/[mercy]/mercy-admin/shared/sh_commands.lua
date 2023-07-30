@@ -747,6 +747,48 @@ Config.CommandList = {
                 },
             },
             {
+                ['Id'] = 'refreshPermissions',
+                ['Name'] = 'Refresh Permissions',
+                ['UseKVPGroups'] = false, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'admin', 'god'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Permissions:Refresh',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                },
+            },
+            {
+                ['Id'] = 'setPermissions',
+                ['Name'] = 'Set Permissions',
+                ['UseKVPGroups'] = false, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'god'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Permissions:Set',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                    {
+                        ['Id'] = 'group',
+                        ['Name'] = 'Group',
+                        ['Type'] = 'input-choice',
+                        ['Choices'] = GetPlayerGroups()
+                    }
+                },
+            },
+            {
                 ['Id'] = 'banPlayer',
                 ['Name'] = 'Ban Player',
                 ['UseKVPGroups'] = true, 

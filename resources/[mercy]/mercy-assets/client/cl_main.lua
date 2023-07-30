@@ -1,4 +1,5 @@
 EntityModule, FunctionsModule, BlipModule, PlayerModule, KeybindsModule, EventsModule, CallbackModule = nil, nil, nil, nil, nil, nil, nil
+Crouched = false
 local RelationshipTypes = {"PLAYER","COP","MISSION2","MISSION3","MISSION4","MISSION5","MISSION6","MISSION7","MISSION8"}
 -- local RadioStations = {
 -- 	'RADIO_01_CLASS_ROCK','RADIO_02_POP','RADIO_03_HIPHOP_NEW','RADIO_04_PUNK','RADIO_05_TALK_01','RADIO_06_COUNTRY','RADIO_07_DANCE_01','RADIO_08_MEXICAN','RADIO_09_HIPHOP_OLD',--[['RADIO_12_REGGAE',]]'RADIO_13_JAZZ','DLC_BATTLE_MIX4_CLUB_PRIV','DLC_BATTLE_MIX2_CLUB_PRIV','DLC_BATTLE_MIX1_CLUB_PRIV','RADIO_23_DLC_XM19_RADIO','RADIO_34_DLC_HEI4_KULT','RADIO_35_DLC_HEI4_MLR','RADIO_36_AUDIOPLAYER',
@@ -203,6 +204,7 @@ function LoadPlayerRelations()
 		SetRelationshipBetweenGroups(1, GetHashKey("COP"), GetHashKey('PLAYER'))
 	end)
 end
+
 
 function stringsplit(inputstr, sep)
     if sep == nil then

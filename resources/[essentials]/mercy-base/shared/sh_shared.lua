@@ -39,6 +39,12 @@ Shared.DefaultCrypto = {
     ['guinea'] = 0.00,
 }
 
+Shared.Groups = {
+    ['user'] = 'User',
+    ['admin'] = 'Admin',
+    ['god'] = 'God'
+}
+
 Shared.Cryptos = {
     ['shungite'] = {
         ['CryptoId'] = 2,

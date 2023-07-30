@@ -101,6 +101,36 @@ Citizen.CreateThread(function()
 
     -- [ Console ] --
 
+    RegisterCommand('setpermission', function(source, args, rawCommand)
+        if source == 0 then
+            local ServerId = tonumber(args[1])
+            local Group = args[2] ~= nil and args[2]:lower() or false
+            if ServerId and Group then
+                if Shared.Groups[Group] then
+                    local Name = GetPlayerName(ServerId)
+                    PlayerModule.SetPermission(ServerId, Group)
+                    print('Set permission group for '..Name..' ('..ServerId..') to '..Group)
+                else
+                    print('Invalid group')
+                end
+            else
+                print('SYNTAX: setpermission [serverid] [group]')
+            end
+        end
+    end, false)
+
+    RegisterCommand('refreshpermissions', function(source, args, rawCommand)
+        if source == 0 then
+            local ServerId = tonumber(args[1])
+            if ServerId then
+                PlayerModule.RefreshPermissions(ServerId)
+                print('Refreshed permissions for '..Name..' ('..ServerId..')')
+            else
+                print('SYNTAX: refreshpermissions [serverid]')
+            end
+        end
+    end, false)
+
     RegisterCommand(Config.Commands['APKick'], function(source, args, rawCommand)
         if source == 0 then
             local ServerId = tonumber(args[1])
@@ -556,6 +586,31 @@ RegisterNetEvent("mc-admin/server/open-bennys", function(ServerId)
 
     TriggerClientEvent('mercy-bennys/client/open-bennys', PlayerSource, true)
 end)
+
+RegisterNetEvent("mc-admin/server/set-permissions", function(ServerId, Permission)
+    local src = source
+    if not AdminCheck(src) then return end
+    ServerId = tonumber(ServerId)
+    local PlayerSource = ServerId ~= nil and ServerId or src
+    local Player = PlayerModule.GetPlayerBySource(PlayerSource)
+    if not Player then return end
+
+    PlayerModule.SetPermission(PlayerSource, Permission)
+    Player.Functions.Notify('set-perm', 'You successfully set the permission group of '..Player.PlayerData.Name..' to '..Permission..'!', 'success')
+end)
+
+RegisterNetEvent("mc-admin/server/refresh-permissions", function(ServerId)
+    local src = source
+    if not AdminCheck(src) then return end
+    ServerId = tonumber(ServerId)
+    local PlayerSource = ServerId ~= nil and ServerId or src
+    local Player = PlayerModule.GetPlayerBySource(PlayerSource)
+    if not Player then return end
+
+    PlayerModule.RefreshPermissions(PlayerSource)
+    Player.Functions.Notify('set-perm', 'You successfully refreshed all permissions!', 'success')
+end)
+
 
 RegisterNetEvent("mc-admin/server/kill", function(ServerId)
     local src = source

@@ -78,19 +78,15 @@ CommandsModule = {
         end
     end,
     Refresh = function(Source)
-        print('Refreshing Commands')
         TriggerClientEvent('mercy-chat/client/refresh-suggestion', Source)
         PlayerModule = exports[GetCurrentResourceName()]:FetchModule('Player')
-        -- local Player = PlayerModule.GetPlayerBySource(tonumber(Source))
-        -- if Player then
-            for Command, Info in pairs(CommandsList) do
-                PlayerModule.HasPermission(Source, function(HasPerm) 
-                    if HasPerm then
-                        TriggerClientEvent('mercy-chat/client/add-suggestion', Source, Command, Info.Help, Info.Arguments)
-                    end
-                end, CommandsList[Command].Permission) 
-            end
-        -- end
+        for Command, Info in pairs(CommandsList) do
+            PlayerModule.HasPermission(Source, function(HasPerm) 
+                if HasPerm then
+                    TriggerClientEvent('mercy-chat/client/add-suggestion', Source, Command, Info.Help, Info.Arguments)
+                end
+            end, CommandsList[Command].Permission) 
+        end
     end,
     CallCommand = function(Source, Message)
       

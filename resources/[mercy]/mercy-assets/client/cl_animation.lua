@@ -1,4 +1,4 @@
-local Lockpicking, Healing, TimerEnabled, InTackleCooldown, IsPointing, Crouched = false, false, false, false, false, false
+local Lockpicking, Healing, TimerEnabled, InTackleCooldown, IsPointing = false, false, false, false, false
 
 -- [ Threads ] --
 
