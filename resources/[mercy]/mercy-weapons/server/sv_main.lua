@@ -19,6 +19,13 @@ RegisterNetEvent("mercy-weapons/server/update-weapon-ammo", function(WeaponData,
     local Amount = tonumber(Ammo)
     if WeaponData ~= nil then
         if Player.PlayerData.Inventory[WeaponData.Slot] ~= nil then
+            if (type(Player.PlayerData.Inventory[WeaponData.Slot].Info) ~= 'table') then
+                Player.PlayerData.Inventory[WeaponData.Slot].Info = {
+                    Ammo = Amount,
+                    Quality = 100,
+                    Created = os.time(),
+                }
+            end
             Player.PlayerData.Inventory[WeaponData.Slot].Info.Ammo = Amount
         end
         Player.Functions.SetItemData(Player.PlayerData.Inventory)

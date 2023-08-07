@@ -335,7 +335,6 @@ PlayerModule = {
                 ['Progress'] = 0,
                 ['CurrentClass'] = 'A',
                 ['NextClass'] = 'A+',
-                ['BoostingCards'] = {},
             }
         }
 

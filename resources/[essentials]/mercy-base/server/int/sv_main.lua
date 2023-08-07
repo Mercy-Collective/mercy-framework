@@ -194,6 +194,7 @@ AddEventHandler('Modules/server/ready', function()
                 PlayerModule.HasPermission(Source, function(HasPermission)
                     if not HasPermission then
                         TriggerClientEvent('mercy-ui/client/notify', Source, "access-devtools", "Devtools detected..", 'error', 3000)
+                        DropPlayer(Source, "Devtools detected..")
                     end
                 end, "admin")
             end
