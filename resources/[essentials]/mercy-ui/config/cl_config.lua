@@ -605,7 +605,9 @@ Config.AlertBlip = {
     ['Suspicious Activity!'] = 66,
     ['Robbery At Bobcat Security!'] = 106,
     ['Robbery At The Jewelery Store!'] = 617,
-    ['Car Theft In Progress!'] = 620
+    ['Car Theft In Progress!'] = 620,
+    ['Burglary!'] = 40,
+    ['Bank Monitor!'] = 606,
 }
 
 Config.Sounds = {

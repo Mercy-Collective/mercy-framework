@@ -18,7 +18,7 @@ SendAlert = function(Data) {
     AlertInfo = AlertInfo + `<div class="police-alert-info archivo"><i class="fas fa-clock"></i> ${CalculateTimeDifference(Data.AlertTime)}</div>`
 
     var SendingAlert = `<div id="alert-${Data.AlertId}" class="police-alert ${AlertType} animate-in">
-    <div class="police-alert-marker"><i class="fas fa-map-marker-alt"></i></div>
+    ${Data.SendLocation ? `<div class="police-alert-marker"><i class="fas fa-map-marker-alt"></i></div>` : ``}
     <div class="police-alert-text-bar">
         <div class="police-float police-alert-id">${Data.AlertId}</div>
         <div class="police-float police-alert-code">${Data.AlertCode}</div>
@@ -75,7 +75,7 @@ OpenDispatch = function() {
             AlertInfo = AlertInfo + `<div class="police-alert-info archivo"><i class="fas fa-clock"></i> ${CalculateTimeDifference(Value.AlertTime)}</div>`
         
             var SendingAlert = `<div id="alert-${RandomId}" class="police-alert ${AlertType}">
-            <div data-tooltip="Set GPS" class="police-alert-marker"><i class="fas fa-map-marker-alt"></i></div>
+            ${(Value.SendLocation != null && Value.SendLocation != undefined && Value.SendLocation) ? `<div data-tooltip="Set GPS" class="police-alert-marker"><i class="fas fa-map-marker-alt"></i></div>` : ``}
             <div class="police-alert-text-bar">
                 <div class="police-float police-alert-id">${Value.AlertId}</div>
                 <div class="police-float police-alert-code">${Value.AlertCode}</div>
