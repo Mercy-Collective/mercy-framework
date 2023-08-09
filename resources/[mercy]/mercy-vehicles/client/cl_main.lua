@@ -65,7 +65,7 @@ RegisterNetEvent("mercy-threads/exited-vehicle", function()
     end
 
     if GetBeltStatus() then
-        TriggerEvent('mercy-vehicles/client/set-vehicle-belt', false)
+        SetBeltStatus(false)
     end
 
     SetNetworkIdExistsOnAllMachines(NetworkGetNetworkIdFromEntity(Vehicle), true)

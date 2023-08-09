@@ -22,7 +22,7 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
                 if FuelLevel ~= 0 then
                     if GetEntitySpeed(Vehicle) > 3 then
                         local NewLevel = tonumber(FuelLevel) - (0.3 * (FuelRates[Plate] or 1.0))
-                        print("Fuel - Current: " .. FuelLevel .. " | New: " .. NewLevel .. " | Rate: " .. (FuelRates[Plate] or 1.0))
+                        -- print("Fuel - Current: " .. FuelLevel .. " | New: " .. NewLevel .. " | Rate: " .. (FuelRates[Plate] or 1.0))
                         SetFuelLevel(Vehicle, tonumber(NewLevel))
                         Citizen.Wait(12500)
                     end

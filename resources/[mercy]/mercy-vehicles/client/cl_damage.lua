@@ -1,6 +1,6 @@
 local CurrentMotorDamage, CurrentBodyDamage, InVehicle = 0, 0, false
 local CurrentBodyEject, InEjectVehicle = 0, false
-local HasBelt, HasHarness = false, false
+HasBelt, HasHarness = false, false
 
 -- [ Code ] --
 
@@ -34,12 +34,12 @@ Citizen.CreateThread(function()
                         SetVehicleMeta(Vehicle, "Harness", CurrentHarnessLevel - 1.0)
         
                         HasHarness, HasBelt = not HasHarness, false
-                        TriggerEvent('mercy-ui/client/play-sound', HasHarness and 'vehicle.on' or 'vehicle.off', 0.45)
+                        TriggerEvent('mercy-ui/client/play-sound', HasHarness and 'seatbelt-on' or 'seatbelt-off', 0.45)
                     end
                 end)
             else
                 HasBelt = not HasBelt
-                TriggerEvent('mercy-ui/client/play-sound', HasBelt and 'vehicle.on' or 'vehicle.off', 0.45)
+                TriggerEvent('mercy-ui/client/play-sound', HasBelt and 'seatbelt-on' or 'seatbelt-off', 0.45)
             end
         end
     end)
@@ -214,3 +214,12 @@ function GetBeltStatus()
     return HasBelt or HasHarness
 end
 exports('GetBeltStatus', GetBeltStatus)
+
+function SetBeltStatus(Status)
+    TriggerEvent('mercy-ui/client/play-sound', Status and 'seatbelt-on' or 'seatbelt-off', 0.45)
+    HasBelt = Status
+end
+
+function SetHarnessStatus(Status)
+    HasHarness = Status
+end
