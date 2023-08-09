@@ -260,8 +260,8 @@ function LoadMisc()
 			end
 		end
 
-		SetPedConfigFlag(PlayerPedId(), 184, true)
-		SetPedConfigFlag(PlayerPedId(), 35, false)
+		SetPedConfigFlag(PlayerPedId(), 184, true) -- Automatically shuffle
+		SetPedConfigFlag(PlayerPedId(), 35, false) -- Use helmet
 	
 		SetTrainTrackSpawnFrequency(3, 99999999999)
 		SetTrainTrackSpawnFrequency(0, 120000000)

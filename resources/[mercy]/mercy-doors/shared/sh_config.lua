@@ -2934,6 +2934,7 @@ Config.Doors = {
         Locked = 1,
         IsGate = false,
         CanDetcord = false,
+        canLockpick = true,
         Connected = {},
         Access = {
             Job = { 'police', 'judge' },

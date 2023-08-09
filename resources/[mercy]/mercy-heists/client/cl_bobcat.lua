@@ -5,19 +5,15 @@ local ThermiteOutside, ThermiteInside = vector3(882.20, -2258.24, 30.63), vector
 -- [ Events ] --
 
 RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
-    if #(GetEntityCoords(PlayerPedId()) - ThermiteOutside) > 5.0 and #(GetEntityCoords(PlayerPedId()) - ThermiteInside) > 5.0 then
+    if #(GetEntityCoords(PlayerPedId()) - ThermiteOutside) > 3.0 and #(GetEntityCoords(PlayerPedId()) - ThermiteInside) > 3.0 then
         return
     end
-    if exports['mercy-police']:GetTotalOndutyCops() < Config.BobcatCops or not exports['mercy-weathersync']:BlackoutActive() then
-        exports['mercy-ui']:Notify("bobcat-error", "You can't do this now..", "error")
-        return 
-    end
     local ClosestDoorCoords, CanThermite, ThermiteType = ThermiteOutside, false, 'Outside'
-    if #(GetEntityCoords(PlayerPedId()) - ThermiteOutside) < 5.0 then 
+    if #(GetEntityCoords(PlayerPedId()) - ThermiteOutside) < 3.0 then 
         if not Config.OutsideDoorsThermited then
             CanThermite = true
         end
-    elseif #(GetEntityCoords(PlayerPedId()) - ThermiteInside) < 5.0 then 
+    elseif #(GetEntityCoords(PlayerPedId()) - ThermiteInside) < 3.0 then 
         ClosestDoorCoords, ThermiteType = ThermiteInside, 'Inside'
         if not Config.InsideDoorsThermited then
             CanThermite = true
@@ -27,8 +23,10 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
         Citizen.SetTimeout(450, function()
             local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'thermitecharge', 1, nil, true)
             if DidRemove then
+                exports['mercy-inventory']:SetBusyState(true)
                 local Success = DoThermite(ClosestDoorCoords)
                 if Success then
+                    exports['mercy-inventory']:SetBusyState(false)
                     TriggerServerEvent('mercy-heists/server/bobcat/set-door-state', ThermiteType)
                     if ThermiteType == 'Outside' then
                         TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[1], 0)
@@ -36,28 +34,27 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
                     else
                         TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[3], 0)
                         TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[4], 0)
+                    end                
+                    while ThermiteType == 'Inside' and (Config.OutsideDoorsThermited and not Config.InsideDoorsThermited) do -- Wait for inside doors status to be updated
+                        Citizen.Wait(4)
+                        print('Waiting for doors')
                     end
                     if Config.OutsideDoorsThermited and Config.InsideDoorsThermited then
                         local StreetLabel = FunctionsModule.GetStreetName() 
-                        TriggerEvent('mercy-heists/client/start-inside-bobcat')
+                        SpawnSecurity()
                         TriggerServerEvent('mercy-ui/server/send-bobcat-rob', StreetLabel)
                     end 
+
+                else
+                    exports['mercy-inventory']:SetBusyState(false)
                 end
             end
         end)
     end
 end)
 
-RegisterNetEvent('mercy-heists/client/start-inside-bobcat', function()
-    SpawnSecurity()
-end)
-
 RegisterNetEvent('mercy-heists/client/blow-bobcat-vault', function()
     local Coords, Rotation = vector3(890.45, -2284.67, 30.46), vector3(180.0, 180.0, 0.0)
-    if not exports['mercy-weathersync']:BlackoutActive() then
-        exports['mercy-ui']:Notify("bobcat-error", "You can't do this now..", "error")
-        return
-    end
     TriggerEvent('mercy-heists/client/bomb-animation', Coords, Rotation)
     exports['mercy-inventory']:SetBusyState(true)
     exports['mercy-ui']:ProgressBar('Placing Explosives..', 5000, false, false, true, false, function(DidComplete)
@@ -84,8 +81,6 @@ RegisterNetEvent('mercy-heists/client/bobcat/steal-loot', function(BoxId, Entity
         end)
     end
 end)
-
-
 
 RegisterNetEvent('mercy-heists/client/sync-loot-state', function(LootData)
     Config.LootSpots = LootData
@@ -133,22 +128,47 @@ end
 function SpawnSecurity()
     for k, v in pairs(Config.BobcatSecurity) do
         if FunctionsModule.RequestModel(v['Model']) then
-            local Security = CreatePed(4, GetHashKey(v['Model']), v['Coords'].x, v['Coords'].y, v['Coords'].z, v['Coords'].w, true, false)
+            local Security = CreatePed(26, GetHashKey(v['Model']), v['Coords'].x, v['Coords'].y, v['Coords'].z, v['Coords'].w, true, false)
+            local GuardNetId = NetworkGetNetworkIdFromEntity(Security)
+            SetNetworkIdCanMigrate(GuardNetId, true)
+            SetNetworkIdExistsOnAllMachines(GuardNetId, true)
             SetPedShootRate(Security, 750)
             SetPedCombatAttributes(Security, 46, true)
-            SetPedFleeAttributes(Security, 0, 0)
+            SetPedFleeAttributes(Security, 0, false)
             SetPedAsEnemy(Security, true)
+            SetPedAccuracy(Security, 75)
+            SetPedArmour(Security, 100)
             SetPedMaxHealth(Security, 900)
             SetPedAlertness(Security, 3)
             SetPedCombatRange(Security, 0)
             SetPedCombatMovement(Security, 3)
+            SetPedCanSwitchWeapon(Security, true)
             TaskCombatPed(Security, GetPlayerPed(-1), 0, 16)
-            GiveWeaponToPed(Security, GetHashKey("WEAPON_SMG"), 5000, true, true)
-            SetPedRelationshipGroupHash( Security, GetHashKey("HATES_PLAYER"))
+            GiveWeaponToPed(Security, GetHashKey("WEAPON_SMG"), 5000, false, false)
+            SetPedRelationshipGroupHash(Security, GetHashKey("HATES_PLAYER"))
             SetPedDropsWeaponsWhenDead(Security, false)
             SetEntityCollision(Security, true, true)
+            local Random = math.random(1, 2)
+            if Random == 2 then
+                TaskGuardCurrentPosition(Security, 10.0, 10.0, 1)
+            end
         end
     end
 end
-
 exports('CanLootSpot', CanLootSpot)
+
+AddEventHandler('onResourceStop', function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        -- Delete Security
+        for k, v in pairs(Config.BobcatSecurity) do
+            if DoesEntityExist(v['Entity']) then
+                DeleteEntity(v['Entity'])
+            end
+        end
+        -- Reset Doors
+        TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[1], 1)
+        TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[2], 1)
+        TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[3], 1)
+        TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[4], 1)
+    end
+end)

@@ -66,7 +66,7 @@ RegisterNetEvent('mercy-heists/client/thermite/sync-fx', function(Coords, Detcor
         end
     
         SetPtfxAssetNextCall("scr_ornate_heist")
-        local Effect = StartParticleFxLoopedAtCoord("scr_heist_ornate_thermal_burn", Coords.x, Coords.y, Coords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+        local Effect = StartParticleFxLoopedAtCoord("scr_heist_ornate_thermal_burn", Coords.x, Coords.y + 1.0, Coords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
         Citizen.Wait(11000)
         if Detcord then 
             ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.5)

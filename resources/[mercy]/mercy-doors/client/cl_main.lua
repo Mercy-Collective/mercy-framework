@@ -105,7 +105,7 @@ RegisterNetEvent('mercy-doors/client/sync-doors', function(DoorId, DoorData)
     if Config.Doors[DoorId].IsGate then return end
     if #(GetEntityCoords(PlayerPedId()) - Config.Doors[DoorId].Coords) < 2.0 then
         local HasAccess = HasDoorAccess(DoorId)
-        local DoorState = Config.Doors[DoorId].Locked and true or false
+        local DoorState = Config.Doors[DoorId].Locked == 1 and true or false
         exports['mercy-ui']:SetInteraction((HasAccess and "[E] %s" or "%s"):format(DoorState and 'Locked' or 'Unlocked'), DoorState and 'error' or 'success', true)
     end
 end)
