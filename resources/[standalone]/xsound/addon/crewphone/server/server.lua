@@ -19,7 +19,7 @@ if config.AddonList.crewPhone then
         TriggerClientEvent("client-muzik-devamet", -1, muzikAdi)
     end)
 
-    AddEventHandler('playerDropped', function(source)
+    AddEventHandler('playerDropped', function()
         local _source = source
         TriggerClientEvent("client-muzik-durdur", -1, tostring(_source))
     end)

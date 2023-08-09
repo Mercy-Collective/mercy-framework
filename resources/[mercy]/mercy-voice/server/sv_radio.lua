@@ -52,7 +52,7 @@ RegisterNetEvent("mercy-voice/server/remove-player-from-radio", function(Channel
     RemovePlayerFromRadio(source, ChannelSubscribers[source])
 end)
 
-AddEventHandler('playerDropped', function(source, reason)
+AddEventHandler('playerDropped', function(reason)
     if ChannelSubscribers[source] then
         RemovePlayerFromRadio(source, ChannelSubscribers[source])
     end

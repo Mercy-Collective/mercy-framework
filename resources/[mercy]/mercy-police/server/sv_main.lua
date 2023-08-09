@@ -345,7 +345,6 @@ CreateThread(function()
             Player.Functions.Notify('no-bags', 'You don\'t have any empty evidence bags.', 'error')
         end
     end)
-
             
     EventsModule.RegisterServer("mercy-police/server/set-player-cuffs", function(Source, Cuffed)
         local Player = PlayerModule.GetPlayerBySource(Source)
@@ -617,25 +616,32 @@ end)
 
 RegisterNetEvent("mercy-police/server/get-target-status", function(TargetServer)
     local src = source
-    if not PlayerStatus[TargetServer] then
-        TriggerClientEvent('mercy-chat/client/post-message', src, 'Status', 'None', 'warning')
-    else
-        TriggerClientEvent('mercy-chat/client/post-message', src, 'Status', PlayerStatus[TargetServer].Text, 'warning')
+    local Retval = 'None'
+    if PlayerStatus[TargetServer] ~= nil and next(PlayerStatus[TargetServer]) ~= nil then
+        local ValueTable = { }
+        for k, v in ipairs(PlayerStatus[TargetServer]) do
+            if v.Text:lower() ~= 'gunpowder residue' and v.Text:lower() ~= 'traces of plastic and explosives residue' then
+                ValueTable[#ValueTable+1] = tostring(v.Text)
+            end
+        end
+        Retval = table.concat(ValueTable, "\n")
     end
+    TriggerClientEvent('mercy-chat/client/post-message', src, 'Status', Retval, 'warning')
 end)
 
 RegisterNetEvent("mercy-police/server/gsr-result", function(TargetServer)
     local src = source
     local Retval = 'Nothing found.'
-    if not PlayerStatus[TargetServer] then
-        TriggerClientEvent('mercy-chat/client/post-message', src, 'GSR', 'No GSR found.', 'warning')
-        return
-    end
-    for k, v in pairs(PlayerStatus[TargetServer]) do
-        if v.Text == 'Gunpowder Residue' then
-            Retval = 'Gunshot residue found.'
+    if PlayerStatus[TargetServer] ~= nil and next(PlayerStatus[TargetServer]) ~= nil then
+        local ValueTable = { }
+        for k, v in ipairs(PlayerStatus[TargetServer]) do
+            if v.Text:lower() == 'gunpowder residue' or v.Text:lower() == 'traces of plastic and explosives residue' then
+                ValueTable[#ValueTable+1] = tostring(v.Text)..' found.'
+            end
         end
+        Retval = table.concat(ValueTable, "\n")
     end
+
     TriggerClientEvent('mercy-chat/client/post-message', src, 'GSR', Retval, 'warning')
 end)
 
@@ -644,7 +650,7 @@ RegisterNetEvent("mercy-police/server/finger-result", function(TargetServer)
     local Target = PlayerModule.GetPlayerBySource(TargetServer)
     if not Target then return end
 
-    TriggerClientEvent('mercy-chat/client/post-message', src, 'FINGER', Target.PlayerData.MetaData["FingerPrint"], 'warning')
+    TriggerClientEvent('mercy-chat/client/post-message', src, 'FINGERPRINT', Target.PlayerData.MetaData["FingerPrint"], 'warning')
 end)
 
 -- [ Threads ] --
@@ -767,3 +773,7 @@ end
 function CreateRandomId()
     return math.random(11111,99999)
 end
+
+AddEventHandler('playerDropped', function(reason)
+    PlayerStatus[src] = nil
+end)
