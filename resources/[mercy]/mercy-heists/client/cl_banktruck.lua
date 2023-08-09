@@ -20,6 +20,11 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
     end
 end)
 
+RegisterNetEvent("mercy-heists/client/banktruck/remove-truck", function(NetId)
+    local Vehicle = NetworkGetEntityFromNetworkId(NetId)
+    EntityModule.DeleteEntity(Vehicle)
+end)
+
 RegisterNetEvent("mercy-heists/client/banktruck/setup", function(NetId)
     local Vehicle = NetworkGetEntityFromNetworkId(NetId)
     FunctionsModule.RequestModel('s_m_m_armoured_01')

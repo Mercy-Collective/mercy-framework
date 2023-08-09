@@ -13,14 +13,14 @@ RegisterNetEvent('mercy-heists/client/stores-steal-register', function(Data, Ent
         TriggerEvent('mercy-ui/client/notify', "storerob-error", "You can\'t do this right now..", 'error')
         return
     end
-    local CanRob = CallbackModule.SendCallback('mercy-heists/server/is-register-robbable', RegisterId)
+    local CanRob = CallbackModule.SendCallback('mercy-heists/server/stores/register-robbable', RegisterId)
     if CanRob then
         if math.random(1, 100) > 75 then
             local StreetLabel = FunctionsModule.GetStreetName()
             TriggerServerEvent('mercy-ui/server/send-store-rob', StreetLabel)
         end
         EventsModule.TriggerServer('mercy-ui/server/set-stress', 'Add', math.random(1, 3))
-        TriggerServerEvent('mercy-heists/server/stores-set-state', RegisterId, 'Busy', true)
+        TriggerServerEvent('mercy-heists/server/stores/set-state', RegisterId, 'Busy', true)
         TriggerEvent('mercy-assets/client/lockpick-animation', true)
         if not IsWearingHandshoes() and math.random(1, 100) > 75 then
             TriggerServerEvent("mercy-police/server/create-evidence", 'Fingerprint')
@@ -29,10 +29,10 @@ RegisterNetEvent('mercy-heists/client/stores-steal-register', function(Data, Ent
         local Outcome = exports['mercy-ui']:StartSkillTest(6, { 7, 10 }, { 1500, 3000 }, false)
         TriggerEvent('mercy-assets/client/lockpick-animation', false)
         if Outcome then
-            TriggerServerEvent('mercy-heists/server/stores-set-state', RegisterId, 'Robbed', true)
-            EventsModule.TriggerServer('mercy-heists/server/stores-receive-money')
+            TriggerServerEvent('mercy-heists/server/stores/set-state', RegisterId, 'Robbed', true)
+            EventsModule.TriggerServer('mercy-heists/server/stores/receive-money')
         else
-            TriggerServerEvent('mercy-heists/server/stores-set-state', RegisterId, 'Busy', false)
+            TriggerServerEvent('mercy-heists/server/stores/set-state', RegisterId, 'Busy', false)
             TriggerEvent('mercy-ui/client/notify', "storerob-error", "Failed attempt..", 'error')
         end
     else
@@ -44,7 +44,7 @@ RegisterNetEvent('mercy-heists/client/stores-inspect-register', function(Data, E
     local EntityCoords = GetEntityCoords(Entity)
     local RegisterId = GetRegisterIdByCoords(EntityCoords)
     if RegisterId == nil then return end
-    local Robbable = CallbackModule.SendCallback('mercy-heists/server/is-register-robbable', RegisterId)
+    local Robbable = CallbackModule.SendCallback('mercy-heists/server/stores/register-robbable', RegisterId)
     if not Robbable then
         TriggerEvent('mercy-ui/client/notify', "storerob-register", "Looks like a smashed register..", 'error')
     else

@@ -39,8 +39,9 @@ Citizen.CreateThread(function()
         TruckStates[NetId].Robbed = Bool
         if Bool then
             TriggerClientEvent('mercy-heists/client/banktruck/setup', Source, NetId)
-            Citizen.SetTimeout((1000 * 60) * 30, function() -- 30 Mins
-                TruckStates[NetId].Robbed = false
+            Citizen.SetTimeout((1000 * 60) * Config.ResetTimes['Banktruck'], function() -- 30 Mins
+                TruckStates[NetId] = nil
+                TriggerClientEvent('mercy-heists/client/banktruck/remove-truck', Source, NetId)
             end)
         end
     end)

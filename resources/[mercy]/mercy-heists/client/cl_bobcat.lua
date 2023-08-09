@@ -26,8 +26,8 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
             if DidRemove then
                 exports['mercy-inventory']:SetBusyState(true)
                 local Success = DoThermite(ClosestDoorCoords)
+                ThermiteTimeout = false
                 if Success then
-                    ThermiteTimeout = false
                     TriggerServerEvent('mercy-heists/server/bobcat/set-door-state', ThermiteType)
                     if ThermiteType == 'Outside' then
                         TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[1], 0)
@@ -47,7 +47,6 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
 
                 else
                     exports['mercy-inventory']:SetBusyState(false)
-                    ThermiteTimeout = false
                 end
             end
         end)

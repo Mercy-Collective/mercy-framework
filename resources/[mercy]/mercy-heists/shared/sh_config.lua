@@ -1,10 +1,20 @@
 Config = Config or {}
 
--- Bankrob
+-- Misc
 
-Config.StoreCops, Config.BankCops, Config.JewelleryCops, Config.BanktruckCops, Config.BobcatCops = 0, 0, 0, 0, 0 -- 2, 3, 3, 3, 4
+Config.ResetTimes = { -- In minutes
+    ['Bobcat'] = 300, -- 5 hours
+    ['Banktruck'] = 30, -- 30 Mins
+    ['Jewellery'] = 30, -- 30 Mins
+    ['Stores'] = 10, -- 10 Mins
+}
+
+Config.StoreCops, Config.BankCops, Config.VaultCops, Config.JewelleryCops, Config.BanktruckCops, Config.BobcatCops = 0, 0, 0, 0, 0, 0 -- 2, 3, 6, 3, 3, 4
 
 Config.GemTypes = {'Jade', 'Ruby', 'Onyx', 'Diamond', 'Sapphire', 'Aquamarine'}
+
+
+-- Bankrob
 
 Config.BobcatSecurity = {
     [1] = {
@@ -77,6 +87,20 @@ Config.Zones = {
 }
 
 Config.Panels = {
+    ['Pacific'] = {
+        ['FirstDoor'] = {
+            ['HasBeenHit'] = false,
+        },
+        ['SecondDoor'] = {
+            ['HasBeenHit'] = false,
+        },
+        ['LowerVault'] = {
+            ['HasBeenHit'] = false,
+        },
+        ['UpperVault'] = {
+            ['HasBeenHit'] = false,
+        },
+    },
     ['Fleeca'] = {
         [1] = {
             ['Name'] = 'Legion Bank',
@@ -273,7 +297,6 @@ Config.JewelleryWeapons = {
 -- Bobcat
 
 Config.OutsideDoorsThermited, Config.InsideDoorsThermited = false, false
--- Config.BobcatDoors = { 88, 89, 90, 91 }
 Config.BobcatDoors = { 200, 201, 203, 204 }
 Config.BobcatExploded = false
 

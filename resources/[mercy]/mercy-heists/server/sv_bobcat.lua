@@ -27,7 +27,7 @@ end)
 
 RegisterNetEvent("mercy-heists/server/bobcat/blow-vault", function()
     TriggerClientEvent('mercy-heists/client/bobcat/process-blow-vault', -1)
-    Citizen.SetTimeout((1000 * 60) * 300, function() -- 5 Hours
+    Citizen.SetTimeout((1000 * 60) * Config.ResetTimes['Bobcat'], function() -- 5 Hours
         Config.BobcatExploded = false
         TriggerClientEvent('mercy-heists/client/bobcat/reset-exploded', -1)
         Config.OutsideDoorsThermited = false
