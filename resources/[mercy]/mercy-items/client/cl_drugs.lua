@@ -24,7 +24,7 @@ RegisterNetEvent('mercy-items/client/used-joint', function()
                                 end
                                 Citizen.Wait(2500)
                             end
-                            TriggerEvent('mercy-hospital/client/save-armor')
+                            TriggerEvent('mercy-hospital/client/save-vitals')
                             RemovingStress = false
                         end)
                         if not exports['mercy-police']:IsStatusAlreadyActive('redeyes') then

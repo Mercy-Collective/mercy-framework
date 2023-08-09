@@ -37,6 +37,7 @@ function DoThermite(Coords, IsColor)
             TaskPlayAnim(Ped, "anim@heists@ornate_bank@thermal_charge", "cover_eyes_loop", 8.0, 8.0, 6000, 49, 1, 0, 0, 0)
             Citizen.Wait(2000)
             ClearPedTasks(Ped)
+            exports['mercy-inventory']:SetBusyState(false)
             Citizen.Wait(11000)
         end
 

@@ -159,7 +159,7 @@ RegisterNetEvent('mercy-items/client/used-chest-armor', function(ItemName)
                     local NewArmor = CurrentArmor + 75 > 100 and 100 or CurrentArmor + 75
                     SetPedArmour(PlayerPedId(), NewArmor)
                 end
-                TriggerEvent('mercy-hospital/client/save-armor')
+                TriggerEvent('mercy-hospital/client/save-vitals')
             end
             exports['mercy-inventory']:SetBusyState(false)
         end)

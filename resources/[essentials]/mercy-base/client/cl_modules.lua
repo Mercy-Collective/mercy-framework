@@ -5,13 +5,12 @@ Modules = {}
 exports("CreateModule", function(Name, Module, OverrideAllowed)
     if Modules[Name] then 
         print(("^5[MODULES]^7 ^2[%s]^7 already exists, checking if override is allowed.."):format(Name)) 
-        Modules[Name]['Override'] = OverrideAllowed ~= nil and OverrideAllowed or false
     end
     
-    if Modules[Name] and not Modules[Name]['Override'] then return print("^5[MODULES]^7 Override for ^2[" .. Name .. "]^7 was not allowed..") end
+    if Modules[Name] and not OverrideAllowed then return print("^5[MODULES]^7 Override for ^2[" .. Name .. "]^7 was not allowed..") end
   
     Modules[Name] = Module
-    Modules[Name]['Name'] = Module
+    -- Modules[Name]['Name'] = Module
     print(("^5[MODULES]^7 Module ^2[%s]^7 was created.."):format(Name))
 end)
 
@@ -27,7 +26,7 @@ RegisterNetEvent("Modules/client/request-dependencies", function(Dependencies, C
     local Checked = {}
     local Attempts = {}
 
-    print(("^9[DEBUG]^7 ^5[Modules/RequestDependencies]^7: Requesting ^3%s^7 resources for ^3%s^7!"):format(#Dependencies, GetInvokingResource()))
+    -- print(("^9[DEBUG]^7 ^5[Modules/RequestDependencies]^7: Requesting ^3%s^7 resources for ^3%s^7!"):format(#Dependencies, GetInvokingResource()))
 
     Citizen.CreateThread(function()
         while not Finished do
@@ -48,11 +47,11 @@ RegisterNetEvent("Modules/client/request-dependencies", function(Dependencies, C
             end
 
             if #Checked == #Dependencies then
-                -- print(("^5[MODULES/%s]^7 Successfully requested all dependencies"):format((ResourceRequest or GetCurrentResourceName()))) 
                 Finished = true 
             end
             Citizen.Wait(100)
         end
+        -- print(("^5[MODULES/RequestDependencies]^7 ^2Successfully^7 requested ALL dependencies for resource %s"):format((ResourceRequest or GetCurrentResourceName()))) 
 
         Cb(true)
     end)

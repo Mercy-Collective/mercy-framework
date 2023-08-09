@@ -9,14 +9,12 @@ AddEventHandler('Modules/client/ready', function()
         'Vehicle',
         'Callback',
     }, function(Succeeded)
-        
         if not Succeeded then return end
         PlayerModule = exports['mercy-base']:FetchModule('Player')
         EventsModule = exports['mercy-base']:FetchModule('Events')
         FunctionModule = exports['mercy-base']:FetchModule('Functions')
         VehicleModule = exports['mercy-base']:FetchModule('Vehicle')
         CallbackModule = exports['mercy-base']:FetchModule('Callback')
-
     end)
 end)
 
@@ -41,15 +39,15 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Citizen.Wait(5)
         if LocalPlayer.state.LoggedIn then
-            TriggerEvent('mercy-hospital/client/save-armor')
             Citizen.Wait(3500)
+            TriggerEvent('mercy-hospital/client/save-vitals')
         else
             Citizen.Wait(450) 
         end
     end
-end)    
+end)
 
 -- [ Events ] --
 
@@ -57,9 +55,10 @@ RegisterNetEvent('mercy-hospital/client/kill-player', function()
     SetEntityHealth(PlayerPedId(), 0)
 end)
 
-RegisterNetEvent("mercy-hospital/client/save-armor", function()
+RegisterNetEvent("mercy-hospital/client/save-vitals", function()
     local Armor = GetPedArmour(PlayerPedId())
-    TriggerServerEvent('mercy-hospital/server/save-armor', Armor)
+    local Health = GetEntityHealth(PlayerPedId())
+    TriggerServerEvent('mercy-hospital/server/save-vitals', Armor, Health)
 end)
 
 RegisterNetEvent('mercy-hospital/client/set-hospital-bed-busy', function(BedId, Bool)
@@ -186,6 +185,7 @@ function InitHospital()
             EventsModule.TriggerServer('mercy-hospital/server/set-dead-state', true)
             TriggerEvent('mercy-hospital/client/do-dead-on-player', true)
         else
+            SetEntityHealth(PlayerPedId(), Player.MetaData['Health'])
             SetPedArmour(PlayerPedId(), Player.MetaData['Armor'])
         end
     end)

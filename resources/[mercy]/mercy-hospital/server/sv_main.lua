@@ -126,11 +126,12 @@ RegisterNetEvent("mercy-hospital/server/set-hospital-bed-busy", function(BedId, 
     TriggerClientEvent('mercy-hospital/client/set-hospital-bed-busy', -1, BedId, Bool)
 end)
 
-RegisterNetEvent("mercy-hospital/server/save-armor", function(PArmor)
+RegisterNetEvent("mercy-hospital/server/save-vitals", function(PArmor, PHealth)
     if PlayerModule == nil then return end
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
     if Player then
+        Player.Functions.SetMetaData('Health', PHealth)
         Player.Functions.SetMetaData('Armor', PArmor)
     end
 end)

@@ -27,7 +27,6 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
                 exports['mercy-inventory']:SetBusyState(true)
                 local Success = DoThermite(ClosestDoorCoords)
                 if Success then
-                    exports['mercy-inventory']:SetBusyState(false)
                     ThermiteTimeout = false
                     TriggerServerEvent('mercy-heists/server/bobcat/set-door-state', ThermiteType)
                     if ThermiteType == 'Outside' then
@@ -130,30 +129,23 @@ end
 function SpawnSecurity()
     for k, v in pairs(Config.BobcatSecurity) do
         if FunctionsModule.RequestModel(v['Model']) then
-            local Security = CreatePed(26, GetHashKey(v['Model']), v['Coords'].x, v['Coords'].y, v['Coords'].z, v['Coords'].w, true, false)
-            local GuardNetId = NetworkGetNetworkIdFromEntity(Security)
-            SetNetworkIdCanMigrate(GuardNetId, true)
-            SetNetworkIdExistsOnAllMachines(GuardNetId, true)
+            local Security = CreatePed(5, v['Model'], v['Coords'].x, v['Coords'].y, v['Coords'].z, v['Coords'].w, 1, 1)
             SetPedShootRate(Security, 750)
             SetPedCombatAttributes(Security, 46, true)
-            SetPedFleeAttributes(Security, 0, false)
+            SetPedFleeAttributes(Security, 0, 0)
             SetPedAsEnemy(Security, true)
             SetPedAccuracy(Security, 75)
-            SetPedArmour(Security, 100)
-            SetPedMaxHealth(Security, 900)
+            SetPedArmour(Security, 200.0)
+            SetPedMaxHealth(Security, 2000.0)
             SetPedAlertness(Security, 3)
             SetPedCombatRange(Security, 0)
             SetPedCombatMovement(Security, 3)
-            SetPedCanSwitchWeapon(Security, true)
-            TaskCombatPed(Security, GetPlayerPed(-1), 0, 16)
-            GiveWeaponToPed(Security, GetHashKey("WEAPON_SMG"), 5000, false, false)
+            TaskCombatPed(Security, PlayerPedId(), 0, 16)
+            GiveWeaponToPed(Security, GetHashKey("WEAPON_CARBINERIFLE_MK2"), 9999, true, true)
+            SetCurrentPedWeapon(Security, GetHashKey("WEAPON_CARBINERIFLE_MK2"), true)
             SetPedRelationshipGroupHash(Security, GetHashKey("HATES_PLAYER"))
             SetPedDropsWeaponsWhenDead(Security, false)
             SetEntityCollision(Security, true, true)
-            local Random = math.random(1, 2)
-            if Random == 2 then
-                TaskGuardCurrentPosition(Security, 10.0, 10.0, 1)
-            end
         end
     end
 end

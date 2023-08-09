@@ -87,6 +87,7 @@ Citizen.CreateThread(function()
     end
 end)
 
+-- Eye Target
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(4)

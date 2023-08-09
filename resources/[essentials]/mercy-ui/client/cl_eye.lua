@@ -484,7 +484,7 @@ exports("AddEyeEntry", function(Name, Data)
     local Type = Data.Type:lower()
 
     if Eye.Entries[Name] ~= nil then 
-        Logger.Warning("UI/Eye/AddEyeEntry", ("Eye entry '%s' already exists, replacing it with new one.."):format(Name))
+        -- Logger.Warning("UI/Eye/AddEyeEntry", ("Eye entry '%s' already exists, replacing it with new one.."):format(Name))
     end
 
     if Type == 'zone' then

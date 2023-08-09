@@ -308,8 +308,8 @@ PlayerModule = {
         -- [ Metadata ] --
         PlayerData.MetaData = PlayerData.MetaData ~= nil and PlayerData.MetaData or {}
         -- [ Needs ] --
-        PlayerData.MetaData["Health"] = PlayerData.MetaData["health"]  ~= nil and PlayerData.MetaData["health"] or 200
-        PlayerData.MetaData["Armor"] = PlayerData.MetaData["Armor"]  ~= nil and PlayerData.MetaData["Armor"] or 0
+        PlayerData.MetaData["Health"] = PlayerData.MetaData["Health"] ~= nil and PlayerData.MetaData["Health"] or 200
+        PlayerData.MetaData["Armor"] = PlayerData.MetaData["Armor"] ~= nil and PlayerData.MetaData["Armor"] or 0
         PlayerData.MetaData["Food"] = PlayerData.MetaData["Food"] ~= nil and PlayerData.MetaData["Food"] or 100
         PlayerData.MetaData["Water"] = PlayerData.MetaData["Water"] ~= nil and PlayerData.MetaData["Water"] or 100
         PlayerData.MetaData["Stress"] = PlayerData.MetaData["Stress"] ~= nil and PlayerData.MetaData["Stress"] or 0
@@ -581,7 +581,7 @@ PlayerModule = {
                         TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
                         return true
                     elseif (not ItemData["Unique"] and Slot or Slot ~= nil and self.PlayerData.Inventory[Slot] == nil) then
-                        PlayerModule.DebugLog('AddItem', 'Item is NIET uniek, slot bestaat en is leeg. Dus item geven.')
+                        -- PlayerModule.DebugLog('AddItem', 'Item is NIET uniek, slot bestaat en is leeg. Dus item geven.')
                         self.PlayerData.Inventory[Slot] = {
                             ItemName = ItemData["ItemName"], 
                             Amount = Amount, 
@@ -595,7 +595,7 @@ PlayerModule = {
                             Slot = Slot, 
                             Combinable = ItemData["Combinable"],
                             CreateDate = os.date(),
-                            Quality = ItemData["Quality"],
+                            Quality = 100,
                         }
                         self.Functions.UpdatePlayerData()
                         if Show then
@@ -605,7 +605,7 @@ PlayerModule = {
                         TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
                         return true
                     elseif (ItemData["Unique"]) or (not Slot or Slot == nil) or (ItemData["Type"] == "Weapon") then
-                        PlayerModule.DebugLog('AddItem', 'Item is WEL uniek || Slot weten we niet || Item is Wapen -> Dus slot zoeken en item geven.')
+                        -- PlayerModule.DebugLog('AddItem', 'Item is WEL uniek || Slot weten we niet || Item is Wapen -> Dus slot zoeken en item geven.')
                         local FreeSlot = PlayerModule.GetFreeInventorySlot(self.PlayerData.Inventory)
                         if FreeSlot ~= false then
                             self.PlayerData.Inventory[FreeSlot] = {
@@ -621,7 +621,7 @@ PlayerModule = {
                                 Slot = FreeSlot, 
                                 Combinable = ItemData["Combinable"],
                                 CreateDate = os.date(),
-                                Quality = ItemData["Quality"],
+                                Quality = 100,
                             }
                             self.Functions.UpdatePlayerData()
                             if Show then
@@ -631,13 +631,13 @@ PlayerModule = {
                             TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
                             return true
                         else
-                            self.Functions.Notify('too-heavy', "You are too heavy..", "error", 4500)
+                            self.Functions.Notify('too-heavy', "You have too much in your pockets..", "error", 4500)
                             TriggerEvent('mercy-inventory/server/add-new-drop-core', self.PlayerData.Source, ItemData["ItemName"], Amount, Info)
                         end
                     end
                 else
                     if Type ~= 'Inventory' then
-                        self.Functions.Notify('too-heavy', "You are too heavy..", "error", 4500)
+                        self.Functions.Notify('too-heavy', "You have too much in your pockets..", "error", 4500)
                         TriggerEvent('mercy-inventory/server/add-new-drop-core', self.PlayerData.Source, ItemData["ItemName"], Amount, Info)
                     else
                         return false
@@ -718,7 +718,7 @@ PlayerModule = {
         ServerPlayers[self.PlayerData.Source] = self
         PlayerPermission[self.PlayerData.Source] = {}
 
-        PlayerModule.DebugLog('LoadPlayer', 'LOADED PLAYER')
+        -- PlayerModule.DebugLog('LoadPlayer', 'LOADED PLAYER')
     
         self.Functions.UpdatePlayerData()
         PlayerModule.Save(self.PlayerData.Source)
@@ -732,7 +732,7 @@ PlayerModule = {
         if PlayerData ~= nil then
             DatabaseModule.Execute('SELECT * FROM players WHERE CitizenId = ? ', {PlayerData.CitizenId}, function(PlayerInfo)
                 if PlayerInfo[1] == nil then
-                    PlayerModule.DebugLog('Save', 'INSERTING NEW PLAYER')
+                    -- PlayerModule.DebugLog('Save', 'INSERTING NEW PLAYER')
                     DatabaseModule.Insert('INSERT INTO players (Cid, CitizenId, Name, Identifiers, Money, CharInfo, Job, Position, Globals, Skin, Licenses) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ', {
                         tonumber(PlayerData.Cid),
                         PlayerData.CitizenId, 
@@ -748,7 +748,7 @@ PlayerModule = {
                     }, function(result) end, true)		
                     FunctionsModule.ShowSuccess(GetCurrentResourceName(), "^6[Player] ^0"..PlayerData.Name.."\'s (" .. PlayerData.CitizenId .. ") data saved in database.")
                 else
-                    PlayerModule.DebugLog('Save', 'UPDATING EXISTING PLAYER')
+                    -- PlayerModule.DebugLog('Save', 'UPDATING EXISTING PLAYER')
                     DatabaseModule.Update('UPDATE players SET Name = ?, Identifiers = ?, Money = ?, CharInfo = ?, Job = ?, Position = ?, Inventory = ?, Globals = ?, Skin = ?, Licenses = ? WHERE CitizenId = ? AND Cid = ? ', {
                         PlayerData.Name, 
                         json.encode(PlayerData.Identifiers), 
@@ -821,7 +821,7 @@ PlayerModule = {
             CitizenId = tostring(Shared.RandomInt(4)):upper()
             Database.Execute("SELECT COUNT(*) as count FROM players WHERE CitizenId = ? ", {CitizenId}, function(UserData)
                 if UserData[1].count == 0 then
-                    PlayerModule.DebugLog('CreateCitizenId', 'CitizenId created: '..CitizenId)
+                    -- PlayerModule.DebugLog('CreateCitizenId', 'CitizenId created: '..CitizenId)
                     UniqueFound = true
                 end
             end, true)

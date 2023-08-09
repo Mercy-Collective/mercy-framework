@@ -1,6 +1,6 @@
-var DateNow = Date.now();
-var MaxTime = (((1000 * 60) * 60) * 24) * 28
-let DebugEnabled = true;
+let DateNow = Date.now();
+let MaxTime = (((1000 * 60) * 60) * 24) * 28
+let DebugEnabled = false;
 
 GetItemImage = function(Image) {
     // const ItemData = GetItemData(Item);
@@ -9,11 +9,12 @@ GetItemImage = function(Image) {
 }
 
 GetQuality = function (ItemName, CreateDate) {
-    DebugPrint("GetQuality", `ItemName: ${ItemName} | CreateDate: ${CreateDate}`);
-    var StartDate = new Date(CreateDate).getTime();
-    var DecayRate = ItemList[ItemName].DecayRate;
-    var TimeExtra = MaxTime * DecayRate;
-    var Quality = 100 - Math.ceil(((DateNow - StartDate) / TimeExtra) * 100);
+    // DebugPrint("GetQuality", `ItemName: ${ItemName} | CreateDate: ${CreateDate}`);
+    let StartDate = new Date(CreateDate).getTime();
+    if (ItemList[ItemName] == undefined) return DebugPrint("GetQuality", `Failed to get quality for item ${ItemName}..`);    ;
+    let DecayRate = ItemList[ItemName].DecayRate;
+    let TimeExtra = MaxTime * DecayRate;
+    let Quality = 100 - Math.ceil(((DateNow - StartDate) / TimeExtra) * 100);
   
     if (DecayRate == 0) { Quality = 100; }
     if (Quality <= 0) { Quality = 0; }
@@ -24,7 +25,7 @@ GetQuality = function (ItemName, CreateDate) {
 };
 
 GetQualityColor = function (Amount) {
-    var QualityColor = "quality-good";
+    let QualityColor = "quality-good";
     if (Amount <= 0) { QualityColor = "quality-broken"; }
     if (Amount < 40) {
         QualityColor = "quality-bad";
@@ -63,14 +64,14 @@ InventoryPlayerLog = function(Text) {
 }
 
 CalculateTimeDifference = (Time) => {
-    var NowTime = new Date();
-    var ItemTime = new Date(Time);
-    var DifferenceMS = (NowTime - ItemTime);
-    var DifferenceDays = Math.floor(DifferenceMS / 86400000);
-    var DifferenceHours = Math.floor((DifferenceMS % 86400000) / 3600000);
-    var DifferenceMins = Math.round(((DifferenceMS % 86400000) % 3600000) / 60000);
-    var DifferenceSeconds = Math.round(DifferenceMS / 1000);
-    var TimeAgo = `a few seconds ago`
+    let NowTime = new Date();
+    let ItemTime = new Date(Time);
+    let DifferenceMS = (NowTime - ItemTime);
+    let DifferenceDays = Math.floor(DifferenceMS / 86400000);
+    let DifferenceHours = Math.floor((DifferenceMS % 86400000) / 3600000);
+    let DifferenceMins = Math.round(((DifferenceMS % 86400000) % 3600000) / 60000);
+    let DifferenceSeconds = Math.round(DifferenceMS / 1000);
+    let TimeAgo = `a few seconds ago`
     if (DifferenceDays > 0) {
         if (DifferenceDays == 0 || DifferenceDays == 1) {
             TimeAgo = `${DifferenceDays} day ago`
@@ -125,7 +126,7 @@ HideItemInfo = function() {
 
 HandleShowRequired = function(Data) {
     $.each(Data, function (_, ReqData) {
-        var AddToBox = `<div class="item-box-block">
+        let AddToBox = `<div class="item-box-block">
             <div class="item-box-display"> Required </div>
             <img class="item-box-img" src="${GetItemImage(ReqData['Image'])}">
             <div class="item-box-name">${ReqData["Label"]}</div>
@@ -219,14 +220,18 @@ HandleInventoryInfo = function (ItemData) {
 
 DisableTooltips = function(item) {
     for (let i = 0; i < $(item).length; i++) {
-        var tippyInstance = $(item)[i]._tippy;
-        tippyInstance.disable();
+        let tippyInstance = $(item)[i]._tippy;
+        if (tippyInstance != undefined) {
+            tippyInstance.disable();
+        }
     }
 }
 
 EnableTooltips = function(item) {
     for (let i = 0; i < $(item).length; i++) {
-        var tippyInstance = $(item)[i]._tippy;
-        tippyInstance.enable();
+        let tippyInstance = $(item)[i]._tippy;
+        if (tippyInstance != undefined) {
+            tippyInstance.enable();
+        }
     }
 }

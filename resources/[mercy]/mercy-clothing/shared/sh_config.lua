@@ -1,6 +1,6 @@
 Config = Config or {}
 
-Config.Debug = true
+Config.Debug = false
 Config.UseTarget = false -- true = Target Eye (Requires: qb-target), false = Polyzones (Requires: PolyZone)
 Config.TaxAmount = 1.15 -- 15% Tax on Clothing Purchases
 
