@@ -1,5 +1,5 @@
 local ThermiteOutside, ThermiteInside = vector3(882.20, -2258.24, 30.63), vector3(881.35, -2268.12, 30.63)
-
+local ThermiteTimeout = false
 -- [ Code ] --
 
 -- [ Events ] --
@@ -19,7 +19,8 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
             CanThermite = true
         end
     end
-    if CanThermite then
+    if CanThermite and not ThermiteTimeout then
+        ThermiteTimeout = true
         Citizen.SetTimeout(450, function()
             local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'thermitecharge', 1, nil, true)
             if DidRemove then
@@ -27,6 +28,7 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
                 local Success = DoThermite(ClosestDoorCoords)
                 if Success then
                     exports['mercy-inventory']:SetBusyState(false)
+                    ThermiteTimeout = false
                     TriggerServerEvent('mercy-heists/server/bobcat/set-door-state', ThermiteType)
                     if ThermiteType == 'Outside' then
                         TriggerServerEvent('mercy-doors/server/set-locks', Config.BobcatDoors[1], 0)
@@ -37,7 +39,6 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
                     end                
                     while ThermiteType == 'Inside' and (Config.OutsideDoorsThermited and not Config.InsideDoorsThermited) do -- Wait for inside doors status to be updated
                         Citizen.Wait(4)
-                        print('Waiting for doors')
                     end
                     if Config.OutsideDoorsThermited and Config.InsideDoorsThermited then
                         local StreetLabel = FunctionsModule.GetStreetName() 
@@ -47,6 +48,7 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
 
                 else
                     exports['mercy-inventory']:SetBusyState(false)
+                    ThermiteTimeout = false
                 end
             end
         end)
