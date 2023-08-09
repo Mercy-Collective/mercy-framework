@@ -149,7 +149,7 @@ RegisterNetEvent("mercy-cityhall/client/create-business", function()
         },
         {
             Name = 'Logo',
-            Label = 'Logo (Fontawesome)',
+            Label = 'Logo (Fontawesome eg. fas fa-hamburger)',
             Icon = 'fas fa-signature',
         },
     })

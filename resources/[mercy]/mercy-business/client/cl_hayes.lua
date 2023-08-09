@@ -285,6 +285,6 @@ RegisterNetEvent("mercy-business/client/hayes/craft", function(Data)
     end
 
     if exports['mercy-inventory']:CanOpenInventory() then
-        EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', (Data.Business == '6STR. Tuner Shop' and 'Tuner' or 'Hayes')..' Crafting', 'Crafting', 0, 0, Config.HayesCrafting)
+        EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', (Data.Business == '6STR. Tuner Shop' and 'Tuner' or Data.Business == 'Ottos Autos' and 'Ottos' or 'Hayes')..' Crafting', 'Crafting', 0, 0, Config.HayesCrafting)
     end
 end)

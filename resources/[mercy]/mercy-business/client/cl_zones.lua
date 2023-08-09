@@ -101,7 +101,7 @@ function InitZones()
                     Icon = 'fas fa-archive',
                     Label = 'Table',
                     EventType = 'Client',
-                    EventName = 'mercy-business/client/digitalden-open-table',
+                    EventName = 'mercy-business/client/digitalden/open-table',
                     EventParams = '',
                     Enabled = function(Entity)
                         return true
@@ -187,12 +187,12 @@ function InitZones()
                     end,
                 },
                 {
-                    Name = 'digital_craft',
+                    Name = 'hayes_craft',
                     Icon = 'fas fa-tools',
                     Label = 'Craft',
                     EventType = 'Client',
                     EventName = 'mercy-business/client/hayes/craft',
-                    EventParams = '',
+                    EventParams = { Business = "Hayes Repairs" },
                     Enabled = function(Entity)
                         if exports['mercy-business']:IsPlayerInBusiness('Hayes Repairs') and exports['mercy-business']:HasPlayerBusinessPermission('Hayes Repairs', 'craft_access') then
                             return true
@@ -235,12 +235,12 @@ function InitZones()
                     end,
                 },
                 {
-                    Name = 'digital_craft',
+                    Name = 'hayes_craft',
                     Icon = 'fas fa-tools',
                     Label = 'Craft',
                     EventType = 'Client',
                     EventName = 'mercy-business/client/hayes/craft',
-                    EventParams = '',
+                    EventParams = { Business = "Hayes Repairs" },
                     Enabled = function(Entity)
                         if exports['mercy-business']:IsPlayerInBusiness('Hayes Repairs') and exports['mercy-business']:HasPlayerBusinessPermission('Hayes Repairs', 'craft_access') then
                             return true
@@ -283,12 +283,12 @@ function InitZones()
                     end,
                 },
                 {
-                    Name = 'digital_craft',
+                    Name = 'hayes_craft',
                     Icon = 'fas fa-tools',
                     Label = 'Craft',
                     EventType = 'Client',
                     EventName = 'mercy-business/client/hayes/craft',
-                    EventParams = '',
+                    EventParams = { Business = "Hayes Repairs" },
                     Enabled = function(Entity)
                         if exports['mercy-business']:IsPlayerInBusiness('Hayes Repairs') and exports['mercy-business']:HasPlayerBusinessPermission('Hayes Repairs', 'craft_access') then
                             return true
