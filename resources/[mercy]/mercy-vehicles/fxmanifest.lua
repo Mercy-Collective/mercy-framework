@@ -12,6 +12,7 @@ client_script {
 }
 
 server_script {
+    '@oxmysql/lib/MySQL.lua',
     '@mercy-assets/server/sv_errorlog.lua',
     '@mercy-base/shared/sh_shared.lua',
     'server/sv_*.lua',
