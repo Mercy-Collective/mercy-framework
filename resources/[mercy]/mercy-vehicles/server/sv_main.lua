@@ -140,7 +140,7 @@ Citizen.CreateThread(function()
                         end
 
                         -- Check if in Depot
-                        if Vehicle[1].garage == 'depot' then
+                        if Vehicle[1].garage == 'depot' and Vehicle[1].state == 'In' then
                             Cb({Config.DepotSpots[1], 'Vehicle is in depot.'})
                         else
                             Cb(false)
@@ -231,7 +231,7 @@ Citizen.CreateThread(function()
     CallbackModule.CreateCallback('mercy-vehicles/server/get-depot-vehicles', function(Source, Cb)
         local Player = PlayerModule.GetPlayerBySource(Source)
         local DepotVehs = {}
-        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE garage = ? AND citizenid = ?", {'depot', Player.PlayerData.CitizenId}, function(VehData)
+        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE garage = ? AND state = ? AND citizenid = ?", {'depot', 'In', Player.PlayerData.CitizenId}, function(VehData)
             if VehData ~= nil and VehData[1] ~= nil then
                 for k, v in pairs(VehData) do
                     if v.impounddata ~= nil then
@@ -389,7 +389,7 @@ RegisterNetEvent("mercy-vehicles/server/depot-vehicle", function(NetId, ImpoundI
             }
             DatabaseModule.Update("UPDATE player_vehicles SET garage = ?, state = ?, impounddata = ? WHERE plate = ? ", {
                 'depot', 
-                'out', 
+                'In', 
                 json.encode(ImpoundData),
                 Plate,
             }, function(Result)
@@ -408,6 +408,18 @@ RegisterNetEvent("mercy-vehicles/server/depot-vehicle", function(NetId, ImpoundI
             DeleteEntity(Vehicle)
         end
     end, true)
+end)
+
+AddEventHandler('onResourceStart', function(Resource)
+    if Resource == GetCurrentResourceName() then
+        local Result = MySQL.query.await('SELECT state FROM player_vehicles WHERE garage = ? AND state = ?', {
+            'depot',
+            'Out'
+        })
+         
+        if Result[1] == nil then return end
+        MySQL.update.await('UPDATE player_vehicles SET state = ? WHERE garage = ? AND state = ?', { 'In', 'depot', 'Out' })
+    end
 end)
 
 -- Metas
