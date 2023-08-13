@@ -109,6 +109,8 @@ RegisterNetEvent('mercy-animations/client/play-animation', function(Animation)
                 end
             end
         end)
+    else
+        exports['mercy-ui']:Notify('no-emote', 'Emote '..Animation..' does not exist.', 'error')
     end
 end)
 

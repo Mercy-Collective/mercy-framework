@@ -98,7 +98,7 @@ Config.FoodChainDishes = {
     },
 }
 
--- [ Gallery
+-- [ Gallery ] --
 
 Config.GemColors = {
     ['Jade'] = 92,  -- 53 92
@@ -109,7 +109,7 @@ Config.GemColors = {
     ['Aquamarine'] = 74,
 }
 
--- [ Digital Den
+-- [ Digital Den ] --
 
 Config.DigitalCrafting = {
     {

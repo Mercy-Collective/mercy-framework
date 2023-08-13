@@ -103,7 +103,7 @@ FigureMinigame.SetOutcome = (Success) => {
     if (FigureMinigame.TimerSoundId) StopSound(FigureMinigame.TimerSoundId);
     FigureMinigame.TimerSoundId = undefined;
     $.post("https://mercy-ui/Minigames/Figure/Outcome", JSON.stringify({
-        Success: Success,
+        Outcome: Success,
     }))
 
     $('.figure-loading').css("width", "100%");

@@ -74,7 +74,7 @@ ColorMinigame.ReturnGameOutcome = function(Won) {
     setTimeout(function() {
         $('.color-memory-minigame-container').fadeOut(450, function() {
             $('.minigames-wrapper').css('pointer-events', 'none');
-            $.post('https://mercy-ui/Minigame/ColorMinigame/Outcome', JSON.stringify({Outcome: Won}));
+            $.post('https://mercy-ui/Minigame/Color/Outcome', JSON.stringify({Outcome: Won}));
             ColorMinigame.Reset()
         })
     }, 1700);

@@ -41,7 +41,7 @@ function CheckBoostingSymbols() {
     let CurrentAttempts = (CurrentPos + CodesPos);
     CurrentAttempts %= 80;
     if (BoostingStarted && CurrentAttempts === CorrectPosition) {
-        $.post(`https://mercy-ui/Minigame/BoostingMinigame/Outcome`, JSON.stringify({
+        $.post(`https://mercy-ui/Minigame/Boosting/Outcome`, JSON.stringify({
             Outcome: true
         }));
         setTimeout(() => {
@@ -49,7 +49,7 @@ function CheckBoostingSymbols() {
         }, 2000)
 
     } else {
-        $.post(`https://mercy-ui/Minigame/BoostingMinigame/Outcome`, JSON.stringify({
+        $.post(`https://mercy-ui/Minigame/Boosting/Outcome`, JSON.stringify({
             Outcome: false
         }));
         setTimeout(() => {
