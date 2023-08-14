@@ -775,5 +775,7 @@ function CreateRandomId()
 end
 
 AddEventHandler('playerDropped', function(reason)
-    PlayerStatus[src] = nil
+    if PlayerStatus[source] ~= nil then
+        PlayerStatus[source] = nil
+    end
 end)

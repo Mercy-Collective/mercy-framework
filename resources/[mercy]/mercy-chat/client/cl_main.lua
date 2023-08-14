@@ -26,7 +26,7 @@ end)
 RegisterNetEvent('mercy-chat/client/toggle-OOC', function()
     CanReceiveOOC = not CanReceiveOOC
     if CanReceiveOOC then exports['mercy-ui']:Notify("chat", "You can see OOC 👀", "success")
-    else exports['mercy-ui']:Notify("chat", "You can't see OOC anymore", "error") end
+    else exports['mercy-ui']:Notify("no-ooc", "You won't see OOC anymore..", "error") end
 end)
 
 RegisterNetEvent('mercy-ui/client/ui-reset', function()
