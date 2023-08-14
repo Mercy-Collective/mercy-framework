@@ -393,6 +393,11 @@ RegisterNetEvent('mercy-vehicles/client/take-out-depot', function(Data)
         return
     end
 
+
+    local Result = CallbackModule.SendCallback("mercy-vehicles/server/can-spawn-vehicle", Data.Plate)
+    if not Result then return exports['mercy-ui']:Notify('veh-no-place', "This vehicle is not in depot.", "error") end
+
+
     local Spot = GetDepotSpot()
     if Spot == false then return end
 
