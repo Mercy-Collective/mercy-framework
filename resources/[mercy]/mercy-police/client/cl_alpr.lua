@@ -12,6 +12,11 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
     local Vehicle = GetVehiclePedIsIn(PlayerPedId())
 
     if AlprVisible then
+        if not exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) then 
+            AlprVisible = false
+            return 
+        end
+
         FwdData = { Plate = "NONE", Speed = "000" }
         BwdData = { Plate = "NONE", Speed = "000" }
         StartAlpr()
