@@ -252,6 +252,7 @@ RegisterNetEvent("mercy-threads/exited-vehicle", function()
 end)
 
 RegisterNetEvent('mercy-preferences/client/update', function(PreferencesData)
+    if not exports['mercy-inventory'] then return end
     exports['mercy-ui']:SendUIMessage('Hud', 'SetHudPreferences', {
         Prefs = PreferencesData.Hud,
         Values = Config.HudValues,

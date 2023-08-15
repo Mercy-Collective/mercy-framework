@@ -367,13 +367,10 @@ function AddReportMessage(ReportId, Message, Time)
 end
 
 function SetInfiniteAmmo(Bool)
-    if next(Config.Weapons) ~= nil then
-        for i = 1, #Config.Weapons do
-            local Weapon = GetHashKey(Config.Weapons[i])
-            SetPedInfiniteAmmo(PlayerPedId(), Bool, Weapon)
-        end
-    else
-        DebugPrint('ammo', 'No weapons found to enable infinite ammo, check config for typos.')
+    local PlayerPed = PlayerPedId()
+    local Weapon = GetSelectedPedWeapon(PlayerPed)
+    if IsWeaponValid(Weapon) then
+        SetAmmoInClip(PlayerPed, Weapon, 9999)
     end
 end
 

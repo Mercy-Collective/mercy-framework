@@ -95,20 +95,22 @@ function StartAlpr()
                         ForwardSpeed = "00" .. ForwardSpeed
                     end
 
-                    
                     local ForwardPlate = GetVehicleNumberPlateText(ForwardVehicle)
                     if LastForwardScan ~= ForwardPlate then
                         local Result = CallbackModule.SendCallback("mercy-police/server/is-plate-flagged", ForwardPlate)
-                        if Result.Flagged == 1 then
-                            LastForwardScan = ForwardPlate
-                            ForwardPlate  = GetVehicleNumberPlateText(ForwardVehicle) .. ' (F)'
-                            PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-                            Citizen.Wait(100)
-                            PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-                            Citizen.Wait(100)
-                            PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-                            Citizen.Wait(100)
-                            PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                        if Result then
+                            if Result.Flagged == 1 then
+                                LastForwardScan = ForwardPlate
+                                ForwardPlate  = ForwardPlate .. ' (F)'
+                                PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                Citizen.Wait(100)
+                                PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                Citizen.Wait(100)
+                                PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                Citizen.Wait(100)
+                                PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                exports['mercy-ui']:Notify("police-alpr-front", "Forward vehicle seems to be flagged in the system!", "error")
+                            end
                         end
                     end
     
@@ -144,16 +146,19 @@ function StartAlpr()
                     local BackwardPlate = GetVehicleNumberPlateText(BackwardVehicle)
                     if LastBackwardScan ~= BackwardPlate then
                         local Result = CallbackModule.SendCallback("mercy-police/server/is-plate-flagged", BackwardPlate)
-                        if Result.Flagged == 1 then
-                            LastBackwardScan = BackwardPlate
-                            BackwardPlate  = GetVehicleNumberPlateText(BackwardVehicle) .. ' (F)'
-                            PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-                            Citizen.Wait(100)
-                            PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-                            Citizen.Wait(100)
-                            PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
-                            Citizen.Wait(100)
-                            PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                        if Result then 
+                            if Result.Flagged == 1 then
+                                LastBackwardScan = BackwardPlate
+                                BackwardPlate  = BackwardPlate .. ' (F)'
+                                PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                Citizen.Wait(100)
+                                PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                Citizen.Wait(100)
+                                PlaySoundFrontend(-1, "Beep_Green", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                Citizen.Wait(100)
+                                PlaySoundFrontend(-1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1)
+                                exports['mercy-ui']:Notify("police-alpr-front", "Backward vehicle seems to be flagged in the system!", "error")
+                            end
                         end
                     end
     

@@ -50,7 +50,6 @@ end)
 
 AddEventHandler("entityCreating", function(Entity)
     for Hash, _ in pairs(BlockedModels) do
-        print('Blocking Model', Hash, GetEntityModel(Entity))
         if Hash and GetEntityModel(Entity) == Hash then
             CancelEvent()
             break

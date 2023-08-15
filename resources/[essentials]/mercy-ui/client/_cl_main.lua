@@ -10,6 +10,10 @@ RegisterNetEvent("mercy-base/client/player-spawned", function()
 end)
 
 RegisterNetEvent('mercy-base/client/on-login', function()
+    PreferencesModule.LoadPreference()
+    CallbackModule.CreateCallback("mercy-preferences/client/get-preferences", function(Cb)
+        Cb(PreferencesModule.GetPreferences())
+    end)
     Citizen.SetTimeout(3250, function()
         SendUIMessage('Hud', 'SetAppVisiblity', {
             Visible = true,
@@ -52,11 +56,6 @@ AddEventHandler('Modules/client/ready', function()
         KeybindsModule = exports['mercy-base']:FetchModule('Keybinds')
         ThreadsModule = exports['mercy-base']:FetchModule('Threads')
         _Ready = true
-        
-        PreferencesModule.LoadPreference()
-        CallbackModule.CreateCallback("mercy-preferences/client/get-preferences", function(Cb)
-            Cb(PreferencesModule.GetPreferences())
-        end)
     end)
 end)
 

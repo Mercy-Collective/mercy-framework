@@ -60,6 +60,11 @@ AddEventHandler('onResourceStart', function()
     TriggerEvent('Modules/client/ready')
 end)
 
+AddEventHandler('onResourceStop', function()
+	if not _Ready then return end
+	LocalPlayer.state:set('LoggedIn', false, false)
+end)
+
 RegisterNetEvent('mercy-base/client/command-gotocoords', function(Coords)
 	SetEntityCoords(PlayerPedId(), Coords.x, Coords.y, Coords.z)
 end)

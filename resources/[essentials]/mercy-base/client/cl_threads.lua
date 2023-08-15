@@ -152,8 +152,10 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(4)
 		if LocalPlayer.state.LoggedIn then
-			if PlayerModule.GetPlayerData().MetaData["Food"] <= 1 or PlayerModule.GetPlayerData().MetaData["Water"] <= 1 then
-				if not PlayerModule.GetPlayerData().MetaData["Dead"] then
+            local PlayerData = PlayerModule.GetPlayerData()
+            if PlayerData == nil then return end
+			if PlayerData.MetaData["Food"] <= 1 or PlayerData.MetaData["Water"] <= 1 then
+				if not PlayerData.MetaData["Dead"] then
 					local CurrentHealth = GetEntityHealth(PlayerPedId())
 					SetEntityHealth(PlayerPedId(), CurrentHealth - math.random(5, 10))
 				end

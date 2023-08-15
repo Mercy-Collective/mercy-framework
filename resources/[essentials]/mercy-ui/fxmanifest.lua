@@ -43,6 +43,7 @@ files {
     'nui/fonts/*.woff',
     'nui/fonts/*.woff2',
     'nui/fonts/*.ttf',
+    'nui/fonts/*.otf',
     'nui/css/*.css',
     'nui/js/*.js',
     'nui/Apps/**/*.html',

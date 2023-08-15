@@ -1,3 +1,7 @@
+Spectate = {
+    CurrentTarget = nil,
+}
+
 -- [ Code ] --
 
 -- [ Events ] --
@@ -291,7 +295,7 @@ end)
 
 RegisterNetEvent('Admin:Toggle:Spectate', function(Result)
     if not PlayerModule.IsPlayerAdmin() then return end
-    ToggleSpectate(Result['player'])
+    Spectate.Toggle(Result['player'])
 end)
 
 RegisterNetEvent("Admin:OpenInv", function(Result)
@@ -330,21 +334,34 @@ RegisterNetEvent("mc-admin/client/freeze-player", function(Bool)
     FreezeEntityPosition(GetPlayerPed(PlayerId()), Bool)
 end)
 
+local InfiniteAmmoEnabled = false
 RegisterNetEvent("mc-admin/client/toggle-infinite-ammo", function(Bool)
-    while Bool do
-        Wait(1)
+    InfiniteAmmoEnabled = Bool
+    while InfiniteAmmoEnabled == true do
         SetInfiniteAmmo(true)
+        Wait(1500) -- Just if person takes new weapon
     end
-    SetTimeout(250, function()
-        SetInfiniteAmmo(false)
-    end)
+    Wait(250)
+    SetInfiniteAmmo(false)
 end)
 
+local InfiniteStaminaEnabled = false
 RegisterNetEvent("mc-admin/client/toggle-infinite-stamina", function(Bool)
-    while Bool do
-        Wait(1)
+    InfiniteStaminaEnabled = Bool
+    while InfiniteStaminaEnabled == true do
         RestorePlayerStamina(PlayerId(), 1.0)
+        Wait(50)
     end
+end)
+
+local GodmodeEnabled = false
+RegisterNetEvent("mc-admin/client/toggle-godmode", function(Bool)
+    GodmodeEnabled = Bool
+    while GodmodeEnabled == true do
+        SetPlayerInvincible(PlayerId(), true)
+        Wait(50)
+    end
+    SetPlayerInvincible(PlayerId(), false)
 end)
 
 RegisterNetEvent("mc-admin/client/toggle-cloak", function(Bool)
@@ -353,16 +370,6 @@ RegisterNetEvent("mc-admin/client/toggle-cloak", function(Bool)
     else
         SetEntityVisible(PlayerPedId(), true)
     end
-end)
-
-RegisterNetEvent("mc-admin/client/toggle-godmode", function(Bool)
-    while Bool do
-        Wait(1)
-        SetPlayerInvincible(PlayerId(), true)
-    end
-    SetTimeout(250, function()
-        SetPlayerInvincible(PlayerId(), false)
-    end)
 end)
 
 RegisterNetEvent('mc-admin/client/teleport-player', function(Coords)
@@ -387,15 +394,35 @@ RegisterNetEvent("mc-admin/client/play-sound", function(Sound)
     TriggerServerEvent("mercy-ui/client/play-sound", Sound, 0.3, 5)
 end)
 
--- AddEventHandler('gameEventTriggered', function(event, data)
---     if event == "CEventNetworkEntityDamage" then
---         local victim, attacker, victimDied = data[1], data[2], data[4]
---         if not IsEntityAPed(victim) then return end
---         if victimDied and NetworkGetPlayerIndexFromPed(victim) == PlayerId() and IsEntityDead(PlayerPedId()) then
---             if SpectateEnabled then
---                 ToggleSpectate(storedTargetPed)
---                 TriggerServerEvent('mc-admin/server/stop-spectate')
---             end
---         end
---     end
--- end)
+AddEventHandler('onResourceStop', function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        TriggerEvent('mc-admin/client/force-close')
+        -- Stop Noclip
+        toggleFreecam(false)
+        -- Stop Spectate
+        if SpectateEnabled then
+            if Spectate.CurrentTarget ~= nil then
+                Spectate.Toggle(Spectate.CurrentTarget)
+            end
+        end
+        -- Reset Player Stuff
+        SetInfiniteAmmo(false)
+        SetPlayerInvincible(PlayerId(), false)
+        SetEntityVisible(PlayerPedId(), true)
+    end
+end)
+
+
+AddEventHandler('gameEventTriggered', function(event, data)
+    if event == "CEventNetworkEntityDamage" then
+        local victim, attacker, victimDied = data[1], data[2], data[4]
+        if not IsEntityAPed(victim) then return end
+        if victimDied and NetworkGetPlayerIndexFromPed(victim) == PlayerId() and IsEntityDead(PlayerPedId()) then
+            if SpectateEnabled then
+                if Spectate.CurrentTarget ~= nil then
+                    Spectate.Toggle(Spectate.CurrentTarget)
+                end
+            end
+        end
+    end
+end)

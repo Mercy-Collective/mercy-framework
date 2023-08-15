@@ -10,6 +10,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(4)
         if LocalPlayer.state.LoggedIn and not Config.Dead then
             local Player = exports['mercy-base']:FetchModule('Player').GetPlayerData()
+            if Player == nil then return end
             if Player.MetaData['Food'] == 0 then
                 TriggerEvent('mercy-ui/client/notify', "hospital-consumption-error", 'You notice that you feel hungry.', 'error', 4500)
                 local CurrentHealth = GetEntityHealth(PlayerPedId())

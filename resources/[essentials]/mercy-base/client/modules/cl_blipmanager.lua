@@ -9,7 +9,7 @@ AddEventHandler('Modules/client/ready', function()
 end)
 
 BlipModule = {
-    CreateBlip = function(BlipId, Coords, Text, Logo, FirstColor, Flashing, Size, ShortRange, Category)
+    CreateBlip = function(BlipId, Coords, Text, Logo, FirstColor, Flashing, Size, ShortRange, Category, Number, Cone)
         if RegisteredBlips[BlipId] ~= nil then
             BlipModule.RemoveBlip(BlipId)
         end
@@ -35,6 +35,12 @@ BlipModule = {
             --7	Other Players
             --10 Property
             --11 Owned Property
+        end
+        if Number ~= nil and Number ~= false then
+            ShowNumberOnBlip(Blip, Number)
+        end
+        if Cone ~= nil and Cone ~= false then
+            SetBlipShowCone(Blip, Cone)
         end
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentSubstringPlayerName(Text)
