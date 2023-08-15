@@ -1,4 +1,4 @@
-PlayerModule, EventsModule, FunctionModule, VehicleModule = nil, nil, nil, nil
+PlayerModule, EventsModule, FunctionModule, VehicleModule, CallbackModule = nil
 local HospitalBedCam = nil
 
 AddEventHandler('Modules/client/ready', function()

@@ -74,14 +74,18 @@ function BuildCharacterProps()
     RequestModel(GetHashKey('mp_m_freemode_01'))
     RequestModel(GetHashKey('mp_f_freemode_01'))
 
+    while CallbackModule == nil do
+        Citizen.Wait(100)
+    end
+
     for i = 1, 4, 1 do
         local cid = i
         local Anim = PedAnims[i]
-        -- local prom = promise.new()
         local SkinData = CallbackModule.SendCallback('mercy-ui/server/characters/get-skin', cid)
 
         local Model = SkinData.Model ~= nil and SkinData.Model or GetHashKey("m_character_select")
         local IsCustomSkin = Config.CustomSkins[Model] or false
+
         if IsCustomSkin then 
             local ModelLoaded = FunctionsModule.RequestModel(Model)
             if ModelLoaded then
@@ -90,7 +94,6 @@ function BuildCharacterProps()
                 SetEntityHeading(Ped, MULTICHARACTER.peds[cid].h)
                 -- SetEntityAlpha(Ped, 205, false)
                 
-                -- print('Applying skin to ped', json.encode(SkinData), Ped)
                 TriggerEvent('mercy-clothing/client/load-clothing', SkinData, Ped)
                 
                 if Anim then
@@ -114,7 +117,6 @@ function BuildCharacterProps()
                     SetEntityAlpha(Ped, 205, false)
                 end
     
-                -- print('Applying skin to ped', json.encode(SkinData), Ped)
                 TriggerEvent('mercy-clothing/client/load-clothing', SkinData, Ped)
 
                 if Anim then
@@ -128,9 +130,8 @@ function BuildCharacterProps()
                 CharacterProps['Ped'..cid] = Ped
             end
         end
-        -- prom:resolve()
-        -- Citizen.Await(prom)
     end
+
     Citizen.Wait(250)
     DoScreenFadeIn(500)
 end

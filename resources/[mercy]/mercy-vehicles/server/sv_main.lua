@@ -473,6 +473,7 @@ RegisterNetEvent("mercy-vehicles/server/set-keys", function(Plate, Bool, Citizen
         if Config.VehicleKeys[Plate] ~= nil then
             Config.VehicleKeys[Plate][Player.PlayerData.CitizenId] = Bool
         else
+            if Plate == nil then return end
             Config.VehicleKeys[Plate] = {}
             Config.VehicleKeys[Plate][Player.PlayerData.CitizenId] = Bool
         end

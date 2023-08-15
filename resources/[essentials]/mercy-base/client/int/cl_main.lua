@@ -5,21 +5,22 @@ local _Ready = false
 
 -- [ Threads ] --
 
-Citizen.CreateThread(function()
+CreateThread(function()
+	if _Ready then return end
     TriggerEvent('Modules/client/ready')
 	_Ready = true
 	while true do
 		Citizen.Wait(4)
 		if NetworkIsSessionStarted() and not Spawned then
 			Spawned = true
-			Citizen.SetTimeout(500, function()
+			SetTimeout(500, function()
 				TriggerEvent('mercy-base/client/player-spawned')
 				TriggerServerEvent('mercy-base/server/load-token')
 				TriggerServerEvent('mercy-base/server/load-user')
 				exports.spawnmanager:setAutoSpawn(false)
 			end)
 		else
-			Citizen.Wait(450)
+			Wait(450)
 		end
 	end
 end)
@@ -57,7 +58,7 @@ end)
 
 AddEventHandler('onResourceStart', function()
 	if not _Ready then return end
-    TriggerEvent('Modules/client/ready')
+	TriggerEvent('Modules/client/ready')
 end)
 
 AddEventHandler('onResourceStop', function()

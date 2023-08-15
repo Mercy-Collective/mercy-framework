@@ -5,10 +5,9 @@ lua54 'yes'
 
 ui_page 'nui/index.html'
 
--- dependencies {
---     'mercy-polyzone',
---     'mercy-voice',
--- }
+dependencies {
+    -- 'mercy-voice',
+}
 
 client_script {
     '@mercy-assets/client/cl_errorlog.lua',

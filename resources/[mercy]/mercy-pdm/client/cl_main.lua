@@ -1,4 +1,4 @@
-EventsModule, FunctionsModule, VehicleModule = nil, nil, nil
+EventsModule, FunctionsModule, VehicleModule = nil
 local PdmShowVehicle, PdmCam = nil, nil
 local CurrentVehicleModel = ''
 

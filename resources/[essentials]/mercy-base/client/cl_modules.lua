@@ -10,7 +10,7 @@ exports("CreateModule", function(Name, Module, OverrideAllowed)
     if Modules[Name] and not OverrideAllowed then return print("^5[MODULES]^7 Override for ^2[" .. Name .. "]^7 was not allowed..") end
   
     Modules[Name] = Module
-    -- Modules[Name]['Name'] = Module
+    Modules[Name]['Name'] = Module
     print(("^5[MODULES]^7 Module ^2[%s]^7 was created.."):format(Name))
 end)
 
