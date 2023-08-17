@@ -27,256 +27,206 @@ AddEventHandler('Modules/server/ready', function()
         CommandsModule = exports['mercy-base']:FetchModule('Commands')
         EventsModule = exports['mercy-base']:FetchModule('Events')
 		_Ready = true
-	
-		EventsModule.RegisterServer('mercy-inventory/server/open-other-inventory', function(Source, OtherData, Type, Slots, MaxWeight, ExtraData, ExtraType)
-			local Player = PlayerModule.GetPlayerBySource(Source)
-			local Slots = Slots ~= nil and Slots or DropSlots
-			TriggerEvent('mercy-inventory/server/inventory-opened', Source, Type, OtherData)
-			local TotalData = {}
-			if Type == 'Glovebox' or Type == 'Trunk' or Type == 'Stash' or Type == 'Crafting' or Type == 'Temp' then
-				if not OpenInventories[string.sub(Type, 1, 1)..OtherData] then
-					if Type ~= 'Crafting' and Type ~= 'Temp' then -- Crafting and Temp does not have database items
-						if TypeItems[Type][OtherData] == nil then
-							TypeItems[Type][OtherData] = GetDBItems(Type, OtherData)
-						end
-						if TypeItems[Type][OtherData] == nil then TypeItems[Type][OtherData] = {} end
+	end)
+end)
+
+-- [ Code ] --
+
+Citizen.CreateThread(function()
+    while not _Ready do
+        Citizen.Wait(100)
+    end
+
+	EventsModule.RegisterServer('mercy-inventory/server/open-other-inventory', function(Source, OtherData, Type, Slots, MaxWeight, ExtraData, ExtraType)
+		local Player = PlayerModule.GetPlayerBySource(Source)
+		local Slots = Slots ~= nil and Slots or DropSlots
+		TriggerEvent('mercy-inventory/server/inventory-opened', Source, Type, OtherData)
+		local TotalData = {}
+		if Type == 'Glovebox' or Type == 'Trunk' or Type == 'Stash' or Type == 'Crafting' or Type == 'Temp' then
+			if not OpenInventories[string.sub(Type, 1, 1)..OtherData] then
+				if Type ~= 'Crafting' and Type ~= 'Temp' then -- Crafting and Temp does not have database items
+					if TypeItems[Type][OtherData] == nil then
+						TypeItems[Type][OtherData] = GetDBItems(Type, OtherData)
 					end
-					if Type == 'Temp' then
-						if TypeItems[Type][OtherData] == nil then TypeItems[Type][OtherData] = {} end
-					end
-					
-					local InvName = (Type ~= 'Crafting' and Type ~= 'Temp') and (Type..': '..OtherData) or OtherData -- Temp and Crafting only shows name not type.
+					if TypeItems[Type][OtherData] == nil then TypeItems[Type][OtherData] = {} end
+				end
+				if Type == 'Temp' then
+					if TypeItems[Type][OtherData] == nil then TypeItems[Type][OtherData] = {} end
+				end
+				
+				local InvName = (Type ~= 'Crafting' and Type ~= 'Temp') and (Type..': '..OtherData) or OtherData -- Temp and Crafting only shows name not type.
+				TotalData = {
+					['Type'] = Type, 
+					['SubType'] = OtherData, 
+					['InvName'] = InvName, 
+					['InvSlots'] = Slots ~= nil and Slots or 0, 
+					['MaxWeight'] = MaxWeight ~= nil and MaxWeight or 0, 
+					['Items'] = TypeItems[Type] ~= nil and TypeItems[Type][OtherData] or ExtraData ~= nil and ExtraData or {}, 
+					['ExtraData'] = ExtraData ~= nil and ExtraData or {}
+				}
+
+				Citizen.SetTimeout(5, function()
+					OpenInventories[string.sub(Type, 1, 1)..OtherData] = true
+				end)
+			else
+				TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
+				return
+			end
+		elseif Type == 'Player' then
+			if not OpenInventories['OT'..OtherData] then
+				local OtherPlayer = PlayerModule.GetPlayerByStateId(tonumber(OtherData))
+				if OtherPlayer ~= nil then
 					TotalData = {
 						['Type'] = Type, 
-						['SubType'] = OtherData, 
-						['InvName'] = InvName, 
-						['InvSlots'] = Slots ~= nil and Slots or 0, 
-						['MaxWeight'] = MaxWeight ~= nil and MaxWeight or 0, 
-						['Items'] = TypeItems[Type] ~= nil and TypeItems[Type][OtherData] or ExtraData ~= nil and ExtraData or {}, 
-						['ExtraData'] = ExtraData ~= nil and ExtraData or {}
+						['SubType'] = tonumber(OtherData), 
+						['InvName'] = Type..'-'..tonumber(OtherData), 
+						['InvSlots'] = Config.InventorySlots, 
+						['MaxWeight'] = Config.MaxInventoryWeight, 
+						['Items'] = OtherPlayer.PlayerData.Inventory
 					}
-
+					TriggerClientEvent('mercy-inventory/client/set-inventory-state', tonumber(OtherData), true)
 					Citizen.SetTimeout(5, function()
-						OpenInventories[string.sub(Type, 1, 1)..OtherData] = true
+						OpenInventories['OT'..OtherData] = true
 					end)
-				else
-					TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
-					return
-				end
-			elseif Type == 'Player' then
-				if not OpenInventories['OT'..OtherData] then
-					local OtherPlayer = PlayerModule.GetPlayerByStateId(tonumber(OtherData))
-					if OtherPlayer ~= nil then
-						TotalData = {
-							['Type'] = Type, 
-							['SubType'] = tonumber(OtherData), 
-							['InvName'] = Type..'-'..tonumber(OtherData), 
-							['InvSlots'] = Config.InventorySlots, 
-							['MaxWeight'] = Config.MaxInventoryWeight, 
-							['Items'] = OtherPlayer.PlayerData.Inventory
-						}
-						TriggerClientEvent('mercy-inventory/client/set-inventory-state', tonumber(OtherData), true)
-						Citizen.SetTimeout(5, function()
-							OpenInventories['OT'..OtherData] = true
-						end)
-					else
-						TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
-						return
-					end
-				else
-					TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
-					return
-				end
-			elseif Type == 'Drop' then
-				if not OpenInventories['D'..OtherData['SubType']] then
-					TriggerClientEvent('mercy-inventory/client/open-inventory-other', Source, OtherData)
-					Citizen.SetTimeout(5, function()
-						OpenInventories['D'..OtherData['SubType']] = true
-					end)
-					return
 				else
 					TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
 					return
 				end
 			else
-				TotalData = {
-					['Type'] = Type, 
-					['SubType'] = ExtraType, 
-					['InvName'] = OtherData, 
-					['Cash'] = Player.PlayerData.Money['Cash'], 
-					['InvSlots'] = Slots ~= nil and Slots or 0, 
-					['MaxWeight'] = MaxWeight ~= nil and MaxWeight or 0, 
-					['Items'] = ExtraData ~= nil and ExtraData or {}, 
-					['ExtraData'] = ExtraData ~= nil and ExtraData or {}
-				}
+				TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
+				return
 			end
-			TriggerClientEvent('mercy-inventory/client/open-inventory-other', Source, TotalData)
-		end)
-	
-		CallbackModule.CreateCallback('mercy-inventory/server/do-item-data', function(Source, Cb, data)
-			local Player, OtherPlayer = PlayerModule.GetPlayerBySource(Source), PlayerModule.GetPlayerBySource(data['SubType']) ~= nil and PlayerModule.GetPlayerBySource(data['SubType']) or PlayerModule.GetPlayerByStateId(tonumber(data['SubType'])) 
-			
-			local OtherInventoryItems, ExtraData, MaxOtherWeight = data['OtherItems'], data['ExtraData'], data['MaxOtherWeight']
-			local Amount, Type, SubType = tonumber(data['Amount']), data['Type'], data['SubType']
-			local ToSlot, FromSlot = tonumber(data['ToSlot']), tonumber(data['FromSlot'])
-			local ToInventory, FromInventory = data['ToInventory'], data['FromInventory']
+		elseif Type == 'Drop' then
+			if not OpenInventories['D'..OtherData['SubType']] then
+				TriggerClientEvent('mercy-inventory/client/open-inventory-other', Source, OtherData)
+				Citizen.SetTimeout(5, function()
+					OpenInventories['D'..OtherData['SubType']] = true
+				end)
+				return
+			else
+				TriggerClientEvent('mercy-inventory/client/open-empty-other', Source)
+				return
+			end
+		else
+			TotalData = {
+				['Type'] = Type, 
+				['SubType'] = ExtraType, 
+				['InvName'] = OtherData, 
+				['Cash'] = Player.PlayerData.Money['Cash'], 
+				['InvSlots'] = Slots ~= nil and Slots or 0, 
+				['MaxWeight'] = MaxWeight ~= nil and MaxWeight or 0, 
+				['Items'] = ExtraData ~= nil and ExtraData or {}, 
+				['ExtraData'] = ExtraData ~= nil and ExtraData or {}
+			}
+		end
+		TriggerClientEvent('mercy-inventory/client/open-inventory-other', Source, TotalData)
+	end)
 
-			-- My -> Other
-			if ToInventory == '.my-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
-				if Type == 'Store' then
-					local StoreItem = Shared.ItemList[OtherInventoryItems[FromSlot]['ItemName']:lower()]
-					if Player.Functions.RemoveMoney('Cash', FunctionsModule.GetTaxPrice((StoreItem.Price * Amount), 'Goods')) then
-						if StoreItem['Type'] == 'Weapon' and not StoreItem['Melee'] then
-							local SerialNumber = SubType == 'PoliceStore' and Player.PlayerData.Job.Serial or Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()
-							OtherInventoryItems[FromSlot].Info = {Quality = 100.0, Ammo = 5, Serial = SerialNumber}
-						else
-							OtherInventoryItems[FromSlot].Info = {Quality = 100.0}
-						end
-						if Player.Functions.AddItem(StoreItem['ItemName'], Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
-							Cb(true)
-						else
-							Player.Functions.AddMoney('Cash', (StoreItem.Price * Amount))
-							Player.Functions.Notify('invalid-action', 'Failed to buy item. Maybe we are full ?', 'error')
-							Cb(false)
-						end
+	CallbackModule.CreateCallback('mercy-inventory/server/do-item-data', function(Source, Cb, data)
+		local Player, OtherPlayer = PlayerModule.GetPlayerBySource(Source), PlayerModule.GetPlayerBySource(data['SubType']) ~= nil and PlayerModule.GetPlayerBySource(data['SubType']) or PlayerModule.GetPlayerByStateId(tonumber(data['SubType'])) 
+		
+		local OtherInventoryItems, ExtraData, MaxOtherWeight = data['OtherItems'], data['ExtraData'], data['MaxOtherWeight']
+		local Amount, Type, SubType = tonumber(data['Amount']), data['Type'], data['SubType']
+		local ToSlot, FromSlot = tonumber(data['ToSlot']), tonumber(data['FromSlot'])
+		local ToInventory, FromInventory = data['ToInventory'], data['FromInventory']
+
+		-- My -> Other
+		if ToInventory == '.my-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
+			if Type == 'Store' then
+				local StoreItem = Shared.ItemList[OtherInventoryItems[FromSlot]['ItemName']:lower()]
+				if Player.Functions.RemoveMoney('Cash', FunctionsModule.GetTaxPrice((StoreItem.Price * Amount), 'Goods')) then
+					if StoreItem['Type'] == 'Weapon' and not StoreItem['Melee'] then
+						local SerialNumber = SubType == 'PoliceStore' and Player.PlayerData.Job.Serial or Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()
+						OtherInventoryItems[FromSlot].Info = {Quality = 100.0, Ammo = 5, Serial = SerialNumber}
 					else
-						Cb(false)
+						OtherInventoryItems[FromSlot].Info = {Quality = 100.0}
 					end
-				elseif Type == 'Drop' then
-					if Config.Drops[SubType] == nil and Config.Drops[SubType]['Items'] == nil then return Cb(false) end
-					if Config.Drops[SubType]['Items'][FromSlot] == nil then return Cb(false) end
-
-					if Player.Functions.AddItem(Config.Drops[SubType]['Items'][FromSlot]['ItemName'], Amount, ToSlot, Config.Drops[SubType]['Items'][FromSlot].Info, false, 'Inventory') then
-						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Picked up  "..Amount..'x '..Config.Drops[SubType]['Items'][FromSlot]['ItemName'].. " from Drop. ("..SubType..")")
-						if (Config.Drops[SubType]['Items'][FromSlot].Amount - Amount) == 0 then
-							Config.Drops[SubType]['Items'][FromSlot] = nil
-							Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
-						else
-							Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
-							Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
-						end
-						CheckDropInventory(SubType)
-						TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
+					if Player.Functions.AddItem(StoreItem['ItemName'], Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
 						Cb(true)
 					else
+						Player.Functions.AddMoney('Cash', (StoreItem.Price * Amount))
+						Player.Functions.Notify('invalid-action', 'Failed to buy item. Maybe we are full ?', 'error')
 						Cb(false)
 					end
-				elseif Type == 'Trunk' or Type == 'Glovebox' or Type == 'Stash' or Type == 'Temp' then
-					local DBItems = TypeItems[Type][SubType] ~= nil and TypeItems[Type][SubType] or TriggerClientEvent('mercy-inventory/client/force-close', Source)
-					if DBItems == nil and DBItems[FromSlot] == nil then return Cb(false) end
-
-					if Player.Functions.AddItem(DBItems[FromSlot]['ItemName'], Amount, ToSlot, DBItems[FromSlot].Info, false, 'Inventory') then
-						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Took  "..Amount..'x '..DBItems[FromSlot]['ItemName'].. " out of "..Type.." ("..SubType..")")
-						if (DBItems[FromSlot].Amount - Amount) == 0 then
-							DBItems[FromSlot] = nil
-						else
-							DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
-						end
-						SaveInventoryData(Type, SubType, DBItems)
-
-						Cb(true)
-					else
-						Cb(false)
-					end				
-				elseif Type == 'Player' then
-					local Item = OtherPlayer.PlayerData.Inventory[FromSlot]['ItemName']:lower()
-					if Player.Functions.AddItem(Item, Amount, ToSlot, OtherPlayer.PlayerData.Inventory[FromSlot].Info, false, 'Inventory') then
-						local ItemDataFrom = GetItemData(Item)
-						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Took "..Amount..'x '..Item.. " out of inventory of "..OtherPlayer.PlayerData.Name..".")
-						OtherPlayer.Functions.RemoveItem(Item, Amount, FromSlot, false)
-						if ItemDataFrom['Type'] == 'Weapon' then
-							TriggerClientEvent('mercy-inventory/client/reset-weapon', OtherPlayer.PlayerData.Source)
-						end
-						TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
-						Cb(true)
-					else
-						Cb(false)
-					end
-				elseif Type == 'Crafting' then
-					local Item = OtherInventoryItems[FromSlot]['ItemName']:lower()
-					if HasCraftingItems(Source, Shared.ItemList[Item]['Cost'], Amount) then
-						if Shared.ItemList[Item]['Type'] == 'Weapon' and not Shared.ItemList[Item]['Melee'] then
-							OtherInventoryItems[FromSlot]['Info'] = {Quality = 100.0, Ammo = 5, Serial = Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()}
-						else
-							OtherInventoryItems[FromSlot]['Info'] = {Quality = 100.0}
-						end
-						TriggerClientEvent('mercy-inventory/client/craft', Source, Item, Amount, ToSlot, OtherInventoryItems[FromSlot]['Info'], Shared.ItemList[Item]['Cost'])
-						Cb('Crafting')
-					else
-						Cb(false)
-					end
+				else
+					Cb(false)
 				end
-			elseif ToInventory == '.other-inventory-blocks' and FromInventory == '.my-inventory-blocks' then
-				if Type == 'Drop' then
-					if Config.Drops[SubType] ~= nil and Config.Drops[SubType]['Items'] ~= nil then
-						local TotalWeight = GetTotalWeight(Config.Drops[SubType]['Items'])
-						if Player.PlayerData.Inventory[FromSlot] == nil then return Cb(false) end
-						if not WeightCheck(MaxOtherWeight, TotalWeight, Amount, Player.PlayerData.Inventory[FromSlot].Weight) then return Cb(false) end
+			elseif Type == 'Drop' then
+				if Config.Drops[SubType] == nil and Config.Drops[SubType]['Items'] == nil then return Cb(false) end
+				if Config.Drops[SubType]['Items'][FromSlot] == nil then return Cb(false) end
 
-						local Item = Player.PlayerData.Inventory[FromSlot]['ItemName']:lower()
-						if Player.Functions.RemoveItem(Item, Amount, FromSlot, false) then
-							TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Threw "..Amount..'x '..Item.. " on ground. ("..SubType..")")
-							if Config.Drops[SubType]['Items'][ToSlot] == nil then
-								Config.Drops[SubType]['Items'][ToSlot] = {
-									ItemName = Item,
-									Slot = ToSlot,
-									Amount = Amount,
-									Info = Player.PlayerData.Inventory[FromSlot].Info,
-									CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
-								}
-							else
-								Config.Drops[SubType]['Items'][ToSlot].Amount = Config.Drops[SubType]['Items'][ToSlot].Amount + Amount
-							end
-							Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
-							TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
-							Cb(true)
-						else
-							Cb(false)
-						end
+				if Player.Functions.AddItem(Config.Drops[SubType]['Items'][FromSlot]['ItemName'], Amount, ToSlot, Config.Drops[SubType]['Items'][FromSlot].Info, false, 'Inventory') then
+					TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Picked up  "..Amount..'x '..Config.Drops[SubType]['Items'][FromSlot]['ItemName'].. " from Drop. ("..SubType..")")
+					if (Config.Drops[SubType]['Items'][FromSlot].Amount - Amount) == 0 then
+						Config.Drops[SubType]['Items'][FromSlot] = nil
+						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
 					else
-						if Player.PlayerData.Inventory[FromSlot] == nil then return Cb(false) end
-						local PlayerCoords = GetEntityCoords(GetPlayerPed(Source))
-						local Item = Player.PlayerData.Inventory[FromSlot]['ItemName']:lower()
-
-						if Player.Functions.RemoveItem(Item, Amount, FromSlot, false) then
-							TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Threw "..Amount..'x '..Item.. " on ground. ("..SubType..")")
-							Config.Drops[SubType] = {
-								['SubType'] = SubType,
-								['Type'] = 'Drop',
-								['InvName'] = 'Drop'..SubType,
-								['InvSlots'] = DropSlots,
-								['Coords'] = vector3(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z),
-								['Heading'] = PlayerCoords.w,
-								['ItemCount'] = 1,
-								['Items'] = {
-									[ToSlot] = {
-										ItemName = Item,
-										Slot = ToSlot,
-										Amount = Amount,
-										Info = Player.PlayerData.Inventory[FromSlot].Info,
-										CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
-									},
-								},
-							}
-							OpenInventories['D'..SubType] = true
-							TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
-							Cb(true)
-						else
-							Cb(false)
-						end
+						Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
+						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
 					end
-				elseif Type == 'Trunk' or Type == 'Glovebox' or Type == 'Stash' or Type == 'Temp' then
-					local DBItems = TypeItems[Type][SubType] ~= nil and TypeItems[Type][SubType] or TriggerClientEvent('mercy-inventory/client/force-close', Source)
-					local TotalWeight = GetTotalWeight(DBItems)
+					CheckDropInventory(SubType)
+					TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
+					Cb(true)
+				else
+					Cb(false)
+				end
+			elseif Type == 'Trunk' or Type == 'Glovebox' or Type == 'Stash' or Type == 'Temp' then
+				local DBItems = TypeItems[Type][SubType] ~= nil and TypeItems[Type][SubType] or TriggerClientEvent('mercy-inventory/client/force-close', Source)
+				if DBItems == nil and DBItems[FromSlot] == nil then return Cb(false) end
 
+				if Player.Functions.AddItem(DBItems[FromSlot]['ItemName'], Amount, ToSlot, DBItems[FromSlot].Info, false, 'Inventory') then
+					TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Took  "..Amount..'x '..DBItems[FromSlot]['ItemName'].. " out of "..Type.." ("..SubType..")")
+					if (DBItems[FromSlot].Amount - Amount) == 0 then
+						DBItems[FromSlot] = nil
+					else
+						DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
+					end
+					SaveInventoryData(Type, SubType, DBItems)
+
+					Cb(true)
+				else
+					Cb(false)
+				end				
+			elseif Type == 'Player' then
+				local Item = OtherPlayer.PlayerData.Inventory[FromSlot]['ItemName']:lower()
+				if Player.Functions.AddItem(Item, Amount, ToSlot, OtherPlayer.PlayerData.Inventory[FromSlot].Info, false, 'Inventory') then
+					local ItemDataFrom = GetItemData(Item)
+					TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Took "..Amount..'x '..Item.. " out of inventory of "..OtherPlayer.PlayerData.Name..".")
+					OtherPlayer.Functions.RemoveItem(Item, Amount, FromSlot, false)
+					if ItemDataFrom['Type'] == 'Weapon' then
+						TriggerClientEvent('mercy-inventory/client/reset-weapon', OtherPlayer.PlayerData.Source)
+					end
+					TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
+					Cb(true)
+				else
+					Cb(false)
+				end
+			elseif Type == 'Crafting' then
+				local Item = OtherInventoryItems[FromSlot]['ItemName']:lower()
+				if HasCraftingItems(Source, Shared.ItemList[Item]['Cost'], Amount) then
+					if Shared.ItemList[Item]['Type'] == 'Weapon' and not Shared.ItemList[Item]['Melee'] then
+						OtherInventoryItems[FromSlot]['Info'] = {Quality = 100.0, Ammo = 5, Serial = Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()}
+					else
+						OtherInventoryItems[FromSlot]['Info'] = {Quality = 100.0}
+					end
+					TriggerClientEvent('mercy-inventory/client/craft', Source, Item, Amount, ToSlot, OtherInventoryItems[FromSlot]['Info'], Shared.ItemList[Item]['Cost'])
+					Cb('Crafting')
+				else
+					Cb(false)
+				end
+			end
+		elseif ToInventory == '.other-inventory-blocks' and FromInventory == '.my-inventory-blocks' then
+			if Type == 'Drop' then
+				if Config.Drops[SubType] ~= nil and Config.Drops[SubType]['Items'] ~= nil then
+					local TotalWeight = GetTotalWeight(Config.Drops[SubType]['Items'])
 					if Player.PlayerData.Inventory[FromSlot] == nil then return Cb(false) end
 					if not WeightCheck(MaxOtherWeight, TotalWeight, Amount, Player.PlayerData.Inventory[FromSlot].Weight) then return Cb(false) end
 
 					local Item = Player.PlayerData.Inventory[FromSlot]['ItemName']:lower()
 					if Player.Functions.RemoveItem(Item, Amount, FromSlot, false) then
-						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Put "..Amount..'x '..Item.. " in "..Type..". ("..SubType..")")
-						if DBItems[ToSlot] == nil then
-							DBItems[ToSlot] = {
+						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Threw "..Amount..'x '..Item.. " on ground. ("..SubType..")")
+						if Config.Drops[SubType]['Items'][ToSlot] == nil then
+							Config.Drops[SubType]['Items'][ToSlot] = {
 								ItemName = Item,
 								Slot = ToSlot,
 								Amount = Amount,
@@ -284,117 +234,215 @@ AddEventHandler('Modules/server/ready', function()
 								CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
 							}
 						else
-							DBItems[ToSlot].Amount = DBItems[ToSlot].Amount + Amount
+							Config.Drops[SubType]['Items'][ToSlot].Amount = Config.Drops[SubType]['Items'][ToSlot].Amount + Amount
 						end
-						SaveInventoryData(Type, SubType, DBItems)
+						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
+						TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
 						Cb(true)
 					else
 						Cb(false)
 					end
-				elseif Type == 'Player' then
-					if OtherPlayer.Functions.AddItem(Player.PlayerData.Inventory[FromSlot].ItemName, Amount, ToSlot, Player.PlayerData.Inventory[FromSlot].Info, false, 'Inventory') then
-						if Player.Functions.RemoveItem(Player.PlayerData.Inventory[FromSlot].ItemName, Amount, FromSlot, false) then
-							TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Put "..Amount..'x '..Player.PlayerData.Inventory[FromSlot].ItemName.. " in inventory of "..OtherPlayer.PlayerData.Name..".")
-							TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
-							Cb(true)
-						else
-							Cb(false)
-						end
+				else
+					if Player.PlayerData.Inventory[FromSlot] == nil then return Cb(false) end
+					local PlayerCoords = GetEntityCoords(GetPlayerPed(Source))
+					local Item = Player.PlayerData.Inventory[FromSlot]['ItemName']:lower()
+
+					if Player.Functions.RemoveItem(Item, Amount, FromSlot, false) then
+						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Threw "..Amount..'x '..Item.. " on ground. ("..SubType..")")
+						Config.Drops[SubType] = {
+							['SubType'] = SubType,
+							['Type'] = 'Drop',
+							['InvName'] = 'Drop'..SubType,
+							['InvSlots'] = DropSlots,
+							['Coords'] = vector3(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z),
+							['Heading'] = PlayerCoords.w,
+							['ItemCount'] = 1,
+							['Items'] = {
+								[ToSlot] = {
+									ItemName = Item,
+									Slot = ToSlot,
+									Amount = Amount,
+									Info = Player.PlayerData.Inventory[FromSlot].Info,
+									CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
+								},
+							},
+						}
+						OpenInventories['D'..SubType] = true
+						TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
+						Cb(true)
 					else
 						Cb(false)
 					end
 				end
-			-- Other -> Other
-			elseif ToInventory == '.other-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
-				if Type == 'Drop' then
-					if ExtraData == 'Swap' then
-						local DataFrom = Config.Drops[SubType]['Items'][FromSlot]
-						local DataTo = Config.Drops[SubType]['Items'][ToSlot]
-						Config.Drops[SubType]['Items'][ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
-						Config.Drops[SubType]['Items'][FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info, CreateDate = DataTo.CreateDate, }
-						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
-						TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
+			elseif Type == 'Trunk' or Type == 'Glovebox' or Type == 'Stash' or Type == 'Temp' then
+				local DBItems = TypeItems[Type][SubType] ~= nil and TypeItems[Type][SubType] or TriggerClientEvent('mercy-inventory/client/force-close', Source)
+				local TotalWeight = GetTotalWeight(DBItems)
+
+				if Player.PlayerData.Inventory[FromSlot] == nil then return Cb(false) end
+				if not WeightCheck(MaxOtherWeight, TotalWeight, Amount, Player.PlayerData.Inventory[FromSlot].Weight) then return Cb(false) end
+
+				local Item = Player.PlayerData.Inventory[FromSlot]['ItemName']:lower()
+				if Player.Functions.RemoveItem(Item, Amount, FromSlot, false) then
+					TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Put "..Amount..'x '..Item.. " in "..Type..". ("..SubType..")")
+					if DBItems[ToSlot] == nil then
+						DBItems[ToSlot] = {
+							ItemName = Item,
+							Slot = ToSlot,
+							Amount = Amount,
+							Info = Player.PlayerData.Inventory[FromSlot].Info,
+							CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
+						}
+					else
+						DBItems[ToSlot].Amount = DBItems[ToSlot].Amount + Amount
+					end
+					SaveInventoryData(Type, SubType, DBItems)
+					Cb(true)
+				else
+					Cb(false)
+				end
+			elseif Type == 'Player' then
+				if OtherPlayer.Functions.AddItem(Player.PlayerData.Inventory[FromSlot].ItemName, Amount, ToSlot, Player.PlayerData.Inventory[FromSlot].Info, false, 'Inventory') then
+					if Player.Functions.RemoveItem(Player.PlayerData.Inventory[FromSlot].ItemName, Amount, FromSlot, false) then
+						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Put "..Amount..'x '..Player.PlayerData.Inventory[FromSlot].ItemName.. " in inventory of "..OtherPlayer.PlayerData.Name..".")
+						TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
 						Cb(true)
-					elseif Config.Drops[SubType]['Items'][FromSlot].Amount == Amount then
-						local NewAmount = Config.Drops[SubType]['Items'][ToSlot] == nil and Amount or (Config.Drops[SubType]['Items'][ToSlot].Amount + Amount)
+					else
+						Cb(false)
+					end
+				else
+					Cb(false)
+				end
+			end
+		-- Other -> Other
+		elseif ToInventory == '.other-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
+			if Type == 'Drop' then
+				if ExtraData == 'Swap' then
+					local DataFrom = Config.Drops[SubType]['Items'][FromSlot]
+					local DataTo = Config.Drops[SubType]['Items'][ToSlot]
+					Config.Drops[SubType]['Items'][ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
+					Config.Drops[SubType]['Items'][FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info, CreateDate = DataTo.CreateDate, }
+					Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
+					TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
+					Cb(true)
+				elseif Config.Drops[SubType]['Items'][FromSlot].Amount == Amount then
+					local NewAmount = Config.Drops[SubType]['Items'][ToSlot] == nil and Amount or (Config.Drops[SubType]['Items'][ToSlot].Amount + Amount)
+					Config.Drops[SubType]['Items'][ToSlot] = {
+						ItemName = Config.Drops[SubType]['Items'][FromSlot].ItemName,
+						Slot = ToSlot,
+						Amount = NewAmount,
+						Info = Config.Drops[SubType]['Items'][FromSlot].Info,
+						CreateDate = Config.Drops[SubType]['Items'][FromSlot].CreateDate,
+					}
+					Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
+					Config.Drops[SubType]['Items'][FromSlot] = nil
+					TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
+					Cb(true)
+				elseif Config.Drops[SubType]['Items'][FromSlot].Amount > Amount then
+					if Config.Drops[SubType]['Items'][ToSlot] == nil then
 						Config.Drops[SubType]['Items'][ToSlot] = {
 							ItemName = Config.Drops[SubType]['Items'][FromSlot].ItemName,
 							Slot = ToSlot,
-							Amount = NewAmount,
+							Amount = Amount,
 							Info = Config.Drops[SubType]['Items'][FromSlot].Info,
 							CreateDate = Config.Drops[SubType]['Items'][FromSlot].CreateDate,
 						}
+						Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
 						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
-						Config.Drops[SubType]['Items'][FromSlot] = nil
 						TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
 						Cb(true)
-					elseif Config.Drops[SubType]['Items'][FromSlot].Amount > Amount then
-						if Config.Drops[SubType]['Items'][ToSlot] == nil then
-							Config.Drops[SubType]['Items'][ToSlot] = {
-								ItemName = Config.Drops[SubType]['Items'][FromSlot].ItemName,
-								Slot = ToSlot,
-								Amount = Amount,
-								Info = Config.Drops[SubType]['Items'][FromSlot].Info,
-								CreateDate = Config.Drops[SubType]['Items'][FromSlot].CreateDate,
-							}
-							Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
-							Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
-							TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
-							Cb(true)
-						else
-							Config.Drops[SubType]['Items'][ToSlot].Amount = Config.Drops[SubType]['Items'][ToSlot].Amount + Amount
-							Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
-							Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
-							TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
-							Cb(true)
-						end
+					else
+						Config.Drops[SubType]['Items'][ToSlot].Amount = Config.Drops[SubType]['Items'][ToSlot].Amount + Amount
+						Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
+						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
+						TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
+						Cb(true)
 					end
-				elseif Type == 'Trunk' or Type == 'Glovebox' or Type == 'Stash' or Type == 'Temp' then
-					local DBItems = TypeItems[Type][SubType] ~= nil and TypeItems[Type][SubType] or TriggerClientEvent('mercy-inventory/client/force-close', Source)
-					if ExtraData == 'Swap' then
-						local DataFrom = DBItems[FromSlot]
-						local DataTo = DBItems[ToSlot]
-						DBItems[ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
-						DBItems[FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info,  CreateDate = DataTo.CreateDate, }
+				end
+			elseif Type == 'Trunk' or Type == 'Glovebox' or Type == 'Stash' or Type == 'Temp' then
+				local DBItems = TypeItems[Type][SubType] ~= nil and TypeItems[Type][SubType] or TriggerClientEvent('mercy-inventory/client/force-close', Source)
+				if ExtraData == 'Swap' then
+					local DataFrom = DBItems[FromSlot]
+					local DataTo = DBItems[ToSlot]
+					DBItems[ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
+					DBItems[FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info,  CreateDate = DataTo.CreateDate, }
+					SaveInventoryData(Type, SubType, DBItems)
+					Cb(true)
+				elseif DBItems[FromSlot].Amount == Amount then
+					if DBItems[ToSlot] == nil then
+						DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
+						DBItems[FromSlot] = nil
 						SaveInventoryData(Type, SubType, DBItems)
 						Cb(true)
-					elseif DBItems[FromSlot].Amount == Amount then
-						if DBItems[ToSlot] == nil then
-							DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
-							DBItems[FromSlot] = nil
-							SaveInventoryData(Type, SubType, DBItems)
-							Cb(true)
-						else
-							DBItems[ToSlot] = { ItemName = DBItems[ToSlot].ItemName, Slot = ToSlot, Amount = DBItems[ToSlot].Amount + Amount, Info = DBItems[ToSlot].Info, CreateDate = DBItems[Info].CreateDate, }
-							DBItems[FromSlot] = nil
-							SaveInventoryData(Type, SubType, DBItems)
-							Cb(true)
-						end
-					elseif DBItems[FromSlot].Amount > Amount then
-						if DBItems[ToSlot] == nil then
-							DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
-							DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
-							SaveInventoryData(Type, SubType, DBItems)
-							Cb(true)
-						else
-							DBItems[ToSlot].Amount = DBItems[ToSlot].Amount + Amount
-							DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
-							SaveInventoryData(Type, SubType, DBItems)
-							Cb(true)
-						end
+					else
+						DBItems[ToSlot] = { ItemName = DBItems[ToSlot].ItemName, Slot = ToSlot, Amount = DBItems[ToSlot].Amount + Amount, Info = DBItems[ToSlot].Info, CreateDate = DBItems[Info].CreateDate, }
+						DBItems[FromSlot] = nil
+						SaveInventoryData(Type, SubType, DBItems)
+						Cb(true)
 					end
-				elseif Type == 'Player' then
-					local OtherItems = OtherPlayer.PlayerData.Inventory
-					if ExtraData == 'Swap' then
-						local DataFrom = OtherItems[FromSlot]
-						local DataTo = OtherItems[ToSlot]
+				elseif DBItems[FromSlot].Amount > Amount then
+					if DBItems[ToSlot] == nil then
+						DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
+						DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
+						SaveInventoryData(Type, SubType, DBItems)
+						Cb(true)
+					else
+						DBItems[ToSlot].Amount = DBItems[ToSlot].Amount + Amount
+						DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
+						SaveInventoryData(Type, SubType, DBItems)
+						Cb(true)
+					end
+				end
+			elseif Type == 'Player' then
+				local OtherItems = OtherPlayer.PlayerData.Inventory
+				if ExtraData == 'Swap' then
+					local DataFrom = OtherItems[FromSlot]
+					local DataTo = OtherItems[ToSlot]
+					local ItemDataFrom = GetItemData(OtherItems[FromSlot].ItemName:lower())
+					local ItemDataTo = GetItemData(OtherItems[ToSlot].ItemName:lower())
+					OtherItems[ToSlot] = {
+						ItemName = DataFrom.ItemName,
+						Slot = ToSlot,
+						Amount = DataFrom.Amount,
+						Info = DataFrom.Info,
+						Label = ItemDataFrom["Label"], 
+						Description = ItemDataFrom["Description"] ~= nil and ItemDataFrom["Description"] or "", 
+						Weight = ItemDataFrom["Weight"], 
+						Type = ItemDataFrom["Type"], 
+						Unique = ItemDataFrom["Unique"], 
+						Image = ItemDataFrom["Image"], 
+						Combinable = ItemDataFrom["Combinable"],
+						CreateDate = ItemDataFrom["CreateDate"],
+						Quality = ItemDataFrom["Quality"]
+					}
+					OtherItems[FromSlot] = {
+						ItemName = DataTo.ItemName,
+						Slot = FromSlot,
+						Amount = DataTo.Amount,
+						Info = DataTo.Info,
+						Label = ItemDataTo["Label"], 
+						Description = ItemDataTo["Description"] ~= nil and ItemDataTo["Description"] or "", 
+						Weight = ItemDataTo["Weight"], 
+						Type = ItemDataTo["Type"], 
+						Unique = ItemDataTo["Unique"], 
+						Image = ItemDataTo["Image"],  
+						Combinable = ItemDataTo["Combinable"],
+						CreateDate = ItemDataTo["CreateDate"],
+						Quality = ItemDataTo["Quality"]
+					}
+					OtherPlayer.Functions.SetItemData(OtherItems)
+					if ItemDataFrom['Type'] == 'Weapon' then
+						TriggerClientEvent('mercy-inventory/client/reset-weapon', OtherPlayer.PlayerData.Source)
+					end
+					TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
+					Cb(true)
+				elseif OtherItems[FromSlot].Amount == Amount then
+					if OtherItems[ToSlot] == nil then
 						local ItemDataFrom = GetItemData(OtherItems[FromSlot].ItemName:lower())
-						local ItemDataTo = GetItemData(OtherItems[ToSlot].ItemName:lower())
 						OtherItems[ToSlot] = {
-							ItemName = DataFrom.ItemName,
+							ItemName = OtherItems[FromSlot].ItemName,
 							Slot = ToSlot,
-							Amount = DataFrom.Amount,
-							Info = DataFrom.Info,
+							Amount = Amount,
+							Info = OtherItems[FromSlot].Info,
 							Label = ItemDataFrom["Label"], 
 							Description = ItemDataFrom["Description"] ~= nil and ItemDataFrom["Description"] or "", 
 							Weight = ItemDataFrom["Weight"], 
@@ -405,114 +453,72 @@ AddEventHandler('Modules/server/ready', function()
 							CreateDate = ItemDataFrom["CreateDate"],
 							Quality = ItemDataFrom["Quality"]
 						}
-						OtherItems[FromSlot] = {
-							ItemName = DataTo.ItemName,
-							Slot = FromSlot,
-							Amount = DataTo.Amount,
-							Info = DataTo.Info,
-							Label = ItemDataTo["Label"], 
-							Description = ItemDataTo["Description"] ~= nil and ItemDataTo["Description"] or "", 
-							Weight = ItemDataTo["Weight"], 
-							Type = ItemDataTo["Type"], 
-							Unique = ItemDataTo["Unique"], 
-							Image = ItemDataTo["Image"],  
-							Combinable = ItemDataTo["Combinable"],
-							CreateDate = ItemDataTo["CreateDate"],
-							Quality = ItemDataTo["Quality"]
-						}
+						OtherItems[FromSlot] = nil
 						OtherPlayer.Functions.SetItemData(OtherItems)
 						if ItemDataFrom['Type'] == 'Weapon' then
 							TriggerClientEvent('mercy-inventory/client/reset-weapon', OtherPlayer.PlayerData.Source)
 						end
 						TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
 						Cb(true)
-					elseif OtherItems[FromSlot].Amount == Amount then
-						if OtherItems[ToSlot] == nil then
-							local ItemDataFrom = GetItemData(OtherItems[FromSlot].ItemName:lower())
-							OtherItems[ToSlot] = {
-								ItemName = OtherItems[FromSlot].ItemName,
-								Slot = ToSlot,
-								Amount = Amount,
-								Info = OtherItems[FromSlot].Info,
-								Label = ItemDataFrom["Label"], 
-								Description = ItemDataFrom["Description"] ~= nil and ItemDataFrom["Description"] or "", 
-								Weight = ItemDataFrom["Weight"], 
-								Type = ItemDataFrom["Type"], 
-								Unique = ItemDataFrom["Unique"], 
-								Image = ItemDataFrom["Image"], 
-								Combinable = ItemDataFrom["Combinable"],
-								CreateDate = ItemDataFrom["CreateDate"],
-								Quality = ItemDataFrom["Quality"]
-							}
-							OtherItems[FromSlot] = nil
-							OtherPlayer.Functions.SetItemData(OtherItems)
-							if ItemDataFrom['Type'] == 'Weapon' then
-								TriggerClientEvent('mercy-inventory/client/reset-weapon', OtherPlayer.PlayerData.Source)
-							end
-							TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
-							Cb(true)
-						else
-							local ItemDataTo = GetItemData(OtherItems[ToSlot].ItemName:lower())
-							OtherItems[ToSlot] = {
-								ItemName = OtherItems[ToSlot].ItemName,
-								Slot = ToSlot,
-								Amount = OtherItems[ToSlot].Amount + Amount,
-								Info = OtherItems[ToSlot].Info,
-								Label = ItemDataTo["Label"], 
-								Description = ItemDataTo["Description"] ~= nil and ItemDataTo["Description"] or "", 
-								Weight = ItemDataTo["Weight"], 
-								Type = ItemDataTo["Type"], 
-								Unique = ItemDataTo["Unique"], 
-								Image = ItemDataTo["Image"], 
-								Combinable = ItemDataTo["Combinable"],
-								CreateDate = ItemDataTo["CreateDate"],
-								Quality = ItemDataTo["Quality"]
-							}
-							OtherItems[FromSlot] = nil
-							OtherPlayer.Functions.SetItemData(OtherItems)
-							TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
-							Cb(true)
+					else
+						local ItemDataTo = GetItemData(OtherItems[ToSlot].ItemName:lower())
+						OtherItems[ToSlot] = {
+							ItemName = OtherItems[ToSlot].ItemName,
+							Slot = ToSlot,
+							Amount = OtherItems[ToSlot].Amount + Amount,
+							Info = OtherItems[ToSlot].Info,
+							Label = ItemDataTo["Label"], 
+							Description = ItemDataTo["Description"] ~= nil and ItemDataTo["Description"] or "", 
+							Weight = ItemDataTo["Weight"], 
+							Type = ItemDataTo["Type"], 
+							Unique = ItemDataTo["Unique"], 
+							Image = ItemDataTo["Image"], 
+							Combinable = ItemDataTo["Combinable"],
+							CreateDate = ItemDataTo["CreateDate"],
+							Quality = ItemDataTo["Quality"]
+						}
+						OtherItems[FromSlot] = nil
+						OtherPlayer.Functions.SetItemData(OtherItems)
+						TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
+						Cb(true)
+					end
+				elseif OtherItems[FromSlot].Amount > Amount then
+					if OtherItems[ToSlot] == nil then
+						local ItemDataFrom = GetItemData(OtherItems[FromSlot].ItemName:lower())
+						OtherItems[ToSlot] = {
+							ItemName = OtherItems[FromSlot].ItemName,
+							Slot = ToSlot,
+							Amount = Amount,
+							Info = OtherItems[FromSlot].Info,
+							Label = ItemDataFrom["Label"], 
+							Description = ItemDataFrom["Description"] ~= nil and ItemDataFrom["Description"] or "", 
+							Weight = ItemDataFrom["Weight"], 
+							Type = ItemDataFrom["Type"], 
+							Unique = ItemDataFrom["Unique"], 
+							Image = ItemDataFrom["Image"], 
+							Combinable = ItemDataFrom["Combinable"],
+							CreateDate = ItemDataFrom["CreateDate"],
+							Quality = ItemDataFrom["Quality"]
+						}
+						OtherItems[FromSlot].Amount = OtherItems[FromSlot].Amount - Amount
+						OtherPlayer.Functions.SetItemData(OtherItems)
+						if ItemDataFrom['Type'] == 'Weapon' then
+							TriggerClientEvent('mercy-inventory/client/reset-weapon', OtherPlayer.PlayerData.Source)
 						end
-					elseif OtherItems[FromSlot].Amount > Amount then
-						if OtherItems[ToSlot] == nil then
-							local ItemDataFrom = GetItemData(OtherItems[FromSlot].ItemName:lower())
-							OtherItems[ToSlot] = {
-								ItemName = OtherItems[FromSlot].ItemName,
-								Slot = ToSlot,
-								Amount = Amount,
-								Info = OtherItems[FromSlot].Info,
-								Label = ItemDataFrom["Label"], 
-								Description = ItemDataFrom["Description"] ~= nil and ItemDataFrom["Description"] or "", 
-								Weight = ItemDataFrom["Weight"], 
-								Type = ItemDataFrom["Type"], 
-								Unique = ItemDataFrom["Unique"], 
-								Image = ItemDataFrom["Image"], 
-								Combinable = ItemDataFrom["Combinable"],
-								CreateDate = ItemDataFrom["CreateDate"],
-								Quality = ItemDataFrom["Quality"]
-							}
-							OtherItems[FromSlot].Amount = OtherItems[FromSlot].Amount - Amount
-							OtherPlayer.Functions.SetItemData(OtherItems)
-							if ItemDataFrom['Type'] == 'Weapon' then
-								TriggerClientEvent('mercy-inventory/client/reset-weapon', OtherPlayer.PlayerData.Source)
-							end
-							TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
-							Cb(true)
-						else
-							OtherItems[ToSlot].Amount = OtherItems[ToSlot].Amount + Amount
-							OtherItems[FromSlot].Amount = OtherItems[FromSlot].Amount - Amount
-							OtherPlayer.Functions.SetItemData(OtherItems)
-							TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
-							Cb(true)
-						end
+						TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
+						Cb(true)
+					else
+						OtherItems[ToSlot].Amount = OtherItems[ToSlot].Amount + Amount
+						OtherItems[FromSlot].Amount = OtherItems[FromSlot].Amount - Amount
+						OtherPlayer.Functions.SetItemData(OtherItems)
+						TriggerClientEvent('mercy-inventory/client/update-player', OtherPlayer.PlayerData.Source)
+						Cb(true)
 					end
 				end
 			end
-		end)
+		end
 	end)
 end)
-
--- [ Code ] --
 
 -- [ Events ] --
 
@@ -616,7 +622,7 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 		if Config.Drops[k] ~= nil and v['Coords'] ~= nil then
 			local Distance = #(PlayerCoords - v['Coords'])
 			if Distance <= 1.5 then 
-				print('[DEBUG:Drops]: Trying to make new drop but drop is close to another drop, adding to existing drop.')
+				print('[DEBUG:Drops]: Adding item to existing drop.')
 				Config.Drops[k]['ItemCount'] = Config.Drops[k]['ItemCount'] + 1
 				Config.Drops[k]['Items'][#Config.Drops[k]['Items'] + 1] = {
 					ItemName = ItemName,

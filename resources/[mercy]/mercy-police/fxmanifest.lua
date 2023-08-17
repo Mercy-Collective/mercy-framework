@@ -15,7 +15,6 @@ client_scripts {
 
 server_scripts {
     '@mercy-assets/server/sv_errorlog.lua',
-    '@mercy-inventory/server/sv_main.lua',
     '@mercy-base/shared/sh_shared.lua',
     'server/sv_*.lua',
 }

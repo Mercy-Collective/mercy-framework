@@ -412,13 +412,14 @@ end)
 
 AddEventHandler('onResourceStart', function(Resource)
     if Resource == GetCurrentResourceName() then
-        local Result = MySQL.query.await('SELECT state FROM player_vehicles WHERE garage = ? AND state = ?', {
+        while DatabaseModule == nil do Citizen.Wait(10) end
+        DatabaseModule.Execute('SELECT state FROM player_vehicles WHERE garage = ? AND state = ?', {
             'depot',
             'Out'
-        })
-         
-        if Result[1] == nil then return end
-        MySQL.update.await('UPDATE player_vehicles SET state = ? WHERE garage = ? AND state = ?', { 'In', 'depot', 'Out' })
+        }, function(Result)
+            if Result[1] == nil then return end
+            DatabaseModule.Update('UPDATE player_vehicles SET state = ? WHERE garage = ? AND state = ?', { 'In', 'depot', 'Out' })
+        end)
     end
 end)
 
