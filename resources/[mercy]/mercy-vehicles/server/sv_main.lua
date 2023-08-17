@@ -231,7 +231,7 @@ Citizen.CreateThread(function()
     CallbackModule.CreateCallback('mercy-vehicles/server/get-depot-vehicles', function(Source, Cb)
         local Player = PlayerModule.GetPlayerBySource(Source)
         local DepotVehs = {}
-        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE garage = ? AND state = ? AND citizenid = ?", {'depot', 'In', Player.PlayerData.CitizenId}, function(VehData)
+        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE garage = ? AND citizenid = ?", {'depot', Player.PlayerData.CitizenId}, function(VehData)
             if VehData ~= nil and VehData[1] ~= nil then
                 for k, v in pairs(VehData) do
                     if v.impounddata ~= nil then
