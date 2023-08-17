@@ -231,7 +231,7 @@ Citizen.CreateThread(function()
     CallbackModule.CreateCallback('mercy-vehicles/server/get-depot-vehicles', function(Source, Cb)
         local Player = PlayerModule.GetPlayerBySource(Source)
         local DepotVehs = {}
-        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE garage = ? AND citizenid = ?", {'depot', Player.PlayerData.CitizenId}, function(VehData)
+        DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE garage = ? AND state = ? AND citizenid = ?", {'depot', 'In', Player.PlayerData.CitizenId}, function(VehData)
             if VehData ~= nil and VehData[1] ~= nil then
                 for k, v in pairs(VehData) do
                     if v.impounddata ~= nil then
@@ -418,6 +418,20 @@ AddEventHandler('onResourceStart', function(Resource)
             'Out'
         }, function(Result)
             if Result[1] == nil then return end
+            local ImpoundData = {
+                Reason = "Illegal Parking.",
+                Fee = 200,
+                Strikes = 0,
+                RetainedUntil = os.time(),
+                ImpoundDate = os.date("%d/%m/%Y %H:%M", os.time()),
+                Plate = Result.plate,
+                Issuer = "LSPD",
+                ReleaseTxt = os.date("%d/%m/%Y %H:%M", os.time()), -- 4 hours default
+                Vehicle = Result.vehicle,
+                VIN = Result.vin,
+            }
+            
+            DatabaseModule.Update('UPDATE player_vehicles SET impounddata = ? WHERE garage = ? AND state = ?', {json.encode(ImpoundData), 'depot', 'Out'})
             DatabaseModule.Update('UPDATE player_vehicles SET state = ? WHERE garage = ? AND state = ?', { 'In', 'depot', 'Out' })
         end)
     end
