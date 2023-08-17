@@ -28,7 +28,7 @@ RegisterNUICallback("Garage/TrackVehicle", function(Data, Cb)
             exports['mercy-ui']:Notify('found', Result[2], "success")
         end)
     else
-        exports['mercy-ui']:Notify('not-found', "Can'\t find vehicle..", "error")
+        exports['mercy-ui']:Notify('not-found', "Can\'t find vehicle..", "error")
     end
     Cb('Ok')
 end)

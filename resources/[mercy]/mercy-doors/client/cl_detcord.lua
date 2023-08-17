@@ -4,8 +4,6 @@ local AlreadyDetcording = false
 
 -- [ Events ] --
 
-
-
 RegisterNetEvent('mercy-items/client/used-lockpick', function(isAdvanced)
     Citizen.SetTimeout(450, function()
         local PlayerData = PlayerModule.GetPlayerData()
@@ -28,7 +26,6 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(isAdvanced)
         end
     end)
 end)
-
 
 RegisterNetEvent('mercy-doors/client/used-detcord', function()
     Citizen.SetTimeout(450, function()

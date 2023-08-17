@@ -98,6 +98,7 @@ end)
 
 RegisterNetEvent('mercy-hospital/client/send-to-bed', function(BedId)
     Citizen.SetTimeout(50, function()
+        TriggerEvent('mercy-assets/client/attach-items')
         EnterHospitalBed(BedId)
         TriggerServerEvent('mercy-hospital/server/set-hospital-bed-busy', BedId, true)
         Citizen.Wait(25000)

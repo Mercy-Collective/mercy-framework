@@ -196,7 +196,7 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
                     end
                     ShowingVehicleHud = true
                     DisplayRadar(ShowingVehicleHud)
-                    exports['mercy-ui']:SendUIMessage('Hud', 'SetVehicleHud', {Bool = ShowingVehicleHud, Aircraft = IsAircraft, Waypoint = WaypointDistance ~= nil and WaypointDistance or 0})
+                    exports['mercy-ui']:SendUIMessage('Hud', 'SetVehicleHud', {Bool = ShowingVehicleHud, Aircraft = IsPedInAnyHeli(PlayerPedId()) or IsPedInAnyPlane(PlayerPedId()), Waypoint = WaypointDistance ~= nil and WaypointDistance or 0})
                 end
                 
                 local Plate, VehicleClass, HasBelt = GetVehicleNumberPlateText(Vehicle), GetVehicleClass(Vehicle), exports['mercy-vehicles']:GetBeltStatus()
