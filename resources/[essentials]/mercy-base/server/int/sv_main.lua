@@ -116,13 +116,20 @@ AddEventHandler('Modules/server/ready', function()
         end)
 
         CallbackModule.CreateCallback('mercy-base/server/create-vehicle', function(Source, Cb, VehicleName, TargetCoords, Plate)
+            local Tries = 100
             local Model = (type(VehicleName) == "number" and VehicleName or GetHashKey(VehicleName))
             local Coords = {['X'] = TargetCoords['X'], ['Y'] = TargetCoords['Y'], ['Z'] = TargetCoords['Z']}
             local Heading = TargetCoords['Heading']
-            local Vehicle = Citizen.InvokeNative(GetHashKey("CREATE_AUTOMOBILE"), Model, Coords['X'], Coords['Y'], Coords['Z'], Heading);
-            while not DoesEntityExist(Vehicle) do
-                Citizen.Wait(1)
+            local Vehicle = CreateVehicle(Model, Coords['X'], Coords['Y'], Coords['Z'], Heading, true, true)
+            while not DoesEntityExist(Vehicle) and Tries > 0 do
+                Citizen.Wait(100)
+                Tries = Tries - 1
             end
+            if not DoesEntityExist(Vehicle) then -- Vehicle did not spawn
+                Cb(false)
+                return
+            end
+
             if Plate ~= nil then
                 SetVehicleNumberPlateText(Vehicle, Plate)
             end

@@ -30,6 +30,7 @@ ClosePlayerInventory = function () {
         $.post( `https://${GetParentResourceName()}/CloseInventory`, JSON.stringify({
             OtherInv: CurrentOtherInventory["Type"],
             OtherName: CurrentOtherInventory["SubType"],
+            ExtraData: CurrentOtherInventory["ExtraData"],
         }));
         DisableTooltips('[data-tippy-content]');
         $(".my-inventory-weight > .inventory-weight-fill").css({ height: "0%" });

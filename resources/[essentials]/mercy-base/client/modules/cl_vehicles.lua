@@ -10,7 +10,13 @@ VehicleModule = {
     SpawnVehicle = function(VehicleName, Coords, Plate, Warp)
         local CallbackModule = exports[GetCurrentResourceName()]:FetchModule('Callback')
         local TargetCoords = {['X'] = Coords.X, ['Y'] = Coords.Y, ['Z'] = FunctionsModule.CalculateZCoords(Coords.X, Coords.Y, Coords.Z), ['Heading'] = Coords.Heading}
+     
         local VehicleNet = CallbackModule.SendCallback('mercy-base/server/create-vehicle', VehicleName, TargetCoords, Plate)
+        if not VehicleNet then
+            exports['mercy-ui']:Notify('vehicle-engine', "Vehicle failed to spawn, please try again later..", 'error')
+            return false
+        end
+
         while not NetworkDoesEntityExistWithNetworkId(VehicleNet) do
             Citizen.Wait(300)
         end
@@ -19,7 +25,6 @@ VehicleModule = {
         if Warp then
             TaskWarpPedIntoVehicle(PlayerPedId(), Vehicle, -1)
         end
-
         SetNetworkIdExistsOnAllMachines(VehicleNet, true)
         SetEntityAsMissionEntity(Vehicle, false, false)
         SetVehicleHasBeenOwnedByPlayer(Vehicle, true)

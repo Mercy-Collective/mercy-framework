@@ -11,7 +11,6 @@ AddEventHandler('Modules/client/ready', function()
         'Callback',
         'Vehicle',
         'Keybinds',
-        'Vehicle',
     }, function(Succeeded)
         if not Succeeded then return end
         PlayerModule = exports['mercy-base']:FetchModule('Player')
@@ -209,11 +208,8 @@ RegisterNetEvent('mercy-inventory/client/open-inventory-other', function(OtherDa
     Citizen.InvokeNative(0xFC695459D4D0E219, 0.5, 0.5)
     SetNuiFocus(true, true)
 
-    if OtherData['Type'] == 'Trunk' then
-        DoTrunkAnimation(Vehicle, true)
-        VehicleModule.SetVehicleDoorOpen(OtherData['ExtraData'], 5)
-    else
-        DoPickupAnimation()
+    if OtherData['Type'] ~= 'Trunk' then
+        DoPickupAnimation() 
     end
     -- Config.InventoryBusy = false
 end)
@@ -436,7 +432,7 @@ function InitInventory()
             TriggerEvent('mercy-inventory/client/open-inventory')
             return
         end
-        EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', InvName, InvType, MaxSlots, MaxWeight)
+        EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', InvName, InvType, MaxSlots, MaxWeight, Vehicle or nil)
     end)
 
     KeybindsModule.Add("openInventoryHotbar", "Player", "Show Inventory Hotbar", 'Z', function(IsPressed)
@@ -657,12 +653,12 @@ function DoTrunkAnimation(Vehicle, Open)
     Citizen.CreateThread(function()
         if Open then
             TaskTurnPedToFaceEntity(PlayerPedId(), Vehicle, 1.0)
-            SetVehicleDoorOpen(Vehicle, 5, true, false)
+            VehicleModule.SetVehicleDoorOpen(Vehicle, 5)
             FunctionsModule.RequestAnimDict('mini@repair')
             TaskPlayAnim(PlayerPedId(), 'mini@repair', 'fixing_a_player', 8.0, -8, -1, 16, 0, 0, 0, 0);
         else
             StopAnimTask(PlayerPedId(), 'mini@repair', 'fixing_a_player', 1.0)
-            SetVehicleDoorShut(Vehicle, 5, true, false)
+            VehicleModule.SetVehicleDoorShut(Vehicle, 5)
         end
     end)
 end
@@ -710,14 +706,14 @@ RegisterNUICallback('CloseInventory', function(Data, Cb)
     TriggerServerEvent('mercy-inventory/server/closed', Data.OtherInv, Data.OtherName)
     SetTimecycleModifier('default')
     if IsEntityPlayingAnim(PlayerPedId(), 'mini@repair', 'fixing_a_player', 3) then
-        SetVehicleDoorShut(Vehicle, 5, false, true)
-        StopAnimTask(PlayerPedId(), 'mini@repair', 'fixing_a_player', 1.0)
+        if Data.ExtraData ~= nil then
+            DoTrunkAnimation(Data.ExtraData, false)
+        end
     elseif Data.OtherName ~= nil and string.match(Data.OtherName, "HiddenContainer") then
         ClearPedTasks(PlayerPedId())
     else
         DoPickupAnimation()
     end
-
     TriggerServerEvent('mercy-inventory/server/check-other', Data.OtherInv, Data.OtherName)
     TriggerEvent('animations:client:EmoteCommandStart', { "c" })
     CurrentStealNumber = nil

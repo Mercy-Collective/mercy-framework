@@ -34,8 +34,6 @@ server_scripts {
 
 files {
 	'nui/index.html',
-	'nui/js/**.js',
-	'nui/css/*.css',
 }
 
 lua54 'yes'
