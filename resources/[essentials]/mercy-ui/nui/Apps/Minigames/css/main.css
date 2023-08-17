@@ -1,5 +1,6 @@
 @import url('./color.css');
 @import url('./figure.css');
+@import url('./boosting.css');
 
 .minigames-wrapper {
     width: 100vw;

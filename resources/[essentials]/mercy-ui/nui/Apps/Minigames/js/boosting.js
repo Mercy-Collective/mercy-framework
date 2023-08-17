@@ -40,8 +40,10 @@ function CheckBoostingSymbols() {
     clearInterval(BoostingTimer);
     let CurrentAttempts = (CurrentPos + CodesPos);
     CurrentAttempts %= 80;
+    $('.boosting-hack').hide();
     if (BoostingStarted && CurrentAttempts === CorrectPosition) {
-        $.post(`https://mercy-ui/Minigame/Boosting/Outcome`, JSON.stringify({
+        document.querySelector('.boosting-splash .boosting-text').innerHTML = 'SEQUENCE COMPLETED!';
+        $.post(`https://mercy-ui/Minigames/Boosting/Outcome`, JSON.stringify({
             Outcome: true
         }));
         setTimeout(() => {
@@ -49,7 +51,8 @@ function CheckBoostingSymbols() {
         }, 2000)
 
     } else {
-        $.post(`https://mercy-ui/Minigame/Boosting/Outcome`, JSON.stringify({
+        document.querySelector('.boosting-splash .boosting-text').innerHTML = 'SEQUENCE FAILED!';
+        $.post(`https://mercy-ui/Minigames/Boosting/Outcome`, JSON.stringify({
             Outcome: false
         }));
         setTimeout(() => {
@@ -113,13 +116,11 @@ function StartBoostingHack() {
     let randomChoice = ['Numeric', 'Alphabet', 'Alphanumeric', 'Greek', 'Braille', 'Runes']
     BoostingSets = randomChoice[randomNumber];
 
-    document.querySelector('.boosting-splash .boosting-text').innerHTML = 'PREPARING INTERFACE...';
-
     GeneratedCodes = [];
     for (let i = 0; i < 80; i++) {
         GeneratedCodes.push(GetRandomSetChar() + GetRandomSetChar());
     }
-    CorrectPosition = random(0, 80);
+    CorrectPosition = RandomNumberBetween(0, 80);
     let CodeToFind;
     CodeToFind = GetGroupFromPos(CorrectPosition);
     CodeToFind = '<div>' + GeneratedCodes[CodeToFind[0]] + '</div> <div>' + GeneratedCodes[CodeToFind[1]] + '</div> '+
@@ -133,28 +134,32 @@ function StartBoostingHack() {
         CodesGrid.append(div);
     }
 
-    $('.boosting-hack').show();
-    document.querySelector('.boosting-minigame-container .boosting-hack .boosting-find').innerHTML = CodeToFind;
-    DrawCodePosition();
-
-    StartingTimer = Sleep(3000, function() {
-        document.querySelector('.boosting-splash .boosting-text').innerHTML = 'CONNECTING TO THE HOST';
-
-        GameTimer = setInterval(moveCodes, 1500);
-
-        BoostingStarted = true;
-
-        let Timeout = 20;
-        StartBoostingTimer(Timeout);
-        Timeout *= 1000;
-
-        FinishedTimer = Sleep(Timeout, () => { // Check on finish
-            clearInterval(BoostingTimer);
-            BoostingStarted = false;
-            document.querySelector('.boosting-hack .boosting-timer').innerHTML = '0.00';
-            CheckBoostingSymbols();
-        });
-    });
+    setTimeout(() => {
+        document.querySelector('.boosting-splash .boosting-text').innerHTML = 'CONNECTED!';
+        setTimeout(() => {
+            $('.boosting-hack').show();
+            document.querySelector('.boosting-minigame-container .boosting-hack .boosting-find').innerHTML = CodeToFind;
+            DrawCodePosition();
+            StartingTimer = Sleep(1000, function() {
+                document.querySelector('.boosting-splash .boosting-text').innerHTML = 'CONNECTING TO THE HOST';
+    
+                GameTimer = setInterval(moveCodes, 1750);
+        
+                BoostingStarted = true;
+        
+                let Timeout = 20;
+                StartBoostingTimer(Timeout);
+                Timeout *= 1000;
+        
+                FinishedTimer = Sleep(Timeout, () => { // Check on finish
+                    clearInterval(BoostingTimer);
+                    BoostingStarted = false;
+                    document.querySelector('.boosting-hack .boosting-timer').innerHTML = '0.00';
+                    CheckBoostingSymbols();
+                });
+            });
+        }, 500);
+    }, 2000);
 }
 
 function StartBoostingTimer(Timeout) {

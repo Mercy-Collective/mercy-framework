@@ -715,7 +715,7 @@ RegisterNUICallback('CloseInventory', function(Data, Cb)
         DoPickupAnimation()
     end
     TriggerServerEvent('mercy-inventory/server/check-other', Data.OtherInv, Data.OtherName)
-    TriggerEvent('animations:client:EmoteCommandStart', { "c" })
+    TriggerEvent('mercy-animations/client/clear-animation')
     CurrentStealNumber = nil
     UsingKey = true
     Citizen.SetTimeout(500, function()

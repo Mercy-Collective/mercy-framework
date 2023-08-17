@@ -4987,3 +4987,24 @@ Shared.ItemList["spray-angels"] = {
 		{ Item = 'aluminum', Amount = 100 },
 	}
 }
+
+-- Boosting
+
+Shared.ItemList["tracker-disabler"] = {
+	['ItemName'] = "tracker-disabler",
+	['Label'] = "Tracker Disabling Tool",
+	['Weight'] = 5.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_trackerdisabler.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Tool to disable trackers?",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}

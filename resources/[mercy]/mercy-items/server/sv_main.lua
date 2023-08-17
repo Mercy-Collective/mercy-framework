@@ -622,6 +622,13 @@ Citizen.CreateThread(function()
         end
     end)
 
+    FunctionsModule.CreateUseableItem("tracker-disabler", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-tracker-disabler', Source)
+        end
+    end)
+
     -- Parts
     
     -- Axle
