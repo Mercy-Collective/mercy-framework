@@ -16,10 +16,11 @@ Citizen.CreateThread(function()
         if not OnPress then return end
         
         local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+        if Vehicle == 0 then return end
+
         local VehicleClass = GetVehicleClass(Vehicle)
         local HarnessLevel = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, "Harness")
 
-        if Vehicle == 0 then return end
 
         if VehicleClass ~= 8 and VehicleClass ~= 13 and VehicleClass ~= 14 and GetEntityModel(Vehicle) ~= GetHashKey('polbike') then
             if HarnessLevel and HarnessLevel > 0.0 then
