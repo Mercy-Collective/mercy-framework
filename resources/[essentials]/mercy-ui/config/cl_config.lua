@@ -518,6 +518,10 @@ Config.Locations = {
         Type = 'Jail',
         Hidden = true,
     },
+    {
+        Id = "last_location",
+        Name = 'Last Location',
+    },
 }
 
 -- Characters
@@ -589,25 +593,25 @@ Config.DefaultPreferences = {
 
 -- Police Alerts
 Config.AlertBlip = {
-    ['EMS Down!'] = 429,
-    ['Officer Down!'] = 429,
-    ['Injured Civilian!'] = 621,
-    ['Illegal Hunting!'] = 141,
-    ['Fight In Progress!'] = 311,
-    ['Deadly Fight In Progress!'] = 154,
-    ['Gun Shots Reported From Vehicle!'] = 229,
-    ['Gun Shots Reported!'] = 313,
-    ['Store Alarm!'] = 59,
-    ['Banktruck Alarm!'] = 67,
-    ['911 Call!'] = 47,
-    ['Explosion Alert!'] = 486,
-    ['Robbery At The Fleeca Bank!'] = 108,
-    ['Suspicious Activity!'] = 66,
-    ['Robbery At Bobcat Security!'] = 106,
-    ['Robbery At The Jewelery Store!'] = 617,
-    ['Car Theft In Progress!'] = 620,
-    ['Burglary!'] = 40,
-    ['Bank Monitor!'] = 606,
+    ['EMS Down'] = 429,
+    ['Officer Down'] = 429,
+    ['Injured Person'] = 621,
+    ['Illegal Hunting'] = 141,
+    ['Fight In Progress'] = 311,
+    ['Deadly Fight In Progress'] = 154,
+    ['Gun Shots Reported From Vehicle'] = 229,
+    ['Gun Shots Reported'] = 313,
+    ['Store Alarm'] = 59,
+    ['Banktruck Alarm'] = 67,
+    ['911 Call'] = 47,
+    ['Explosion Alert'] = 486,
+    ['Robbery At The Fleeca Bank'] = 108,
+    ['Investigate Suspicious Activity'] = 66,
+    ['Robbery At Bobcat Security'] = 106,
+    ['Robbery At The Jewelery Store'] = 617,
+    ['Car Theft In Progress'] = 620,
+    ['Breaking and entering'] = 40,
+    ['Bank Monitor'] = 606,
 }
 
 Config.Sounds = {
@@ -617,6 +621,14 @@ Config.Sounds = {
     'ringing',
     'unlock',
     'lock',
+}
+
+Config.VehicleOperatingTypes = {
+    ['Car'] = true, -- True = active
+    ['Motorbike'] = false,
+    ['Bicycle'] = false,
+    ['Boat'] = false,
+    ['Helicopter'] = false,
 }
 
 -- Media

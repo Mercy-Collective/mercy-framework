@@ -157,19 +157,28 @@ CreateThread(function()
 
     -- [ Commands ] --
 
+    CommandsModule.Add("311", "Police chat", {{Name="Message", Help="Message"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local MessageData = {}
+        MessageData['Id'] = source
+        MessageData['Who'] = Player.PlayerData.CharInfo.Firstname..' | '..Player.PlayerData.CharInfo.Lastname..' # '..Player.PlayerData.CharInfo.PhoneNumber
+        MessageData['Message'] = table.concat(args, ' ')
+        TriggerClientEvent('mercy-police/client/send-311', -1, MessageData)
+    end)
+
     CommandsModule.Add("911", "Call emergency services", {{Name="Message", Help="Message"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
         local CallData = {}
         CallData['Id'] = source
-        CallData['Who'] = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
+        CallData['Who'] = Player.PlayerData.CharInfo.Firstname..' | '..Player.PlayerData.CharInfo.Lastname..' # '..Player.PlayerData.CharInfo.PhoneNumber
         CallData['Message'] = table.concat(args, ' ')
-        TriggerClientEvent('mercy-police/client/send-911', source, CallData, false)
+        TriggerClientEvent('mercy-police/client/send-911', -1, CallData, false)
     end)
 
     CommandsModule.Add("911a", "Call emergency services anonymously", {{Name="Message", Help="Message"}}, false, function(source, args)
         local CallData = {}
         CallData['Message'] = table.concat(args, ' ')
-        TriggerClientEvent('mercy-police/client/send-911', source, CallData, true)
+        TriggerClientEvent('mercy-police/client/send-911', -1, CallData, true)
     end)
 
     -- CommandsModule.Add("911r", "Reply on a 911 call", {{Name="Id", Help="Id"}, {Name="Message", Help="Message"}}, false, function(source, args)
@@ -195,13 +204,7 @@ CreateThread(function()
     --     end
     -- end)
 
-    CommandsModule.Add("callsign", "View callsign", {}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        if Player.PlayerData.Job.Name ~= 'police' then return end
-        TriggerClientEvent('mercy-chat/client/post-message', source, 'DEPARTMENT', Player.PlayerData.Job.Callsign, 'warning')
-    end)
-
-    CommandsModule.Add("setcallsign", "Set callsign", {{Name="Callsign", Help="Callsign"}}, false, function(source, args)
+    CommandsModule.Add("callsign", "Assign yourself a callsign.", {{Name="Callsign", Help="Callsign"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
         local Callsign = args[1]
         if Callsign ~= nil then
@@ -224,7 +227,7 @@ CreateThread(function()
         local Player = PlayerModule.GetPlayerBySource(source)
         local Department = args[1]
         if Department ~= nil and Department == 'LSPD' or Department == 'BCSO' or Department == 'SASP' then
-            if Player.PlayerData.Job.Name == 'police' or Player.PlayerData.Job.Name == 'ems' and Player.PlayerData.Job.Duty then
+            if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
                 Player.Functions.SetDepartment(Department)
                 Player.Functions.Notify('sign-changed', 'Department succesfully changed. You now on the '..Department..'  department.', 'success')
             else
@@ -247,7 +250,7 @@ CreateThread(function()
                     TargetPlayer.Functions.Notify('got-no-highcom', 'You are no longer highcommand!', 'error')
                     Player.Functions.Notify('no-highcom', 'Person is no longer highcommand!', 'error')
                 end
-                TargetPlayer.Functions.Save()
+                -- TargetPlayer.Functions.Save()
             end
         end
     end, "admin")
@@ -274,7 +277,7 @@ CreateThread(function()
                 TargetPlayer.Functions.Notify('got-hired-off', 'You got hired at the PD!', 'success')
                 Player.Functions.Notify('hired-off', 'You hired '..TargetPlayer.PlayerData.CharInfo.Firstname..' '..TargetPlayer.PlayerData.CharInfo.Lastname..'!', 'success')
                 TargetPlayer.Functions.SetJob('police')
-                TargetPlayer.Functions.Save()
+                -- TargetPlayer.Functions.Save()
             end
         end
     end)
@@ -287,7 +290,7 @@ CreateThread(function()
                 TargetPlayer.Functions.Notify('got-fired-off', 'You got fired!', 'error')
                 Player.Functions.Notify('fired-off', 'You fired '..TargetPlayer.PlayerData.CharInfo.Firstname..' '..TargetPlayer.PlayerData.CharInfo.Lastname..'!', 'success')
                 TargetPlayer.Functions.SetJob('unemployed')
-                TargetPlayer.Functions.Save()
+                -- TargetPlayer.Functions.Save()
             else
                 Player.Functions.Notify('not-police', 'This person is not a police officer!', 'error')
             end

@@ -295,7 +295,7 @@ PlayerModule = {
         PlayerData.Job = PlayerData.Job ~= nil and PlayerData.Job or {}
         PlayerData.Job.Name = PlayerData.Job.Name ~= nil and PlayerData.Job.Name or 'unemployed'
         PlayerData.Job.Label = PlayerData.Job.Label ~= nil and PlayerData.Job.Label or 'Unemployed'
-        PlayerData.Job.Callsign = PlayerData.Job.Callsign ~= nil and PlayerData.Job.Callsign or 'XXX'
+        PlayerData.Job.Callsign = PlayerData.Job.Callsign ~= nil and PlayerData.Job.Callsign or 'TBD'
         PlayerData.Job.Rank = PlayerData.Job.Rank ~= nil and PlayerData.Job.Rank or 'Officer'
         PlayerData.Job.Department = PlayerData.Job.Department ~= nil and PlayerData.Job.Department or 'LSPD'
         PlayerData.Job.Salary = PlayerData.Job.Salary ~= nil and PlayerData.Job.Salary or 10

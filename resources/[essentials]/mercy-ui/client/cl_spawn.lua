@@ -46,8 +46,8 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
         local Locations = {}
         local PlayerData = PlayerModule.GetPlayerData()
         while PlayerData == nil do
-            Wait(100)
             PlayerData = PlayerModule.GetPlayerData()
+            Wait(100)
         end
         
         if PlayerData.MetaData['Jail'] > 0 then
@@ -64,6 +64,7 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
             return
         end
 
+        -- Own Houses
         local Houses = exports['mercy-housing']:GetHouseConfig()
         for k, v in pairs(Houses) do
             if GetSpawnData('house_'..v.Name) == nil then
@@ -79,7 +80,7 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
         end
 
         local FavoriteSpawnLoc = GetResourceKvpString("spawn_favorite")
-        -- Houses
+        -- Keyholder Houses
         local Result = CallbackModule.SendCallback('mercy-houses/server/get-houses-keyholder', PlayerData.CitizenId)
         for k, v in pairs(Result) do
             table.insert(Locations, {
@@ -94,13 +95,15 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
         -- Locations
         for k, v in pairs(Config.Locations) do
             if not v.Hidden then
-                table.insert(Locations, {
-                    Id = v.Id,
-                    Name = v.Name,
-                    Icon = v.Icon,
-                    Coords = { X = v.Coords.X, Y = v.Coords.Y },
-                    Favorited = FavoriteSpawnLoc ~= nil and FavoriteSpawnLoc == v.Id or false,
-                })
+                if v.Id ~= 'last_location' then
+                    table.insert(Locations, {
+                        Id = v.Id,
+                        Name = v.Name,
+                        Icon = v.Icon,
+                        Coords = { X = v.Coords.X, Y = v.Coords.Y },
+                        Favorited = FavoriteSpawnLoc ~= nil and FavoriteSpawnLoc == v.Id or false,
+                    })
+                end
             end
         end
 
@@ -109,7 +112,7 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
             table.insert(Locations, {
                 Id = 'last_location',
                 Name = 'Last Location',
-                Icon = 'fas fa-location-crosshairs',
+                Icon = 'fas fa-map-pin',
                 Coords = { X = PlayerData.Position.x, Y =  PlayerData.Position.y },
             })
         end

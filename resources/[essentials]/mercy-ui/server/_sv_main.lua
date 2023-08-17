@@ -1,5 +1,6 @@
 CallbackModule, PlayerModule, DatabaseModule, FunctionsModule, CommandsModule, EventsModule = nil, nil, nil, nil, nil, nil
 local ResetStress = false
+local DispatchData = {}
 
 local _Ready = false
 AddEventHandler('Modules/server/ready', function()
@@ -27,8 +28,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(4) 
     end 
     -- [ Callbacks ] --
-            
-    CallbackModule.CreateCallback('mercy-ui/server/police-get-duty-people', function(source, Cb)
+
+    CallbackModule.CreateCallback('mercy-ui/server/police/get-duty-people', function(source, Cb)
         local PoliceInDuty = {}
         for k, v in pairs(PlayerModule.GetPlayers()) do
             local Player = PlayerModule.GetPlayerBySource(v)
@@ -261,7 +262,7 @@ RegisterNetEvent("mercy-ui/server/send-panic-button", function(StreetLabel, Type
         ['AlertId'] = AlertId,
         ['AlertType'] = AlertType,
         ['AlertCode'] = '10-13',
-        ['AlertName'] = IsCop and 'Officer Down!' or IsEMS and 'EMS Down!' or 'Panic Button!',
+        ['AlertName'] = IsCop and 'Officer Down!' or IsEMS and 'EMS Down!' or 'Panic Button',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = false,
         ['AlertTime'] = os.date(),
@@ -286,7 +287,7 @@ RegisterNetEvent("mercy-ui/server/send-explosion", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-02C',
-        ['AlertName'] = 'Explosion Alert!',
+        ['AlertName'] = 'Explosion Alert',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -307,7 +308,7 @@ RegisterNetEvent("mercy-ui/server/send-stealing-vehicle", function(StreetLabel, 
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-35',
-        ['AlertName'] = 'Car Theft In Progress!',
+        ['AlertName'] = 'Car Theft In Progress',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -331,7 +332,7 @@ RegisterNetEvent("mercy-ui/server/send-bank-monitor", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-10A',
-        ['AlertName'] = 'Bank Monitor!',
+        ['AlertName'] = 'Bank Monitor',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -357,7 +358,7 @@ RegisterNetEvent("mercy-ui/server/send-bank-rob", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-42A',
-        ['AlertName'] = 'Robbery At The Fleeca Bank!',
+        ['AlertName'] = 'Robbery At The Fleeca Bank',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -378,7 +379,7 @@ RegisterNetEvent("mercy-ui/server/send-banktruck-rob", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-03A',
-        ['AlertName'] = 'Banktruck Alarm!',
+        ['AlertName'] = 'Banktruck Alarm',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -399,7 +400,7 @@ RegisterNetEvent("mercy-ui/server/send-bobcat-rob", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-03A',
-        ['AlertName'] = 'Robbery At Bobcat Security!',
+        ['AlertName'] = 'Robbery At Bobcat Security',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -420,8 +421,8 @@ RegisterNetEvent("mercy-ui/server/send-houses-rob", function(StreetLabel)
     AlertList[AlertId] = {
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-63B',
-        ['AlertName'] = 'Burglary!',
+        ['AlertCode'] = '10-31A',
+        ['AlertName'] = 'Breaking and entering',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -442,7 +443,7 @@ RegisterNetEvent("mercy-ui/server/send-jewelery-rob", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-42C',
-        ['AlertName'] = 'Robbery At The Jewelery Store!',
+        ['AlertName'] = 'Robbery At The Jewelery Store',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -462,8 +463,8 @@ RegisterNetEvent("mercy-ui/server/send-suspicious", function(StreetLabel)
     AlertList[AlertId] = {
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-18A',
-        ['AlertName'] = 'Suspicious Activity!',
+        ['AlertCode'] = '10-37',
+        ['AlertName'] = 'Investigate Suspicious Activity',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -488,7 +489,7 @@ RegisterNetEvent("mercy-ui/server/send-store-rob", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-98A',
-        ['AlertName'] = 'Store Alarm!',
+        ['AlertName'] = 'Store Alarm',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -509,7 +510,7 @@ RegisterNetEvent("mercy-ui/server/send-pacific-rob", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-42B',
-        ['AlertName'] = 'Robbery At The Fleeca Bank!',
+        ['AlertName'] = 'Robbery At The Fleeca Bank',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -533,8 +534,8 @@ RegisterNetEvent("mercy-ui/server/send-civ-injured", function(StreetLabel)
     AlertList[AlertId] = {
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-42B',
-        ['AlertName'] = 'Injured Civilian!',
+        ['AlertCode'] = '10-47',
+        ['AlertName'] = 'Injured Person',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = false,
         ['AlertTime'] = os.date(),
@@ -556,7 +557,7 @@ RegisterNetEvent("mercy-ui/server/send-civ-alert", function(StreetLabel, Data, A
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-12A',
-        ['AlertName'] = '911 Call!',
+        ['AlertName'] = '911 Call',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = false,
         ['AlertTime'] = os.date(),
@@ -587,7 +588,7 @@ RegisterNetEvent("mercy-ui/server/send-hunting-illegal", function(StreetLabel)
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-57A',
-        ['AlertName'] = 'Illegal Hunting!',
+        ['AlertName'] = 'Illegal Hunting',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -608,7 +609,7 @@ RegisterNetEvent("mercy-ui/server/send-fighting-progress", function(StreetLabel,
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-10',
-        ['AlertName'] = not Melee and 'Fight In Progress!' or 'Deadly Fight In Progress!',
+        ['AlertName'] = not Melee and 'Fight In Progress!' or 'Deadly Fight In Progress',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -635,7 +636,7 @@ RegisterNetEvent("mercy-ui/server/send-shooting-progress", function(StreetLabel,
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = IsInVehicle and '10-47B' or '10-47A',
-        ['AlertName'] = not IsInVehicle and 'Gun Shots Reported!' or 'Gun Shots Reported From Vehicle!',
+        ['AlertName'] = not IsInVehicle and 'Gun Shots Reported!' or 'Gun Shots Reported From Vehicle',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),

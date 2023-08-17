@@ -82,25 +82,28 @@ let SetupSpawns = (Spawns) => {
         Spawns[i].SpawnIndex = i;
     }
 
-    for (let i = Spawns.length - 1; i >= 0; i--) {
-        let IsNear = IsNearPoint(Spawns, i)
-        SpawnsClose[i] = IsNear
-    }
+    // for (let i = Spawns.length - 1; i >= 0; i--) {
+    //     let Spawn = Spawns[i];
+    //     if (Spawn.Id != "last_location") { // Don't stack last location
+    //         let IsNear = IsNearPoint(Spawns, i)
+    //         SpawnsClose[i] = IsNear
+    //     }
+    // }
 
-    for (let i = 0; i <= Spawns.length - 1; i++) {
-        if (SpawnsClose[i].length >= 1 ) {
-            let Parent = ObtainParent(Spawns, i)
-            Spawns[i].Parent = Parent
-            Spawns[i].Stacked = true;
-            Spawns[i].Spawns = {}
-        } else {
-            Spawns[i].Parent = i
-        }
-    }
+    // for (let i = 0; i <= Spawns.length - 1; i++) {
+        // if (SpawnsClose[i].length >= 1 ) {
+        //     let Parent = ObtainParent(Spawns, i)
+        //     Spawns[i].Parent = Parent
+        //     Spawns[i].Stacked = true;
+        //     Spawns[i].Spawns = {}
+        // } else {
+        //     Spawns[i].Parent = i
+        // }
+    // }
     
     AllSpawns = Spawns;
 
-    let DrawnParents = {};
+    // let DrawnParents = {};
 
     $.each(Spawns, function(i, Elem){
         if (Elem.Favorited) {
@@ -110,12 +113,12 @@ let SetupSpawns = (Spawns) => {
         };
     
         $('.map').find(`[data-id="${Elem.Id}"]`).remove();
-        if (Elem.Stacked && DrawnParents[Elem.Parent] == undefined) {
-            DrawnParents[Elem.Parent] = true;
-            $('.map').append(`<div data-id='${Elem.Id}' data-name="${Elem.Name}" data-parent='${Elem.Parent}' class="map-marker" style="top: ${Elem.CoordsX}px !important; left: ${Elem.CoordsY}px !important;"><i class="fas fa-chevron-circle-right"></i></div>`)
-        } else if (!Elem.Stacked) {
+        // if (Elem.Stacked && DrawnParents[Elem.Parent] == undefined) {
+        //     DrawnParents[Elem.Parent] = true;
+        //     $('.map').append(`<div data-id='${Elem.Id}' data-name="${Elem.Name}" data-parent='${Elem.Parent}' class="map-marker" style="top: ${Elem.CoordsX}px !important; left: ${Elem.CoordsY}px !important;"><i class="fas fa-chevron-circle-right"></i></div>`)
+        // } else if (!Elem.Stacked) {
             $('.map').append(`<div data-id='${Elem.Id}' data-name="${Elem.Name}" data-parent='none' class="map-marker ${Elem.Favorited ? ' marker-favorited' : ''}" style="top: ${Elem.CoordsX}px !important; left: ${Elem.CoordsY}px !important; ${Elem.Type == 'house' ? 'color: #d63031 !important;' : ''}"><i class="${Elem.Icon}"></i></div>`)
-        }
+        // }
     });
 };
 
@@ -127,7 +130,6 @@ $(document).on('click', '.spawn-hover .spawn-button', function(e){
 
 $(document).on('click', '.map-fav-item', function(e){
     e.preventDefault();
-    console.log($(this).attr("data-spawn"));
     if ($(this).attr("data-spawn") == 'none') return;
 
     $.post("https://mercy-ui/Spawn/SelectSpawn", JSON.stringify({
@@ -160,19 +162,17 @@ $(document).on({
                 $(`[data-id="${Data.Id}"]`).addClass('marker-favorited');
                 if (Data.PrevId) { // Remove previous if selected different spawn
                     FavoritedSpawns = 0;
-                    console.log('Unfavoriting Previous ', Data.PrevId);
                     $(`[data-id="${Data.PrevId}"]`).removeClass('marker-favorited');
                 }
 
                 FavoritedSpawns++;
-                $('.map-fav-items').remove();
+                $('.map-fav-items').empty();
                 $('.map-fav-items').append(`<div data-spawn="${Data.Id}" class="map-fav-item favorited">${Data.Name}</div>`);
             } else {                
                 $(`[data-id="${Data.Id}"]`).removeClass('marker-favorited');
 
                 FavoritedSpawns--;
                 $('.map-fav-items').empty();
-                console.log(FavoritedSpawns);
                 if (FavoritedSpawns <= 0) {
                     $('.map-fav-items').append('<div data-spawn="none" class="map-fav-item no-favorites">No Favorited Spawn</div>');
                     setTimeout(() => {
@@ -189,7 +189,7 @@ $(document).on({
             left: e.pageX + 30
         })
 
-        if ($(this).attr("data-parent") == 'none') {
+        // if ($(this).attr("data-parent") == 'none') {
             // if ($(this).attr("data-id").contains("house_")) {
             //     $.post("https://mercy-ui/Spawn/GetHouseData", JSON.stringify({
             //         Id: $(this).attr("data-id"),
@@ -203,15 +203,15 @@ $(document).on({
             }), function(Result){
                 $('.spawn-hover').html(`<p>${Result.Name}</p>`);
             });
-        } else {
-            let Spawns = GetSpawnsFromGroup(AllSpawns, $(this).attr("data-parent"));
+        // } else {
+        //     let Spawns = GetSpawnsFromGroup(AllSpawns, $(this).attr("data-parent"));
             
-            $('.spawn-hover').empty();
-            for (let i = 0; i < Spawns.length; i++) {
-                const Spawn = Spawns[i];
-                $('.spawn-hover').append(`<div data-id='${Spawn.Id}' class="spawn-button">${Spawn.Name}</div>`)
-            };
-        };
+        //     $('.spawn-hover').empty();
+        //     for (let i = 0; i < Spawns.length; i++) {
+        //         const Spawn = Spawns[i];
+        //         $('.spawn-hover').append(`<div data-id='${Spawn.Id}' class="spawn-button">${Spawn.Name}</div>`)
+        //     };
+        // };
 
         $('.spawn-hover').show();
     },
