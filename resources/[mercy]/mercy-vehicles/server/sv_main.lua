@@ -431,8 +431,7 @@ AddEventHandler('onResourceStart', function(Resource)
                 VIN = Result.vin,
             }
             
-            DatabaseModule.Update('UPDATE player_vehicles SET impounddata = ? WHERE garage = ? AND state = ?', {json.encode(ImpoundData), 'depot', 'Out'})
-            DatabaseModule.Update('UPDATE player_vehicles SET state = ? WHERE garage = ? AND state = ?', { 'In', 'depot', 'Out' })
+            DatabaseModule.Update('UPDATE player_vehicles SET state = ?, impounddata = ? WHERE garage = ? AND state = ?', { 'In', json.encode(ImpoundData), 'depot', 'Out' })
         end)
     end
 end)
