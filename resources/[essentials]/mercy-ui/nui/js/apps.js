@@ -71,13 +71,6 @@ RegisteredApps = [
         status: false,
     },
     {
-        app: 'Laptop',
-        html: ['index.html'],
-        css: ['main.css'],
-        js: ['main.js', 'boosting.js', 'market.js', 'mining.js'],
-        status: false,
-    },
-    {
         app: 'Pdm',
         html: ['index.html'],
         css: ['main.css'],
@@ -150,7 +143,7 @@ RegisteredApps = [
     {
         app: 'Minigames',
         html: ['index.html'],
-        css: ['main.css', 'color.css', 'figure.css', 'boosting.css'],
+        css: ['main.css'],
         js: ['main.js', 'memory.js', 'color.js', 'figure.js', 'boosting.js'],
         status: false,
     },

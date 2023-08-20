@@ -130,8 +130,20 @@ RegisterNetEvent('mercy-phone/client/set-call-id', function(CallId)
     Contacts.CallId = CallId
 end)
 
-RegisterNetEvent('mercy-phone/client/call/force-disconnect', function()
+RegisterNetEvent('mercy-phone/client/call/do-anim', function()
     if Contacts.CallId ~= nil then
-        TriggerEvent('mercy-phone/client/calling/answer-call', { Declined = true, Id = Contacts.CallId })
+        Phone.DoAnim(false, true, false)
+    else
+        Phone.DoAnim(false, false, true)
+    end
+end)
+
+RegisterNetEvent('mercy-phone/client/call/force-disconnect', function(Payphone)
+    if Contacts.CallId ~= nil then
+        if Payphone ~= nil and Payphone then
+            TriggerEvent('mercy-phone/client/calling/answer-call', { Declined = true, CallName = "Payphone", IsPayphone = true, Id = Contacts.CallId })
+        else
+            TriggerEvent('mercy-phone/client/calling/answer-call', { Declined = true, Id = Contacts.CallId })
+        end
     end
 end)

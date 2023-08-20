@@ -117,6 +117,95 @@ Citizen.CreateThread(function()
         )
     end
     
+    EventsModule.RegisterServer('mercy-phone/server/dial-payphone', function(Source, Data)
+        -- Data.Phone, Data.CallerName, Data.CallingFrom
+        Data.Phone = Data.Phone:gsub('%-', '')
+        local Caller = PlayerModule.GetPlayerBySource(Source)
+        local RecData = GetReceiverData(Caller, Data.Phone)
+        local Receiver = false
+        if RecData then
+            Receiver = PlayerModule.GetPlayerByStateId(RecData.stateIdReceiver)
+        end
+        if RecData and Receiver then -- Check if online
+            if Calls[Data.Phone] == nil then
+                Calls[Data.Phone] = {
+                    InCall = false,
+                    Caller = Caller.PlayerData.Source,
+                    Receiver = Receiver.PlayerData.Source,
+                }
+                TriggerClientEvent('mercy-phone/client/set-call-id', Caller.PlayerData.Source, Data.Phone)
+                TriggerClientEvent('mercy-phone/client/set-call-id', Receiver.PlayerData.Source, Data.Phone)
+                TriggerClientEvent('mercy-phone/client/call/do-anim', Caller.PlayerData.Source)
+                TriggerClientEvent('mercy-phone/client/set-call-data', Caller.PlayerData.Source, {
+                    Payphone = true,
+                    Id = Data.Phone,
+                })
+    
+                Wait(1500)
+                if AlreadyStoppedCall(Data.Phone, Caller) then return end -- Check if caller already hung up on connect message
+                local ReceiverName = FormatPhone(Data.Phone)
+              
+                -- Add prompt to receiver
+                TriggerClientEvent('mercy-phone/client/notification', Receiver.PlayerData.Source, {
+                    Id = Data.Phone..'-receiver',
+                    Title = Data.CallerName,
+                    Message = "Incoming call...",
+                    Icon = "fas fa-phone",
+                    IconBgColor = "#4f5efc",
+                    IconColor = "white",
+                    Sticky = true,
+                    Duration = 10000,
+                    Buttons = {
+                        {
+                            Icon = "fas fa-times-circle",
+                            Event = "mercy-phone/client/call/force-disconnect",
+                            EventData = true,
+                            Tooltip = "Disconnect",
+                            Color = "#f2a365",
+                            CloseOnClick = false,
+                        },
+                        {
+                            Icon = "fas fa-check-circle",
+                            Event = "mercy-phone/client/calling/answer-call",
+                            EventData = { Declined = false, Id = Data.Phone, CallName = Data.CallerName, IsPayphone = true, },
+                            Tooltip = "Answer",
+                            Color = "#2ecc71",
+                            CloseOnClick = false,
+                        },
+                    },
+                })
+            -- Do call sounds and stuff
+                local RepeatTimeout = 2000
+                local Tries = 0
+                while Calls[Data.Phone] ~= nil and not Calls[Data.Phone].InCall do
+                    Tries = Tries + 1
+                    if Tries < 5 then
+                        local PlayerCoords = GetEntityCoords(GetPlayerPed(Source))
+                        local TargetCoords = GetEntityCoords(GetPlayerPed(Receiver.PlayerData.Source))
+                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Source, {[1] = PlayerCoords.x, [2] = PlayerCoords.y, [3] = PlayerCoords.z}, 5.0, "phone-calling", 0.6)
+                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Receiver.PlayerData.Source, {[1] = TargetCoords.x, [2] = TargetCoords.y, [3] = TargetCoords.z}, 5.0, "phone-ringing", 0.6)
+                    else                            
+                        TriggerClientEvent('mercy-phone/client/call/force-disconnect', Source)
+                        TriggerClientEvent('mercy-phone/client/hide-notification', Source, Data.Phone..'-caller')
+                        TriggerClientEvent('mercy-phone/client/hide-notification', Receiver.PlayerData.Source, Data.Phone..'-receiver')
+                        Tries = 0
+                        break
+                    end
+                    Citizen.Wait(RepeatTimeout)
+                end
+
+            else
+                Caller.Functions.Notify('This number is currently unavailable..', 'error', 3500)
+            end
+        else -- Receiver Offline
+            TriggerClientEvent('mercy-phone/client/hide-notification', Source, Data.Phone..'-caller')
+            TriggerClientEvent('mercy-phone/client/call/force-disconnect', Source)
+            return
+        end
+
+
+    end)
+    
     EventsModule.RegisterServer("mercy-phone/server/contacts/call-contact", function(Source, Data)
         Data.ContactData.number = Data.ContactData.number:gsub('%-', '')
         local Caller = PlayerModule.GetPlayerBySource(Source)
@@ -255,6 +344,7 @@ Citizen.CreateThread(function()
         local Caller = PlayerModule.GetPlayerBySource(CallData.Caller)
         local Receiver = PlayerModule.GetPlayerBySource(CallData.Receiver)
         if Caller and Receiver then
+            local IsPayphone = Data.IsPayphone ~= nil and Data.IsPayphone or false
             if not Data.Declined then
                 CallData.InCall = true
                 TriggerClientEvent('mercy-phone/client/set-notification-buttons', Receiver.PlayerData.Source, Data.Id..'-receiver', {
@@ -262,6 +352,7 @@ Citizen.CreateThread(function()
                         Icon = "fas fa-times-circle",
                         Event = "mercy-phone/client/call/force-disconnect",
                         Tooltip = "Disconnect",
+                        EventData = IsPayphone,
                         Color = "#f2a365",
                         CloseOnClick = false,
                     },
@@ -276,22 +367,29 @@ Citizen.CreateThread(function()
                 TriggerClientEvent('mercy-phone/client/contacts/connect-voice', Caller.PlayerData.Source, false, Receiver.PlayerData.CharInfo.PhoneNumber)
                 TriggerClientEvent('mercy-phone/client/set-call-id', Caller.PlayerData.Source, nil)
                 TriggerClientEvent('mercy-phone/client/set-call-id', Receiver.PlayerData.Source, nil)
+                if IsPayphone then
+                    TriggerClientEvent('mercy-phone/client/set-call-data', Caller.PlayerData.Source, false)
+                end
                 SetTimeout(1500, function()
                     TriggerClientEvent('mercy-phone/client/hide-notification', Caller.PlayerData.Source, Data.Id..'-caller')
                     TriggerClientEvent('mercy-phone/client/hide-notification', Receiver.PlayerData.Source, Data.Id..'-receiver')
                 end)
             end
     
+            print('From payphone?', IsPayphone)
+
             -- Add Logs
             local ReceiverName = Data.RecName ~= nil and Data.RecName or FormatPhone(Receiver.PlayerData.CharInfo.PhoneNumber)
             local CallLogReceiver = { Type = 'Outgoing', Name = ReceiverName, Timestamp = os.date(), Contact = {
                 number = Receiver.PlayerData.CharInfo.PhoneNumber,
             }}
             local CallerName = Data.CallName ~= nil and Data.CallName or FormatPhone(Caller.PlayerData.CharInfo.PhoneNumber)
-            local CallLogSender = { Type = 'Incoming', Name = CallerName, Timestamp = os.date(), Contact = {
+            local CallLogSender = { Type = 'Incoming', IsPayphone = IsPayphone, Name = CallerName, Timestamp = os.date(), Contact = {
                 number = Caller.PlayerData.CharInfo.PhoneNumber,
             }}
-            TriggerClientEvent('mercy-phone/client/calls/add-call-log', Caller.PlayerData.Source, CallLogReceiver)
+            if not IsPayphone then
+                TriggerClientEvent('mercy-phone/client/calls/add-call-log', Caller.PlayerData.Source, CallLogReceiver)
+            end
             TriggerClientEvent('mercy-phone/client/calls/add-call-log', Receiver.PlayerData.Source, CallLogSender)
         else
             TriggerClientEvent('mercy-phone/client/call/force-disconnect', Source)
