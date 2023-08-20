@@ -11,7 +11,10 @@ RegisterNetEvent("mercy-items/client/used-wingsuit", function(WingsuitType)
     local Ped = PlayerPedId()
     local Veh = GetVehiclePedIsIn(Ped, false)
     if Veh ~= 0 then return end
-    if GetEntityHeightAboveGround(Ped) < 3 then return end
+    if GetEntityHeightAboveGround(Ped) < 3 then 
+        exports['mercy-ui']:Notify('close-ground', 'You are too close to the ground or standing on a flat surface!', 'error')
+        return 
+    end
     Wingsuiting = true
     usedSuperBoost = false
     local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', WingsuitType, 1, false, true)
@@ -25,7 +28,6 @@ RegisterNetEvent("mercy-items/client/used-wingsuit", function(WingsuitType)
                 SetPlayerParachuteModelOverride(PlayerId(), `p_parachute1_mp_s`)
                 SetPedParachuteTintIndex(Ped, 6)
                 GiveWeaponToPed(Ped, -72657034, 1, 0, 1)
-                -- TriggerEvent("hud:equipParachute") // Hud Icon TODO
             end)
 
             Citizen.CreateThread(function()
@@ -45,12 +47,12 @@ RegisterNetEvent("mercy-items/client/used-wingsuit", function(WingsuitType)
                   Wait(0)
                 end
                 while (GetEntityHeightAboveGround(Ped) > 1) and (GetPedParachuteState(PlayerPedId()) < 1) do
-                    if IsControlPressed(0, 8) and (not SuperBoostActive) then
+                    if IsControlPressed(0, 8) and (not SuperBoostActive) then -- W
                         ApplyForceToEntity(Ped, 1, 0.0, 30.0, 2.5, 0.0, 0.0, 0.0, 0, true, false, false, false, true)
                     elseif IsControlPressed(0, 32) and (not SuperBoostActive) then
                         ApplyForceToEntity(Ped, 1, 0.0, 80.0, 75.0, 0.0, 0.0, -75.0, 0, true, false, false, false, true)
                     end
-                    if IsControlPressed(0, 22) and (not usedSuperBoost) then
+                    if IsControlPressed(0, 22) and (not usedSuperBoost) then -- Spacebar
                         usedSuperBoost = true
                         Citizen.CreateThread(function()
                             SuperBoostActive = true
@@ -67,6 +69,9 @@ RegisterNetEvent("mercy-items/client/used-wingsuit", function(WingsuitType)
                     Wait(0)
                 end
             end)
+        else
+            exports['mercy-ui']:Notify('wingsuit-model', 'Failed to enable wingsuit!', 'error')
+            Wingsuiting = false
         end
     end
 end)
