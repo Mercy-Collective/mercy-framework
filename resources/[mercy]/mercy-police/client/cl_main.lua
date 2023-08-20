@@ -89,28 +89,14 @@ end)
 
 RegisterNetEvent('mercy-police/client/create-badge', function()
     Citizen.SetTimeout(650, function()
-		local Departments = Shared.JobDepartments['police']
-
-		local InputChoices = {}
-		for k, v in pairs(Departments) do
-			table.insert(InputChoices, {
-				Icon = false,
-				Text = v,
-				OnClickEvent = '',
-				EventType = '',
-			})
-		end
-
 		local Data = {
-			{Name = 'Name', Label = 'Name', Icon = 'fas fa-signature'},
-			{Name = 'Rank', Label = 'Rank', Icon = 'fas fa-arrows-alt-h'},
-			{Name = 'Department', Label = 'Department', Icon = 'fas fa-palette', Choices = InputChoices},
+			{Name = 'StateId', Label = 'StateId', Icon = 'fas fa-signature'},
 			{Name = 'Image', Label = 'Image (URL)', Icon = 'fas fa-link'},
 		}
 
 		local BadgeInput = exports['mercy-ui']:CreateInput(Data)
-		if BadgeInput['Name'] and BadgeInput['Rank'] and BadgeInput['Department'] and BadgeInput['Image'] then
-			TriggerServerEvent('mercy-police/server/request-pd-badge', BadgeInput['Name'], BadgeInput['Rank'], BadgeInput['Department'], BadgeInput['Image'])
+		if BadgeInput['StateId'] and BadgeInput['Image'] then
+			TriggerServerEvent('mercy-police/server/request-pd-badge', BadgeInput['StateId'], BadgeInput['Image'])
 		end
     end)
 end)
