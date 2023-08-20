@@ -305,12 +305,13 @@ CREATE TABLE IF NOT EXISTS `player_phone_contacts` (
 
 -- Structuur van  tabel mercy-framework.player_phone_tweets wordt geschreven
 CREATE TABLE IF NOT EXISTS `player_phone_tweets` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `CitizenId` varchar(50) DEFAULT NULL,
   `Tweeter` varchar(50) DEFAULT NULL,
   `Message` text DEFAULT NULL,
   `Time` datetime DEFAULT NULL,
-  `IsBusiness` tinyint(1) DEFAULT NULL
+  `IsBusiness` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporteren was gedeselecteerd
