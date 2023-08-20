@@ -40,19 +40,35 @@ Citizen.CreateThread(function()
                 GroupCreateTimeout = false
             end)
             print('[DEBUG:Jobs]: Creating table for group & inserting creator as member.', Source)
+            local VPN = Player.Functions.GetItemByName("vpn")
             local GroupId = #ServerConfig.Groups[Job] + 1
-            ServerConfig.Groups[Job][GroupId] = {
-                ['GroupId'] = GroupId,
-                ['Leader'] = Player.PlayerData.CitizenId,
-                ['Members'] = {
-                    {
-                        ['Source'] = Source,
-                        ['Name'] = ServerConfig.RandomNames.First[math.random(1, #ServerConfig.RandomNames.First)]..' '..ServerConfig.RandomNames.Last[math.random(1, #ServerConfig.RandomNames.First)],
-                        ['CitizenId'] = Player.PlayerData.CitizenId,
-                    }
-                },
-                ['Busy'] = false,
-            }
+            if VPN ~= nil and VPN.Amount > 0 then
+                ServerConfig.Groups[Job][GroupId] = {
+                    ['GroupId'] = GroupId,
+                    ['Leader'] = Player.PlayerData.CitizenId,
+                    ['Members'] = {
+                        {
+                            ['Source'] = Source,
+                            ['Name'] = ServerConfig.RandomNames.First[math.random(1, #ServerConfig.RandomNames.First)]..' '..ServerConfig.RandomNames.Last[math.random(1, #ServerConfig.RandomNames.First)],
+                            ['CitizenId'] = Player.PlayerData.CitizenId,
+                        }
+                    },
+                    ['Busy'] = false,
+                }
+            else
+                ServerConfig.Groups[Job][GroupId] = {
+                    ['GroupId'] = GroupId,
+                    ['Leader'] = Player.PlayerData.CitizenId,
+                    ['Members'] = {
+                        {
+                            ['Source'] = Source,
+                            ['Name'] = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname,
+                            ['CitizenId'] = Player.PlayerData.CitizenId,
+                        }
+                    },
+                    ['Busy'] = false,
+                }
+            end
             print('[DEBUG:Jobs]: Current Groups for job: ', Job, 'Data: ', json.encode(ServerConfig.Groups[Job]))
             print('[DEBUG:Jobs]: Table for group created. Refreshing group screen. Data: ', json.encode(ServerConfig.Groups[Job][GroupId]))
             TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', Source, ServerConfig.Groups[Job][GroupId])
@@ -391,13 +407,22 @@ RegisterNetEvent("mercy-phone/server/jobcenter/join-group", function(Job, Leader
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
     if Player then
+        local VPN = Player.Functions.GetItemByName('vpn')
         for GroupId, GroupData in pairs(ServerConfig.Groups[Job]) do
             if GroupData['Leader'] == Leader then -- Get correct group
-                table.insert(ServerConfig.Groups[Job][GroupId]["Members"], {
-                    ["Source"] = src,
-                    ["Name"] = ServerConfig.RandomNames.First[math.random(1, #ServerConfig.RandomNames.First)]..' '..ServerConfig.RandomNames.Last[math.random(1, #ServerConfig.RandomNames.First)],
-                    ['CitizenId'] = Player.PlayerData.CitizenId,
-                })
+                if VPN ~= nil and VPN.Amount > 0 then
+                    table.insert(ServerConfig.Groups[Job][GroupId]["Members"], {
+                        ["Source"] = src,
+                        ["Name"] = ServerConfig.RandomNames.First[math.random(1, #ServerConfig.RandomNames.First)]..' '..ServerConfig.RandomNames.Last[math.random(1, #ServerConfig.RandomNames.First)],
+                        ['CitizenId'] = Player.PlayerData.CitizenId,
+                    })
+                else
+                    table.insert(ServerConfig.Groups[Job][GroupId]["Members"], {
+                        ["Source"] = src,
+                        ["Name"] = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname,
+                        ['CitizenId'] = Player.PlayerData.CitizenId,
+                    })
+                end
                 for _, MemberData in pairs(ServerConfig.Groups[Job][GroupId]["Members"]) do
                     TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', MemberData['Source'], ServerConfig.Groups[Job][GroupId])
                 end
