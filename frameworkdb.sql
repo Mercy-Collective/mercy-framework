@@ -303,7 +303,8 @@ CREATE TABLE IF NOT EXISTS `player_phone_contacts` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=147 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-CREATE TABLE `player_phone_tweets` (
+-- Structuur van  tabel mercy-framework.player_phone_tweets wordt geschreven
+CREATE TABLE IF NOT EXISTS `player_phone_tweets` (
   `id` int(11) NOT NULL,
   `CitizenId` varchar(50) DEFAULT NULL,
   `Tweeter` varchar(50) DEFAULT NULL,
