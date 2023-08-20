@@ -421,6 +421,12 @@ PlayerModule = {
             self.Functions.UpdatePlayerData()
         end
 
+        self.Functions.SetRank = function(Rank)
+            local Rank = Rank:upper()
+            self.PlayerData.Job.Rank = Rank
+            self.Functions.UpdatePlayerData()
+        end
+
         self.Functions.SetHighCommand = function(Bool)
             self.PlayerData.Job.HighCommand = Bool
             self.Functions.UpdatePlayerData()

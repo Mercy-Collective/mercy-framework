@@ -235,6 +235,33 @@ CreateThread(function()
             end
         end
     end)
+
+    CommandsModule.Add("setrank", "Set someone's rank", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local Target = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+	if Target == nil then return Player.Functions.Notify('no-player', 'This id does not exist.', 'error') end
+        local Rank = args[2]:gsub("^%l", string.upper)
+        if Player.PlayerData.Job['HighCommand'] then
+            if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
+                if Target.PlayerData.Job.Name == 'police' then
+                    if Rank ~= nil and Rank == 'Officer' or Rank == 'Detective' or Rank == 'Corporal' or Rank == 'Sergeant' or Rank == 'Lieutenant' or Rank == 'Captain' or Rank == 'Chief' then
+                        if Target.PlayerData.Source == source then
+                            Player.Functions.SetRank(Rank)
+                            Player.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
+                        else
+                            Target.Functions.SetRank(Rank)
+                            Player.Functions.Notify('rank-changed', 'You set the rank of '..Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname..' to '..Rank..'.', 'success')
+                            Target.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
+                        end
+                    else
+                        Player.Functions.Notify('no-perm', 'This rank does not exist.', 'error')
+                    end
+                else
+                    Player.Functions.Notify('no-rank', 'You are not part of the emergency services.', 'error')
+                end
+            end
+        end
+    end)
     
     CommandsModule.Add({"sethighcommand", "sethigh"}, "Set someone's highcommand status", {{Name="ID", Help="PlayerId"}, {Name="Status", Help="True/False"}}, true, function(source, args)
         if args ~= nil then
@@ -566,13 +593,13 @@ RegisterNetEvent("mercy-police/server/clear-blip", function()
 end)
 
 -- Badge
-RegisterNetEvent("mercy-police/server/request-pd-badge", function(Name, Rank, Department, Image)
+RegisterNetEvent("mercy-police/server/request-pd-badge", function(Cid, Image)
     local src = source
-    local Player = PlayerModule.GetPlayerBySource(src)
+    local Player = PlayerModule.GetPlayerByStateId(Cid)
     local Info = {}
-    Info.Name = Name
-    Info.Rank = Rank
-    Info.Department = Department
+    Info.Name = Player.PlayerData.CharInfo.Firstname .. ' ' .. Player.PlayerData.CharInfo.Lastname
+    Info.Rank = Player.PlayerData.Job.Rank
+    Info.Department = Player.PlayerData.Job.Department
     Info.Image = Image
     Player.Functions.AddItem('pdbadge', 1, false, Info, true)
 end)
