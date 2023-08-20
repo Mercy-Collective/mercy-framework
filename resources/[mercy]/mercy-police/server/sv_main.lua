@@ -238,13 +238,14 @@ CreateThread(function()
 
     CommandsModule.Add("setrank", "Set someone's rank", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
-        local Target = PlayerModule.GetPlayerBySource(args[1])
+        local Target = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+	if Target == nil then return Player.Functions.Notify('no-player', 'This id does not exist.', 'error') end
         local Rank = args[2]:gsub("^%l", string.upper)
         if Player.PlayerData.Job['HighCommand'] then
             if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
                 if Target.PlayerData.Job.Name == 'police' then
                     if Rank ~= nil and Rank == 'Officer' or Rank == 'Detective' or Rank == 'Corporal' or Rank == 'Sergeant' or Rank == 'Lieutenant' or Rank == 'Captain' or Rank == 'Chief' then
-                        if Target.PlayerData.Source == Player.PlayerData.Source then
+                        if Target.PlayerData.Source == source then
                             Player.Functions.SetRank(Rank)
                             Player.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
                         else
