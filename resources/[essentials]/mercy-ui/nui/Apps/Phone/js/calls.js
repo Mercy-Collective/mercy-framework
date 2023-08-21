@@ -1,8 +1,8 @@
 $(document).on('click', '.phone-call-new', function(){
-    var SelectedPhoneContact = {};
+    let SelectedPhoneContact = {};
 
     $.post("https://mercy-phone/Contacts/GetContacts", JSON.stringify({}), function(Result){
-        var Contacts = [];
+        let Contacts = [];
 
         for (let i = 0; i < Result.length; i++) {
             const Contact = Result[i];
@@ -61,8 +61,13 @@ $(document).on('input', '.phone-calls-search input', function(){
 });
 
 $(document).on('click', '.phone-calls-item #phone-calls-call', function(e){
-    var ContactData = JSON.parse($(this).parent().parent().parent().attr("CallData")).Contact;
-
+    let Call = JSON.parse($(this).parent().parent().parent().attr("CallData"));
+    let IsPayphone = (Call.IsPayphone != undefined && Call.IsPayphone != null) ? Call.IsPayphone : false;
+    if (IsPayphone) {
+        ShowPhoneError("Caller called through a payphone..")
+        return;
+    }
+    let ContactData = Call.Contact;
     $.post("https://mercy-phone/Contacts/CallContact", JSON.stringify({
         ContactData: ContactData,
     }));
