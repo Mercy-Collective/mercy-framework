@@ -1,4 +1,5 @@
-PlayerModule, CallbackModule, EventsModule, FunctionsModule, VehicleModule = nil, nil, nil, nil, nil
+PlayerModule, CallbackModule, EventsModule, FunctionsModule, VehicleModule = nil
+local TVDui = false
 InCasino = false
 
 local PostGateTriggered = false
@@ -39,22 +40,22 @@ end)
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
         if WheelPed ~= nil then
+            RemoveReplaceTexture('vw_prop_vw_luckywheel_01a', 'script_rt_casinowheel')
+            RemoveReplaceTexture('vw_prop_vw_cinema_tv_01', 'script_rt_tvscreen')
             exports['mercy-assets']:ReleaseDui('Casino-Wheel')
+            exports['mercy-assets']:ReleaseDui('Casino-TV-Car')
             DeleteEntity(WheelPed)
         end
     end
 end)
 
-
--- AddEventHandler('onResourceStart', function(resource)
---     if resource == GetCurrentResourceName() then
---         SetTimeout(1000, function()
---             EnterCasino(true)
---         end)
---     end
--- end)
-
-
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+        SetTimeout(1000, function()
+            EnterCasino(true)
+        end)
+    end
+end)
 
 -- [ Code ] --
 
@@ -152,7 +153,6 @@ RegisterNetEvent("mercy-casino/client/casino-action", function(Data)
             else
                 Timeout = false
             end
-            print('Did Timeout')
         end
     elseif Type == 'Transfer' then
         Wait(100)
@@ -203,16 +203,16 @@ function EnterCasino(Bool)
         SpinVehicle()
         InitScreensHall()
         InitWheel(true)
-        InitSlots(true)
         -- InitBlackjack(true)
         InitAudio()
         InitTVImage(true)
+        InitSlots(true)
     end
     if not InCasino then
         InitTVImage(false)
         InitWheel(false)
-        InitSlots(false)
         -- InitBlackjack(false)
+        InitSlots(false)
         TriggerEvent("mercy-casino/client/exited")
         PostGateTriggered = false
         return
@@ -235,17 +235,19 @@ function InitDui()
 end
 
 function InitTVImage(Bool)
-    if not Bool and TVDui ~= nil then
-        RemoveReplaceTexture('vw_prop_vw_cinema_tv_01', 'script_rt_tvscreen')
-        ReleaseDui(TVDui.id)
-        TVDui = nil
-        return
-    end
-    if TVDui == nil then
-        TVDui = GetDui(Config.TVImage, 512, 256)
-        AddReplaceTexture('vw_prop_vw_cinema_tv_01', 'script_rt_tvscreen', TVDui.dictionary, TVDui.texture)
+    if Bool then
+        if TVDui then -- If tv exists, reset
+            exports['mercy-assets']:ChangeDuiURL(TVDui['DuiId'], Config.TVImage)
+            AddReplaceTexture('vw_prop_vw_cinema_tv_01', 'script_rt_tvscreen', TVDui['TxdDictName'], TVDui['TxdName'])
+        else
+            TVDui = exports['mercy-assets']:GenerateNewDui(Config.TVImage, 512, 256, 'Casino-TV-Car')
+            if not TVDui then return end
+            AddReplaceTexture('vw_prop_vw_cinema_tv_01', 'script_rt_tvscreen', TVDui['TxdDictName'], TVDui['TxdName'])
+            Citizen.Wait(2000)
+        end
     else
-        ChangeDuiUrl(TVDui.id, Config.TVImage)
+        TVDui = false
+        RemoveReplaceTexture('vw_prop_vw_cinema_tv_01', 'script_rt_tvscreen')
     end
 end
 

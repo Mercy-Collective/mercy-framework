@@ -142,10 +142,8 @@ end)
 RegisterNetEvent('mercy-polyzone/client/enter-polyzone', function(PolyData, Coords)
     -- Locations
     if PolyData.name == 'casino_entrance' then
-        print('Entered Casino')
         EnterCasino(true)
     elseif PolyData.name == 'casino_exit' then
-        print('Exited Casino')
         EnterCasino(false)
     end
     -- Rooms
@@ -157,11 +155,6 @@ RegisterNetEvent('mercy-polyzone/client/enter-polyzone', function(PolyData, Coor
 end)
 
 RegisterNetEvent('mercy-polyzone/client/leave-polyzone', function(PolyData, Coords)
-    -- Locations
-    -- if PolyData.name == 'casino_entrance' then
-    --     print('Exited Casino')
-    --     EnterCasino(false)
-    -- end
     -- Rooms
     if DoesRoomExist(PolyData.name) then
         InRoom = false
