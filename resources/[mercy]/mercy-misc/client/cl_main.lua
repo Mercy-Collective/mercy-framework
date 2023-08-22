@@ -54,6 +54,7 @@ RegisterNetEvent('mercy-misc/client/steal-target-shoes', function(Data)
 end)
 
 RegisterNetEvent('mercy-misc/client/open-scav-box', function(BoxId)
+    if BoxId == nil then return end
     Citizen.SetTimeout(450, function()
         if exports['mercy-inventory']:CanOpenInventory() then
             EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', BoxId, 'Stash', 25, 500, 'scavbox')

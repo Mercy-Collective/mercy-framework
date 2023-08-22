@@ -13,37 +13,37 @@ Citizen.CreateThread(function()
         local ItemName = args[2]
         local Player = PlayerModule.GetPlayerBySource(tonumber(PlayerId))
         if Player ~= nil then
-            local Info = {}
-            if ItemName == 'idcard' then
-                Info.CitizenId = Player.PlayerData.CitizenId
-                Info.Firstname = Player.PlayerData.CharInfo.Firstname
-                Info.Lastname = Player.PlayerData.CharInfo.Lastname
-                Info.Date = Player.PlayerData.CharInfo.Date
-                Info.Sex = Player.PlayerData.CharInfo.Gender
-            elseif ItemName == 'markedbills' then
-                Info.Worth = math.random(5000, 10000)
-            elseif ItemName == 'scavbox' then
-                Info.Id = "scav"..math.random(111, 999)
-            elseif ItemName == 'casinomember' then
-                Info.StateId = Player.PlayerData.CitizenId
-            elseif ItemName == 'hunting-carcass-one' then
-                Info.Date = os.date()
-                Info.Animal = "Kane"
-            else
-                Info = false
-            end
+            -- local Info = {}
+            -- if ItemName == 'idcard' then
+            --     Info.CitizenId = Player.PlayerData.CitizenId
+            --     Info.Firstname = Player.PlayerData.CharInfo.Firstname
+            --     Info.Lastname = Player.PlayerData.CharInfo.Lastname
+            --     Info.Date = Player.PlayerData.CharInfo.Date
+            --     Info.Sex = Player.PlayerData.CharInfo.Gender
+            -- elseif ItemName == 'markedbills' then
+            --     Info.Worth = math.random(5000, 10000)
+            -- elseif ItemName == 'scavbox' then
+            --     Info.Id = "scav"..math.random(111, 999)
+            -- elseif ItemName == 'casinomember' then
+            --     Info.StateId = Player.PlayerData.CitizenId
+            -- elseif ItemName == 'hunting-carcass-one' then
+            --     Info.Date = os.date()
+            --     Info.Animal = "Kane"
+            -- else
+            --     Info = false
+            -- end
             local ItemData = GetItemData(ItemName)
             if ItemData then
                 if ItemData['Unique'] then
                     for i=1, Amount do
-                        Player.Functions.AddItem(ItemName, 1, false, Info, true)
+                        Player.Functions.AddItem(ItemName, 1, false, nil, true)
                     end
                 else
-                    Player.Functions.AddItem(ItemName, Amount, false, Info, true)
+                    Player.Functions.AddItem(ItemName, Amount, false, nil, true)
                 end
-            end
-            if ItemData['Type'] == 'Weapon' then
-                TriggerClientEvent('mercy-assets/client/attach-items', Source)
+                if ItemData['Type'] == 'Weapon' then
+                    TriggerClientEvent('mercy-assets/client/attach-items', Source)
+                end
             end
         end
     end, "admin")

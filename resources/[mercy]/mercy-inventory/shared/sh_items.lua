@@ -3472,21 +3472,6 @@ Shared.ItemList["recyclablematerial"] = {
 	['Price'] = 20,
 }
 
-Shared.ItemList["casino-member"] = {
-	['ItemName'] = "casino-member",
-	['Label'] = "Casino Membership",
-	['Weight'] = 1.0,
-	['Type'] = "Item",
-	['Metal'] = false,
-	['Image'] = "m_casino_member.png",
-	['Unique'] = false,
-	['Combinable'] = nil,
-	['Description'] = "All the games, all the fun. Diamond Casino.",
-	['DecayRate'] = 0.25,
-	['RemoveWhenDecayed'] = true,
-	['Price'] = 1,
-}
-
 Shared.ItemList["casino-high"] = {
 	['ItemName'] = "casino-high",
 	['Label'] = "High Roller Card",
