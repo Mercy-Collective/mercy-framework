@@ -327,7 +327,9 @@ PlayerModule = {
         PlayerData.MetaData["RoomLocked"] = PlayerData.MetaData["RoomLocked"] ~= nil and PlayerData.MetaData["RoomLocked"] or true
         PlayerData.MetaData["RoomId"] = PlayerData.MetaData["RoomId"] ~= nil and PlayerData.MetaData["RoomId"] or PlayerModule.CreateAppartmentId()
         -- [ Miscs ] --
-        PlayerData.MetaData["Phone"] = PlayerData.MetaData["Phone"] ~= nil and PlayerData.MetaData["Phone"] or {}
+        PlayerData.MetaData["Phone"] = PlayerData.MetaData["Phone"] ~= nil and PlayerData.MetaData["Phone"] or {
+            Username = false,
+        }
         PlayerData.MetaData["LaptopData"] = PlayerData.MetaData["LaptopData"] ~= nil and PlayerData.MetaData["LaptopData"] or {
             ['Nickname'] = "Guest-"..math.random(1111111, 9999999),
             ['Background'] = 'Default',
