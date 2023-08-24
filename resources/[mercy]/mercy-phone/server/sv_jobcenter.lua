@@ -42,7 +42,20 @@ Citizen.CreateThread(function()
             print('[DEBUG:Jobs]: Creating table for group & inserting creator as member.', Source)
             local VPN = Player.Functions.GetItemByName("vpn")
             local GroupId = #ServerConfig.Groups[Job] + 1
-            if VPN ~= nil and VPN.Amount > 0 then
+            if VPN ~= nil and VPN.Amount > 0 and Player.PlayerData.MetaData["Phone"].Username then
+                ServerConfig.Groups[Job][GroupId] = {
+                    ['GroupId'] = GroupId,
+                    ['Leader'] = Player.PlayerData.CitizenId,
+                    ['Members'] = {
+                        {
+                            ['Source'] = Source,
+                            ['Name'] = Player.PlayerData.MetaData["Phone"].Username,
+                            ['CitizenId'] = Player.PlayerData.CitizenId,
+                        }
+                    },
+                    ['Busy'] = false,
+                }
+            elseif VPN ~= nil and VPN.Amount > 0 and not Player.PlayerData.MetaData["Phone"].Username then
                 ServerConfig.Groups[Job][GroupId] = {
                     ['GroupId'] = GroupId,
                     ['Leader'] = Player.PlayerData.CitizenId,
@@ -146,6 +159,8 @@ Citizen.CreateThread(function()
         local Group = GetPlayerGroup(LeaderPlayer.PlayerData.Source, Job)
         if not Group then return end -- User is not in any group
 
+        local RequestVPN = RequestPlayer.Functions.GetItemByName("vpn")
+
         -- Check if group is busy
         if Group['Busy'] then
             Cb(false)
@@ -166,7 +181,7 @@ Citizen.CreateThread(function()
         TriggerClientEvent('mercy-phone/client/notification', LeaderPlayer.PlayerData.Source, {
             Id = math.random(11111111, 99999999),
             Title = "Job Center",
-            Message = "You have a join request from "..RequestPlayer.PlayerData.CharInfo.Firstname..' '..RequestPlayer.PlayerData.CharInfo.Lastname,
+            Message = ("You have a join request from %s"):format(RequestVPN ~= nil and RequestVPN.Amount > 0 and RequestPlayer.PlayerData.MetaData["Phone"].Username or RequestPlayer.PlayerData.CharInfo.Firstname..' '..RequestPlayer.PlayerData.CharInfo.Lastname),
             Icon = "fas fa-briefcase",
             IconBgColor = "#4f5efc",
             IconColor = "white",
@@ -410,7 +425,13 @@ RegisterNetEvent("mercy-phone/server/jobcenter/join-group", function(Job, Leader
         local VPN = Player.Functions.GetItemByName('vpn')
         for GroupId, GroupData in pairs(ServerConfig.Groups[Job]) do
             if GroupData['Leader'] == Leader then -- Get correct group
-                if VPN ~= nil and VPN.Amount > 0 then
+                if VPN ~= nil and VPN.Amount > 0 and Player.PlayerData.MetaData["Phone"].Username then
+                    table.insert(ServerConfig.Groups[Job][GroupId]["Members"], {
+                        ["Source"] = src,
+                        ["Name"] = Player.PlayerData.MetaData["Phone"].Username,
+                        ['CitizenId'] = Player.PlayerData.CitizenId,
+                    })
+                elseif VPN ~= nil and VPN.Amount > 0 and not Player.PlayerData.MetaData["Phone"].Username then
                     table.insert(ServerConfig.Groups[Job][GroupId]["Members"], {
                         ["Source"] = src,
                         ["Name"] = ServerConfig.RandomNames.First[math.random(1, #ServerConfig.RandomNames.First)]..' '..ServerConfig.RandomNames.Last[math.random(1, #ServerConfig.RandomNames.First)],
