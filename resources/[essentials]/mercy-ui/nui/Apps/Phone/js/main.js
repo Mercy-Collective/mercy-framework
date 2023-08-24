@@ -247,7 +247,7 @@ $(document).on("click", ".phone-topbar-network", function(e){
 $(document).on("click", ".phone-topbar-vpn", function(e){
     e.preventDefault();
 
-    $.post("https://lotus-phone/Vpn/GetVPNData", JSON.stringify({}), function(Result){
+    $.post("https://mercy-phone/Vpn/GetVPNData", JSON.stringify({}), function(Result){
         if (!Result) {
             return Notification({
                 Title: "Thor",
