@@ -79,3 +79,16 @@ RegisterNetEvent('mercy-phone/client/network/disconnect', function()
     Network.CurrentNetworkZone = nil
     exports['mercy-ui']:SendUIMessage('Phone', "SetPhoneNetwork", { Id = "None" })
 end)
+
+--[[ VPN ]]--
+
+RegisterNUICallback('Vpn/GetVPNData', function(Data, Cb)
+    local HasVPN = exports['mercy-inventory']:HasEnoughOfItem('vpn', 1)
+    local Result = CallbackModule.SendCallback("mercy-phone/server/vpn/get-vpn-data", HasVPN)
+    Cb(Result)
+end)
+
+RegisterNUICallback('Vpn/SetVPNData', function(Data, Cb)
+    local Result = CallbackModule.SendCallback("mercy-phone/server/vpn/set-vpn-data", Data)
+    Cb(Result)
+end)
