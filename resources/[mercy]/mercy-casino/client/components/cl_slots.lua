@@ -130,6 +130,7 @@ function InitSlots(Bool)
                 if SlotName == nil or (type(SlotName) == 'table' and #SlotName == 0) then
                     FoundObject = true
                 else
+                    if not IsModelValid(Objects[i]) then return end
                     local ObjectModel = GetEntityModel(Objects[i])
                     for j=1, #SlotName, 1 do
                         if ObjectModel == GetHashKey(SlotName[j]) then

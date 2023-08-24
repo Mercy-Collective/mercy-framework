@@ -570,10 +570,27 @@ PlayerModule = {
                 if Info == nil and ItemData["Type"] == "Weapon" or Info == false and ItemData["Type"] == "Weapon" then
                     if not ItemData['Melee'] then
                         Info = {Ammo = 5, Quality = 100.0, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
-                    else
-                        Info = {Quality = 100.0}
-                    end
+                    end             
                     Amount = 1
+                elseif Info == nil and ItemData["Type"] ~= "Weapon" or Info == false and ItemData["Type"] ~= "Weapon" then
+                    local ItemName = ItemData["ItemName"]
+                    Info = {}
+                    if ItemName == 'idcard' then
+                        Info.CitizenId = self.PlayerData.CitizenId
+                        Info.Firstname = self.PlayerData.CharInfo.Firstname
+                        Info.Lastname = self.PlayerData.CharInfo.Lastname
+                        Info.Date = self.PlayerData.CharInfo.Date
+                        Info.Sex = self.PlayerData.CharInfo.Gender
+                    elseif ItemName == 'markedbills' then
+                        Info.Worth = math.random(5000, 10000)
+                    elseif ItemName == 'scavbox' then
+                        Info.Id = "scav"..math.random(111, 999)
+                    elseif ItemName == 'casinomember' then
+                        Info.StateId = self.PlayerData.CitizenId
+                    elseif ItemName == 'hunting-carcass-one' then
+                        Info.Date = os.date()
+                        Info.Animal = "Kane"
+                    end
                 end
                 PlayerModule.DebugLog('weight-check', 'Checking total weight before adding item: '.. TotalWeight + (ItemData["Weight"] * Amount))
                 if (TotalWeight + (ItemData["Weight"] * Amount)) <= Shared.InventoryMaxWeight then -- Max weight

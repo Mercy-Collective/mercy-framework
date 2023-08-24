@@ -1,5 +1,5 @@
 local IsWheelSpun = false
-local WheelDui, DuiObject = nil, nil
+local WheelDui, DuiObject = false, nil
 
 -- [ Events ] --
 
@@ -71,6 +71,7 @@ RegisterNetEvent('mc-wheel/client/do-spin', function(Data)
 end)
 
 RegisterNetEvent('mc-wheel/client/sync-spin', function(WheelSpeed, WheelSlot, WheelType)
+    if DuiObject == nil then return print('No DUI found for Wheel') end
     SendDuiMessage(DuiObject, json.encode({
         Action = "DoWheel",
         Speed = WheelSpeed,
@@ -99,7 +100,7 @@ function InitWheel(Bool)
             }))
         end
     else
-        WheelDui = nil
+        WheelDui = false
         RemoveReplaceTexture('vw_prop_vw_luckywheel_01a', 'script_rt_casinowheel')
     end
 end

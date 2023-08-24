@@ -3472,21 +3472,6 @@ Shared.ItemList["recyclablematerial"] = {
 	['Price'] = 20,
 }
 
-Shared.ItemList["casino-member"] = {
-	['ItemName'] = "casino-member",
-	['Label'] = "Casino Membership",
-	['Weight'] = 1.0,
-	['Type'] = "Item",
-	['Metal'] = false,
-	['Image'] = "m_casino_member.png",
-	['Unique'] = false,
-	['Combinable'] = nil,
-	['Description'] = "All the games, all the fun. Diamond Casino.",
-	['DecayRate'] = 0.25,
-	['RemoveWhenDecayed'] = true,
-	['Price'] = 1,
-}
-
 Shared.ItemList["casino-high"] = {
 	['ItemName'] = "casino-high",
 	['Label'] = "High Roller Card",
@@ -4972,6 +4957,443 @@ Shared.ItemList["goldpan-l"] = {
 Shared.ItemList["spray-angels"] = {
 	['ItemName'] = "spray-angels",
 	['Label'] = "Angels Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-ballas"] = {
+	['ItemName'] = "spray-ballas",
+	['Label'] = "Ballas Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-bbmc"] = {
+	['ItemName'] = "spray-bbmc",
+	['Label'] = "BBMC Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-bcf"] = {
+	['ItemName'] = "spray-bcf",
+	['Label'] = "BCF Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-bsk"] = {
+	['ItemName'] = "spray-bsk",
+	['Label'] = "BSK Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-cerberus"] = {
+	['ItemName'] = "spray-cerberus",
+	['Label'] = "Cerberus Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-cg"] = {
+	['ItemName'] = "spray-cg",
+	['Label'] = "CG Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-gg"] = {
+	['ItemName'] = "spray-gg",
+	['Label'] = "GG Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-gsf"] = {
+	['ItemName'] = "spray-gsf",
+	['Label'] = "GSF Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-guild"] = {
+	['ItemName'] = "spray-guild",
+	['Label'] = "Guild Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-hoa"] = {
+	['ItemName'] = "spray-hoa",
+	['Label'] = "HOA Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-hydra"] = {
+	['ItemName'] = "spray-hydra",
+	['Label'] = "Hydra Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-kingz"] = {
+	['ItemName'] = "spray-kingz",
+	['Label'] = "KingZ Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-lost"] = {
+	['ItemName'] = "spray-lost",
+	['Label'] = "LostMC Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-mandem"] = {
+	['ItemName'] = "spray-mandem",
+	['Label'] = "Mandem Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-mayhem"] = {
+	['ItemName'] = "spray-mayhem",
+	['Label'] = "Mayhem Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-nbc"] = {
+	['ItemName'] = "spray-nbc",
+	['Label'] = "NBC Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-ramee"] = {
+	['ItemName'] = "spray-ramee",
+	['Label'] = "Ramee Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-ron"] = {
+	['ItemName'] = "spray-ron",
+	['Label'] = "Ron Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-rust"] = {
+	['ItemName'] = "spray-rust",
+	['Label'] = "Rust Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-scu"] = {
+	['ItemName'] = "spray-scu",
+	['Label'] = "SCU Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-seaside"] = {
+	['ItemName'] = "spray-seaside",
+	['Label'] = "Seaside Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-st"] = {
+	['ItemName'] = "spray-st",
+	['Label'] = "ST Spray",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "m_spraycan.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Art.",
+	['DecayRate'] = 0.066,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 500,
+	['Cost'] = {
+		{ Item = 'plastic', Amount = 50 },
+		{ Item = 'aluminum', Amount = 100 },
+	}
+}
+
+Shared.ItemList["spray-vagos"] = {
+	['ItemName'] = "spray-vagos",
+	['Label'] = "Vagos Spray",
 	['Weight'] = 1.0,
 	['Type'] = "Item",
 	['Metal'] = false,
