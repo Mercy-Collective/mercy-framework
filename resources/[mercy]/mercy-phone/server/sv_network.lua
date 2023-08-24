@@ -37,4 +37,29 @@ Citizen.CreateThread(function()
             Cb({false})
         end
     end)
+
+    --[[ VPN ]]--
+
+    CallbackModule.CreateCallback('mercy-phone/server/vpn/get-vpn-data', function(Source, Cb, HasVPN)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+
+        if HasVPN then
+            Cb(true)
+        else
+            Cb(false)
+        end
+    end)
+    
+    CallbackModule.CreateCallback('mercy-phone/server/vpn/set-vpn-data', function(Source, Cb, Data)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+
+        for _, Username in pairs(Data.Username) do
+            if Username == '' or Username == nil then
+                Player.Functions.SetMetaDataTable("Phone", "Username", false)
+            elseif Username ~= nil then
+                Player.Functions.SetMetaDataTable("Phone", "Username", Username)
+            end
+            Cb(true)
+        end
+    end)
 end)
