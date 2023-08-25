@@ -37,36 +37,38 @@ local ped = nil
 
 function SendToCharacterScreen(Bool)
     inCharacterMenu = Bool
-    if inCharacterMenu then
-        TriggerEvent('mercy-weathersync/client/set-default-weather', 21)
-        SetEntityCoords(PlayerPedId(), MULTICHARACTER.playerCoord)
-        FreezeEntityPosition(PlayerPedId(), true)
-
-        DoCharacterCam(true)
-
-        SetEntityCoords(PlayerPedId(), MULTICHARACTER.playerCoord)
-        RequestCollisionAtCoord(MULTICHARACTER.playerCoord.x, MULTICHARACTER.playerCoord.y, MULTICHARACTER.playerCoord.z)
-        while not HasCollisionLoadedAroundEntity(PlayerPedId()) do -- Added as a 'hotfix' for falling through the ground because collision wasn't loaded yet
+    Citizen.SetTimeout(500, function()
+        if inCharacterMenu then
+            TriggerEvent('mercy-weathersync/client/set-default-weather', 21)
             SetEntityCoords(PlayerPedId(), MULTICHARACTER.playerCoord)
-            Citizen.Wait(1)
+            FreezeEntityPosition(PlayerPedId(), true)
+
+            DoCharacterCam(true)
+
+            SetEntityCoords(PlayerPedId(), MULTICHARACTER.playerCoord)
+            RequestCollisionAtCoord(MULTICHARACTER.playerCoord.x, MULTICHARACTER.playerCoord.y, MULTICHARACTER.playerCoord.z)
+            while not HasCollisionLoadedAroundEntity(PlayerPedId()) do -- Added as a 'hotfix' for falling through the ground because collision wasn't loaded yet
+                SetEntityCoords(PlayerPedId(), MULTICHARACTER.playerCoord)
+                Citizen.Wait(1)
+            end
+        
+            BuildCharacterProps()
+        
+            ShutdownLoadingScreen()
+            ShutdownLoadingScreenNui()
+        
+            local Characters = CallbackModule.SendCallback('mercy-ui/server/characters-get')
+            SetNuiFocus(true, true)
+            SendUIMessage('Characters', 'LoadCharacters', {
+                characters = Characters
+            })
+        else
+            DoCharacterCam(false)
+            RemoveCharacterProps()
+            SetNuiFocus(false, false)
+            FreezeEntityPosition(PlayerPedId(), false)
         end
-        
-        BuildCharacterProps()
-        
-        ShutdownLoadingScreen()
-        ShutdownLoadingScreenNui()
-        
-        local Characters = CallbackModule.SendCallback('mercy-ui/server/characters-get')
-        SetNuiFocus(true, true)
-        SendUIMessage('Characters', 'LoadCharacters', {
-            characters = Characters
-        })
-    else
-        DoCharacterCam(false)
-        RemoveCharacterProps()
-        SetNuiFocus(false, false)
-        FreezeEntityPosition(PlayerPedId(), false)
-    end
+    end)
 end
 
 
