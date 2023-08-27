@@ -3,35 +3,20 @@
 RegisterNetEvent('mercy-ui/client/send-emergency-alert', function(AlertData, ForBoth, SendLocation)
     local Player = PlayerModule.GetPlayerData()
     SendLocation = SendLocation == nil and true or SendLocation
-    if ForBoth then
-        if Player.Job ~= nil and (Player.Job.Name == 'police' or Player.Job.Name == 'ems') and Player.Job.Duty then
-            if AlertData.AlertArea then AlertData.AlertCoords = vector3(AlertData.AlertCoords.x + math.random(-2, 4), AlertData.AlertCoords.y + math.random(-2, 4), AlertData.AlertCoords.z) end
-            SendUIMessage('Police', 'SendAlert', {AlertType = AlertData.AlertType, AlertName = AlertData.AlertName, AlertCode = AlertData.AlertCode, AlertId = AlertData.AlertId, AlertTime = AlertData.AlertTime, AlertCoords = AlertData.AlertCoords, AlertItems = AlertData.AlertItems, SendLocation = SendLocation})
-            if AlertData.AlertType == 'alert-panic' then
-                EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', '10-1314', GetPlayerServerId(PlayerId()), 3000, 15.0, nil, true)
-            elseif AlertData.AlertType == 'alert-red' then
-                EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', 'HighPrioCrime', GetPlayerServerId(PlayerId()), 3000, 15.0, nil, true)
-            else
-                PlaySoundFrontend(-1, "Lose_1st", "GTAO_FM_Events_Soundset", true)
-            end
-            if SendLocation then
-                AddTempBlip(AlertData.AlertId, AlertData.AlertCoords, AlertData.AlertCode..' - '..AlertData.AlertName, AlertData.AlertName, AlertData.AlertArea)
-            end
+    AlertData.AreaRadius = AlertData.AreaRadius ~= nil and AlertData.AreaRadius or 50.0
+
+    if Player.Job ~= nil and (Player.Job.Name == 'police' or (ForBoth and Player.Job.Name == 'ems')) and Player.Job.Duty then
+        if AlertData.AlertArea then AlertData.AlertCoords = vector3(AlertData.AlertCoords.x + math.random(-AlertData.AreaRadius, AlertData.AreaRadius), AlertData.AlertCoords.y + math.random(-AlertData.AreaRadius, AlertData.AreaRadius), AlertData.AlertCoords.z) end
+        SendUIMessage('Police', 'SendAlert', {AlertType = AlertData.AlertType, AlertName = AlertData.AlertName, AlertCode = AlertData.AlertCode, AlertId = AlertData.AlertId, AlertTime = AlertData.AlertTime, AlertCoords = AlertData.AlertCoords, AlertItems = AlertData.AlertItems, SendLocation = SendLocation})
+        if AlertData.AlertType == 'alert-panic' then
+            EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', '10-1314', GetPlayerServerId(PlayerId()), 3000, 15.0, nil, true)
+        elseif AlertData.AlertType == 'alert-red' then
+            EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', 'HighPrioCrime', GetPlayerServerId(PlayerId()), 3000, 15.0, nil, true)
+        else
+            PlaySoundFrontend(-1, "Lose_1st", "GTAO_FM_Events_Soundset", true)
         end
-    else
-        if Player.Job ~= nil and Player.Job.Name == 'police' and Player.Job.Duty then
-            if AlertData.AlertArea then AlertData.AlertCoords = vector3(AlertData.AlertCoords.x + math.random(-2, 4), AlertData.AlertCoords.y + math.random(-2, 4), AlertData.AlertCoords.z) end
-            SendUIMessage('Police', 'SendAlert', {AlertType = AlertData.AlertType, AlertName = AlertData.AlertName, AlertCode = AlertData.AlertCode, AlertId = AlertData.AlertId, AlertTime = AlertData.AlertTime, AlertCoords = AlertData.AlertCoords, AlertItems = AlertData.AlertItems, SendLocation = SendLocation})
-            if AlertData.AlertType == 'alert-panic' then
-                EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', '10-1314', GetPlayerServerId(PlayerId()), 3000, 15.0, nil, true)
-            elseif AlertData.AlertType == 'alert-red' then
-                EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', 'HighPrioCrime', GetPlayerServerId(PlayerId()), 3000, 15.0, nil, true)
-            else
-                PlaySoundFrontend(-1, "Lose_1st", "GTAO_FM_Events_Soundset", true)
-            end
-            if SendLocation then
-                AddTempBlip(AlertData.AlertId, AlertData.AlertCoords, AlertData.AlertCode..' - '..AlertData.AlertName, AlertData.AlertName, AlertData.AlertArea)
-            end
+        if SendLocation then
+            AddTempBlip(AlertData.AlertId, AlertData.AlertCoords, AlertData.AlertCode..' - '..AlertData.AlertName, AlertData.AlertName, AlertData.AlertArea, AlertData.AreaRadius)
         end
     end
 end)
@@ -57,11 +42,11 @@ AddInitialize(function()
     KeybindsModule.Add("alertMenu", 'Services', 'Dispatch Menu', '', false, 'mercy-ui/client/open-alerts-menu')
 end)
 
-function AddTempBlip(AlertId, Coords, Text, Icon, Area)
+function AddTempBlip(AlertId, Coords, Text, Icon, Area, Radius)
     local Transition = 250
     local GeneratedBlipSprite = Config.AlertBlip[Icon] ~= nil and Config.AlertBlip[Icon] or 66
     local Blip = nil 
-    if Area then Blip = BlipModule.CreateRadiusBlip('alert-'..AlertId, Coords, 1, 50.0) else Blip = BlipModule.CreateBlip('alert-'..AlertId, Coords, Text, GeneratedBlipSprite, 1, true, 1.0) end
+    if Area then Blip = BlipModule.CreateRadiusBlip('alert-'..AlertId, Coords, 1, Radius) else Blip = BlipModule.CreateBlip('alert-'..AlertId, Coords, Text, GeneratedBlipSprite, 1, true, 1.0) end
     while Transition ~= 0 do
         Citizen.Wait(180 * 4)
         Transition = Transition - 1
