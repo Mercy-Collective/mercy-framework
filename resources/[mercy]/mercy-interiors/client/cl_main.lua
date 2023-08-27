@@ -99,7 +99,7 @@ function DespawnInterior(ObjectId)
 end
 exports("DespawnInterior", DespawnInterior)
 
-function LoadInteriorProps(Interior, Coords)
+function LoadInteriorProps(InteriorId, Coords)
     if Config.Interiors[InteriorId] == nil or Config.Interiors[InteriorId].Props == nil then return end
     Citizen.CreateThread(function()
         for k, v in pairs(Config.Interiors[InteriorId].Props) do
