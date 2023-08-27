@@ -67,8 +67,21 @@ RegisterNUICallback('Police/SetWaypoint', function(Data, Cb)
 end)
 
 RegisterNUICallback('Police/GetOnDutyPeople', function(Data, Cb)
-    local Data = CallbackModule.SendCallback('mercy-ui/server/police-get-duty-people')
+    local Data = CallbackModule.SendCallback('mercy-ui/server/police/get-duty-people')
     Cb(Data)
+end)
+
+RegisterNUICallback('Police/GetDispatchData', function(Data, Cb)
+    local Data = CallbackModule.SendCallback('mercy-ui/server/police/get-dispatch-data')
+    local DispatchData = {
+        VehTypes = Config.VehicleOperatingType,
+        Data = Data,
+    }
+    Cb(DispatchData)
+end)
+
+RegisterNUICallback('Police/SetDispatchData', function(Data, Cb)
+    
 end)
 
 RegisterNUICallback('Police/CloseDispatch', function(Data, Cb)

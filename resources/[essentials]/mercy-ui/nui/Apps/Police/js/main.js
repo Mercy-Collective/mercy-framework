@@ -1,23 +1,23 @@
-var Police = RegisterApp('Police');
-var DispatchOpen = false;
-var BadgeOnScreen = false;
-var Alerts = {};
+let Police = RegisterApp('Police');
+let DispatchOpen = false;
+let BadgeOnScreen = false;
+let Alerts = {};
 
 SendAlert = function(Data) {
 
-    var AlertType = Data.AlertType
+    let AlertType = Data.AlertType
     if (Data.AlertType == 'alert-panic') {
         AlertType = 'alert-red'
     }
 
-    var AlertInfo = ``
+    let AlertInfo = ``
     $.each(Data.AlertItems, function (key, value) {
         AlertInfo = AlertInfo + `<div class="police-alert-info archivo">${value.Icon} ${value.Text}</div>`
     });
 
     AlertInfo = AlertInfo + `<div class="police-alert-info archivo"><i class="fas fa-clock"></i> ${CalculateTimeDifference(Data.AlertTime)}</div>`
 
-    var SendingAlert = `<div id="alert-${Data.AlertId}" class="police-alert ${AlertType} animate-in">
+    let SendingAlert = `<div id="alert-${Data.AlertId}" class="police-alert ${AlertType} animate-in">
     ${Data.SendLocation ? `<div class="police-alert-marker"><i class="fas fa-map-marker-alt"></i></div>` : ``}
     <div class="police-alert-text-bar">
         <div class="police-float police-alert-id">${Data.AlertId}</div>
@@ -60,21 +60,22 @@ OpenDispatch = function() {
         $('.police-wrapper').css('pointer-events', 'auto');
         $('.duty-list-police').empty(); $('.duty-list-ems').empty();
 
+        // Load Alerts
         $.each(Alerts, function(Key, Value) {
-            var RandomId = Math.floor(Math.random() * 100000)
-            var AlertType = Value.AlertType
+            let RandomId = Math.floor(Math.random() * 100000)
+            let AlertType = Value.AlertType
             if (Value.AlertType == 'alert-panic') {
                 AlertType = 'alert-red'
             }
         
-            var AlertInfo = ``
+            let AlertInfo = ``
             $.each(Value.AlertItems, function (Alert, AlertItems) {
                 AlertInfo = AlertInfo + `<div class="police-alert-info archivo">${AlertItems.Icon} ${AlertItems.Text}</div>`
             });
 
             AlertInfo = AlertInfo + `<div class="police-alert-info archivo"><i class="fas fa-clock"></i> ${CalculateTimeDifference(Value.AlertTime)}</div>`
         
-            var SendingAlert = `<div id="alert-${RandomId}" class="police-alert ${AlertType}">
+            let SendingAlert = `<div id="alert-${RandomId}" class="police-alert ${AlertType}">
             ${(Value.SendLocation != null && Value.SendLocation != undefined && Value.SendLocation) ? `<div data-tooltip="Set GPS" class="police-alert-marker"><i class="fas fa-map-marker-alt"></i></div>` : ``}
             <div class="police-alert-text-bar">
                 <div class="police-float police-alert-id">${Value.AlertId}</div>
@@ -88,43 +89,113 @@ OpenDispatch = function() {
             $(`#alert-${RandomId}`).data('AlertCoords', Value.AlertCoords);
         });
 
-        $.post('https://mercy-ui/Police/GetOnDutyPeople', JSON.stringify({}), function(Data){
-        if (Data != undefined && Data != null) {
-                $.each(Data, function(Key, Value) {
+        // Get On Duty People
+        let Units = {
+            police: 0,
+            ems: 0
+        };
+        $.post('https://mercy-ui/Police/GetOnDutyPeople', JSON.stringify({}), function(Data) {
+            if (Data != undefined && Data != null) {
+                // $.post('https://mercy-ui/Police/GetDispatchData', JSON.stringify({}), function(DispatchData) {
+                    // if (DispatchData != undefined && DispatchData != null) {
+                        $.each(Data, function(Key, Value) {
+                            let Color = Value.Job == 'ems' ? '#cc3737' :
+                                        (Value.Department != undefined && Value.Department == 'LSPD') ? '#0c569b' :
+                                        (Value.Department != undefined && Value.Department == 'BCSO') ? '#c2933c' :
+                                        (Value.Department != undefined && Value.Department == 'SASP') ? '#3a6479' : 'white'
 
-                    var Color = Value.Job == 'ems' && '#cc3737' || Value.Department != undefined && Value.Department == 'LSPD' && '#0c569b' || Value.Department != undefined && Value.Department == 'BCSO' && '#c2933c' || Value.Department != undefined && Value.Department == 'SASP' && '#3a6479' || 'white'
-                    var AddingDutyCard = `<div class="duty-card">
-                    <div class="duty-card-icon"><i class="fas fa-user" style="color: ${Color};"></i></div>
-                        <div class="duty-card-person">
-                            <div class="duty-card-name">${Value.Callsign} - ${Value.Name}</div>
-                        </div>
-                    </div>`
+                            // let UnitMembers = `<div class="duty-card-person">
+                            //                         <div class="duty-card-name">${Value.Callsign} - ${Value.Name}</div>
+                            //                     </div>`;
+                            // if (DispatchData.Couples != undefined && DispatchData.Couples != null) {
+                            //     $.each(DispatchData.Couples, function(CoupleKey, CoupleValue) {
+                            //         if (CoupleValue[0] == Value.CitizenId) {
+                            //             UnitMembers = UnitMembers += `<div class="duty-card-person">
+                            //             <div class="duty-card-name">${Value.Callsign} - ${Value.Name}</div>
+                            //         </div>`
+                            //         }
+                            //     });
+                            // }
 
-                    if (Value.Job == 'police') {
-                        $('.duty-list-police').prepend(AddingDutyCard);
-                    } else {
-                        $('.duty-list-ems').prepend(AddingDutyCard);
-                    }
-
-                });
+                            let AddingDutyCard = `<div class="duty-card">
+                                                    <div class="duty-card-icon"><i class="fas fa-user" style="color: ${Color};"></i></div>
+                                                        <div class="duty-card-person">
+                                                            <div class="duty-card-name">${Value.Callsign} - ${Value.Name}</div>
+                                                        </div>
+                                                    </div>`;
+                            if (Value.Job == 'police') {
+                                Units.police = Units.police + 1;
+                                $('.duty-list-police').prepend(AddingDutyCard);
+                            } else {
+                                Units.ems = Units.ems + 1;
+                                $('.duty-list-ems').prepend(AddingDutyCard);
+                            }
+                            $('.duty-list-title.police').html(`Police (${Units.police}) units`);
+                            $('.duty-list-title.ems').html(`EMS (${Units.police}) units`);
+                        });
+                    // }
+                // });
             }
         });
         DispatchOpen = true
     }
 }
 
+$(".duty-card-person").on("contextmenu", function(e) {
+    e.preventDefault();
+
+    // let DropDownItems = []
+    // $.post('https://mercy-ui/Police/GetDispatchData', JSON.stringify({}), function(Data) {
+    //     if (Data != undefined && Data != null) {
+    //         // Create Vehicle List for Dropdown
+    //         if (Data.VehTypes != undefined && Data.VehTypes != null) {
+    //             $.each(VehTypes, function(Type, Bool) {
+    //                 if (!Bool) { // Not Selected so add to dropdown
+    //                     DropDownItems[DropDownItems.length + 1] = {
+    //                         Text: Type,
+    //                         Callback: () => {
+    //                             console.log('Setting Vehicle Type to ' + Type);
+    //                         }
+    //                     }
+    //                 }
+    //             });
+    //         }
+
+    //         // Operating Under (Couple)
+    //         $.post('https://mercy-ui/Police/GetOnDutyPeople', JSON.stringify({}), function(Data){
+    //             if (Data != undefined && Data != null) {
+    //                 $.each(Data, function(Key, Value) {
+    //                     if (Value.Name === Data.Name) { // Ignore Self
+    //                         return;
+    //                     }
+
+    //                     DropDownItems[DropDownItems.length + 1] = {
+    //                         Text: `Operating Under: ${Value.Callsign}`,
+    //                         Callback: () => {
+    //                             console.log('Setting Operating Under to ' + Value.Callsign);
+    //                         }
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     }
+    // });
+    // BuildDropdown(DropDownItems, undefined, true);
+});
+
+
 ShowPoliceBadge = function(Data) {
     if (!BadgeOnScreen) {
         BadgeOnScreen = true;
-        var Image = Data.Image
-        var DepartmentImg = './images/SASPLogo.png'
+        let Image = Data.Image
+        let DepartmentImg = './images/SASPLogo.png'
         if (Data.Department == 'BCSO') {
             DepartmentImg = './images/BCSOLogo.png'
         } else if (Data.Department == 'LSPD') {
             DepartmentImg = './images/LSPDLogo.png'
         }
 
-        var DepartmentName = 'State Troopers'
+        let DepartmentName = 'State Troopers'
         if (Data.Department == 'BCSO') {
             DepartmentName = 'Blaine County Sheriff'
         } else if (Data.Department == 'LSPD') {
@@ -164,7 +235,7 @@ Police.addNuiListener('ShowBadge', (Data) => {
 });
 
 $(document).on('click', '.police-alert-marker', function(e) {
-    var Coords = $(this).parent().data('AlertCoords')
+    let Coords = $(this).parent().data('AlertCoords')
     $.post('https://mercy-ui/Police/SetWaypoint', JSON.stringify({Coords: Coords}));
 });
 
