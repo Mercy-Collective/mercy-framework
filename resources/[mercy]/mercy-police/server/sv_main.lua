@@ -695,7 +695,7 @@ Citizen.CreateThread(function()
                 local Player = PlayerModule.GetPlayerBySource(v)
                 if Player then 
                     local RadioItem = Player.Functions.GetItemByName('pdradio')
-                    if ((Player.PlayerData.Job.Name == "police" or Player.PlayerData.Job.Name == "ambulance") and Player.PlayerData.Job.Duty and RadioItem ~= nil) then
+                    if ((Player.PlayerData.Job.Name == "police" or Player.PlayerData.Job.Name == "ems") and Player.PlayerData.Job.Duty and RadioItem ~= nil and RadioItem.Amount >= 1) then
                         table.insert(DutyPlayers, {
                             ServerId = Player.PlayerData.Source, 
                             Coords = GetEntityCoords(GetPlayerPed(v)),
