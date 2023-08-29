@@ -50,7 +50,7 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
             Wait(100)
         end
         
-        if PlayerData.MetaData['Jail'] > 0 then
+        if PlayerData.MetaData['Jail'] >= 1 then
             SendUIMessage('Spawn', 'SetupSpawns', {
                 Spawns = {
                     {
@@ -188,6 +188,12 @@ RegisterNUICallback('Spawn/SelectSpawn', function(Data, Cb)
     
     if SpawnData == nil then print("No SpawnData") return end
 
+    local PlayerData = exports['mercy-base']:FetchModule('Player').GetPlayerData()
+    while PlayerData == nil do
+        PlayerData = exports['mercy-base']:FetchModule('Player').GetPlayerData()
+	Wait(100)
+    end
+		
     if SpawnData.Type == 'Location' then
         EventsModule.TriggerServer("mercy-base/server/bucketmanager/set-routing-bucket", 0)
         SetEntityCoords(PlayerPedId(), SpawnData.Coords.X, SpawnData.Coords.Y, SpawnData.Coords.Z)
@@ -235,7 +241,7 @@ RegisterNUICallback('Spawn/SelectSpawn', function(Data, Cb)
         Citizen.SetTimeout(500, function()
             FreezeEntityPosition(PlayerPedId(), false)
             Citizen.Wait(1250)
-            TriggerEvent('mercy-police/client/enter-jail', 0, 0, true)
+            TriggerEvent('mercy-police/client/enter-jail', PlayerData.MetaData['Jail'], 0, true)
         end)
     elseif SpawnData.Type == 'House' then
         EventsModule.TriggerServer("mercy-base/server/bucketmanager/set-routing-bucket", 0)
