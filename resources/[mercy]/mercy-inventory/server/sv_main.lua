@@ -565,7 +565,7 @@ RegisterNetEvent('mercy-inventory/server/steal-money', function(TargetId)
 			else
 				SourcePlayer.Functions.AddMoney('Cash', StealCash)
 				TargetPlayer.Functions.RemoveMoney('Cash', StealCash)
-				TargetPlayer.Functions.Notify("You got robbed of $"..StealCash.." cash!", 'error')
+				TargetPlayer.Functions.Notify("robbed-cash", "You got robbed of $"..StealCash.." cash!", 'error')
 			end
 		end
 	end
@@ -613,7 +613,7 @@ RegisterNetEvent('mercy-inventory/server/done-combinding', function(FromSlot, Fr
 	end
 end)
 
-RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, ItemName, Amount, Info)
+RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, ItemName, Amount, Info, Date)
 	if Config.Drops == nil then return end
 	local PlayerCoords = GetEntityCoords(GetPlayerPed(Source))
 
@@ -629,7 +629,7 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 					Slot = GetFreeSlotInDrop(DropSlots, k),
 					Amount = Amount,
 					Info = Info,
-					CreateDate = os.date(),
+					CreateDate = Date,
 				}
 				TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[k], k)
 				goto continue
@@ -654,7 +654,7 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 				Slot = 1,
 				Amount = Amount,
 				Info = Info,
-				CreateDate = os.date(),
+				CreateDate = Date,
 			},
 		},
 	}

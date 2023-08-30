@@ -379,7 +379,7 @@ CreateThread(function()
     EventsModule.RegisterServer("mercy-police/server/set-player-cuffs", function(Source, Cuffed)
         local Player = PlayerModule.GetPlayerBySource(Source)
         Player.Functions.SetMetaData("Handcuffed", Cuffed)
-        TriggerClientEvent('mercy-police/client/set-cuff-state', src, Cuffed)
+        TriggerClientEvent('mercy-police/client/set-cuff-state', Source, Cuffed)
     end)
 
     CallbackModule.CreateCallback("mercy-police/server/get-player-cuffs", function(Source, Cb, Target)

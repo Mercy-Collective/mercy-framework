@@ -203,7 +203,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced, isBank
     end
 
     if InVehicle then
-        TriggerEvent('mercy-ui/client/play-sound', 'lockpick', 0.7)
+        EventsModule.TriggerServer('mercy-ui/server/play-sound-in-distance', {['Position'] = {[1] = EntityCoords.x, [2] = EntityCoords.y, [3] = EntityCoords.z}, ['Distance'] = 5.0, ['MaxDistance'] = 0.20, ['Name'] = 'lockpick', ['Volume'] = 0.7, ['Type'] = 'Spatial'})
         LoopAnimation(true, 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer')
         local Outcome = exports['mercy-ui']:StartSkillTest(math.random(5, 8), IsAdvanced and { 1, 2 } or { 5, 10 }, IsAdvanced and { 6000, 12000 } or { 1500, 3000 }, true)
         LoopAnimation(false)
@@ -218,7 +218,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced, isBank
     else
         if GetVehicleDoorLockStatus(Entity) ~= 2 then return end
 
-        TriggerEvent('mercy-ui/client/play-sound', 'lockpick', 0.7)
+        EventsModule.TriggerServer('mercy-ui/server/play-sound-in-distance', {['Position'] = {[1] = EntityCoords.x, [2] = EntityCoords.y, [3] = EntityCoords.z}, ['Distance'] = 5.0, ['MaxDistance'] = 0.20, ['Name'] = 'lockpick', ['Volume'] = 0.7, ['Type'] = 'Spatial'})
         LoopAnimation(true, "veh@break_in@0h@p_m_one@", "low_force_entry_ds")
         local Outcome = exports['mercy-ui']:StartSkillTest(math.random(5, 8), IsAdvanced and { 1, 2 } or { 5, 10 }, IsAdvanced and { 6000, 12000 } or { 1500, 3000 }, true)
         LoopAnimation(false)
@@ -227,7 +227,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced, isBank
             return
         end
 
-        EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', 'unlock', NetworkGetNetworkIdFromEntity(Entity), 3500, 10.0)
+        EventsModule.TriggerServer('mercy-ui/server/play-sound-in-distance', {['Position'] = {[1] = EntityCoords.x, [2] = EntityCoords.y, [3] = EntityCoords.z}, ['Distance'] = 12.0, ['MaxDistance'] = 0.20, ['Name'] = 'car-unlock', ['Volume'] = 1.0, ['Type'] = 'Spatial'})
         TriggerEvent('mercy-vehicles/client/on-veh-lockpick', Entity, Plate)
         exports['mercy-ui']:Notify('keys', "Unlocked.", 'success')
         VehicleModule.SetVehicleDoorsLocked(Entity, 1)
@@ -319,12 +319,12 @@ RegisterNetEvent('mercy-vehicles/client/toggle-locks', function(OnPress)
         VehicleModule.SetVehicleDoorsLocked(Entity, 2)
         ClearPedTasks(PlayerPedId())
         exports['mercy-ui']:Notify('keys', "Vehicle Locked.", 'error')
-        EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', 'lock', NetworkGetNetworkIdFromEntity(Entity), 3500, 10.0)
+        EventsModule.TriggerServer('mercy-ui/server/play-sound-in-distance', {['Position'] = {[1] = EntityCoords.x, [2] = EntityCoords.y, [3] = EntityCoords.z}, ['Distance'] = 12.0, ['MaxDistance'] = 0.20, ['Name'] = 'car-lock', ['Volume'] = 1.0, ['Type'] = 'Spatial'})
     else
         VehicleModule.SetVehicleDoorsLocked(Entity, 1)
         ClearPedTasks(PlayerPedId())
         exports['mercy-ui']:Notify('keys', "Vehicle Unlocked.", 'success')
-        EventsModule.TriggerServer('mercy-ui/server/play-sound-on-entity', 'unlock', NetworkGetNetworkIdFromEntity(Entity), 3500, 10.0)
+        EventsModule.TriggerServer('mercy-ui/server/play-sound-in-distance', {['Position'] = {[1] = EntityCoords.x, [2] = EntityCoords.y, [3] = EntityCoords.z}, ['Distance'] = 12.0, ['MaxDistance'] = 0.20, ['Name'] = 'car-unlock', ['Volume'] = 1.0, ['Type'] = 'Spatial'})
     end
 
     FunctionsModule.RequestAnimDict("anim@heists@keycard@")

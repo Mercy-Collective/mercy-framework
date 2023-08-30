@@ -80,9 +80,7 @@ Citizen.CreateThread(function()
         }
         Config.Sprays[#Config.Sprays + 1] = NewSpray
         TriggerClientEvent('mercy-misc/client/sync-sprays', -1, NewSpray)
-        SetTimeout(100, function()
-            TriggerClientEvent('mercy-misc/client/done-placing-spray', Source, CustomId)
-        end)
+        TriggerClientEvent('mercy-misc/client/done-placing-spray', Source, CustomId)
     end)
 
     EventsModule.RegisterServer("mercy-misc/server/gopro-place", function(Source, Coords, Heading, Encrypted, IsVehicle, Vehicle)
@@ -120,6 +118,28 @@ Citizen.CreateThread(function()
 
         end
     end)
+end)
+
+RegisterNetEvent("mercy-misc/server/sprays/try-remove", function(Data)
+    local src = source
+    local Player = PlayerModule.GetPlayerBySource(src)
+    if not Player then return end
+
+    if Player.Functions.RemoveItem('scrubbingcloth', 1) then
+        TriggerClientEvent('mercy-misc/client/sprays/remove', src, Data.Id)
+    else
+        Player.Functions.Notify('no-scrub-cloth', 'You do not seem to have a scrubbing cloth..', 'error')
+    end
+end)
+
+RegisterNetEvent("mercy-misc/server/sprays/remove", function(Id)
+    for SprayId, Spray in pairs(Config.Sprays) do
+        if tonumber(SprayId) == tonumber(Id) then
+            TriggerClientEvent('mercy-misc/client/sync-sprays', -1, Spray, true, SprayId)
+            table.remove(Config.Sprays, SprayId)
+            return
+        end
+    end
 end)
 
 RegisterNetEvent("mercy-misc/server/carry-target", function(TargetServer)

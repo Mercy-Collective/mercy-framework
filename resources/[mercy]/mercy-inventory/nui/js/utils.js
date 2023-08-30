@@ -179,7 +179,7 @@ HandleInventoryInfo = function (ItemData) {
         } else if (ItemData.ItemName == "markedbills") {
             InfoText = `Worth: ${ItemData.Info.Worth}`;
         } else if (ItemData.ItemName == "blood-sample") {
-            InfoText = `Blood: ${ItemData.Info.Blood}; Type: ${ItemData.Info.Type}`;
+            InfoText = `Id: ${ItemData.Info.Blood}`;
         } else if (ItemData.ItemName == "scavbox") {
             InfoText = `Id: ${ItemData.Info.Id}`;
         } else if (ItemData.ItemName == "receipt") {

@@ -30,6 +30,23 @@ Citizen.CreateThread(function()
         end
     end)
 
+    CallbackModule.CreateCallback('mercy-hospital/server/get-samples', function(Source, Cb, Type)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if not Player then return Cb(false) end
+
+        local EvidenceList = {}
+        for k, Item in pairs(Player.PlayerData.Inventory) do
+            if Item.ItemName == Type then
+                table.insert(EvidenceList, Item)
+            end
+        end
+        if #EvidenceList > 0 then
+            Cb(EvidenceList)
+        else
+            Cb(false)
+        end
+    end)
+
     -- [ Commands ] -- 
     CommandsModule.Add("revive", "Revive yourself", {}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
@@ -97,6 +114,10 @@ Citizen.CreateThread(function()
             local Info = {Blood = math.random(11111,99999), Type = TargetPlayer.PlayerData.MetaData['BloodType']}
             SourcePlayer.Functions.AddItem('blood-sample', 1, false, Info, true)
         end
+    end)
+
+    EventsModule.RegisterServer('mercy-hospital/server/receive-result', function(Source, Data)
+        TriggerClientEvent('mercy-chat/client/post-message', Source, "Blood Result #"..Data.Blood, "Type: "..Data.Type, "error")
     end)
 
     EventsModule.RegisterServer("mercy-hospital/server/heal-player", function(Source, ServerId)

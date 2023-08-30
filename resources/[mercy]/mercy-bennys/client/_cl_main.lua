@@ -56,34 +56,34 @@ RegisterNetEvent('mercy-ui/client/ui-reset', function()
     end
 end)
 
--- RegisterNetEvent("baseevents:enteredVehicle")
--- AddEventHandler("baseevents:enteredVehicle", function(Vehicle, Seat, DisplayName, NetId)
---     InVehicle = true
+-- Set Wheelfitment when entering vehicle
+RegisterNetEvent("mercy-threads/entered-vehicle", function(Vehicle)
+    InVehicle = true
+    local Vehicle = GetVehiclePedIsUsing(PlayerPedId())
 
---     Citizen.CreateThread(function()
---         while InVehicle do
+    Citizen.CreateThread(function()
+        while InVehicle do
+            if not InBennys then
+                local WheelFitment = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'WheelFitment')
+                if WheelFitment then
+                    if WheelFitment.FLRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 0, WheelFitment.FLRotation) end
+                    if WheelFitment.FRRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 1, WheelFitment.FRRotation) end
+                    if WheelFitment.RLRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 2, WheelFitment.RLRotation) end
+                    if WheelFitment.RRRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 3, WheelFitment.RRRotation) end
+                end
+                Citizen.Wait(50)
+            else
+                Citizen.Wait(250)
+            end
 
---             if not InBennys then
---                 local WheelFitment = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'WheelFitment')
---                 if WheelFitment then
---                     if WheelFitment.FLRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 0, WheelFitment.FLRotation) end
---                     if WheelFitment.FRRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 1, WheelFitment.FRRotation) end
---                     if WheelFitment.RLRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 2, WheelFitment.RLRotation) end
---                     if WheelFitment.RRRotation ~= nil then SetVehicleWheelYRotation(Vehicle, 3, WheelFitment.RRRotation) end
---                 end
---             else
---                 Citizen.Wait(250)
---             end
+            Citizen.Wait(4)
+        end
+    end)
+end)
 
---             Citizen.Wait(4)
---         end
---     end)
--- end)
-
--- RegisterNetEvent("baseevents:leftVehicle")
--- AddEventHandler("baseevents:leftVehicle", function(Vehicle, Seat, DisplayName, NetId)
---     InVehicle = false
--- end)
+RegisterNetEvent("mercy-threads/exited-vehicle", function()
+    InVehicle = false
+end)
 
 RegisterNetEvent('mercy-polyzone/client/enter-polyzone', function(PolyData, Coords)
     if PolyData.name == 'bennys' then

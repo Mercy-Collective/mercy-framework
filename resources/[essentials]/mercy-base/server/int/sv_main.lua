@@ -130,7 +130,7 @@ AddEventHandler('Modules/server/ready', function()
                 return
             end
 
-            if Plate ~= nil then
+            if Plate and Plate ~= nil then
                 SetVehicleNumberPlateText(Vehicle, Plate)
             end
             Cb(NetworkGetNetworkIdFromEntity(Vehicle))

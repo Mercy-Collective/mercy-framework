@@ -966,11 +966,11 @@ Citizen.CreateThread(function()
         FunctionsModule.CreateUseableItem("spray-"..SprayName, function(Source, Item)
             local Player = PlayerModule.GetPlayerBySource(Source)
             if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-                TriggerClientEvent('mercy-misc/client/used-spay-can', Source, "spray-"..SprayName, 'np_sprays_'..SprayName)
+                TriggerClientEvent('mercy-misc/client/sprays/use', Source, "spray-"..SprayName, 'np_sprays_'..SprayName)
             end
         end)
     end
-
+    
     -- Chains
 
     for k, ChainName in pairs(Config.Chains) do

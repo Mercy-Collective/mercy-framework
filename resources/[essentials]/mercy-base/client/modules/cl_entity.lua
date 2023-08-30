@@ -60,6 +60,8 @@ EntityModule = {
         if PlacingObject ~= false then
             SetEntityCollision(PlacingObject, false)
             SetEntityAlpha(PlacingObject, 0.3, true)
+            local ClosestHeading = GetClosestHeading(GetEntityHeading(PlayerPedId()))
+            SetEntityHeading(PlacingObject, ClosestHeading)
             IsPlacing = true
             Citizen.CreateThread(function()
                 while IsPlacing do
@@ -72,7 +74,7 @@ EntityModule = {
 
                     if StickToGround and ZMin == nil then
                         PlaceObjectOnGroundProperly(PlacingObject)
-                    end
+                    end               
 
                     if PlayerHeading then
                         SetEntityHeading(PlacingObject, GetFinalRenderedCamRot(0).z)
@@ -152,3 +154,16 @@ function RotationToDirection(Rotation)
 	local Direction = {x = -math.sin(AdjustedRotation.z) * math.abs(math.cos(AdjustedRotation.x)), y = math.cos(AdjustedRotation.z) * math.abs(math.cos(AdjustedRotation.x)), z = math.sin(AdjustedRotation.x)}
 	return Direction
 end
+
+function GetClosestHeading(Heading)
+    local PossibleHeadings = {0.0, 90.0, 180.0, 270.0}
+    local Difference, ClosestHeading = 360.0, 0.0
+    for k, v in pairs(PossibleHeadings) do
+        if math.abs(Heading - v) < Difference then
+            Difference = math.abs(Heading - v)
+            ClosestHeading = v
+        end
+    end
+    return ClosestHeading
+end
+

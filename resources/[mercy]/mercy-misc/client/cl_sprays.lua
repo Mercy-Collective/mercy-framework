@@ -26,11 +26,13 @@ Citizen.CreateThread(function()
                     Citizen.Wait(0)
                 end
 
-                if #(PlayerCoords - vector3(v.Coords.X, v.Coords.Y, v.Coords.Z)) < 50.0 then
-                    local Entity = CreateSpray(v.Coords, v.Type, v.Id)
-                    ActiveSprays[v.Id] = {
-                        Object = Entity,
-                    }
+                if #(PlayerCoords - vector3(v.Coords.X, v.Coords.Y, v.Coords.Z)) <= 50.0 then
+                    if not ActiveSprays[v.Id] then
+                        local Entity = CreateSpray(v.Coords, v.Type, v.Id)
+                        ActiveSprays[v.Id] = {
+                            Object = Entity,
+                        }
+                    end
                 else
                     RemoveSpray(v.Id)
                 end
@@ -45,37 +47,75 @@ end)
 
 -- [ Events ] --
 
-RegisterNetEvent("mercy-misc/client/used-spay-can", function(Item, Type)
-    EntityModule.DoEntityPlacer(Type, 4.5, false, true, nil, function(DidPlace, Coords, Heading)
+RegisterNetEvent("mercy-misc/client/sprays/use", function(Item, Type)
+    EntityModule.DoEntityPlacer(Type, 4.5, false, false, nil, function(DidPlace, Coords, Heading)
         if not DidPlace then
-            return exports['mercy-ui']:Notify("housing-error", "You stopped placing the spray, or something went wrong..", "error")
+            return exports['mercy-ui']:Notify("spray-error", "You stopped placing the spray, or something went wrong..", "error")
         end
 
         local DidRemove = CallbackModule.SendCallback("mercy-base/server/remove-item", Item, 1, false, true)
         if DidRemove then
+            local NewId = #Config.Sprays + 1
+            exports['mercy-ui']:AddEyeEntry("spray-"..NewId, {
+                Type = 'Model',
+                Model = Type, 
+                SpriteDistance = 10.0,
+                Distance = 5.0,
+                Options = {
+                    {
+                        Name = 'spray-removal',
+                        Icon = 'fas fa-trash',
+                        Label = "Remove Spray",
+                        EventType = 'Server',
+                        EventName = 'mercy-misc/server/sprays/try-remove',
+                        EventParams = {
+                            Id = NewId,
+                        },
+                        Enabled = function(Entity)
+                            return exports['mercy-inventory']:HasEnoughOfItem('scrubbingcloth', 1)
+                        end,
+                    },
+                }
+            })
             EventsModule.TriggerServer('mercy-misc/server/spray-place', Coords, Heading, Type)
         end
     end)
 end)
 
-RegisterNetEvent("mercy-misc/client/sync-sprays", function(Data)
-    Config.Sprays[#Config.Sprays + 1] = Data
+RegisterNetEvent("mercy-misc/client/sprays/remove", function(Id)
+    exports['mercy-inventory']:SetBusyState(true)
+    TriggerEvent('mercy-animations/client/play-animation', 'cleaning')
+    exports['mercy-ui']:ProgressBar('Scrubbing of paint...', math.random(12000, 16000), false, false, true, true, function(DidComplete)
+        if DidComplete then
+            TriggerServerEvent('mercy-misc/server/sprays/remove', Id)
+            exports['mercy-ui']:Notify("spray-started", "You have finished scrubbing of the paint!", "success")
+        else
+            exports['mercy-ui']:Notify("spray-stopped", "You stopped scrubbing of the paint!", "error")
+        end
+        TriggerEvent('mercy-animations/client/clear-animation')
+        exports['mercy-inventory']:SetBusyState(false)
+    end) 
+end)
+
+RegisterNetEvent("mercy-misc/client/sync-sprays", function(Data, Remove, Id)
+    if Remove ~= nil and Remove then
+        RemoveSpray(Data.Id)
+        Config.Sprays[Id] = nil
+    else
+        Config.Sprays[#Config.Sprays + 1] = Data
+    end
 end)
 
 -- [ Functions ] --
 
 function CreateSpray(Coords, Type, Id)
-    local Model = GetHashKey(Type)
-    local ModelLoaded = FunctionsModule.RequestModel(Model)
-    if ModelLoaded then
-        SprayObject = CreateObject(Model, Coords.X, Coords.Y, Coords.Z, false, true, false)
-        SetEntityAlpha(SprayObject, 0, false)
+    SprayObject = EntityModule.CreateEntity(Type, vector3(Coords.X, Coords.Y, Coords.Z), true)
+    if SprayObject then
         FreezeEntityPosition(SprayObject, true)
         SetEntityHeading(SprayObject, Coords.H + 0.0)
-        SetTimeout(1000, function()
-            SprayObject = nil
-        end)
         return SprayObject
+    else
+        return false
     end
 end
 
@@ -88,6 +128,7 @@ RegisterNetEvent("mercy-misc/client/done-placing-spray", function(Id)
 end)
 
 function StartProgressPaint(SprayObject, Id)
+    SetEntityAlpha(SprayObject, 0, false)
     DoingProgress = true
     exports['mercy-inventory']:SetBusyState(true)
     exports['mercy-assets']:AttachProp('SprayCan')
@@ -95,7 +136,7 @@ function StartProgressPaint(SprayObject, Id)
         ['AnimName'] = 'weed_spraybottle_stand_spraying_01_inspector', 
         ['AnimDict'] = 'anim@amb@business@weed@weed_inspecting_lo_med_hi@', 
         ['AnimFlag'] = 16
-    }, nil, true, true, function(DidComplete)
+    }, nil, true, false, function(DidComplete)
         DoingProgress = false
         exports['mercy-inventory']:SetBusyState(false)
         exports['mercy-assets']:RemoveProps()
@@ -112,9 +153,7 @@ function StartProgressPaint(SprayObject, Id)
 end
 
 function StartDrawingPaint(SprayObject)
-    SetEntityAlpha(SprayObject, 0, false)
     while DoingProgress do
-        Wait(6250)
         SprayEffects()
         CurrentAlpha = CurrentAlpha + 1
         SetEntityAlpha(SprayObject, AlphaStages[CurrentAlpha], false)
@@ -122,6 +161,7 @@ function StartDrawingPaint(SprayObject)
         if CurrentAlpha == 4 then
             break
         end
+        Wait(6250)
     end
     SetEntityAlpha(SprayObject, 255, false)
     CurrentAlpha = 0
@@ -129,7 +169,7 @@ end
 
 function RemoveSpray(SprayId)
     if ActiveSprays[SprayId] then
-        DeleteEntity(ActiveSprays[SprayId]['Object'])
+        EntityModule.DeleteEntity(ActiveSprays[SprayId]['Object'])
         ActiveSprays[SprayId] = nil
     end
 end

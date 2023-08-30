@@ -37,8 +37,8 @@ MC.AdminMenu.BuildPinnedPlayerList = function() {
             $.post(`https://${GetParentResourceName()}/GetCharData`, JSON.stringify({ 
                 Identifier: Key,
             }), function(pData) {
-                if (pData != undefined) {
-                    PinnedPlayersAmount = PinnedPlayersAmount + 1
+                if (pData) {
+                    PinnedPlayersAmount++;
                     $('.menu-pinned-players-list').append(`<div class="menu-pinned-player" data-PinnedPlayer="${pData.Name}">
                         <div class="menu-pinned-player-header">
                             <div class="menu-pinned-player-header-name">${pData.Name}</div>
@@ -58,16 +58,18 @@ MC.AdminMenu.BuildPinnedPlayerList = function() {
                                 <div class="menu-pinned-player-information-item-desc"><p>${pData.CitizenId}</p></div>
                             </div>
                         </div>
-                    </div>`);                    
+                    </div>`);  
+                    $('.menu-pinned-players').fadeIn(150);      
+                } else { 
+                    $('.menu-pinned-players').fadeOut(150);
+                    MC.AdminMenu.DebugMessage('^3Failed to set pinned player (No char data found).');
                 }
             }); 
         }
     });
-    setTimeout(() => {
-        if (PinnedPlayersAmount <= 0) {
-            $('.menu-pinned-players').fadeOut(150);
-        }
-    }, 3500)
+    if (PinnedPlayersAmount <= 0) {
+        $('.menu-pinned-players').fadeOut(150);
+    }        
 }
 
 // [ SEARCH ] \\

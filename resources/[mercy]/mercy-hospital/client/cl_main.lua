@@ -53,6 +53,7 @@ end)
 
 RegisterNetEvent('mercy-hospital/client/kill-player', function()
     SetEntityHealth(PlayerPedId(), 0)
+    SetEntityMaxHealth(PlayerPedId(), 200)
 end)
 
 RegisterNetEvent("mercy-hospital/client/save-vitals", function()
@@ -186,6 +187,7 @@ function InitHospital()
             EventsModule.TriggerServer('mercy-hospital/server/set-dead-state', true)
             TriggerEvent('mercy-hospital/client/do-dead-on-player', true)
         else
+            SetEntityMaxHealth(PlayerPedId(), 200)
             SetEntityHealth(PlayerPedId(), Player.MetaData['Health'])
             SetPedArmour(PlayerPedId(), Player.MetaData['Armor'])
         end

@@ -843,7 +843,17 @@ Config.DefaultMeta = {
     Nitrous = 0.0,
     Flagged = false, -- To Do
     FakePlate = false, -- To Do
-    WheelFitment = {}
+    WheelFitment = {
+        Width = nil,
+        FLOffset = nil,
+        FROffset = nil,
+        RLOffset = nil,
+        RROffset = nil,
+        FLRotation = nil,
+        FRRotation = nil,
+        RLRotation = nil,
+        RRRotation = nil,
+    }
 }
 
 Config.ImpoundList = {

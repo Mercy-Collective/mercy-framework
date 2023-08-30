@@ -104,6 +104,7 @@ Config.Throwables = {
     ["weapon_molotov"] = true,
     ["weapon_brick"] = true,
     ["weapon_flare"] = true,
+    ["weapon_grenade"] = true,
     ["weapon_smokegrenade"] = true,
     ["weapon_shoe"] = true,
 }

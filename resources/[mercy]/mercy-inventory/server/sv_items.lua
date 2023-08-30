@@ -33,10 +33,10 @@ Citizen.CreateThread(function()
                         TriggerClientEvent('mercy-inventory/client/item-box', Source, 'Used', Shared.ItemList[ItemData.ItemName], false)
                         TriggerClientEvent('mercy-inventory/client/use-weapon', Source, ItemData)
                     else
-                        Player.Functions.Notify("Item is broken..", 'error')
+                        Player.Functions.Notify("broken-item", "Item is broken..", 'error')
                     end
                 else
-                    Player.Functions.Notify("No quality found..", 'error')
+                    Player.Functions.Notify("no-quality-item", "No quality found..", 'error')
                 end
             end
         end

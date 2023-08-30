@@ -60,7 +60,7 @@ function InitHospitalZones()
                     Icon = 'fas fa-binoculars',
                     Label = 'Blood Scanner',
                     EventType = 'Client',
-                    EventName = '',
+                    EventName = 'mercy-hospital/client/scan-blood',
                     EventParams = {},
                     Enabled = function(Entity)
                         local Player = exports['mercy-base']:FetchModule('Player').GetPlayerData()

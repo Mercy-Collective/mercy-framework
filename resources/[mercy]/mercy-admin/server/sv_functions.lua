@@ -40,10 +40,10 @@ end
 
 function GetPlayerFromIdentifier(Type, Identifier)
     local Retval = nil
-    local Ident = Type ~= nil and Type or 'steam'
+    local Ident = Type ~= nil and Type or 'Steam'
     for _, v in pairs(PlayerModule.GetPlayers()) do
         local TPlayer = PlayerModule.GetPlayerBySource(v)
-        if TPlayer.PlayerData[Ident] == Identifier then
+        if TPlayer.PlayerData.Identifiers[Ident] == Identifier then
             Retval = TPlayer
         end
     end

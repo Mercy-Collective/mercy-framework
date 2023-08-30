@@ -473,6 +473,24 @@ Shared.Weapons = {
         ['SelectFire'] = false,
         ['MaxAmmo'] = 0,
     },
+    [GetHashKey('weapon_smokegrenade')] = {
+        ['WeaponID'] = 'weapon_stickybomb',  
+        ['AmmoType'] = 'AMMO_FIRE',
+        ['SelectFire'] = false,
+        ['MaxAmmo'] = 0,
+    },
+    [GetHashKey('weapon_flare')] = {
+        ['WeaponID'] = 'weapon_flare',  
+        ['AmmoType'] = 'AMMO_FIRE',
+        ['SelectFire'] = false,
+        ['MaxAmmo'] = 0,
+    },
+    [GetHashKey('weapon_molotov')] = {
+        ['WeaponID'] = 'weapon_molotov',  
+        ['AmmoType'] = 'AMMO_FIRE',
+        ['SelectFire'] = false,
+        ['MaxAmmo'] = 0,
+    },
 }
 
 --[[

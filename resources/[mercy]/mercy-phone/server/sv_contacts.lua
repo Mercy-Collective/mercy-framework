@@ -182,8 +182,8 @@ Citizen.CreateThread(function()
                     if Tries < 5 then
                         local PlayerCoords = GetEntityCoords(GetPlayerPed(Source))
                         local TargetCoords = GetEntityCoords(GetPlayerPed(Receiver.PlayerData.Source))
-                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Source, {[1] = PlayerCoords.x, [2] = PlayerCoords.y, [3] = PlayerCoords.z}, 5.0, "phone-calling", 0.6)
-                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Receiver.PlayerData.Source, {[1] = TargetCoords.x, [2] = TargetCoords.y, [3] = TargetCoords.z}, 5.0, "phone-ringing", 0.6)
+                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', -1, {[1] = PlayerCoords.x, [2] = PlayerCoords.y, [3] = PlayerCoords.z}, 5.0, "phone-calling", 0.6)
+                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', -1, {[1] = TargetCoords.x, [2] = TargetCoords.y, [3] = TargetCoords.z}, 5.0, "phone-ringing", 0.6)
                     else                            
                         TriggerClientEvent('mercy-phone/client/call/force-disconnect', Source, true)
                         TriggerClientEvent('mercy-phone/client/hide-notification', Source, Data.Phone..'-caller')
@@ -308,8 +308,8 @@ Citizen.CreateThread(function()
                     if Tries < 5 then
                         local PlayerCoords = GetEntityCoords(GetPlayerPed(Source))
                         local TargetCoords = GetEntityCoords(GetPlayerPed(Receiver.PlayerData.Source))
-                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Source, {[1] = PlayerCoords.x, [2] = PlayerCoords.y, [3] = PlayerCoords.z}, 5.0, "phone-calling", 0.6)
-                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Receiver.PlayerData.Source, {[1] = TargetCoords.x, [2] = TargetCoords.y, [3] = TargetCoords.z}, 5.0, "phone-ringing", 0.6)
+                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', -1, {[1] = PlayerCoords.x, [2] = PlayerCoords.y, [3] = PlayerCoords.z}, 5.0, "phone-calling", 0.6)
+                        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', -1, {[1] = TargetCoords.x, [2] = TargetCoords.y, [3] = TargetCoords.z}, 5.0, "phone-ringing", 0.6)
                     else                            
                         TriggerClientEvent('mercy-phone/client/call/force-disconnect', Source)
                         TriggerClientEvent('mercy-phone/client/hide-notification', Source, Data.ContactData.number..'-caller')

@@ -810,23 +810,6 @@ function ChangeVariation(Data)
     end
 end
 
-function LoadPlayerModel(skin)
-    RequestModel(skin)
-    while not HasModelLoaded(skin) do
-        Wait(1)
-    end
-end
-
-function RequestAnimationDict(Model)
-    local Attempts = 0
-    while Attempts < 100 and not HasAnimDictLoaded(Model) do
-        Attempts = Attempts + 1
-        RequestAnimDict(Model)
-        Citizen.Wait(1)
-    end
-    return Attempts < 100
-end
-
 function ChangeToSkinNoUpdate(Skin)
     Citizen.CreateThread(function()
         if FunctionsModule.RequestModel(Skin) then 

@@ -609,7 +609,7 @@ RegisterNetEvent("mercy-ui/server/send-fighting-progress", function(StreetLabel,
         ['AlertId'] = AlertId,
         ['AlertType'] = 'alert-red',
         ['AlertCode'] = '10-10',
-        ['AlertName'] = not Melee and 'Fight In Progress!' or 'Deadly Fight In Progress',
+        ['AlertName'] = not Melee and 'Fight In Progress' or 'Deadly Fight In Progress',
         ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
         ['AlertArea'] = true,
         ['AlertTime'] = os.date(),
@@ -651,6 +651,30 @@ RegisterNetEvent("mercy-ui/server/send-shooting-progress", function(StreetLabel,
         for k, v in pairs(VehDesc) do
             table.insert(AlertList[AlertId]['AlertItems'], v)
         end
+    end
+    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+end)
+
+RegisterNetEvent("mercy-ui/server/send-boosting-alert", function(StreetLabel, VehDesc)
+    local src = source
+    local AlertId = #AlertList + 1
+    AlertList[AlertId] = {
+        ['AlertId'] = AlertId,
+        ['AlertType'] = 'alert-red',
+        ['AlertCode'] = '10-99',
+        ['AlertName'] = 'Boost Vehicle',
+        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+        ['AlertArea'] = false,
+        ['AlertTime'] = os.date(),
+        ['AlertItems'] = {
+            [3] = {
+                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                ['Text'] = StreetLabel,
+            },
+        },
+    }
+    for k, v in pairs(VehDesc) do
+        table.insert(AlertList[AlertId]['AlertItems'], v)
     end
     TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
 end)

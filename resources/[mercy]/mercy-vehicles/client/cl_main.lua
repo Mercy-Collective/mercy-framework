@@ -50,7 +50,23 @@ end)
 -- [ Events ] --
 
 RegisterNetEvent('mercy-vehicle/client/pickup-wheelchair', function()
-    
+    local PlayerPed = PlayerPedId()
+    local PlayerCoords = GetEntityCoords(PlayerPed)
+
+    local Vehicle = VehicleModule.GetClosestVehicle()
+    if GetEntityModel(Vehicle['Vehicle']) == GetHashKey('wheelchair') then
+        local WheelchairCoords = GetEntityCoords(Vehicle['Vehicle'])
+        local Distance = #(PlayerCoords - WheelchairCoords)
+        if Distance <= 1.6 then
+            VehicleModule.DeleteVehicle(Vehicle['Vehicle'])
+            EventsModule.TriggerServer('mercy-inventory/server/add-item', "wheelchair", 1, false, nil, true, false)
+            exports['mercy-ui']:Notify('wheelchair-pickup', 'You picked up the wheelchair.', 'success', 3500)
+        else
+            exports['mercy-ui']:Notify('wheelchair-pickup', 'You are too far away from the wheelchair..', 'error', 3500)
+        end
+    else
+        exports['mercy-ui']:Notify('wheelchair-pickup', 'There is no wheelchair nearby', 'error', 3500)
+    end
 end)
 
 RegisterNetEvent("mercy-threads/exited-vehicle", function() 

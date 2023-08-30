@@ -390,10 +390,10 @@ function BuildFitmentMenu(Vehicle)
             FROffset = GetVehicleWheelXOffset(Vehicle, 1),
             RLOffset = GetVehicleWheelXOffset(Vehicle, 2),
             RROffset = GetVehicleWheelXOffset(Vehicle, 3),
-            -- FLRotation = GetVehicleWheelYRotation(Vehicle, 0),
-            -- FRRotation = GetVehicleWheelYRotation(Vehicle, 1),
-            -- RLRotation = GetVehicleWheelYRotation(Vehicle, 2),
-            -- RRRotation = GetVehicleWheelYRotation(Vehicle, 3),
+            FLRotation = GetVehicleWheelYRotation(Vehicle, 0),
+            FRRotation = GetVehicleWheelYRotation(Vehicle, 1),
+            RLRotation = GetVehicleWheelYRotation(Vehicle, 2),
+            RRRotation = GetVehicleWheelYRotation(Vehicle, 3),
         })
 
         CurrentWheelfitmentIndex = 0

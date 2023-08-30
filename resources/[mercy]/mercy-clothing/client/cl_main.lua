@@ -237,7 +237,7 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     ---
 
     -- Hat
-    if SkinData["Hat"].Item ~= -1 and SkinData["Hat"].Item ~= 0 then
+    if SkinData["Hat"].Item ~= -1 then
         SetPedPropIndex(PlayerPed, 0, SkinData["Hat"].Item, SkinData["Hat"].Texture, true)
     else
         ClearPedProp(PlayerPed, 0)
@@ -413,15 +413,6 @@ RegisterNetEvent("mc-clothing/client/load-outfit", function(Data)
 
     -- CLOTHING CATEGORY
 
-    -- Hat
-    if Data["Hat"] ~= nil then
-        if Data["Hat"].Item ~= -1 and Data["Hat"].Item ~= 0 then
-            SetPedPropIndex(PlayerPed, 0, Data["Hat"].Item, Data["Hat"].Texture, true)
-        else
-            ClearPedProp(PlayerPed, 0)
-        end
-    end
-
     -- Jacket
     if Data["Shirts"] ~= nil then
         SetPedComponentVariation(PlayerPed, 11, Data["Shirts"].Item, Data["Shirts"].Texture, 0)
@@ -473,7 +464,7 @@ RegisterNetEvent("mc-clothing/client/load-outfit", function(Data)
         if Data["Earpiece"].Item ~= -1 and Data["Earpiece"].Item ~= 0 then
             SetPedPropIndex(PlayerPed, 2, Data["Earpiece"].Item, Data["Earpiece"].Texture, true)
         else
-            ClearPedProp(PlayerPed, accessory2)
+            ClearPedProp(PlayerPed, 2)
         end
     end
 
@@ -502,6 +493,15 @@ RegisterNetEvent("mc-clothing/client/load-outfit", function(Data)
         end
     end
 
+    -- Hat
+    if Data["Hat"] ~= nil then
+        if Data["Hat"].Item ~= -1 then
+            SetPedPropIndex(PlayerPed, 0, Data["Hat"].Item, Data["Hat"].Texture, true)
+        else
+            ClearPedProp(PlayerPed, 0)
+        end
+    end
+    
     -- Vest
     if Data["ArmorVest"] ~= nil then
         SetPedComponentVariation(PlayerPed, 9, Data["ArmorVest"].Item, Data["ArmorVest"].Texture, 0)
@@ -570,7 +570,7 @@ RegisterNUICallback("Zoom", function(Data, Cb)
         end
     end
 
-    RequestAnimationDict("mp_sleep")
+    FunctionsModule.RequestAnimDict("mp_sleep")
     Citizen.CreateThread(function()
         while CurrentActiveCam == 1 do
             if not IsEntityPlayingAnim(PlayerPedId(), 'mp_sleep', 'bind_pose_180', 3) then
@@ -679,6 +679,7 @@ end)
 RegisterNUICallback('SetCurrentPed', function(Data, Cb)
     local Ped = Data.Ped
     local Type = Data.Type:lower()
+    SetPedMaxHealth(PlayerPedId(), 200)
     if Type == 'male' then
         Config.SkinData['Skin']['Model'].Item = Config.ManPlayerModels[Ped]
         ChangeToSkinNoUpdate(Config.ManPlayerModels[Ped])
