@@ -201,7 +201,6 @@ RegisterNetEvent("mc-clothing/server/save-outfit", function(OutfitName, SkinData
     local Player = PlayerModule.GetPlayerBySource(src)
     if Player and SkinData ~= nil then
         local OutfitId = "outfit-"..math.random(1, 10).."-"..math.random(11111, 99999)
-        print('Saving outfit Hat:',  SkinData['Skin']['Hat'].Item)
         DatabaseModule.Insert('INSERT INTO player_outfits (citizenid, outfitname, model, skin, outfitId) VALUES (?, ?, ?, ?, ?)', {
             Player.PlayerData.CitizenId,
             OutfitName,
