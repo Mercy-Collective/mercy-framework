@@ -40,7 +40,7 @@ end)
 
 RegisterNetEvent('mercy-base/client/on-job-update', function(JobData, DutyUpdate)
 	PlayerData.Job = JobData
-	if JobData.Name == 'police' and DutyUpdate then
+	if JobData.Name == 'police' or JobData.Name == 'ems' and DutyUpdate then
 		if JobData.Duty == false then TriggerServerEvent('mercy-police/server/clear-blip') end
 	end
 	RemoveAllJobBlips()

@@ -159,6 +159,26 @@ Config.Interiors = {
         },
         Props = {},
     },
+    ['container_shell'] = {
+        Offsets = {
+            Exit = { x = 0.08, y = -5.73, z = 1.24, h = 359.32 },
+        },
+        Props = {
+            { Prop = 'bkr_prop_weed_table_01b', Coords = vector4(0.0, 5.25, 0.0, 0.0) },
+            { Prop = 'bkr_prop_weed_table_01b', Coords = vector4(0.0, 4.25, 0.0, 0.0) },
+            { Prop = 'prop_meth_setup_01', Coords = vector4(0.3, 5.45, 0.8, 185.0) },
+
+            { Prop = 'bkr_prop_meth_chiller_01a', Coords = vector4(0.45, 2.35, 0.1, 180.0) },
+            { Prop = 'bkr_prop_meth_chiller_01a', Coords = vector4(0.45, 1.3, 0.1, 0.0) },
+
+            { Prop = 'bkr_prop_meth_table01a', Coords = vector4(0.7, -0.5, 0.0, 90.0) },
+
+            { Prop = 'bkr_prop_fertiliser_pallet_01b', Coords = vector4(0.5, -3.0, 0.0, 270.0) },
+
+            { Prop = 'bkr_prop_biker_safebody_01a', Coords = vector4(0.6, -5.0, 0.1, 270.0) },
+            { Prop = 'bkr_prop_biker_safedoor_01a', Coords = vector4(0.6, -5.0, 0.2, 270.0) },
+        },
+    },
     -- ['barbers_shell'] = { -- Missing collisions...
     --     Offsets = {
     --         Exit = { x = 0.0, y = 0.0, z = 0.0, h = 0.0 },
