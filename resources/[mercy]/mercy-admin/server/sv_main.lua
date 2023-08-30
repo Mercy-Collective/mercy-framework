@@ -124,6 +124,7 @@ Citizen.CreateThread(function()
             local ServerId = tonumber(args[1])
             if ServerId then
                 PlayerModule.RefreshPermissions(ServerId)
+                local Name = GetPlayerName(ServerId)ServerId
                 print('Refreshed permissions for '..Name..' ('..ServerId..')')
             else
                 print('SYNTAX: refreshpermissions [serverid]')
