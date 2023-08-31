@@ -101,6 +101,16 @@ RegisterNetEvent('mercy-police/client/create-badge', function()
     end)
 end)
 
+RegisterNetEvent('mercy-police/client/post-badge', function(Name, Rank, Department, Image)
+    local ClosestPlayer = PlayerModule.GetClosestPlayer(nil, 2.0)
+
+    if ClosestPlayer['ClosestPlayerPed'] == -1 and ClosestPlayer['ClosestServer'] == -1 then
+        EventsModule.TriggerServer("mercy-items/server/show-badge", Name, Rank, Department, Image)
+    else
+        EventsModule.TriggerServer("mercy-items/server/show-badge", Name, Rank, Department, Image, ClosestPlayer['ClosestServer'])
+    end
+end)
+
 RegisterNetEvent('mercy-police/client/show-badge', function(Name, Rank, Department, Image)
 	exports['mercy-ui']:SendUIMessage('Police', 'ShowBadge', {
 		Name = Name,
