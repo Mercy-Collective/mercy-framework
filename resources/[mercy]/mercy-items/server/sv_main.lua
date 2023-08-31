@@ -32,7 +32,7 @@ Citizen.CreateThread(function()
      FunctionsModule.CreateUseableItem("idcard", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-chat/client/post-identification', Source, Item.Info.CitizenId, Item.Info.Firstname, Item.Info.Lastname, Item.Info.Date, Item.Info.Sex)
+            TriggerClientEvent('mercy-chat/client/send-identification', Source, Item.Info.CitizenId, Item.Info.Firstname, Item.Info.Lastname, Item.Info.Date, Item.Info.Sex)
         end
     end)
 
@@ -202,7 +202,7 @@ Citizen.CreateThread(function()
     FunctionsModule.CreateUseableItem("pdbadge", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-police/client/show-badge', Source, Item.Info.Name, Item.Info.Rank, Item.Info.Department, Item.Info.Image)
+            TriggerClientEvent('mercy-police/client/post-badge', Source, Item.Info.Name, Item.Info.Rank, Item.Info.Department, Item.Info.Image)
         end
     end)
 
