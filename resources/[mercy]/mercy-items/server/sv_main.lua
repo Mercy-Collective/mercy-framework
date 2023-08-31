@@ -36,6 +36,16 @@ Citizen.CreateThread(function()
         end
     end)
 
+    EventsModule.RegisterServer("mercy-items/server/show-identification", function(Source, CitizenId, Firstname, Lastname, Date, Sex, ClosestPlayer)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if ClosestPlayer ~= nil then
+            TriggerClientEvent('mercy-chat/client/post-identification', ClosestPlayer, CitizenId, Firstname, Lastname, Date, Sex)
+            TriggerClientEvent('mercy-chat/client/post-identification', Source, CitizenId, Firstname, Lastname, Date, Sex)
+        else
+            TriggerClientEvent('mercy-chat/client/post-identification', Source, CitizenId, Firstname, Lastname, Date, Sex)
+        end
+    end)
+
     -- Food
 
     FunctionsModule.CreateUseableItem("bread", function(Source, Item)
@@ -193,6 +203,16 @@ Citizen.CreateThread(function()
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
             TriggerClientEvent('mercy-police/client/show-badge', Source, Item.Info.Name, Item.Info.Rank, Item.Info.Department, Item.Info.Image)
+        end
+    end)
+
+    EventsModule.RegisterServer("mercy-items/server/show-badge", function(Source, Name, Rank, Department, Image, ClosestPlayer)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if ClosestPlayer ~= nil then
+            TriggerClientEvent('mercy-police/client/show-badge', ClosestPlayer, Name, Rank, Department, Image)
+            TriggerClientEvent('mercy-police/client/show-badge', Source, Name, Rank, Department, Image)
+        else
+            TriggerClientEvent('mercy-police/client/show-badge', Source, Name, Rank, Department, Image)
         end
     end)
 
