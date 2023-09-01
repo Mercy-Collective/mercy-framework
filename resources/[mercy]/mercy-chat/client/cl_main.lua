@@ -1,4 +1,4 @@
-local ChatOpen, CanReceiveOOC, FunctionsModule = false, true, nil
+local ChatOpen, CanReceiveOOC, FunctionsModule, PlayerModule = false, true, nil, nil
 local SpamFilter = {
     ["e passout"] = 5000,
     ["e passout2"] = 5000,
@@ -13,10 +13,12 @@ local _Ready = false
 AddEventHandler('Modules/client/ready', function()
     TriggerEvent('Modules/client/request-dependencies', {
         'Functions',
+        'Player',
     }, function(Succeeded)
 
         if not Succeeded then return end
         FunctionsModule = exports['mercy-base']:FetchModule('Functions')
+        PlayerModule = exports['mercy-base']:FetchModule('Player')
         _Ready = true
     end)
 end)
