@@ -14,11 +14,12 @@ AddEventHandler('Modules/client/ready', function()
     TriggerEvent('Modules/client/request-dependencies', {
         'Functions',
         'Player',
+        'Events',
     }, function(Succeeded)
-
         if not Succeeded then return end
         FunctionsModule = exports['mercy-base']:FetchModule('Functions')
         PlayerModule = exports['mercy-base']:FetchModule('Player')
+        EventsModule = exports['mercy-base']:FetchModule('Events')
         _Ready = true
     end)
 end)
