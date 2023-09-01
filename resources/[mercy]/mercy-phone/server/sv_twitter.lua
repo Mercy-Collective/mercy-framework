@@ -47,9 +47,13 @@ Citizen.CreateThread(function()
             Tweet.Tweeter,
             Tweet.Message,
             Tweet.Time,
-            Tweet.IsBusiness,
+            tostring(Tweet.IsBusiness),
         }, function(IsSent)
             if IsSent then
+                if Config.Debug then
+                    print(Player.PlayerData.CitizenId .. ' ' .. Tweet.Tweeter .. ' ' .. Tweet.Message .. ' ' .. Tweet.Time .. ' ' .. tostring(Tweet.IsBusiness))
+                end
+                
                 Tweets[#Tweets + 1] = Tweet
                 TriggerClientEvent('mercy-phone/client/twitter/sync-tweets', -1, Tweet)
                 
