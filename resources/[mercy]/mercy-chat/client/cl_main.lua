@@ -88,7 +88,7 @@ RegisterNetEvent('mercy-chat/client/send-identification', function(CitizenId, Fi
     local ClosestPlayer = PlayerModule.GetClosestPlayer(nil, 2.0)
 
     if ClosestPlayer['ClosestPlayerPed'] == -1 and ClosestPlayer['ClosestServer'] == -1 then
-        EventsModule.TriggerServer("mercy-items/server/show-identification", CitizenId, Firstname, Lastname, Date, Sex)
+        EventsModule.TriggerServer("mercy-items/server/show-identification", CitizenId, Firstname, Lastname, Date, Sex, nil)
     else
         EventsModule.TriggerServer("mercy-items/server/show-identification", CitizenId, Firstname, Lastname, Date, Sex, ClosestPlayer['ClosestServer'])
     end
