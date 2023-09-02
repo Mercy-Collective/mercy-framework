@@ -179,6 +179,18 @@ Config.Interiors = {
             { Prop = 'bkr_prop_biker_safedoor_01a', Coords = vector4(0.6, -5.0, 0.2, 270.0) },
         },
     },
+    ['tijns_garage'] = {
+        Offsets = {
+            Exit = { x = -8.1947021484375, y = -1.6284484863281, z = 0.0, h = 0.0 },
+        },
+        Props = {},
+    },
+    ['tijns_stash_garage'] = {
+        Offsets = {
+            Exit = { x = -0.4, y = -3.7, z = 1.0, h = 358.633972168 },
+        },
+        Props = {},
+    },
     -- ['barbers_shell'] = { -- Missing collisions...
     --     Offsets = {
     --         Exit = { x = 0.0, y = 0.0, z = 0.0, h = 0.0 },
