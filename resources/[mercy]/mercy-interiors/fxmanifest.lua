@@ -31,7 +31,6 @@ data_file 'DLC_ITYP_REQUEST' 'stream/Tier-7-8/shellpropsv2.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Tier-9-10/shellprops.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Traphouse/barbers_shell.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Winkel/shellpropsv4.ytyp'
-data_file 'DLC_ITYP_REQUEST' 'stream/Winkel/shellpropsv4.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Garages/tijns_stash_garage.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Garages/tijns_garage.ytyp'
 
