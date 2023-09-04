@@ -255,30 +255,32 @@ RegisterNetEvent('mercy-police/client/open-employee-list', function()
 
 	local EmployeeList = {}
 
-	-- table.insert(EmployeeList, {['Title'] = '<i class="fas fa-chevron-left"></i> Back', ['Type'] = 'Back', ['GoBack'] = true})
 	for k, v in pairs(CopsList) do
 		local List = {
 			['Title'] = v.Name..' (#'..v.Job.Callsign..')',
 			['Desc'] = 'Show Employee Info',
-			['Data'] = { ['Event'] = '', ['Type'] = '' },
+			['Data'] = {['Event'] = '', ['Type'] = ''},
 			['SecondMenu'] = {
 				{
 					['Title'] = 'Employee',
 					['Desc'] = v.Name,
 					['Type'] = 'Click',
 					['Data'] = { ['Event'] = '', ['Type'] = '' },
+					['CloseMenu'] = false,
 				},
 				{
 					['Title'] = 'Information',
-					['Desc'] = 'Callsign: '..v.Job.Callsign..'; Highcommand: '..tostring(v.Job.HighCommand)..'<br>Job: Police; Department: '..v.Job.Department,
+					['Desc'] = 'Callsign: '..v.Job.Callsign..'; Highcommand: '..(tostring(v.Job.HighCommand) == 'true' and 'Yes' or 'No')..'<br>Department: '..v.Job.Department,
 					['Type'] = 'Click',
 					['Data'] = { ['Event'] = '', ['Type'] = '' },
+					['CloseMenu'] = false,
 				},
 				{
 					['Title'] = 'Salary',
 					['Desc'] = 'Current Salary: $'..v.Job.Salary..'.00',
 					['Type'] = 'Click',
 					['Data'] = { ['Event'] = '', ['Type'] = '' },
+					['CloseMenu'] = false,
 				},
 				{
 					['Title'] = 'Fire Employee',
@@ -287,7 +289,6 @@ RegisterNetEvent('mercy-police/client/open-employee-list', function()
 				}
 			},
 		}
-
 		table.insert(EmployeeList, List)
 	end
 
@@ -295,8 +296,7 @@ RegisterNetEvent('mercy-police/client/open-employee-list', function()
 		['Title'] = 'Employee List',
 		['Desc'] = 'Show me all my bitchess',
 		['Data'] = {['Event'] = '', ['Type'] = ''},
-		['Type'] = 'SubMenu',
-		['SubMenu'] = EmployeeList,
+		['SecondMenu'] = EmployeeList,
 	}
 	exports['mercy-ui']:OpenContext({ ['MainMenuItems'] = MenuData }) 
 end)

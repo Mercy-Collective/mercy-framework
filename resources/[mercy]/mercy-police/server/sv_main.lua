@@ -32,7 +32,6 @@ CreateThread(function()
 
     CallbackModule.CreateCallback('mercy-police/server/get-all-cops-db', function(Source, Cb)
         local Cops = {}
-        local Promise = promise:new()
         DatabaseModule.Execute("SELECT * FROM players", {}, function(Players)
             if Players ~= nil then
                 -- Get From Database
@@ -68,10 +67,9 @@ CreateThread(function()
                         end
                     end
                 end
-                Promise:resolve(Cops)
             end
-        end)
-        Cb(Citizen.Await(Promise))
+        end, true)
+        Cb(Cops)
     end)
 
     CallbackModule.CreateCallback('mercy-police/server/get-active-cops', function(Source, Cb)

@@ -1,6 +1,6 @@
-var Context = RegisterApp('Context');
-var CurrentImage = null;
-var CanClick = true;
+let Context = RegisterApp('Context');
+let CurrentImage = null;
+let CanClick = true;
 HasContextOpen = false;
 
 // Functions
@@ -8,7 +8,7 @@ HasContextOpen = false;
 CloseContextMenu = function(DoCloseEvent) {
     $.post('https://mercy-ui/Context/CloseContext', JSON.stringify({}))
     if (DoCloseEvent) {
-        var TotalMenuData = $('.main-context-container').data('AllMenuData')
+        let TotalMenuData = $('.main-context-container').data('AllMenuData')
         if (TotalMenuData != null && TotalMenuData != undefined && TotalMenuData['CloseEvent'] != null && TotalMenuData['CloseEvent'] != undefined) {
             $.post('https://mercy-ui/Context/ContextEvent', JSON.stringify({MenuData: TotalMenuData['CloseEvent']}))
         }
@@ -31,7 +31,7 @@ SetupContextMenu = function(Data) {
     HasContextOpen = true;
     $('.context-menu-items').html('');
     $.each(Data['MainMenuItems'], function (Key, Value) {
-        var AddMenuItem = `<div class="context-menu-item ${Value['Disabled'] ? 'context-disabled' : ''} context-menu-hover context-item" id="menu-item${Key}"> <div class="context-menu-title">${Value['Title']}</div> <div class="context-menu-desc">${Value['Desc'] || ''}</div></div>`
+        let AddMenuItem = `<div class="context-menu-item ${Value['Disabled'] ? 'context-disabled' : ''} context-menu-hover context-item" id="menu-item${Key}"> <div class="context-menu-title">${Value['Title']}</div> <div class="context-menu-desc">${Value['Desc'] || ''}</div></div>`
         $('.context-menu-items').append(AddMenuItem);
         $(`#menu-item${Key}`).data('MenuData', Value);  
     });
@@ -45,7 +45,7 @@ GoToSubMenu = function(MenuData) {
     ClearContextImage()
     $('.context-menu-items').html('<div class="context-menu-item return"><div class="context-menu-title"><i class="fas fa-chevron-left" style="margin-right: .6vh;"></i> Back</div></div>'	)
     $.each(MenuData, function (Key, Value) {
-        var AddMenuItem = `<div class="context-menu-item ${Value['Disabled'] ? 'context-disabled' : ''} context-menu-hover context-sub-item" id="menu-item${Key}"> <div class="context-menu-title">${Value['Title']}</div> <div class="context-menu-desc">${Value['Desc'] || ''}</div></div>`
+        let AddMenuItem = `<div class="context-menu-item ${Value['Disabled'] ? 'context-disabled' : ''} context-menu-hover context-sub-item" id="menu-item${Key}"> <div class="context-menu-title">${Value['Title']}</div> <div class="context-menu-desc">${Value['Desc'] || ''}</div></div>`
         $('.context-menu-items').append(AddMenuItem);
         $(`#menu-item${Key}`).data('MenuData', Value);  
     });
@@ -55,7 +55,7 @@ GoToSubMenu = function(MenuData) {
 }
 
 GoBackToMainMenu = function() {
-    var TotalMenuData = $('.main-context-container').data('AllMenuData')
+    let TotalMenuData = $('.main-context-container').data('AllMenuData')
     SetupContextMenu(TotalMenuData)
 }
 
@@ -72,14 +72,19 @@ $(document).on('click', '.context-item', function(e) {
     if ($(this).hasClass("context-disabled")) return;
 
     if (CanClick) {
-        var MenuData = $(this).data('MenuData')
+        let MenuData = $(this).data('MenuData')
         if (MenuData['SecondMenu'] != null && MenuData['SecondMenu'] != undefined) {
             $.post('https://mercy-ui/Context/ContextEvent', JSON.stringify({MenuData: MenuData['Data']}))
             CanClick = false;
             GoToSubMenu(MenuData['SecondMenu'])
         } else {
             $.post('https://mercy-ui/Context/ContextEvent', JSON.stringify({MenuData: MenuData['Data']}))
-            CloseContextMenu(false)
+            if (MenuData['CloseMenu'] == null || MenuData['CloseMenu'] == undefined) {
+                MenuData['CloseMenu'] = true; 
+            }
+            if (MenuData['CloseMenu']) {
+                CloseContextMenu(false)
+            }
         }
     }
 });
@@ -89,21 +94,30 @@ $(document).on('click', '.context-sub-item', function(e) {
     if ($(this).hasClass("context-disabled")) return;
 
     if (CanClick) {
-        var MenuData = $(this).data('MenuData')
+        let MenuData = $(this).data('MenuData')
         if (MenuData['GoBack']) {
             GoBackToMainMenu()
         }
-        if (MenuData['CloseMenu']) {
-            CloseContextMenu(MenuData['DoCloseEvent'])
+        if (MenuData['SecondMenu'] != null && MenuData['SecondMenu'] != undefined) {
+            $.post('https://mercy-ui/Context/ContextEvent', JSON.stringify({MenuData: MenuData['Data']}))
+            CanClick = false;
+            GoToSubMenu(MenuData['SecondMenu'])
+        } else {
+            $.post('https://mercy-ui/Context/ContextEvent', JSON.stringify({MenuData: MenuData['Data']}))
+            if (MenuData['CloseMenu'] == null || MenuData['CloseMenu'] == undefined) {
+                MenuData['CloseMenu'] = true; 
+            }
+            if (MenuData['CloseMenu']) {
+                CloseContextMenu(MenuData['DoCloseEvent'])
+            }
         }
-        $.post('https://mercy-ui/Context/ContextEvent', JSON.stringify({MenuData: MenuData['Data']}))
     }
 });
 
 $(document).on('click', '.return', function(e) {
     e.preventDefault();
     if (CanClick) {
-        var TotalMenuData = $('.main-context-container').data('AllMenuData')
+        let TotalMenuData = $('.main-context-container').data('AllMenuData')
         if (TotalMenuData['ReturnEvent'] != null && TotalMenuData['ReturnEvent'] != undefined) {
             $.post('https://mercy-ui/Context/ContextEvent', JSON.stringify({MenuData: TotalMenuData['ReturnEvent']}))
         }
@@ -121,7 +135,7 @@ $(document).on('click', '.close', function(e) {
 $(document).on({
     mouseenter: function(e){
         e.preventDefault();
-        var MenuData = $(this).data('MenuData');
+        let MenuData = $(this).data('MenuData');
         if (MenuData['Image'] != null && MenuData['Image'] != undefined) {
             $('.context-image img').attr("src", MenuData['Image'])
             $('.context-image').show();
