@@ -1,5 +1,4 @@
 Config = Config or {}
-Config.Debug = false
 
 -- DO NOT DELETE DOORS, SET `DISABLED` TO TRUE FOR SPECIFIC DOOR IF YOU WANT TO REMOVE IT.
 
@@ -18,7 +17,10 @@ Config.Doors = {
         Access = {
             Job = { 'police', 'ems', 'judge' },
             CitizenId = {},
-            Business = {}
+            Business = {},
+            -- Item = { -- ITEM EXAMPLE
+            --     'hospital_key',
+            -- }
         },
     },
     {
@@ -2739,7 +2741,7 @@ Config.Doors = {
         Locked = 1,
         IsGate = false,
         CanDetcord = false,
-        canLockpick = true,
+        CanLockpick = true,
         Connected = {},
         Access = {
             Job = { 'police', 'judge' },
@@ -2754,7 +2756,7 @@ Config.Doors = {
         Locked = 1,
         IsGate = false,
         CanDetcord = false,
-        canLockpick = true,
+        CanLockpick = true,
         Connected = {},
         Access = {
             Job = { 'police', 'judge' },
@@ -2768,7 +2770,7 @@ Config.Doors = {
         Model = 'v_ilev_gb_vaubar',
         Locked = 1,
         IsGate = false,
-        canLockpick = true,
+        CanLockpick = true,
         CanDetcord = false,
         Connected = {},
         Access = {
@@ -2784,7 +2786,7 @@ Config.Doors = {
         Locked = 1,
         IsGate = false,
         CanDetcord = false,
-        canLockpick = true,
+        CanLockpick = true,
         Connected = {},
         Access = {
             Job = { 'police', 'judge' },
@@ -2797,7 +2799,7 @@ Config.Doors = {
         Coords = vector3(-2956.04, 484.66, 15.67),
         Model = 'v_ilev_gb_vaubar',
         Locked = 1,
-        canLockpick = true,
+        CanLockpick = true,
         IsGate = false,
         CanDetcord = false,
         Connected = {},
@@ -2813,7 +2815,7 @@ Config.Doors = {
         Model = 'v_ilev_gb_vaubar',
         Locked = 1,
         IsGate = false,
-        canLockpick = true,
+        CanLockpick = true,
         CanDetcord = false,
         Connected = {},
         Access = {
@@ -2934,7 +2936,7 @@ Config.Doors = {
         Locked = 1,
         IsGate = false,
         CanDetcord = false,
-        canLockpick = true,
+        CanLockpick = true,
         Connected = {},
         Access = {
             Job = { 'police', 'judge' },
