@@ -181,7 +181,7 @@ Config.Interiors = {
     },
     ['tijns_garage'] = {
         Offsets = {
-            Exit = { x = -8.1947021484375, y = -1.6284484863281, z = 0.0, h = 0.0 },
+            Exit = { x = -8.87, y = 2.46, z = 0.74, h = 94.73 },
         },
         Props = {},
     },
