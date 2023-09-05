@@ -265,6 +265,15 @@
     background-position: center;
 }
 
+#app-calculator .phone-app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3vh;
+    background-image: url("../../../images/phone/calculator.png");
+    background-size: cover;
+    background-position: center;
+}
+
 #app-documents .phone-app-icon {
     width: 100%;
     height: 100%;

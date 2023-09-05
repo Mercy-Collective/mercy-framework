@@ -1,0 +1,196 @@
+:root {
+  --accent_color: #f69906;
+  --radius: 50px;
+  --light_grey: #9f9f9f;
+  --hard_grey: #313131;
+  --selected_grey: #2e2e2e;
+  --hover_accent_color: #f7ab31;
+  --hover_light_grey: #b3b3b3;
+  --hover_hard_grey: #4f4f4f;
+}
+
+.phone-app-calculator {
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8vh;
+    background-color: #212832;
+}
+
+#body_box {
+    width: 100%;
+    height: 85%;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+}
+
+#calculations {
+  width: inherit;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+#control_panel {
+  width: 275.79px;
+  height: 60%;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  width: inherit;
+  height: 16.8mm;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  row-gap: 10px;
+  column-gap: 10px;
+}
+
+.one {
+  width: 47px;
+  height: 47px;
+  border-radius: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  user-select: none;
+}
+
+.grey {
+  background: var(--light_grey);
+  color: black;
+}
+.accent {
+  background: var(--accent_color);
+  color: white;
+}
+.numbers {
+  background: var(--hard_grey);
+  color: white;
+}
+
+.grey:hover {
+  background: var(--hover_light_grey);
+}
+.accent:hover {
+  background: var(--hover_accent_color);
+}
+.numbers:hover {
+  background: var(--hover_hard_grey);
+}
+.EXCEPTION:hover {
+  background: var(--hover_hard_grey);
+}
+
+div.EXCEPTION {
+  width: 104px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+
+div.EXCEPTION > span {
+  margin-left: 17px;
+  cursor: pointer;
+}
+
+#container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#text_area {
+  width: 215px;
+  height: 77px;
+  border: none;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 64px;
+  display: flex;
+  overflow-x: hidden;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+}
+
+#text_area::selection {
+  background-color: var(--selected_grey);
+}
+
+.equal_icon,
+.add_icon,
+.minus_icon,
+.mult_icon,
+.div_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*-------------------------------------------------*/
+
+#change_orientation {
+  background-color: var(--light_grey);
+  /*background-image: url(https://help.apple.com/assets/640A52196275DE31D4371B5E/640A52226275DE31D4371B8B/es_ES/c7ded93d250b83aaa075ce3a6355a2a0.png);*/
+  background-size: cover;
+  width: 47px;
+  height: 47px;
+  border-radius: 100%;
+  cursor: pointer;
+  position: relative;
+  top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  color: black;
+}
+
+#change_orientation:hover {
+  background-color: var(--hover_light_grey);
+}
+
+/*----------------------------------------------------*/
+
+.plus_90 {
+  animation: plus_90 0.3s 1;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes plus_90 {
+  0% {
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+.minus_90 {
+  animation: minus_90 0.3s 1;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes minus_90 {
+  0% {
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
