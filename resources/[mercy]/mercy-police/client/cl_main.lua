@@ -247,17 +247,11 @@ end)
 RegisterNetEvent('mercy-police/client/open-employee-list', function()
 	local CopsList = CallbackModule.SendCallback("mercy-police/server/get-all-cops-db")
 	local MenuData = {}
-	MenuData[#MenuData + 1] = {
-		['Title'] = 'Hire',
-		['Desc'] = 'Hire someone',
-		['Data'] = {['Event'] = 'mercy-police/client/hire-police', ['Type'] = 'Client'},
-	}
-
 	local EmployeeList = {}
 
 	for k, v in pairs(CopsList) do
 		local List = {
-			['Title'] = v.Name..' (#'..v.Job.Callsign..')',
+			['Title'] = v.Name..' ('..v.Job.Callsign..')',
 			['Desc'] = 'Show Employee Info',
 			['Data'] = {['Event'] = '', ['Type'] = ''},
 			['SecondMenu'] = {
@@ -293,12 +287,37 @@ RegisterNetEvent('mercy-police/client/open-employee-list', function()
 	end
 
 	MenuData[#MenuData + 1] = {
-		['Title'] = 'Employee List',
-		['Desc'] = 'Show me all my bitchess',
+		['Title'] = 'Employee List ('..#EmployeeList..')',
+		['Desc'] = 'Show all employees',
 		['Data'] = {['Event'] = '', ['Type'] = ''},
 		['SecondMenu'] = EmployeeList,
 	}
+	MenuData[#MenuData + 1] = {
+		['Title'] = 'Hire Person',
+		['Desc'] = 'Hire someone',
+		['Data'] = {['Event'] = 'mercy-police/client/hire-police', ['Type'] = 'Client'},
+	}
+	MenuData[#MenuData + 1] = {
+		['Title'] = 'Fire Person',
+		['Desc'] = 'Fire someone using State id',
+		['Data'] = {['Event'] = 'mercy-police/client/fire-police', ['Type'] = 'Client'},
+	}
+
 	exports['mercy-ui']:OpenContext({ ['MainMenuItems'] = MenuData }) 
+end)
+
+RegisterNetEvent("mercy-police/client/fire-police", function()
+	local PlayerData = PlayerModule.GetPlayerData()
+	if PlayerData.Job.Name ~= 'police' or not PlayerData.Job.Duty or not PlayerData.Job.HighCommand then return end
+	Citizen.SetTimeout(450, function()
+        local Data = {{Name = 'StateId', Label = 'State Id', Icon = 'fas fa-user'}}
+        local FireInput = exports['mercy-ui']:CreateInput(Data)
+		if FireInput['StateId'] then
+			EventsModule.TriggerServer('mercy-police/server/fire-employee', FireInput['StateId'])
+		else
+			TriggerEvent('mercy-ui/client/notify', 'police-error', "An error occured! (You can\'t leave this empty)", 'error')
+		end
+    end)
 end)
 
 RegisterNetEvent('mercy-police/client/hire-police', function()
