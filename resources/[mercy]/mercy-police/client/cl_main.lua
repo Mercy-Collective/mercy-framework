@@ -263,8 +263,8 @@ RegisterNetEvent('mercy-police/client/open-employee-list', function()
 					['CloseMenu'] = false,
 				},
 				{
-					['Title'] = 'Information',
-					['Desc'] = 'Callsign: '..v.Job.Callsign..'; Highcommand: '..(tostring(v.Job.HighCommand) == 'true' and 'Yes' or 'No')..'<br>Department: '..v.Job.Department,
+					['Title'] = 'Informations',
+					['Desc'] = 'Callsign: '..v.Job.Callsign..'; Highcommand: '..(tostring(v.Job.HighCommand) == 'true' and 'Yes' or 'No')..'<br>Department: '..v.Job.Department..'; Rank: '..v.Job.Rank,
 					['Type'] = 'Click',
 					['Data'] = { ['Event'] = '', ['Type'] = '' },
 					['CloseMenu'] = false,
