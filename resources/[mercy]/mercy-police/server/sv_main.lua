@@ -37,10 +37,11 @@ CreateThread(function()
                 -- Get From Database
                 for k, v in pairs(Players) do
                     local JobInfo = json.decode(v.Job)
+		    local CharInfo = json.decode(v.CharInfo)
                     if JobInfo.Name == 'police' then
                         local Cop = {}
                         Cop.CitizenId = v.CitizenId
-                        Cop.Name = v.Name
+                        Cop.Name = CharInfo.Firstname..' '..CharInfo.Lastname
                         Cop.Job = JobInfo
                         table.insert(Cops, Cop)
                     end
