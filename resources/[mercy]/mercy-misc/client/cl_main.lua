@@ -102,9 +102,9 @@ RegisterNetEvent('mercy-misc/client/me', function(Source, Text)
     local Distance = 0.1
     
     local Ped = GetPlayerPed(GetPlayerFromServerId(Source))
-    local MainPed = PlayerPedId()
-    local Distance = #(GetEntityCoords(MainPed) - GetEntityCoords(Ped))
-    if Distance > 10.0 then return end
+    -- local MainPed = PlayerPedId()
+    -- local Distance = #(GetEntityCoords(MainPed) - GetEntityCoords(Ped))
+    -- if Distance > 10.0 then return end
 
     while Alpha > 0 do
         Alpha = Alpha - 1

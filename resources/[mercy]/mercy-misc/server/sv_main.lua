@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
 
     CommandsModule.Add({"me"}, "Character Expression", {{Name="message", Help="Message"}}, false, function(source, args)
         local Text = table.concat(args, ' ')
-        TriggerClientEvent('mercy-misc/client/me', -1, source, Text)
+        TriggerClientEvent('mercy-misc/client/me', source, source, Text)
     end)
 
     CommandsModule.Add({"carry"}, "Carry the closest person", {}, false, function(source, args)
