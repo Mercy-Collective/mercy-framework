@@ -109,7 +109,7 @@ RegisterNetEvent('mercy-misc/client/me', function(Source, Text)
 
         local SourceCoords = GetEntityCoords(Ped)
         local NearCoords = GetEntityCoords(PlayerPedId())
-        local PDist = Vdist2(SourceCoords, NearCoords)
+        local PDist = #(SourceCoords - NearCoords)
         if PDist < 25.0 then
             if GetVehiclePedIsUsing(Ped) ~= 0 then
                 SourceCoords = GetPedBoneCoords(Ped, 0x4B2)
