@@ -103,7 +103,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(4)
         if LocalPlayer.state.LoggedIn then
-            if GetFollowPedCamViewMode() == 1 or GetFollowPedCamViewMode() == 2 or GetFollowPedCamViewMode() == 3  then
+            if GetFollowPedCamViewMode() == 1 or GetFollowPedCamViewMode() == 2 or GetFollowPedCamViewMode() == 3 then
                 SetFollowPedCamViewMode(4)
             end
 			if GetFollowVehicleCamViewMode() == 2 or GetFollowVehicleCamViewMode() == 2 then

@@ -171,13 +171,15 @@ CreateThread(function()
         CallData['Id'] = source
         CallData['Who'] = Player.PlayerData.CharInfo.Firstname..' | '..Player.PlayerData.CharInfo.Lastname..' # '..Player.PlayerData.CharInfo.PhoneNumber
         CallData['Message'] = table.concat(args, ' ')
-        TriggerClientEvent('mercy-police/client/send-911', -1, CallData, false)
+        TriggerClientEvent('mercy-police/client/send-911', source, CallData, false)
+        -- TriggerClientEvent('mercy-police/client/send-911-chat', -1, CallData, false) -- Enable to have chat alerts
     end)
 
     CommandsModule.Add("911a", "Call emergency services anonymously", {{Name="Message", Help="Message"}}, false, function(source, args)
         local CallData = {}
         CallData['Message'] = table.concat(args, ' ')
-        TriggerClientEvent('mercy-police/client/send-911', -1, CallData, true)
+        TriggerClientEvent('mercy-police/client/send-911', source, CallData, true)
+        -- TriggerClientEvent('mercy-police/client/send-911-chat', -1, CallData, true) -- Enable to have chat alerts
     end)
 
     -- CommandsModule.Add("911r", "Reply on a 911 call", {{Name="Id", Help="Id"}, {Name="Message", Help="Message"}}, false, function(source, args)
