@@ -63,7 +63,6 @@ Phone.addNuiListener('TogglePhone', Data => {
 Phone.addNuiListener("SetPhoneNetwork", Data => {
     PhoneData.Network = Data.Id;
 
-    console.log(PhoneData.Network)
     if (PhoneData.Network == 'old_bennys') {
         $('#app-dark').show();
     } else {
@@ -251,7 +250,7 @@ $(document).on("click", ".phone-topbar-vpn", function(e){
         if (!Result) {
             return Notification({
                 Title: "Thor",
-                Message: "No vpn detected",
+                Message: "No VPN connection found..",
                 Icon: "fas fa-lock",
                 IconBgColor: "rgb(100, 100, 100)",
                 IconColor: "white",

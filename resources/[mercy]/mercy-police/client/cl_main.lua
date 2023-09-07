@@ -138,13 +138,17 @@ end)
 
 RegisterNetEvent('mercy-police/client/send-911', function(Data, IsAnonymously)
 	local StreetLabel = exports['mercy-base']:FetchModule('Functions').GetStreetName()
+	TriggerServerEvent('mercy-ui/server/send-civ-alert', StreetLabel, Data, IsAnonymously)
+
+end)
+
+RegisterNetEvent('mercy-police/client/send-911-chat', function(Data, IsAnonymously)
     if PlayerModule.GetPlayerData().Job ~= nil and (PlayerModule.GetPlayerData().Job.Name == 'police' or PlayerModule.GetPlayerData().Job.Name == 'ems') and PlayerModule.GetPlayerData().Job.Duty then
         if IsAnonymously then
 			TriggerEvent('mercy-chat/client/post-message', "911 | Anonymous:", Data['Message'], 'error')
         else
 			TriggerEvent('mercy-chat/client/post-message', "911 | ("..Data['Id']..") "..Data['Who']..':', Data['Message'], 'error')
         end
-		TriggerServerEvent('mercy-ui/server/send-civ-alert', StreetLabel, Data, IsAnonymously)
 		PlaySoundFrontend(-1, "Event_Start_Text", "GTAO_FM_Events_Soundset", false)
     end
 end)
@@ -159,7 +163,6 @@ RegisterNetEvent('mercy-police/client/send-911-dispatch', function(Data, IsAnony
     local StreetLabel = exports['mercy-base']:FetchModule('Functions').GetStreetName()
     TriggerServerEvent('mercy-ui/server/send-911-call', Data, StreetLabel, IsAnonymously)
 end)
-
 
 RegisterNetEvent('mercy-items/client/used-spikes', function()
 	Citizen.SetTimeout(500, function()
