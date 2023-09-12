@@ -99,7 +99,6 @@ end)
 
 RegisterNetEvent('mercy-doors/client/sync-doors', function(DoorId, DoorData)
     Config.Doors[DoorId] = DoorData
-    Config.Doors[DoorId].Locked = Config.Doors[DoorId].Locked == true and 1 or 0
     DoorSystemSetAutomaticRate(DoorId, 1.0, false, false)
     DoorSystemSetDoorState(DoorId, Config.Doors[DoorId].Locked, false, true)
     if DoorId ~= CurrentDoor then return end
