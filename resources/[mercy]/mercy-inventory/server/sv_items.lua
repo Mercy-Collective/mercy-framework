@@ -28,8 +28,9 @@ Citizen.CreateThread(function()
                 TriggerClientEvent('mercy-inventory/client/item-box', Source, 'Used', Shared.ItemList[ItemData.ItemName], false)
                 FunctionsModule.UseItem(Source, ItemData)
             elseif ItemData['Type'] == 'Weapon' then
-                if ItemData.Info.Quality ~= nil then
-                    if ItemData.Info.Quality > 0 then
+                print(json.encode(ItemData))
+                if ItemData.Quality ~= nil then
+                    if ItemData.Quality > 0 then
                         TriggerClientEvent('mercy-inventory/client/item-box', Source, 'Used', Shared.ItemList[ItemData.ItemName], false)
                         TriggerClientEvent('mercy-inventory/client/use-weapon', Source, ItemData)
                     else
@@ -57,14 +58,43 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer('mercy-inventory/server/degen-item', function(Source, Slot, Amount)
         local Player = PlayerModule.GetPlayerBySource(Source)
         local ItemData = Player.Functions.GetItemBySlot(Slot)
+
+        -- Check if ItemData exists
+        if ItemData == nil then 
+            return 
+        end
+
+        -- Check if the item has quality
         if ItemData.Quality ~= nil then
-            if ItemData.Quality > 0 then
-                if ItemData.Quality - Amount <= 0 then
-                    ItemData.Quality = 0
-                    TriggerClientEvent('mercy-inventory/client/on-fully-degen-item', Source, ItemData)
-                else
-                    ItemData.Quality = ItemData.Quality - Amount
-                end
+            ItemData.CreateDate = tonumber(ItemData.CreateDate)
+            -- Calculate the time difference since the item was created
+            local CurrentTime = os.time()
+            local StartDate = os.time(ItemData.CreateDate)
+            local TimeDifference = CurrentTime - StartDate
+            
+            -- Calculate the degradation based on time
+            local DecayRate = Shared.ItemList[ItemData.ItemName].DecayRate
+            local TimeExtra = (((1000 * 60) * 60) * 24) * 28 * DecayRate
+            local TimeBasedQualityLoss = math.ceil((TimeDifference / TimeExtra))           
+            -- Calculate the new item quality after applying the amount loss
+            local NewQuality = ItemData.Quality - Amount - TimeBasedQualityLoss       
+
+            -- Ensure quality doesn't go below 0
+            if NewQuality < 0 then
+                NewQuality = 0
+            end
+
+            -- Calculate the adjusted CreateDate based on the new quality
+            local NewTimeDifference = (100 - NewQuality) * TimeExtra / 100
+            local NewStartDate = CurrentTime - NewTimeDifference
+            ItemData.CreateDate = os.date("*t", NewStartDate)
+            
+            -- Update the item quality
+            ItemData.Quality = NewQuality
+
+            Player.Functions.Save()
+            if NewQuality < 1 then
+                TriggerClientEvent('mercy-inventory/client/on-fully-degen-item', Source, ItemData)
             end
         end
     end)

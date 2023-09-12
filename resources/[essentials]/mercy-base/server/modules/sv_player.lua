@@ -573,16 +573,14 @@ PlayerModule = {
                 if (Info == nil or not Info) then
                     if ItemData["Type"]:lower() == "weapon" then
                         if not ItemData['Melee'] then
-                            Info = {Ammo = 5, Quality = 100.0, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
+                            Info = {Ammo = 1, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
                         else
-                            Info = {Quality = 100.0}
+                            Info = {}
                         end             
                         Amount = 1
                     else
                         local ItemName = ItemData["ItemName"]
-                        Info = {
-                            Quality = 100.0
-                        }
+                        Info = {}
                         if ItemName == 'idcard' then
                             Info.CitizenId = self.PlayerData.CitizenId
                             Info.Firstname = self.PlayerData.CharInfo.Firstname
@@ -615,10 +613,7 @@ PlayerModule = {
                         end
                         TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
                         return true
-                    end
-
-                    -- Item does not exist so create new
-                    if (not ItemData["Unique"] and (Slot or Slot ~= nil) and self.PlayerData.Inventory[Slot] == nil) then
+                    elseif (not ItemData["Unique"] and (Slot or Slot ~= nil) and self.PlayerData.Inventory[Slot] == nil) then
                         self.PlayerData.Inventory[Slot] = {
                             ItemName = ItemData["ItemName"], 
                             Label = ItemData["Label"], 
@@ -640,10 +635,7 @@ PlayerModule = {
                         end
                         TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
                         return true
-                    end
-
-                    -- Item does exist but is unique or weapon (or slot not found)
-                    if (ItemData["Unique"]) or (not Slot or Slot == nil) or (ItemData["Type"] == "Weapon") then
+                    elseif (ItemData["Unique"]) or (not Slot or Slot == nil) or (ItemData["Type"] == "Weapon") then
                         local FreeSlot = PlayerModule.GetFreeInventorySlot(self.PlayerData.Inventory)
                         if FreeSlot then
                             self.PlayerData.Inventory[FreeSlot] = {

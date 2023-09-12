@@ -137,9 +137,9 @@ Citizen.CreateThread(function()
 				if Player.Functions.RemoveMoney('Cash', FunctionsModule.GetTaxPrice((StoreItem.Price * Amount), 'Goods')) then
 					if StoreItem['Type'] == 'Weapon' and not StoreItem['Melee'] then
 						local SerialNumber = SubType == 'PoliceStore' and Player.PlayerData.Job.Serial or Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()
-						OtherInventoryItems[FromSlot].Info = {Quality = 100.0, Ammo = 5, Serial = SerialNumber}
+						OtherInventoryItems[FromSlot].Info = {Ammo = 1, Serial = SerialNumber}
 					else
-						OtherInventoryItems[FromSlot].Info = {Quality = 100.0}
+						OtherInventoryItems[FromSlot].Info = {}
 					end
 					if Player.Functions.AddItem(StoreItem['ItemName'], Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
 						Cb(true)
@@ -205,9 +205,9 @@ Citizen.CreateThread(function()
 				local Item = OtherInventoryItems[FromSlot]['ItemName']:lower()
 				if HasCraftingItems(Source, Shared.ItemList[Item]['Cost'], Amount) then
 					if Shared.ItemList[Item]['Type'] == 'Weapon' and not Shared.ItemList[Item]['Melee'] then
-						OtherInventoryItems[FromSlot]['Info'] = {Quality = 100.0, Ammo = 5, Serial = Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()}
+						OtherInventoryItems[FromSlot]['Info'] = {Ammo = 1, Serial = Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()}
 					else
-						OtherInventoryItems[FromSlot]['Info'] = {Quality = 100.0}
+						OtherInventoryItems[FromSlot]['Info'] = {}
 					end
 					TriggerClientEvent('mercy-inventory/client/craft', Source, Item, Amount, ToSlot, OtherInventoryItems[FromSlot]['Info'], Shared.ItemList[Item]['Cost'])
 					Cb('Crafting')
@@ -600,9 +600,9 @@ RegisterNetEvent('mercy-inventory/server/done-combinding', function(FromSlot, Fr
 				local ItemData = Shared.ItemList[Reward:lower()]
 				if ItemData['Type'] == 'Weapon' then
 					if ItemData['Melee'] then
-						Info = {Quality = 100.0}
+						Info = {}
 					else
-						Info = {Ammo = 5, Quality = 100.0, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
+						Info = {Ammo = 1, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
 					end
 				else
 					Info = {}

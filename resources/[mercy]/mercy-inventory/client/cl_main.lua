@@ -60,7 +60,6 @@ RegisterNetEvent("mercy-base/client/player-spawned", function()
     end)
 end)
 
-
 -- [ Code ] -- 
 
 RegisterNetEvent("mercy-inventory/client/open-inventory", function()
