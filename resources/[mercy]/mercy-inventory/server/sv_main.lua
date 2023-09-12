@@ -145,7 +145,7 @@ Citizen.CreateThread(function()
 						Cb(true)
 					else
 						Player.Functions.AddMoney('Cash', (StoreItem.Price * Amount))
-						Player.Functions.Notify('invalid-action', 'Failed to buy item. Maybe we are full ?', 'error')
+						Player.Functions.Notify('invalid-action', 'Failed to buy item. Maybe we are full?', 'error')
 						Cb(false)
 					end
 				else

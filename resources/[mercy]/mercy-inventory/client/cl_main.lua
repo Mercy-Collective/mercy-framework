@@ -167,15 +167,16 @@ RegisterNetEvent('mercy-inventory/client/open-empty-other', function()
     SetTimecycleModifier('hud_def_blur')
     SetTimecycleModifierStrength(1.0)
     -- Config.InventoryBusy = true
+    local PlayerData = PlayerModule.GetPlayerData()
     DoPickupAnimation()
     
     SendNUIMessage({
         Action = 'OpenInventory',
-        Items = FormatItemData(PlayerModule.GetPlayerData().Inventory),
+        Items = FormatItemData(PlayerData.Inventory),
         Slots = Config.InventorySlots,
-        Weight = GetTotalWeight(PlayerModule.GetPlayerData().Inventory),
+        Weight = GetTotalWeight(PlayerData.Inventory),
         OtherExtra = 'Empty',
-        PlayerData = PlayerModule.GetPlayerData(),
+        PlayerData = PlayerData,
     })
 
     Citizen.InvokeNative(0xFC695459D4D0E219, 0.5, 0.5)
@@ -185,12 +186,12 @@ end)
 RegisterNetEvent('mercy-inventory/client/open-inventory-other', function(OtherData)
     SetTimecycleModifier('hud_def_blur')
     SetTimecycleModifierStrength(1.0)
-
+    local PlayerData = PlayerModule.GetPlayerData()
     SendNUIMessage({
         Action = 'OpenInventory',
         Slots = Config.InventorySlots,
-        Items = FormatItemData(PlayerModule.GetPlayerData().Inventory),
-        Weight = GetTotalWeight(PlayerModule.GetPlayerData().Inventory),
+        Items = FormatItemData(PlayerData.Inventory),
+        Weight = GetTotalWeight(PlayerData.Inventory),
         Other = OtherData,
         OtherMaxWeight = OtherData['MaxWeight'] ~= nil and OtherData['MaxWeight'] or 100,
         OtherItems = OtherData['Type'] == "Crafting" and FormatNoDataItems(OtherData['Items'])
@@ -202,7 +203,7 @@ RegisterNetEvent('mercy-inventory/client/open-inventory-other', function(OtherDa
                     or OtherData['Type'] == 'Store' and FormatNoDataItems(OtherData['Items'])
                     or OtherData['Items'] ~= nil and FormatItemData(OtherData['Items']) or {},
         OtherExtra = false,
-        PlayerData = PlayerModule.GetPlayerData(),
+        PlayerData = PlayerData,
     })
 
     Citizen.InvokeNative(0xFC695459D4D0E219, 0.5, 0.5)
@@ -439,10 +440,11 @@ function InitInventory()
         if Config.InventoryBusy then return end
         if IsPressed then
             if not ShowingHotbar then
+                local PlayerData = PlayerModule.GetPlayerData()
                 ShowingHotbar = true
                 SendNUIMessage({
                     Action = "ToggleHotbar",
-                    Items = FormatItemData(PlayerModule.GetPlayerData().Inventory),
+                    Items = FormatItemData(PlayerData.Inventory),
                     Visible = true,
                 })
             end
@@ -464,7 +466,8 @@ end
 exports('GetLastUsedSlot', GetLastUsedSlot)
 
 function GetSlotForItem(ItemName)
-    for k, v in pairs(PlayerModule.GetPlayerData().Inventory) do
+    local PlayerData = PlayerModule.GetPlayerData()
+    for k, v in pairs(PlayerData.Inventory) do
         if v.ItemName == ItemName and HasEnoughQuality(1, v.Slot) then
             return v.Slot
         end
@@ -685,12 +688,13 @@ RegisterNUICallback('UseItem', function(Data)
 end)
 
 RegisterNUICallback('RefreshInv', function(data)
+    local PlayerData = PlayerModule.GetPlayerData()
     SendNUIMessage({
         Action = 'RefreshInventory',
         Slots = Config.InventorySlots,
-        Items = FormatItemData(PlayerModule.GetPlayerData().Inventory),
-        Weight = GetTotalWeight(PlayerModule.GetPlayerData().Inventory),
-        PlayerData = PlayerModule.GetPlayerData(),
+        Items = FormatItemData(PlayerData.Inventory),
+        Weight = GetTotalWeight(PlayerData.Inventory),
+        PlayerData = PlayerData,
     })
     TriggerEvent('mercy-assets/client/attach-items')
 end)

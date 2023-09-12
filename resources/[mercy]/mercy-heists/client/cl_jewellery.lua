@@ -1,3 +1,5 @@
+local IsSmashingVitrine = false
+
 function InitJewellery()
     local NewState = CallbackModule.SendCallback('mercy-heists/server/jewellery/get-state')
     Config.JewelleryState = NewState
@@ -11,15 +13,20 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
     end
 
     Citizen.SetTimeout(450, function()
-        local Success = DoThermite(vector3(-596.02, -283.72, 50.6), true)
-        if Success then
-            TriggerServerEvent('mercy-ui/server/send-jewelery-rob', FunctionsModule.GetStreetName())
-            EventsModule.TriggerServer('mercy-heists/server/jewellery/set-state', true)
-            TriggerEvent('mercy-ui/client/notify', "jewelrob", "Success! The doors will open any minute now!", 'success')
-            Citizen.SetTimeout((1000 * 60) * 3, function()
-                TriggerServerEvent('mercy-doors/server/set-locks', Config.JewelleryDoors[1], 0)
-                TriggerServerEvent('mercy-doors/server/set-locks', Config.JewelleryDoors[2], 0)
-            end)
+        local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'thermitecharge', 1, nil, true)
+        if DidRemove then
+            exports['mercy-inventory']:SetBusyState(true)
+            local Success = DoThermite(vector3(-596.02, -283.72, 50.6), true)
+            exports['mercy-inventory']:SetBusyState(false)
+            if Success then
+                TriggerServerEvent('mercy-ui/server/send-jewelery-rob', FunctionsModule.GetStreetName())
+                EventsModule.TriggerServer('mercy-heists/server/jewellery/set-state', true)
+                TriggerEvent('mercy-ui/client/notify', "jewelrob", "Success! The doors will open any minute now!", 'success')
+                Citizen.SetTimeout((1000 * 60) * 3, function()
+                    TriggerServerEvent('mercy-doors/server/set-locks', Config.JewelleryDoors[1], 0)
+                    TriggerServerEvent('mercy-doors/server/set-locks', Config.JewelleryDoors[2], 0)
+                end)
+            end
         end
     end)
 end)
@@ -32,19 +39,20 @@ RegisterNetEvent('mercy-heists/client/jewellery/smash-vitrine', function(Data)
     local CanRob = CallbackModule.SendCallback('mercy-heists/server/jewellery/can-rob-vitrine', Data.VitrineId)
     if not CanRob then return exports['mercy-ui']:Notify("jewelrob", "Already smashed!", "error") end
     if not Config.JewelleryWeapons[GetSelectedPedWeapon(PlayerPedId())] then return exports['mercy-ui']:Notify("jewelrob", "You need something bigger than this..", "error") end
+    if IsSmashingVitrine then return exports['mercy-ui']:Notify("jewelrob", "Already smashing!", "error") end
+    IsSmashingVitrine = true
     EventsModule.TriggerServer("mercy-heists/server/jewellery/set-vitrine-state", Data.VitrineId, true)
-
     EventsModule.TriggerServer('mercy-ui/server/set-stress', 'Add', math.random(6, 12))
     if not IsWearingHandshoes() and math.random(1, 100) <= 85 then
         TriggerServerEvent("mercy-police/server/create-evidence", 'Fingerprint')
     end
 
     FunctionsModule.RequestAnimDict("missheist_jewel")
-    EventsModule.TriggerServer('mercy-ui/server/play-sound-in-distance', {['Distance'] = 2.0, ['Type'] = 'Distance', ['Name'] = 'jewellery-glassbreak', ['Volume'] = 0.5})
+    EventsModule.TriggerServer('mercy-ui/server/play-sound-in-distance', {['Distance'] = 2.0, ['Type'] = 'Distance', ['Name'] = 'jewelry-glassbreak', ['Volume'] = 0.5})
     TaskPlayAnim(PlayerPedId(), "missheist_jewel", "smash_case", 8.0, 1.0, -1, 2, 0, 0, 0, 0)
     Citizen.Wait(4200)
     StopAnimTask(PlayerPedId(), "missheist_jewel", "smash_case", 1.0)        
-
+    IsSmashingVitrine = false
     EventsModule.TriggerServer('mercy-heists/server/jewellery/give-reward')
 end)
 

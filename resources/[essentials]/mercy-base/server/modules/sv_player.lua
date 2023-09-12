@@ -332,7 +332,7 @@ PlayerModule = {
             Username = false,
         }
         PlayerData.MetaData["LaptopData"] = PlayerData.MetaData["LaptopData"] ~= nil and PlayerData.MetaData["LaptopData"] or {
-            ['Nickname'] = "Guest-"..math.random(1111111, 9999999),
+            ['Nickname'] = "User-"..math.random(1111111, 9999999),
             ['Background'] = 'Default',
             ['Boosting'] = {
                 ['Progress'] = 0,
@@ -615,45 +615,43 @@ PlayerModule = {
                         end
                         TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
                         return true
+                    end
+
                     -- Item does not exist so create new
-                    elseif (not ItemData["Unique"] and (Slot or Slot ~= nil) and self.PlayerData.Inventory[Slot] == nil) then
-                        local FreeSlot = PlayerModule.GetFreeInventorySlot(self.PlayerData.Inventory)
-                        if FreeSlot ~= false then
-                            self.PlayerData.Inventory[Slot] = {
-                                ItemName = ItemData["ItemName"], 
-                                Amount = Amount, 
-                                Info = Info ~= nil and Info or "", 
-                                Label = ItemData["Label"], 
-                                Description = ItemData["Description"] ~= nil and ItemData["Description"] or "", 
-                                Weight = ItemData["Weight"], 
-                                Type = ItemData["Type"], 
-                                Unique = ItemData["Unique"], 
-                                Image = ItemData["Image"], 
-                                Slot = FreeSlot, 
-                                Combinable = ItemData["Combinable"],
-                                CreateDate = os.date(),
-                                Quality = 100,
-                            }
-                            self.Functions.UpdatePlayerData()
-                            if Show then
-                                TriggerClientEvent('mercy-inventory/client/item-box', self.PlayerData.Source, 'Add', ItemData, Amount)
-                            end
-                            TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
-                            return true
-                        else
-                            self.Functions.Notify('too-heavy', "You can't carry any more stuff..", "error", 4500)
-                            TriggerEvent('mercy-inventory/server/add-new-drop-core', self.PlayerData.Source, ItemData["ItemName"], Amount, Info, os.date())
+                    if (not ItemData["Unique"] and (Slot or Slot ~= nil) and self.PlayerData.Inventory[Slot] == nil) then
+                        self.PlayerData.Inventory[Slot] = {
+                            ItemName = ItemData["ItemName"], 
+                            Label = ItemData["Label"], 
+                            Description = ItemData["Description"] ~= nil and ItemData["Description"] or "", 
+                            Amount = Amount, 
+                            Info = Info ~= nil and Info or "", 
+                            Weight = ItemData["Weight"], 
+                            Type = ItemData["Type"], 
+                            Unique = ItemData["Unique"], 
+                            Image = ItemData["Image"], 
+                            Slot = Slot, 
+                            Combinable = ItemData["Combinable"],
+                            CreateDate = os.date(),
+                            Quality = 100,
+                        }
+                        self.Functions.UpdatePlayerData()
+                        if Show then
+                            TriggerClientEvent('mercy-inventory/client/item-box', self.PlayerData.Source, 'Add', ItemData, Amount)
                         end
+                        TriggerClientEvent('mercy-inventory/client/update-player', self.PlayerData.Source)
+                        return true
+                    end
+
                     -- Item does exist but is unique or weapon (or slot not found)
-                    elseif (ItemData["Unique"]) or (not Slot or Slot == nil) or (ItemData["Type"] == "Weapon") then
+                    if (ItemData["Unique"]) or (not Slot or Slot == nil) or (ItemData["Type"] == "Weapon") then
                         local FreeSlot = PlayerModule.GetFreeInventorySlot(self.PlayerData.Inventory)
-                        if FreeSlot ~= false then
+                        if FreeSlot then
                             self.PlayerData.Inventory[FreeSlot] = {
                                 ItemName = ItemData["ItemName"], 
-                                Amount = Amount, 
-                                Info = Info ~= nil and Info or "", 
                                 Label = ItemData["Label"], 
                                 Description = ItemData["Description"] ~= nil and ItemData["Description"] or "", 
+                                Amount = Amount, 
+                                Info = Info ~= nil and Info or "", 
                                 Weight = ItemData["Weight"], 
                                 Type = ItemData["Type"], 
                                 Unique = ItemData["Unique"], 

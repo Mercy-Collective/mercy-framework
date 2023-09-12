@@ -44,9 +44,10 @@ Citizen.CreateThread(function()
 
     CallbackModule.CreateCallback('mercy-inventory/server/has-item-enough-quality', function(Source, Cb, MinQuality, Slot)
         local Player = PlayerModule.GetPlayerBySource(Source)
-        if not Player then return Cb(false) end
+        if not Player then return Cb(true) end
 
         local ItemData = Player.Functions.GetItemBySlot(Slot)
+        if ItemData == nil then return Cb(true) end
         if ItemData.Quality == nil then return Cb(true) end
         if ItemData.Quality <= MinQuality then return Cb(false) end
 

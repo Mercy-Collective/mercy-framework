@@ -1,5 +1,5 @@
-local GunProps, ItemProps, HandProp, CurrentHandData = {}, {}, nil, nil
-local GunLimit, ItemLimit, HandLimit = 4, 5, 1
+local GunProps, ItemProps, HandProp, SwordProp, CurrentHandData = {}, {}, nil, nil, nil
+local GunLimit, ItemLimit, HandLimit, SwordLimit = 4, 5, 1, 1
 local PropsDisabled = false
 
 -- [ Threads ] --
@@ -47,12 +47,13 @@ RegisterNetEvent("mercy-assets/client/attach-items", function()
 					SetEntityCollision(NewProp, false, false)
 					AttachEntityToEntity(NewProp, PlayerPedId(), PedBone, v.PropCoords.X, v.PropCoords.Y, v.PropCoords.Z, v.PropCoords.RX, v.PropCoords.RY, v.PropCoords.RZ, false, true, false, true, false, true)
 					CurrentHandData, HandProp = v, NewProp
-				elseif v.Type == 4 and not Sheathed then
+				elseif v.Type == 4 and not Sheathed and SwordProp == nil then
 					Sheathed = true
 					local PedBone = GetPedBoneIndex(PlayerPedId(), 24817)
 					local NewProp = CreateObject(Model, 0, 0, 0, true, true, false)
 					SetEntityCollision(NewProp, false, false)
 					AttachEntityToEntity(NewProp, PlayerPedId(), PedBone, (v.PropCoords.X) - 0.4, (v.PropCoords.Y) - 0.135, (v.PropCoords.Z) - 0.0, v.PropCoords.RX, v.PropCoords.RY, v.PropCoords.RZ, false, true, false, true, false, true)
+					SwordProp = NewProp
 				end
 			end
 		end
@@ -62,8 +63,13 @@ end)
 -- [ Functions ] --
 
 function IsPropOnBack(Model)
-	for k, v in pairs(GunProps) do
+	for k, v in pairs(GunProps) do -- Check for guns
 		if GetEntityModel(v) == GetHashKey(Model) then
+			return true
+		end
+	end
+	if SwordProp ~= nil then -- Check for sword
+		if GetEntityModel(SwordProp) == GetHashKey(Model) then
 			return true
 		end
 	end
@@ -74,8 +80,10 @@ function DeleteAttached()
 	for k, v in pairs(GunProps) do EntityModule.DeleteEntity(v) end
 	for k, v in pairs(ItemProps) do EntityModule.DeleteEntity(v) end
 	if HandProp ~= nil then EntityModule.DeleteEntity(HandProp) end
+	if SwordProp ~= nil then EntityModule.DeleteEntity(SwordProp) end
 	GunProps, ItemProps = {}, {}
 	HandProp, CurrentHandData = nil, nil
+	SwordProp = nil
 end
 
 AddEventHandler('onResourceStop', function(Resource)
@@ -84,6 +92,8 @@ AddEventHandler('onResourceStop', function(Resource)
 	for k, v in pairs(GunProps) do EntityModule.DeleteEntity(v) end
 	for k, v in pairs(ItemProps) do EntityModule.DeleteEntity(v) end
 	if HandProp ~= nil then EntityModule.DeleteEntity(HandProp) end
+	if SwordProp ~= nil then EntityModule.DeleteEntity(SwordProp) end
 	GunProps, ItemProps = {}, {}
 	HandProp, CurrentHandData = nil, nil
+	SwordProp = nil
 end)

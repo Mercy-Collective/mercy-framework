@@ -10,7 +10,7 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback('mercy-heists/server/jewellery/can-rob-vitrine', function(Source, Cb, VitrineId)
-        Cb(Config.JewelleryVitrines[VitrineId])
+        Cb(not Config.JewelleryVitrines[VitrineId])
     end)
 
     EventsModule.RegisterServer("mercy-heists/server/jewellery/set-vitrine-state", function(Source, VitrineId, Bool)    
