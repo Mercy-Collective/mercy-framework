@@ -312,7 +312,7 @@ RegisterNetEvent("mercy-casino/server/rooms/rent-stop", function()
             if RoomInfo.Owner == Player.PlayerData.CitizenId then
                 DatabaseModule.Update("UPDATE hotel_rooms SET Available = ?, RoomInfo = ? WHERE RoomId = ?", {
                     1,
-                    nil,
+                    'Room-'..RoomInfo.RoomId,
                     RoomInfo.RoomId
                 })
                 TriggerClientEvent('mercy-phone/client/notification', src, {
