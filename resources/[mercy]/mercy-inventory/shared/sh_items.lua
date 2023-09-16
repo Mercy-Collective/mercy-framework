@@ -5497,3 +5497,65 @@ Shared.ItemList["tracker-disabler"] = {
 		{ Item = 'aluminum', Amount = 100 },
 	}
 }
+
+-- Crime update
+
+Shared.ItemList["methlab_stage_01"] = {
+    ['ItemName'] = "methlab_stage_01",
+    ['Label'] = "Materials",
+    ['Weight'] = 5.0,
+    ['Type'] = "Item",
+    ['Metal'] = false,
+    ['Image'] = "methlab_stage_01.png",
+    ['Unique'] = false,
+    ['Combinable'] = nil,
+    ['Description'] = "You can build some serious shit with this!",
+    ['DecayRate'] = 0.0,
+    ['RemoveWhenDecayed'] = false,
+    ['Price'] = 0
+}
+
+Shared.ItemList["methlab_stage_02"] = {
+    ['ItemName'] = "methlab_stage_02",
+    ['Label'] = "Materials",
+    ['Weight'] = 5.0,
+    ['Type'] = "Item",
+    ['Metal'] = false,
+    ['Image'] = "methlab_stage_02.png",
+    ['Unique'] = false,
+    ['Combinable'] = nil,
+    ['Description'] = "You can build some serious shit with this!",
+    ['DecayRate'] = 0.0,
+    ['RemoveWhenDecayed'] = false,
+    ['Price'] = 0
+}
+
+Shared.ItemList["methlab_stage_03"] = {
+    ['ItemName'] = "methlab_stage_03",
+    ['Label'] = "Materials",
+    ['Weight'] = 5.0,
+    ['Type'] = "Item",
+    ['Metal'] = false,
+    ['Image'] = "methlab_stage_03.png",
+    ['Unique'] = false,
+    ['Combinable'] = nil,
+    ['Description'] = "You can build some serious shit with this!",
+    ['DecayRate'] = 0.0,
+    ['RemoveWhenDecayed'] = false,
+    ['Price'] = 0
+}
+
+Shared.ItemList["methlab_stage_04"] = {
+    ['ItemName'] = "methlab_stage_04",
+    ['Label'] = "Materials",
+    ['Weight'] = 5.0,
+    ['Type'] = "Item",
+    ['Metal'] = false,
+    ['Image'] = "methlab_stage_04.png",
+    ['Unique'] = false,
+    ['Combinable'] = nil,
+    ['Description'] = "You can build some serious shit with this!",
+    ['DecayRate'] = 0.0,
+    ['RemoveWhenDecayed'] = false,
+    ['Price'] = 0
+}

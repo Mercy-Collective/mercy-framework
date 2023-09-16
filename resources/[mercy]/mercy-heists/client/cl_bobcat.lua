@@ -44,7 +44,7 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
                         SpawnSecurity()
                         TriggerServerEvent('mercy-ui/server/send-bobcat-rob', StreetLabel)
                     end 
-
+                    exports['mercy-inventory']:SetBusyState(false)
                 else
                     exports['mercy-inventory']:SetBusyState(false)
                 end
