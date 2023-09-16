@@ -106,6 +106,7 @@ end)
 -- [ Functions ] --
 
 function SaveVehicleParts(Plate, PartData)
+    if PartData == nil then return end
     DatabaseModule.Update("UPDATE player_vehicles SET parts = ? WHERE plate = ? ", {
         json.encode(PartData),
         Plate
