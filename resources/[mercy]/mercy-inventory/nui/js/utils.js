@@ -8,7 +8,7 @@ GetItemImage = function(Image) {
     return `./img/items/${Image}`;
 }
 
-GetQuality = function (ItemName, CreateDate, ItemData) {
+GetQuality = function (ItemName, CreateDate) {
     // DebugPrint("GetQuality", `ItemName: ${ItemName} | CreateDate: ${CreateDate}`);
     let StartDate = new Date(CreateDate).getTime();
     if (ItemList[ItemName] == undefined) return DebugPrint("GetQuality", `Failed to get quality for item ${ItemName}..`);    ;
@@ -209,11 +209,11 @@ HandleInventoryInfo = function (ItemData) {
     if (ItemData["Type"] == "Weapon") {
         $('#info-weight').html(`${ItemData["Weight"].toFixed( 1 )}`);
         $('#info-amount').html("1");
-        $('#info-quality').html(`${Math.floor( GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData) )}%`);
+        $('#info-quality').html(`${Math.floor( GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData) )}%`);
     } else {
         $('#info-weight').html(`${((ItemData["Weight"] * ItemData["Amount"])).toFixed( 1 )}`);
         $('#info-amount').html(`${ItemData["Amount"]}`);
-        $('#info-quality').html(`${Math.floor( GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData) )}%`);
+        $('#info-quality').html(`${Math.floor( GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData) )}%`);
     }
     $(".inventory-item-description").show(150);
 };

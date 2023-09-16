@@ -193,7 +193,6 @@ PlayerModule = {
                                 Info = v.Info ~= nil and v.Info or "",
                                 Description = ItemInfo['Description'],
                                 Combinable = ItemInfo['Combinable'],
-                                CreateDate = v.CreateDate ~= nil and v.CreateDate or os.date(),
                             }
                         end
                     end
@@ -215,7 +214,6 @@ PlayerModule = {
                     Slot = v.Slot,
                     Amount = v.Amount,
                     Info = v.Info,
-                    CreateDate = v.CreateDate,
                 }
             end
         end
@@ -573,14 +571,20 @@ PlayerModule = {
                 if (Info == nil or not Info) then
                     if ItemData["Type"]:lower() == "weapon" then
                         if not ItemData['Melee'] then
-                            Info = {Ammo = 1, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
+                            Info = {Quality = 100, CreateDate = os.date(), Ammo = 1, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
                         else
-                            Info = {}
+                            Info = {
+                                Quality = 100,
+                                CreateDate = os.date(),
+                            }
                         end             
                         Amount = 1
                     else
                         local ItemName = ItemData["ItemName"]
-                        Info = {}
+                        Info = {
+                            Quality = 100,
+                            CreateDate = os.date(),
+                        }
                         if ItemName == 'idcard' then
                             Info.CitizenId = self.PlayerData.CitizenId
                             Info.Firstname = self.PlayerData.CharInfo.Firstname
@@ -597,6 +601,13 @@ PlayerModule = {
                             Info.Date = os.date()
                             Info.Animal = "Kane"
                         end
+                    end
+                else -- If Info exists
+                    if Info.Quality == nil then
+                        Info.Quality = 100
+                    end
+                    if Info.CreateDate == nil then
+                        Info.CreateDate = os.date()
                     end
                 end
 
@@ -626,8 +637,6 @@ PlayerModule = {
                             Image = ItemData["Image"], 
                             Slot = Slot, 
                             Combinable = ItemData["Combinable"],
-                            CreateDate = os.date(),
-                            Quality = 100,
                         }
                         self.Functions.UpdatePlayerData()
                         if Show then
@@ -650,8 +659,6 @@ PlayerModule = {
                                 Image = ItemData["Image"], 
                                 Slot = FreeSlot, 
                                 Combinable = ItemData["Combinable"],
-                                CreateDate = os.date(),
-                                Quality = 100,
                             }
                             self.Functions.UpdatePlayerData()
                             if Show then
@@ -661,13 +668,13 @@ PlayerModule = {
                             return true
                         else
                             self.Functions.Notify('too-heavy', "You can't carry any more stuff..", "error", 4500)
-                            TriggerEvent('mercy-inventory/server/add-new-drop-core', self.PlayerData.Source, ItemData["ItemName"], Amount, Info, os.date())
+                            TriggerEvent('mercy-inventory/server/add-new-drop-core', self.PlayerData.Source, ItemData["ItemName"], Amount, Info, os.date(), 100)
                         end
                     end
                 else
                     if Type ~= 'Inventory' then
                         self.Functions.Notify('too-heavy', "You have too much in your pockets..", "error", 4500)
-                        TriggerEvent('mercy-inventory/server/add-new-drop-core', self.PlayerData.Source, ItemData["ItemName"], Amount, Info, os.date())
+                        TriggerEvent('mercy-inventory/server/add-new-drop-core', self.PlayerData.Source, ItemData["ItemName"], Amount, Info, os.date(), 100)
                     else
                         return false
                     end

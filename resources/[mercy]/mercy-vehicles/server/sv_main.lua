@@ -283,6 +283,10 @@ Citizen.CreateThread(function()
     CommandsModule.Add("givekeys", "Give keys from your vehicle", {}, false, function(Source, args)
         TriggerClientEvent('mercy-vehicles/client/give-keys', Source)
     end)
+    
+    CommandsModule.Add("getkeys", "Get keys of vehicle", {}, false, function(Source, args)
+        TriggerClientEvent('mercy-vehicles/client/get-keys', Source)
+    end, 'god')
 
     CommandsModule.Add("door", "/door open 0-7 or /door close 0-7", {{Name="State", Help="State"}, {Name="Door", Help="Door"}}, false, function(Source, args)
         local Player = PlayerModule.GetPlayerBySource(Source)

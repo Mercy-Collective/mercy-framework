@@ -130,16 +130,16 @@ Citizen.CreateThread(function()
 		local ToSlot, FromSlot = tonumber(data['ToSlot']), tonumber(data['FromSlot'])
 		local ToInventory, FromInventory = data['ToInventory'], data['FromInventory']
 
-		-- My -> Other
+		-- Other -> My
 		if ToInventory == '.my-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
 			if Type == 'Store' then
 				local StoreItem = Shared.ItemList[OtherInventoryItems[FromSlot]['ItemName']:lower()]
 				if Player.Functions.RemoveMoney('Cash', FunctionsModule.GetTaxPrice((StoreItem.Price * Amount), 'Goods')) then
 					if StoreItem['Type'] == 'Weapon' and not StoreItem['Melee'] then
 						local SerialNumber = SubType == 'PoliceStore' and Player.PlayerData.Job.Serial or Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()
-						OtherInventoryItems[FromSlot].Info = {Ammo = 1, Serial = SerialNumber}
+						OtherInventoryItems[FromSlot].Info = {Quality = 100, CreateDate = os.date(), Ammo = 1, Serial = SerialNumber}
 					else
-						OtherInventoryItems[FromSlot].Info = {}
+						OtherInventoryItems[FromSlot].Info = {Quality = 100, CreateDate = os.date(),}
 					end
 					if Player.Functions.AddItem(StoreItem['ItemName'], Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
 						Cb(true)
@@ -205,9 +205,9 @@ Citizen.CreateThread(function()
 				local Item = OtherInventoryItems[FromSlot]['ItemName']:lower()
 				if HasCraftingItems(Source, Shared.ItemList[Item]['Cost'], Amount) then
 					if Shared.ItemList[Item]['Type'] == 'Weapon' and not Shared.ItemList[Item]['Melee'] then
-						OtherInventoryItems[FromSlot]['Info'] = {Ammo = 1, Serial = Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()}
+						OtherInventoryItems[FromSlot]['Info'] = {Quality = 100, CreateDate = os.date(), Ammo = 1, Serial = Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()}
 					else
-						OtherInventoryItems[FromSlot]['Info'] = {}
+						OtherInventoryItems[FromSlot]['Info'] = {Quality = 100, CreateDate = os.date()}
 					end
 					TriggerClientEvent('mercy-inventory/client/craft', Source, Item, Amount, ToSlot, OtherInventoryItems[FromSlot]['Info'], Shared.ItemList[Item]['Cost'])
 					Cb('Crafting')
@@ -215,6 +215,7 @@ Citizen.CreateThread(function()
 					Cb(false)
 				end
 			end
+		-- My -> Other
 		elseif ToInventory == '.other-inventory-blocks' and FromInventory == '.my-inventory-blocks' then
 			if Type == 'Drop' then
 				if Config.Drops[SubType] ~= nil and Config.Drops[SubType]['Items'] ~= nil then
@@ -230,8 +231,6 @@ Citizen.CreateThread(function()
 								ItemName = Item,
 								Slot = ToSlot,
 								Amount = Amount,
-								Info = Player.PlayerData.Inventory[FromSlot].Info,
-								CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
 							}
 						else
 							Config.Drops[SubType]['Items'][ToSlot].Amount = Config.Drops[SubType]['Items'][ToSlot].Amount + Amount
@@ -263,7 +262,6 @@ Citizen.CreateThread(function()
 									Slot = ToSlot,
 									Amount = Amount,
 									Info = Player.PlayerData.Inventory[FromSlot].Info,
-									CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
 								},
 							},
 						}
@@ -290,7 +288,6 @@ Citizen.CreateThread(function()
 							Slot = ToSlot,
 							Amount = Amount,
 							Info = Player.PlayerData.Inventory[FromSlot].Info,
-							CreateDate = Player.PlayerData.Inventory[FromSlot].CreateDate,
 						}
 					else
 						DBItems[ToSlot].Amount = DBItems[ToSlot].Amount + Amount
@@ -319,8 +316,18 @@ Citizen.CreateThread(function()
 				if ExtraData == 'Swap' then
 					local DataFrom = Config.Drops[SubType]['Items'][FromSlot]
 					local DataTo = Config.Drops[SubType]['Items'][ToSlot]
-					Config.Drops[SubType]['Items'][ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
-					Config.Drops[SubType]['Items'][FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info, CreateDate = DataTo.CreateDate, }
+					Config.Drops[SubType]['Items'][ToSlot] = { 
+						ItemName = DataFrom.ItemName, 
+						Slot = ToSlot, 
+						Amount = DataFrom.Amount, 
+						Info = DataFrom.Info, 
+					}
+					Config.Drops[SubType]['Items'][FromSlot] = { 
+						ItemName = DataTo.ItemName, 
+						Slot = FromSlot, 
+						Amount = DataTo.Amount, 
+						Info = DataTo.Info, 
+					}
 					Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
 					TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[SubType], SubType)
 					Cb(true)
@@ -331,7 +338,6 @@ Citizen.CreateThread(function()
 						Slot = ToSlot,
 						Amount = NewAmount,
 						Info = Config.Drops[SubType]['Items'][FromSlot].Info,
-						CreateDate = Config.Drops[SubType]['Items'][FromSlot].CreateDate,
 					}
 					Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
 					Config.Drops[SubType]['Items'][FromSlot] = nil
@@ -344,7 +350,6 @@ Citizen.CreateThread(function()
 							Slot = ToSlot,
 							Amount = Amount,
 							Info = Config.Drops[SubType]['Items'][FromSlot].Info,
-							CreateDate = Config.Drops[SubType]['Items'][FromSlot].CreateDate,
 						}
 						Config.Drops[SubType]['Items'][FromSlot].Amount = Config.Drops[SubType]['Items'][FromSlot].Amount - Amount
 						Config.Drops[SubType]['ItemCount'] = #Config.Drops[SubType]['Items']
@@ -363,25 +368,50 @@ Citizen.CreateThread(function()
 				if ExtraData == 'Swap' then
 					local DataFrom = DBItems[FromSlot]
 					local DataTo = DBItems[ToSlot]
-					DBItems[ToSlot] = { ItemName = DataFrom.ItemName, Slot = ToSlot, Amount = DataFrom.Amount, Info = DataFrom.Info, CreateDate = DataFrom.CreateDate, }
-					DBItems[FromSlot] = { ItemName = DataTo.ItemName, Slot = FromSlot, Amount = DataTo.Amount, Info = DataTo.Info,  CreateDate = DataTo.CreateDate, }
+					DBItems[ToSlot] = { 
+						ItemName = DataFrom.ItemName, 
+						Slot = ToSlot, 
+						Amount = DataFrom.Amount, 
+						Info = DataFrom.Info, 
+					}
+					DBItems[FromSlot] = { 
+						ItemName = DataTo.ItemName, 
+						Slot = FromSlot, 
+						Amount = DataTo.Amount, 
+						Info = DataTo.Info, 
+					}
 					SaveInventoryData(Type, SubType, DBItems)
 					Cb(true)
 				elseif DBItems[FromSlot].Amount == Amount then
 					if DBItems[ToSlot] == nil then
-						DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
+						DBItems[ToSlot] = { 
+							ItemName = DBItems[FromSlot].ItemName, 
+							Slot = ToSlot, 
+							Amount = Amount, 
+							Info = DBItems[FromSlot].Info, 
+						}
 						DBItems[FromSlot] = nil
 						SaveInventoryData(Type, SubType, DBItems)
 						Cb(true)
 					else
-						DBItems[ToSlot] = { ItemName = DBItems[ToSlot].ItemName, Slot = ToSlot, Amount = DBItems[ToSlot].Amount + Amount, Info = DBItems[ToSlot].Info, CreateDate = DBItems[Info].CreateDate, }
+						DBItems[ToSlot] = { 
+							ItemName = DBItems[ToSlot].ItemName, 
+							Slot = ToSlot, 
+							Amount = DBItems[ToSlot].Amount + Amount, 
+							Info = DBItems[ToSlot].Info, 
+						}
 						DBItems[FromSlot] = nil
 						SaveInventoryData(Type, SubType, DBItems)
 						Cb(true)
 					end
 				elseif DBItems[FromSlot].Amount > Amount then
 					if DBItems[ToSlot] == nil then
-						DBItems[ToSlot] = { ItemName = DBItems[FromSlot].ItemName, Slot = ToSlot, Amount = Amount, Info = DBItems[FromSlot].Info, CreateDate = DBItems[FromSlot].CreateDate, }
+						DBItems[ToSlot] = { 
+							ItemName = DBItems[FromSlot].ItemName, 
+							Slot = ToSlot, 
+							Amount = Amount, 
+							Info = DBItems[FromSlot].Info, 
+						}
 						DBItems[FromSlot].Amount = DBItems[FromSlot].Amount - Amount
 						SaveInventoryData(Type, SubType, DBItems)
 						Cb(true)
@@ -411,8 +441,6 @@ Citizen.CreateThread(function()
 						Unique = ItemDataFrom["Unique"], 
 						Image = ItemDataFrom["Image"], 
 						Combinable = ItemDataFrom["Combinable"],
-						CreateDate = ItemDataFrom["CreateDate"],
-						Quality = ItemDataFrom["Quality"]
 					}
 					OtherItems[FromSlot] = {
 						ItemName = DataTo.ItemName,
@@ -426,8 +454,6 @@ Citizen.CreateThread(function()
 						Unique = ItemDataTo["Unique"], 
 						Image = ItemDataTo["Image"],  
 						Combinable = ItemDataTo["Combinable"],
-						CreateDate = ItemDataTo["CreateDate"],
-						Quality = ItemDataTo["Quality"]
 					}
 					OtherPlayer.Functions.SetItemData(OtherItems)
 					if ItemDataFrom['Type'] == 'Weapon' then
@@ -450,8 +476,6 @@ Citizen.CreateThread(function()
 							Unique = ItemDataFrom["Unique"], 
 							Image = ItemDataFrom["Image"], 
 							Combinable = ItemDataFrom["Combinable"],
-							CreateDate = ItemDataFrom["CreateDate"],
-							Quality = ItemDataFrom["Quality"]
 						}
 						OtherItems[FromSlot] = nil
 						OtherPlayer.Functions.SetItemData(OtherItems)
@@ -474,8 +498,6 @@ Citizen.CreateThread(function()
 							Unique = ItemDataTo["Unique"], 
 							Image = ItemDataTo["Image"], 
 							Combinable = ItemDataTo["Combinable"],
-							CreateDate = ItemDataTo["CreateDate"],
-							Quality = ItemDataTo["Quality"]
 						}
 						OtherItems[FromSlot] = nil
 						OtherPlayer.Functions.SetItemData(OtherItems)
@@ -497,8 +519,6 @@ Citizen.CreateThread(function()
 							Unique = ItemDataFrom["Unique"], 
 							Image = ItemDataFrom["Image"], 
 							Combinable = ItemDataFrom["Combinable"],
-							CreateDate = ItemDataFrom["CreateDate"],
-							Quality = ItemDataFrom["Quality"]
 						}
 						OtherItems[FromSlot].Amount = OtherItems[FromSlot].Amount - Amount
 						OtherPlayer.Functions.SetItemData(OtherItems)
@@ -600,9 +620,9 @@ RegisterNetEvent('mercy-inventory/server/done-combinding', function(FromSlot, Fr
 				local ItemData = Shared.ItemList[Reward:lower()]
 				if ItemData['Type'] == 'Weapon' then
 					if ItemData['Melee'] then
-						Info = {}
+						Info = {Quality = 100, CreateDate = os.date()}
 					else
-						Info = {Ammo = 1, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
+						Info = {Quality = 100, CreateDate = os.date(), Ammo = 1, Serial = tostring(Shared.RandomInt(2) .. Shared.RandomStr(3) .. Shared.RandomInt(1) .. Shared.RandomStr(2) .. Shared.RandomInt(3) .. Shared.RandomStr(4))}
 					end
 				else
 					Info = {}
@@ -629,7 +649,6 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 					Slot = GetFreeSlotInDrop(DropSlots, k),
 					Amount = Amount,
 					Info = Info,
-					CreateDate = Date,
 				}
 				TriggerClientEvent('mercy-inventory/client/update-drops', -1, Config.Drops[k], k)
 				goto continue
@@ -654,7 +673,6 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 				Slot = 1,
 				Amount = Amount,
 				Info = Info,
-				CreateDate = Date,
 			},
 		},
 	}
@@ -700,8 +718,6 @@ function GetDBItems(Type, Name)
                                     Amount = tonumber(v.Amount),
                                     Info = v.Info ~= nil and v.Info or "",
                                     Slot = v.Slot,
-									Quality = v.Quality ~= nil and v.Quality or 100,
-									CreateDate = v.CreateDate ~= nil and v.CreateDate or os.date(),
                                 }
                             end
                         end
@@ -730,8 +746,6 @@ function SaveInventoryData(Type, Name, Items)
 			NewData.Slot = v.Slot
 			NewData.Amount = v.Amount
 			NewData.Info = v.Info
-			NewData.Quality = v.Quality
-			NewData.CreateDate = v.CreateDate
 			ItemsJson[#ItemsJson+1] = NewData
 		end
 	end

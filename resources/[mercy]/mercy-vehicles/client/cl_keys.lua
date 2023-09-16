@@ -271,6 +271,24 @@ RegisterNetEvent('mercy-vehicles/client/give-keys', function()
     end
 end)
 
+RegisterNetEvent('mercy-vehicles/client/get-keys', function()
+    local IsInVehicle = IsPedInAnyVehicle(PlayerPedId())
+    local Entity, EntityType, EntityCoords = FunctionsModule.GetEntityPlayerIsLookingAt(4.0, 0.2, 286, PlayerPedId())
+
+    if IsInVehicle then 
+        Entity = GetVehiclePedIsIn(PlayerPedId()) 
+        EntityType = GetEntityType(Entity) 
+        EntityCoords = GetEntityCoords(Entity) 
+    end
+
+    if Entity == 0 or Entity == -1 or EntityType ~= 2 then return end
+
+    local Plate = GetVehicleNumberPlateText(Entity)
+    SetVehicleKeys(Plate, true, PlayerModule.GetPlayerCitizenIdBySource(GetPlayerServerId(PlayerId())))
+    TriggerEvent('mercy-vehicles/client/on-veh-lockpick', Entity, Plate)
+    exports['mercy-ui']:Notify('keys-error', "You got the keys.", 'success')
+end)
+
 RegisterNetEvent('mercy-vehicles/client/toggle-engine-on', function(OnPress)
     if not OnPress then return end
 

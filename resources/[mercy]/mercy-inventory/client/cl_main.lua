@@ -554,7 +554,6 @@ function FormatItemData(ItemData)
             ['Info'] = v.Info,
             ['Description'] = v.Description,
             ['Combinable'] = v.Combinable,
-            ['CreateDate'] = v.CreateDate,
         }
     end
     return ReturnData
@@ -577,7 +576,6 @@ function FormatNoDataItems(ItemData)
             ['Price'] = v.Price ~= nil and v.Price or 0,
             ['Description'] = Data['Description'],
             ['Combinable'] = Data['Combinable'],
-            ['CreateDate'] = v.CreateDate,
             ['Cost'] = Data['Cost'],
         }
     end
@@ -765,7 +763,6 @@ RegisterNUICallback('SaveInventory', function(data)
 	    	Info = InventoryData['Info'],
 	    	Description = InventoryData['Description'],
 	    	Combinable = InventoryData['Combinable'],
-            CreateDate = InventoryData['CreateDate'],
         }
     elseif data.Type == 'SaveNow' then
         TriggerServerEvent('mercy-inventory/server/set-player-items', InventorySaveData)

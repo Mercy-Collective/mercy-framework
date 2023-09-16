@@ -70,7 +70,7 @@ RefreshInventory = function (data) {
             <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
             <div class="inventory-block-name">${ ItemData["Label"] }</div>
             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData) )}" style="height: ${GetQuality( ItemData["ItemName"], ItemData["CreateDate"], ItemData)}%"></div>
+                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData) )}" style="height: ${GetQuality( ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData)}%"></div>
             </div>`
         );
         }
@@ -104,7 +104,7 @@ SetupInventory = function (BlockAmount, OtherData, data) {
             <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
             <div class="inventory-block-name">${ ItemData["Label"] }</div>
             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-            <div class="inventory-quality-fill ${GetQualityColor( GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData) )}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData)}%"></div>
+            <div class="inventory-quality-fill ${GetQualityColor( GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData) )}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData)}%"></div>
             </div>`
         );
         }
@@ -179,7 +179,7 @@ SetupInventory = function (BlockAmount, OtherData, data) {
                         <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
                         <div class="inventory-block-name">${ ItemData["Label"] }</div>
                         <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                        <div class="inventory-quality-fill ${GetQualityColor(GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData))}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData)}%"></div>
+                        <div class="inventory-quality-fill ${GetQualityColor(GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData))}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData)}%"></div>
                         </div>`
                     );
                     $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).addClass("draghandle");
@@ -242,8 +242,6 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             NewItemData["Info"] = ToData["Info"];
             NewItemData["Description"] = ToData["Description"];
             NewItemData["Combinable"] = ToData["Combinable"];
-            NewItemData["CreateDate"] = ToData["CreateDate"];
-            NewItemData["Quality"] = ToData["Quality"];
 
             // My -> My
             if (FromInv == ".my-inventory-blocks" && ToInv == ".my-inventory-blocks") {
@@ -363,8 +361,6 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             NewItemData["Info"] = ToData["Info"];
             NewItemData["Description"] = ToData["Description"];
             NewItemData["Combinable"] = ToData["Combinable"];
-            NewItemData["CreateDate"] = ToData["CreateDate"];
-            NewItemData["Quality"] = ToData["Quality"];
 
             let NewItemDataFrom = [];
             NewItemDataFrom["Label"] = FromData["Label"];
@@ -378,8 +374,6 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             NewItemDataFrom["Info"] = FromData["Info"];
             NewItemDataFrom["Description"] = FromData["Description"];
             NewItemDataFrom["Combinable"] = FromData["Combinable"];
-            NewItemDataFrom["CreateDate"] = FromData["CreateDate"];
-            NewItemDataFrom["Quality"] = FromData["Quality"];
 
             if (FromInv == ".my-inventory-blocks" && ToInv == ".my-inventory-blocks") {
                 DebugPrint("Moving", "My -> My | Placing Same Item with higher Amount in New Slot");
@@ -504,8 +498,6 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             NewItemData["Info"] = FromData["Info"];
             NewItemData["Description"] = FromData["Description"];
             NewItemData["Combinable"] = FromData["Combinable"];
-            NewItemData["CreateDate"] = FromData["CreateDate"];
-            NewItemData["Quality"] = FromData["Quality"];
             NewItemData["Amount"] = parseInt(FromData["Amount"]);
 
             // My -> My
@@ -520,7 +512,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                     <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                     <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                    <div class="inventory-quality-fill ${GetQualityColor(GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                    <div class="inventory-quality-fill ${GetQualityColor(GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                     </div>`
                 );
                 $(FromInv).find(`[data-slot=${FromSlot}]`).html((FromSlot == 1 || FromSlot == 2 || FromSlot == 3 || FromSlot == 4)  ? `<div class="inventory-block-number">${FromSlot}</div>` : "");
@@ -549,7 +541,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                             </div>`);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
@@ -580,7 +572,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                             </div>`);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
@@ -659,8 +651,6 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             NewItemData["Info"] = FromData["Info"];
             NewItemData["Description"] = FromData["Description"];
             NewItemData["Combinable"] = FromData["Combinable"];
-            NewItemData["CreateDate"] = FromData["CreateDate"];
-            NewItemData["Quality"] = FromData["Quality"];
             NewItemData["Amount"] = parseInt(Amount);
 
             let NewItemDataFrom = [];
@@ -674,8 +664,6 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             NewItemDataFrom["Info"] = FromData["Info"];
             NewItemDataFrom["Description"] = FromData["Description"];
             NewItemDataFrom["Combinable"] = FromData["Combinable"];
-            NewItemDataFrom["CreateDate"] = FromData["CreateDate"];
-            NewItemDataFrom["Quality"] = FromData["Quality"];
             NewItemDataFrom["Amount"] = parseInt(FromData["Amount"]) - parseInt(Amount);
 
             // My -> My
@@ -686,7 +674,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                     <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                     <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                        <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                        <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                     </div>`);
                 $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                 $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
@@ -696,7 +684,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                     <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                     <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                        <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom)}%"></div
+                        <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom)}%"></div
                     ></div>`);
                 $(FromInv).find(`[data-slot=${FromSlot}]`).data("ItemData", NewItemDataFrom);
                 HandleInventorySave();
@@ -720,7 +708,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                             </div>`);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
@@ -751,14 +739,14 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                             </div>`);
                         $(FromInv).find(`[data-slot=${FromSlot}]`).html(
                             `<img src="${ GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
                             <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom)}%"></div>
+                                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom)}%"></div>
                             </div>`);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
@@ -788,7 +776,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                                 <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                                 <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                                 <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                    <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom)}%"></div>
+                                    <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom)}%"></div>
                                 </div>`);
                             $(FromInv).find(`[data-slot=${FromSlot}]`) .data("ItemData", NewItemDataFrom);
                             HandleInventoryWeights();
@@ -829,7 +817,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                         <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                         <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                         <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                            <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                            <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                         </div>`);
                     $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                     $(FromInv).find(`[data-slot=${FromSlot}]`) .html(
@@ -838,7 +826,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                         <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                         <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                         <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                            <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom)}%"></div>
+                            <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom)}%"></div>
                         </div>` );
                     $(FromInv) .find(`[data-slot=${FromSlot}]`).data("ItemData", NewItemDataFrom);
                     HandleInventorySave();
@@ -872,14 +860,14 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                                 <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                                 <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                                 <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                    <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["CreateDate"], NewItemData)}%"></div>
+                                    <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                                 </div>`);
                             $(FromInv).find(`[data-slot=${FromSlot}]`) .html(
                                 `<img src="${ GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
                                 <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                                 <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                                 <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                                    <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["CreateDate"], NewItemDataFrom)}%"></div>
+                                    <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom) )}" style="height: ${GetQuality(NewItemDataFrom["ItemName"], NewItemDataFrom["Info"]["CreateDate"], NewItemDataFrom)}%"></div>
                                 </div>`);
                             $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                             $(FromInv).find(`[data-slot=${FromSlot}]`).data("ItemData", NewItemDataFrom);
@@ -918,8 +906,6 @@ HandleInventorySave = function () {
             SendData["Info"] = InventoryData["Info"];
             SendData["Description"] = InventoryData["Description"];
             SendData["Combinable"] = InventoryData["Combinable"];
-            SendData["CreateDate"] = InventoryData["CreateDate"];
-            SendData['Quality'] = InventoryData['Quality'];
             $.post( `https://${GetParentResourceName()}/SaveInventory`, JSON.stringify({ Type: "TableInput", InventoryData: SendData }) );
         }
     }
@@ -1001,7 +987,7 @@ HandleInventoryHotbar = function (Data) {
             <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
             <div class="inventory-block-name">${ ItemData["Label"] }</div>
             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData) )}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["CreateDate"], ItemData)}%"></div>
+                <div class="inventory-quality-fill ${GetQualityColor( GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData) )}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData)}%"></div>
             </div>` : ""
         );
         }
@@ -1089,7 +1075,7 @@ $(document).on({
                             `<img src="${ GetItemImage(FromData['Image']) }" class="inventory-item-move-img">
                             <div class="inventory-item-move-amount">${MoveAmount}x </div><div class="inventory-move-price">$${ ItemList[FromData["ItemName"]]["Price"] }</div>
                             <div class="inventory-item-move-name">${ FromData["Label"] }</div>
-                            <div class="inventory-item-move-quality"><div class="inventory-quality-fill ${GetQualityColor( GetQuality(FromData["ItemName"], FromData["CreateDate"], FromData) )}" style="height: ${GetQuality( FromData["ItemName"], FromData["CreateDate"], FromData)}%"></div></div>`
+                            <div class="inventory-item-move-quality"><div class="inventory-quality-fill ${GetQualityColor( GetQuality(FromData["ItemName"], FromData["Info"]["CreateDate"], FromData) )}" style="height: ${GetQuality( FromData["ItemName"], FromData["Info"]["CreateDate"], FromData)}%"></div></div>`
                         );
                     } else {
                         HandleInventoryError(false);
@@ -1118,7 +1104,7 @@ $(document).on({
                                 `<img src="${ GetItemImage(FromData['Image']) }" class="inventory-item-move-img">
                                 <div class="inventory-item-move-amount">${MoveAmount}x </div>
                                 <div class="inventory-item-move-name">${ FromData["Label"] }</div>
-                                <div class="inventory-item-move-quality"><div class="inventory-quality-fill ${GetQualityColor( GetQuality(FromData["ItemName"], FromData["CreateDate"], FromData) )}" style="height: ${GetQuality(FromData["ItemName"], FromData["CreateDate"], FromData)}%"></div></div>`
+                                <div class="inventory-item-move-quality"><div class="inventory-quality-fill ${GetQualityColor( GetQuality(FromData["ItemName"], FromData["Info"]["CreateDate"], FromData) )}" style="height: ${GetQuality(FromData["ItemName"], FromData["Info"]["CreateDate"], FromData)}%"></div></div>`
                             );
                         } else {
                             HandleInventoryError(false);
@@ -1359,8 +1345,8 @@ window.addEventListener("message", function (event) {
             }
             break;
         case "UpdateSlotQuality":
-            let Quality = GetQuality(Event.data.ItemName, Event.data.CreateDate, Event.data.ItemData);
-            $(".my-inventory-blocks").find(`[data-slot=${Event.data.Slot}]`) .find(".inventory-quality").html(
+            let Quality = GetQuality(event.data.ItemName, event.data.CreateDate);
+            $(".my-inventory-blocks").find(`[data-slot=${event.data.Slot}]`).find(".inventory-quality").html(
                 `<div class="inventory-quality-fill ${GetQualityColor(Quality)}" style="height: ${Quality}%"></div>`
             );
             break;
