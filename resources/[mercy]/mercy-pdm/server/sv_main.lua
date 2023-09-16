@@ -30,9 +30,19 @@ Citizen.CreateThread(function()
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.RemoveMoney("Bank", FunctionsModule.GetTaxPrice(BikeData['Price'], 'Vehicle'), "bike-shop") then
             local Plate = GeneratePlate()
-            local VehicleMeta = {Fuel = 100.0, Body = 1000.0, Engine = 1000.0}
+            local VehicleMeta = {Nitrous = 0, Harness = 0, Fuel = 100.0, Body = 1000.0, Engine = 1000.0}
             local VinNumber = GenerateVIN()
-            DatabaseModule.Insert("INSERT INTO player_vehicles (citizenid, vehicle, plate, garage, state, mods, metadata, vin, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", {Player.PlayerData.CitizenId, BikeData['Vehicle'], Plate, 'depot', 'Out', '{}', json.encode(VehicleMeta), VinNumber, 'Player'})
+            DatabaseModule.Insert("INSERT INTO player_vehicles (citizenid, vehicle, plate, garage, state, mods, metadata, vin, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", {
+                Player.PlayerData.CitizenId, 
+                BikeData['Vehicle'], 
+                Plate, 
+                'depot', 
+                'Out', 
+                '{}', 
+                json.encode(VehicleMeta), 
+                VinNumber, 
+                'Player'
+            })
             TriggerClientEvent('mercy-pdm/client/bought-bicycle', Source, BikeData['Vehicle'], Plate)
             Player.Functions.Notify('bought-bike', 'You successfully bought a '..BikeData['Name'], 'success')
         else
@@ -46,7 +56,7 @@ Citizen.CreateThread(function()
         if VehicleData ~= nil then
             if Player.Functions.RemoveMoney("Bank", FunctionsModule.GetTaxPrice(VehicleData['Price'], 'Vehicle'), "vehicle-shop") then
                 local Plate = GeneratePlate()
-                local VehicleMeta = {Fuel = 100.0, Body = 1000.0, Engine = 1000.0}
+                local VehicleMeta = {Nitrous = 0, Harness = 0, Fuel = 100.0, Body = 1000.0, Engine = 1000.0}
                 local VinNumber = GenerateVIN()
                 DatabaseModule.Insert("INSERT INTO player_vehicles (citizenid, vehicle, plate, garage, state, mods, metadata, vin, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", {
                     Player.PlayerData.CitizenId, 
