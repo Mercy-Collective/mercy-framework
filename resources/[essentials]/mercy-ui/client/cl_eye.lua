@@ -531,6 +531,8 @@ exports("RemoveEyeEntry", function(Name, Type)
             Eye.Entries[Name].ZoneData.Zone:destroy() 
             Eye.Entries[Name] = nil
         end
+    elseif Type == 'entity' or Type == 'model' then
+        Eye.Entries[Name] = nil
     end
 end)
 
