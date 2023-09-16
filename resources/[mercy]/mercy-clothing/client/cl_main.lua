@@ -150,15 +150,6 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     SetPedComponentVariation(PlayerPed, 2, SkinData["Hair"].Item, 0, 0)
     SetPedHairColor(PlayerPed, SkinData["Hair"].Texture, SkinData["Hair"].Texture2)
 
-    -- Hair Fade
-    local Gender = "Female"
-    local Model = GetEntityModel(PlayerPed)
-    if Model == `mp_m_freemode_01` then Gender = "Male" end
-    local FacialDec = Config.HairFades[Gender][SkinData["HairFade"].Item]
-    if Model ~= nil and FacialDec then
-        SetPedFacialDecoration(PlayerPed, FacialDec[1], FacialDec[2])
-    end
-
     -- Eyebrows
     SetPedHeadOverlay(PlayerPed, 2, SkinData["Eyebrows"].Item, 1.0)
     SetPedHeadOverlayColor(PlayerPed, 2, 1, SkinData["Eyebrows"].Texture, SkinData["Eyebrows"].Texture2)
@@ -381,6 +372,15 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     end
     if TattoosData["RArm"].Item ~= 0 then
         ApplyPedOverlay(PlayerPed, TattoosData["RArm"].Collection, TattoosData["RArm"].Texture)
+    end
+
+    -- Hair Fade
+    local Gender = "Female"
+    local Model = GetEntityModel(PlayerPed)
+    if Model == `mp_m_freemode_01` then Gender = "Male" end
+    local FacialDec = Config.HairFades[Gender][SkinData["HairFade"].Item]
+    if Model ~= nil and FacialDec then
+        SetPedFacialDecoration(PlayerPed, FacialDec[1], FacialDec[2])
     end
 
     DebugLog('Tattoos', 'Applied tattoos to ped.')
