@@ -601,6 +601,7 @@ Config.AlertBlip = {
     ['Deadly Fight In Progress'] = 154,
     ['Gun Shots Reported From Vehicle'] = 229,
     ['Gun Shots Reported'] = 313,
+    ['Tracker Device Manipulation'] = 620,
     ['Store Alarm'] = 59,
     ['Banktruck Alarm'] = 67,
     ['911 Call'] = 47,
