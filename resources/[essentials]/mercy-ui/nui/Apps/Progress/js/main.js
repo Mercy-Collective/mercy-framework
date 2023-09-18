@@ -19,7 +19,7 @@ Progress.addNuiListener("Start", (Data) => {
     $.when($('.progress-circle-container').fadeIn(250)).done(() => {
         $('.progressbar-text').show();
         ProgressCircle = new ProgressBar.Circle('.progress-circle', {
-            color: '#01e2c0',
+            color: '#DA70D6',
             trailColor: 'rgba(255, 255, 255, 0.5)',
             strokeWidth: 13,
             trailWidth: 13,

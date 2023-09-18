@@ -1,4 +1,4 @@
-local FlameScale, PurgeSprayScale = 1.2, 0.8
+local FlameScale, PurgeSprayScale = 3.0, 1.0
 local NitrousStages = {5.0, 3.0, 1.0, 0.5, 0.25}
 local DoingNitrous, NitrousStage = false, 1
 local NitrousType = 'Nitrous'

@@ -26,7 +26,7 @@ RegisterNetEvent('mc-wheel/client/do-spin', function(Data)
             local Speed = Config.Options['Wheel']['Types'][Type]['Speed']
             local Slot = math.random(0, #Config.Options['Wheel']['Slots'])
             if Slot == 23 then
-                local RandomChance = math.random(1, 10000)
+                local RandomChance = math.random(1, 15000)
                 if RandomChance == 1 then
                     Slot = 23
                 else 

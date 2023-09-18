@@ -108,6 +108,7 @@ function GenerateVIN()
     end)
     return Vin:upper()
 end
+exports('GenerateVIN', GenerateVIN)
 
 function GetRandomNumber(length)
 	Citizen.Wait(1)
