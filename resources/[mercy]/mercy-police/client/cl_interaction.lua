@@ -307,7 +307,7 @@ RegisterNetEvent('mercy-police/client/scan-plate', function(Nothing, Entity)
         exports['mercy-ui']:Notify('not-found-veh-scan', 'Nothing found..', 'error')
         return
     end
-    TriggerEvent('mercy-chat/client/post-message', 'Search Result - '..VehicleData.Plate, 'Owner: '..VehicleData.Owner..'<br>State ID: '..VehicleData.CitizenId..'<br>Vin: '..VehicleData.Vin..'<br>Model: '..VehicleData.Model..'<br>Flagged: '..(VehicleData.Flagged == 1 and 'Yes' or 'No')..(VehicleData.Flagged == 1 and ('<br>Flag Reason: ' .. VehicleData.FlagReason) or ''), 'error')
+    TriggerEvent('mercy-chat/client/post-message', 'Search Result - '..VehicleData.Plate, 'Owner: '..VehicleData.Owner..'<br>State ID: '..VehicleData.CitizenId..'<br>Vin: '..(not VehicleData.Vin) and 'Not found..' or VehicleData.Vin..'<br>Model: '..VehicleData.Model..'<br>Flagged: '..(VehicleData.Flagged == 1 and 'Yes' or 'No')..(VehicleData.Flagged == 1 and ('<br>Flag Reason: ' .. VehicleData.FlagReason) or ''), 'error')
     PlaySoundFrontend(-1, "Event_Start_Text", "GTAO_FM_Events_Soundset", false)
 end)
 

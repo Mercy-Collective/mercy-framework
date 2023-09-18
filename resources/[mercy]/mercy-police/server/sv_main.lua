@@ -108,7 +108,7 @@ CreateThread(function()
                         VehicleData.Plate = v.plate
                         VehicleData.Owner = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
                         VehicleData.CitizenId = v.citizenid
-                        VehicleData.Vin = v.vin
+                        VehicleData.Vin = string.match(v.vin, "Scratched") and false or v.vin
                         VehicleData.Model = Shared.Vehicles[GetHashKey(v.vehicle)]['Name']
                         VehicleData.Flagged = v.Flagged
                         VehicleData.FlagReason = v.FlagReason

@@ -61,27 +61,36 @@ end)
 Citizen.CreateThread(function()
     Citizen.SetTimeout(750, function()
         while true do
-            local RandomValue = math.random(1, 3)
+            local RandomValue = math.random(10, 15)
             local UpdatedPlants = {}
             for _, Plant in pairs(Config.WeedPlants) do
+                -- Fertilizer
                 if Plant['Fertilizer'] > 0 and Plant['Fertilizer'] - RandomValue > 0 then
                     Plant['Fertilizer'] = Plant['Fertilizer'] - RandomValue
                 else
                     Plant['Fertilizer'] = 0
                 end
-                if Plant['Fertilizer'] < 50 then
+                -- Water
+                if Plant['Water'] > 0 and Plant['Water'] - RandomValue > 0 then
+                    Plant['Water'] = Plant['Water'] - RandomValue
+                else
+                    Plant['Water'] = 0
+                end
+
+                if Plant['Fertilizer'] < 50 or Plant['Water'] < 50 then
                     if Plant['Health'] > 0 then
                         Plant['Health'] = Plant['Health'] - 5
                     else
                         Plant['Health'] = 0
                     end
-                elseif Plant['Fertilizer'] > 50 then
+                elseif Plant['Fertilizer'] > 50 or Plant['Water'] > 50 then
                     if Plant['Health'] < 100 and Plant['Health'] ~= 0 then
                         Plant['Health'] = Plant['Health'] + 5
                     else
                         Plant['Health'] = 100
                     end
                 end
+      
                 if Plant['Health'] > 0 then
                     if Plant['Progress'] < 100 then
                         local RandomGrowth = math.random(3, 6)
