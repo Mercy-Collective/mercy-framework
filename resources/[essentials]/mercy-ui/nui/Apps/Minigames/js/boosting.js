@@ -133,7 +133,7 @@ function StartBoostingHack() {
         div.innerHTML = GeneratedCodes[i];
         CodesGrid.append(div);
     }
-
+    document.querySelector('.boosting-splash .boosting-text').innerHTML = 'INITIALIZING...';
     setTimeout(() => {
         document.querySelector('.boosting-splash .boosting-text').innerHTML = 'CONNECTED!';
         setTimeout(() => {
