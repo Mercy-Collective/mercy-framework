@@ -5498,6 +5498,36 @@ Shared.ItemList["tracker-disabler"] = {
 	}
 }
 
+Shared.ItemList["racing-usb"] = {
+	['ItemName'] = "racing-usb",
+	['Label'] = "Racing Dongle",
+	['Weight'] = 0.15,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "c_racing_usb_blue.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "A normal usb?",
+	['DecayRate'] = 0.1,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 1,
+}
+
+Shared.ItemList["boosting-usb"] = {
+	['ItemName'] = "boosting-usb",
+	['Label'] = "Boosting Dongle",
+	['Weight'] = 0.15,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "c_racing_usb_blue.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "A normal usb?",
+	['DecayRate'] = 0.1,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 1,
+}
+
 -- Crime update
 
 Shared.ItemList["methlab_stage_01"] = {
