@@ -33,6 +33,7 @@ data_file 'DLC_ITYP_REQUEST' 'stream/Traphouse/barbers_shell.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Winkel/shellpropsv4.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Garages/tijns_stash_garage.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/Garages/tijns_garage.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'stream/Container/starter_shells_k4mb1.ytyp'
 
 lua54 'yes'
 
