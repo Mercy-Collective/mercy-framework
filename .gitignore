@@ -4,3 +4,6 @@
 \cfg_dev
 \[dev]
 \[Starter_Dev].bat
+*.dll
+*.pdb
+*.exe

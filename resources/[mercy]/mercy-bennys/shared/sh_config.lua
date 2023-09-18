@@ -255,7 +255,7 @@ Config.Prices = {
     ['ModWindows'] = 400,
     ['ModLivery'] = 100,
     ['ModHorns'] = 400,
-    -- ['ModArmor'] = { 3250, 5500, 10450, 15250, 20500 },
+    ['ModArmor'] = { 3250, 5500, 10450, 15250, 20500 },
     ['ModEngine'] = { 3250, 5500, 10450, 15250, 20500 },
     ['ModBrakes'] = { 3250, 5500, 10450, 15250, 20500 },
     ['ModTransmission'] = { 3250, 5500, 10450, 15250, 20500 },
@@ -3243,53 +3243,53 @@ Config.Menus = {
     --     Disabled = { Emergency = true, Vin = true },
     --     ModType = 16,
     -- },
+   -- -{
+      --  Id = "ModEngine",
+       -- Label = "Engine Upgrade",
+       -- Disabled = { Emergency = true, Vin = true },
+       -- ModType = 11,
+  -- - },
+  --  {
+      --  Id = "ModBrakes",
+      --  Label = "Brake Upgrade",
+      --  Disabled = { Emergency = true, Vin = true },
+      --  ModType = 12,
+  --  },
+   -- {
+      --  Id = "ModTransmission",
+       -- Label = "Transmission Upgrade",
+       -- Disabled = { Emergency = true, Vin = true },
+      --  ModType = 13,
+  --  },
+  --  {
+       -- Id = "ModSuspension",
+       -- Label = "Suspension Upgrade",
+      --  Disabled = { Emergency = true, Vin = true },
+       -- ModType = 15,
+   -- },
     {
-        Id = "ModEngine",
-        Label = "Engine Upgrade",
-        Disabled = { Emergency = true, Vin = true },
-        ModType = 11,
-    },
-    {
-        Id = "ModBrakes",
-        Label = "Brake Upgrade",
-        Disabled = { Emergency = true, Vin = true },
-        ModType = 12,
-    },
-    {
-        Id = "ModTransmission",
-        Label = "Transmission Upgrade",
-        Disabled = { Emergency = true, Vin = true },
-        ModType = 13,
-    },
-    {
-        Id = "ModSuspension",
-        Label = "Suspension Upgrade",
-        Disabled = { Emergency = true, Vin = true },
-        ModType = 15,
-    },
-    {
-        Id = "ModTurboMenu",
-        Label = "Turbo Upgrade",
-        Disabled = { Emergency = true, Vin = true },
-        SubMenu = {
-            {
-                Id = "ModTurbo",
-                Label = "Disable Turbo",
-                Parent = 'ModTurboMenu',
-                Disabled = { Emergency = false, Vin = false },
-                Costs = '$' .. 0,
-                Data = { Costs = 0, ModType = 18, ModIndex = 0 }
-            },
-            {
-                Id = "ModTurbo",
-                Label = "Enable Turbo",
-                Parent = 'ModTurboMenu',
-                Disabled = { Emergency = false, Vin = false },
-                Costs = '$' .. Config.Prices['ModTurbo'][2],
-                Data = { Costs = Config.Prices['ModTurbo'][2], ModType = 18, ModIndex = 1 }
-            },
+       -- Id = "ModTurboMenu",
+       -- Label = "Turbo Upgrade",
+      --  Disabled = { Emergency = true, Vin = true },
+       -- SubMenu = {
+         --   {
+          --      Id = "ModTurbo",
+          --      Label = "Disable Turbo",
+         --       Parent = 'ModTurboMenu',
+         --       Disabled = { Emergency = false, Vin = false },
+          --      Costs = '$' .. 0,
+         ---     Data = { Costs = 0, ModType = 18, ModIndex = 0 }
+           -- },
+         --  {
+           --     Id = "ModTurbo",
+          --      Label = "Enable Turbo",
+         --       Parent = 'ModTurboMenu',
+         --       Disabled = { Emergency = false, Vin = false },
+          --      Costs = '$' .. Config.Prices['ModTurbo'][2],
+         --       Data = { Costs = Config.Prices['ModTurbo'][2], ModType = 18, ModIndex = 1 }
+           -- },
         },
-    },
+
 
     -- RESPRAY TYPES
     {

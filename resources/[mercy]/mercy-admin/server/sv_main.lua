@@ -378,6 +378,23 @@ RegisterNetEvent("mc-admin/server/ban-player", function(ServerId, Expires, Reaso
     end
 end)
 
+RegisterNetEvent('mc-admin/server/save-car', function(vehicle, plate)
+    local src = source
+    local Player = PlayerModule.GetPlayerBySource(src)
+    local VehicleMeta = {Fuel = 100.0, Body = 1000.0, Engine = 1000.0}
+    local VinNumber = exports['mercy-pdm']:GenerateVIN()
+    local VehicleData = Shared.Vehicles[GetHashKey(vehicle)] 
+    if VehicleData ~= nil then
+        local result = MySQL.query.await('SELECT plate FROM player_vehicles WHERE plate = ?', { plate })
+        if result[1] == nil then
+            DatabaseModule.Insert("INSERT INTO player_vehicles (citizenid, vehicle, plate, garage, state, mods, metadata, vin, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", {Player.PlayerData.CitizenId, VehicleData['Vehicle'], plate, 'depot', 'Out', '{}', json.encode(VehicleMeta), VinNumber, 'Player'})
+            Player.Functions.Notify('save-car', 'Success', 'success')
+        else
+            Player.Functions.Notify('save-car', 'Error car already in garage', 'error')
+        end
+    end
+end)
+
 RegisterNetEvent("mc-admin/server/kick-all-players", function(Reason)
     local src = source
     if not AdminCheck(src) then return end

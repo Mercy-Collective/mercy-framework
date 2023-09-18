@@ -9,8 +9,8 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer("mercy-heists/server/banks/receive-trolly-goods", function(Source, Type)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Type == 'Fleeca' then
-            Player.Functions.AddItem('cash-rolls', math.random(5, 20), false, false, true)
-            Player.Functions.AddItem('markedbills', 1, false, {Worth = math.random(8000, 13000)}, true)
+            Player.Functions.AddItem('cash-rolls', math.random(30, 140), false, false, true)
+            Player.Functions.AddItem('markedbills', math.random(10, 20), false, {Worth = math.random(8000, 13000)}, true)
         end
     end)
 

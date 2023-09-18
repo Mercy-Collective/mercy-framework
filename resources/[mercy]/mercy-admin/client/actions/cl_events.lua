@@ -100,6 +100,17 @@ RegisterNetEvent('Admin:Spawn:Vehicle', function(Result)
     TriggerEvent("mercy-base/client/spawn-vehicle", Result['model'])
 end)
 
+RegisterNetEvent('Admin:Save;Car', function()
+    local veh = GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsIn(PlayerPedId())))
+
+    if veh ~= nil and veh ~= 0 then
+            local plante = GetVehicleNumberPlateText(GetVehiclePedInIn(PlayerPedid()))
+            TriggerServerEvent('mc-admin/server/save-car', veh, plate)
+    else
+        exports['mercy-ui']:Notify("no-car", "no car", "error")
+    end
+end)
+
 RegisterNetEvent('Admin:Teleport:Marker', function(Result)
      if not PlayerModule.IsPlayerAdmin() then return end
     TriggerEvent('mc-admin/client/force-close')
