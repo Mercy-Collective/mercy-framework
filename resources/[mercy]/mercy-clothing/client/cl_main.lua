@@ -124,7 +124,6 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     -- Parents
     ---
     if not SkinData["Facemix"] or not SkinData["Skinmix"] or not SkinData["Thirdmix"] or not SkinData["Face"] or not SkinData["Face2"] or not SkinData["Face3"] then
-        DebugLog('Parents', 'Missing parents data, applying default.')
         SkinData["Facemix"] = Config.SkinData['Skin']["Facemix"]
         SkinData["Skinmix"] = Config.SkinData['Skin']["Skinmix"]
         SkinData["Thirdmix"] = Config.SkinData['Skin']["Thirdmix"]
@@ -136,10 +135,22 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
         SkinData["Face"] = Config.SkinData['Skin']["Face"]
         SkinData["Face2"] = Config.SkinData['Skin']["Face2"]
         SkinData["Face3"] = Config.SkinData['Skin']["Face3"]
+
+        DebugLog('Parents', 'Missing parents data, applying default. ('..SkinData["Face"]..' | '..SkinData["Face2"]..' | '..SkinData["Face3"]..' | '.. SkinData["Facemix"].Item ..' | '.. SkinData["Skinmix"].Item ..' | '.. SkinData["Thirdmix"].Item ..')')
     end
     if (EntityModel == `mp_f_freemode_01` or EntityModel == `mp_m_freemode_01`) then
-        SetPedHeadBlendData(PlayerPed, SkinData["Face"].Item, SkinData["Face2"].Item, SkinData["Face3"].Item, SkinData["Face"].Texture, SkinData["Face2"].Texture, SkinData["Face3"].Texture, SkinData["Facemix"].Item, SkinData["Skinmix"].Item, SkinData["Thirdmix"].Item, false)
-        DebugLog('Parents', 'Applied parents to ped.')
+        SetPedHeadBlendData(PlayerPed, 
+        SkinData["Face"].Item, 
+        SkinData["Face2"].Item, 
+        SkinData["Face3"].Item, 
+        SkinData["Face"].Texture, 
+        SkinData["Face2"].Texture, 
+        SkinData["Face3"].Texture, 
+        SkinData["Facemix"].Item, 
+        SkinData["Skinmix"].Item, 
+        SkinData["Thirdmix"].Item, false)
+
+        DebugLog('Parents', 'Applied parents to ped. ('.. SkinData["Face"].Item ..' | '.. SkinData["Face2"].Item ..' | '.. SkinData["Face3"].Item ..' | '.. SkinData["Facemix"].Item ..' | '.. SkinData["Skinmix"].Item ..' | '.. SkinData["Thirdmix"].Item ..')')
     end
 
     ---
@@ -310,6 +321,27 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
 
     DebugLog('Accessories', 'Applied accessories to ped.')
 
+    -- Tattoos
+    ClearPedDecorations(PlayerPed)
+    if TattoosData["TChest"].Item ~= 0 then
+        ApplyPedOverlay(PlayerPed, TattoosData["TChest"].Collection, TattoosData["TChest"].Texture)
+    end
+    if TattoosData["THead"].Item ~= 0 then
+        ApplyPedOverlay(PlayerPed, TattoosData["THead"].Collection, TattoosData["THead"].Texture)
+    end
+    if TattoosData["LLeg"].Item ~= 0 then
+        ApplyPedOverlay(PlayerPed, TattoosData["LLeg"].Collection, TattoosData["LLeg"].Texture)
+    end
+    if TattoosData["RLeg"].Item ~= 0 then
+        ApplyPedOverlay(PlayerPed, TattoosData["RLeg"].Collection, TattoosData["RLeg"].Texture)
+    end
+    if TattoosData["LArm"].Item ~= 0 then
+        ApplyPedOverlay(PlayerPed, TattoosData["LArm"].Collection, TattoosData["LArm"].Texture)
+    end
+    if TattoosData["RArm"].Item ~= 0 then
+        ApplyPedOverlay(PlayerPed, TattoosData["RArm"].Collection, TattoosData["RArm"].Texture)
+    end
+
     ---
     -- FACE CATEGORY
     ---
@@ -352,27 +384,6 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     SetPedFaceFeature(PlayerPed, 12, (SkinData['LipsThickness'].Item / 10))
 
     DebugLog('Face', 'Applied face to ped.')
-
-    -- Tattoos
-    ClearPedDecorations(PlayerPed)
-    if TattoosData["TChest"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["TChest"].Collection, TattoosData["TChest"].Texture)
-    end
-    if TattoosData["THead"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["THead"].Collection, TattoosData["THead"].Texture)
-    end
-    if TattoosData["LLeg"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["LLeg"].Collection, TattoosData["LLeg"].Texture)
-    end
-    if TattoosData["RLeg"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["RLeg"].Collection, TattoosData["RLeg"].Texture)
-    end
-    if TattoosData["LArm"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["LArm"].Collection, TattoosData["LArm"].Texture)
-    end
-    if TattoosData["RArm"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["RArm"].Collection, TattoosData["RArm"].Texture)
-    end
 
     -- Hair Fade
     local Gender = "Female"

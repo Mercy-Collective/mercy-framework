@@ -249,7 +249,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Skinmix"].Item, 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Face"].Item = Item
+                    Config.SkinData['Skin']["Face"].Item = tonumber(Item)
                 elseif Type == "Texture" then
                     SetPedHeadBlendData(PlayerPed, 
                     Config.SkinData['Skin']["Face"].Item, 
@@ -262,7 +262,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Skinmix"].Item, 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Face"].Texture = Item
+                    Config.SkinData['Skin']["Face"].Texture = tonumber(Item)
                 end
             elseif Category == "Face2" then
                 if Type == "Item" then
@@ -277,7 +277,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Skinmix"].Item, 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Face2"].Item = Item
+                    Config.SkinData['Skin']["Face2"].Item = tonumber(Item)
                 elseif Type == "Texture" then
                     SetPedHeadBlendData(PlayerPed, 
                     Config.SkinData['Skin']["Face"].Item, 
@@ -290,7 +290,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Skinmix"].Item, 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Face2"].Texture = Item
+                    Config.SkinData['Skin']["Face2"].Texture = tonumber(Item)
                 end
             elseif Category == "Face3" then
                 if Type == "Item" then
@@ -305,7 +305,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Skinmix"].Item, 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Face3"].Item = Item
+                    Config.SkinData['Skin']["Face3"].Item = tonumber(Item)
                 elseif Type == "Texture" then
                     SetPedHeadBlendData(PlayerPed, 
                     Config.SkinData['Skin']["Face"].Item, 
@@ -318,7 +318,7 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Skinmix"].Item, 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Face3"].Texture = Item
+                    Config.SkinData['Skin']["Face3"].Texture = tonumber(Item)
                 end
             elseif Category == "Facemix" then
                 if Type == "Item" then
@@ -329,11 +329,11 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face"].Texture, 
                     Config.SkinData['Skin']["Face2"].Texture, 
                     Config.SkinData['Skin']["Face3"].Texture, 
-                    Item, 
+                    tonumber(Item), 
                     Config.SkinData['Skin']["Skinmix"].Item, 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Facemix"].Item = Item
+                    Config.SkinData['Skin']["Facemix"].Item = tonumber(Item)
                 end
             elseif Category == "Skinmix" then
                 if Type == "Item" then
@@ -345,10 +345,10 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face2"].Texture, 
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
-                    Item, 
+                    tonumber(Item), 
                     Config.SkinData['Skin']["Thirdmix"].Item, false)
 
-                    Config.SkinData['Skin']["Skinmix"].Item = Item
+                    Config.SkinData['Skin']["Skinmix"].Item = tonumber(Item)
                 end
             elseif Category == "Thirdmix" then
                 if Type == "Item" then
@@ -361,9 +361,9 @@ function ChangeVariation(Data)
                     Config.SkinData['Skin']["Face3"].Texture, 
                     Config.SkinData['Skin']["Facemix"].Item, 
                     Config.SkinData['Skin']["Skinmix"].Item, 
-                    Item, false)
+                    tonumber(Item), false)
 
-                    Config.SkinData['Skin']["Thirdmix"].Item = Item
+                    Config.SkinData['Skin']["Thirdmix"].Item = tonumber(Item)
                 end
             end
         end
@@ -371,6 +371,16 @@ function ChangeVariation(Data)
         -- Hair
         ---
         if Category == "Hair" then
+            SetPedHeadBlendData(PlayerPed, 
+            Config.SkinData['Skin']["Face"].Item, 
+            Config.SkinData['Skin']["Face2"].Item, 
+            Config.SkinData['Skin']["Face3"].Item, 
+            Config.SkinData['Skin']["Face"].Texture, 
+            Config.SkinData['Skin']["Face2"].Texture, 
+            Config.SkinData['Skin']["Face3"].Texture, 
+            Config.SkinData['Skin']["Facemix"].Item, 
+            Config.SkinData['Skin']["Skinmix"].Item, 
+            Config.SkinData['Skin']["Thirdmix"].Item, false)
             if Type == "Item" then
                 SetPedComponentVariation(PlayerPed, 2, Item, 0, 0)
                 Config.SkinData['Skin']["Hair"].Item = Item

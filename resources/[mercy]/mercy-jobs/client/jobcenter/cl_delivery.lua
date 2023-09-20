@@ -54,31 +54,30 @@ end)
 
 RegisterNetEvent('mercy-phone/client/jobcenter/on-job-start', function(Job, Leader)
     if Job ~= 'delivery' then return end
+    if Leader ~= PlayerModule.GetPlayerData().CitizenId then return end
 
-    if Leader == PlayerModule.GetPlayerData().CitizenId then
-        Citizen.CreateThread(function()
-            local ShowingAnything = false
-            while exports['mercy-phone']:IsJobCenterTaskActive('delivery', 1) do
-                DrawMarker(20, 929.94, -1249.29, 26.7, 0, 0, 0, 180.0, 0, 0, 0.5, 0.5, 0.5, 138, 43, 226, 150, true, true, false, false, false, false, false)
+    Citizen.CreateThread(function()
+        local ShowingAnything = false
+        while exports['mercy-phone']:IsJobCenterTaskActive('delivery', 1) do
+            DrawMarker(20, 929.94, -1249.29, 26.7, 0, 0, 0, 180.0, 0, 0, 0.5, 0.5, 0.5, 138, 43, 226, 150, true, true, false, false, false, false, false)
 
-                if #(GetEntityCoords(PlayerPedId()) - vector3(929.94, -1249.29, 26.7)) < 1.5 then
-                    if not ShowingAnything then
-                        ShowingAnything = true
-                        exports['mercy-ui']:SetInteraction("[E] Ask the foreman for a vehicle")
-                    end
-    
-                    if IsControlJustPressed(0, 38) then
-                        SpawnDeliveryVehicle()
-                    end
-                elseif ShowingAnything then
-                    ShowingAnything = false
-                    exports['mercy-ui']:HideInteraction()
+            if #(GetEntityCoords(PlayerPedId()) - vector3(929.94, -1249.29, 26.7)) < 1.5 then
+                if not ShowingAnything then
+                    ShowingAnything = true
+                    exports['mercy-ui']:SetInteraction("[E] Ask the foreman for a vehicle")
                 end
 
-                Citizen.Wait(4)
+                if IsControlJustPressed(0, 38) then
+                    SpawnDeliveryVehicle()
+                end
+            elseif ShowingAnything then
+                ShowingAnything = false
+                exports['mercy-ui']:HideInteraction()
             end
-        end)
-    end
+
+            Citizen.Wait(4)
+        end
+    end)
 end)
 
 RegisterNetEvent('mercy-phone/client/jobcenter/job-tasks-done', function(Job, Leader)
