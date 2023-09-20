@@ -43,8 +43,6 @@ function BuildMenu(Vehicle)
             -- local IsVinScratched = VehicleRecord ~= nil and VehicleRecord[0] ~= nil and VehicleRecord[0].vinscratched == 1
             -- If vehicle is Emergency class and menu item disabled for emergency, skip.
             if exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) and Data.Disabled.Emergency then goto Skip end
-            -- If VIN scratched and menu item disabled for VIN, skip.
-            --[[ No vin scratching yet, SoonTM ]]
             -- if IsVinScratched and Data.Disabled.Vin then goto Skip end
 
             if Data.ModType and GetNumVehicleMods(Vehicle, Data.ModType) > 0 or (not Data.ModType) or Data.ModType == 'Extra' then
@@ -529,7 +527,10 @@ RegisterNUICallback("OpenTargetMenu", function(Data, Cb)
     local Vehicle = GetVehiclePedIsIn(PlayerPedId())
 
     Citizen.SetTimeout(250, function()
-        VehicleModule.ApplyVehicleMods(Vehicle, VehicleMods, GetVehicleNumberPlateText(Vehicle), true)
+        if VehicleMods == nil then return end
+        if not VehicleModule.ApplyVehicleMods(Vehicle, VehicleMods, GetVehicleNumberPlateText(Vehicle), true) then
+            LoggerModule.Error("Bennys/OpenTargetMenu", "Failed to apply vehicle mods.")
+        end
     end)
 
     if Data.TargetMenu == 'ResprayTypeMenu' and CurrentRespray ~= 'Primary' and CurrentRespray ~= 'Secondary' then

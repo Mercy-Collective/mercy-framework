@@ -67,6 +67,8 @@ Phone.addNuiListener('RefreshActiveMessagesChat', (Data) => {
     var Messages = Data.Messages;
     var Chat = $(".phone-messages-chat-messages");
 
+    if (CurrentChatContact == undefined || CurrentChatContact == null) return;
+
     // Check if there are messages to display
     Chat.empty();
     if (Messages.length > 0) {
