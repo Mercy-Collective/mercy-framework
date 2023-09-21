@@ -237,3 +237,9 @@ RegisterNUICallback('PDM/Close', function(Data, Cb)
     TogglePdmCam(false)
     Cb('Ok')
 end)
+
+AddEventHandler('onResourceStop', function(Resource)
+    if Resource == GetCurrentResourceName() then
+        RemoveShowroomVehicles()
+    end
+end)
