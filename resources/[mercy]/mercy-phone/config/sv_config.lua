@@ -1,5 +1,7 @@
 ServerConfig = ServerConfig or {}
 
+ServerConfig.Debug = true
+
 ServerConfig.Networks = {
     ["old_bennys"] = {
         vector2(-227.96325683594, -1320.5069580078),
