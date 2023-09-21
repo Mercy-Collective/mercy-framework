@@ -409,6 +409,7 @@ RegisterNetEvent('mercy-vehicles/client/take-out-depot', function(Data)
 
     local Model = VehicleData.vehicle
     local MetaData = json.decode(VehicleData.metadata)
+    local Damage = json.decode(VehicleData.damage)
 
     FunctionsModule.RequestModel(Model)
 
@@ -427,7 +428,8 @@ RegisterNetEvent('mercy-vehicles/client/take-out-depot', function(Data)
     TriggerServerEvent('mercy-vehicles/server/set-veh-state', VehicleData.plate, 'Out', NetId)
 
     Citizen.SetTimeout(500, function()
-        DoCarDamage(Vehicle, MetaData.Engine, MetaData.Body)
+        SetCarDamage(Vehicle, MetaData, Damage)
+        -- DoCarDamage(Vehicle, MetaData.Engine, MetaData.Body)
         NetworkRegisterEntityAsNetworked(Vehicle)
         VehicleModule.SetVehicleNumberPlate(Vehicle, VehicleData.plate)
         VehicleModule.ApplyVehicleMods(Vehicle, 'Request', VehicleData.plate)

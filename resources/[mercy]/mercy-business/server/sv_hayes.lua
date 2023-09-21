@@ -91,7 +91,16 @@ RegisterNetEvent("mercy-business/server/hayes/load-parts", function(Plate, Parts
     if Parts ~= nil then
         Config.VehicleParts[Plate] = Parts
     else
-        local VehicleParts = LoadVehicleParts(Plate) or {}
+        local VehicleParts = LoadVehicleParts(Plate) or {
+            Engine = 100,
+            Body = 100,
+            Fuel = 100,
+            Axle = 100,
+            Transmission = 100,
+            FuelInjectors = 100,
+            Clutch = 100,
+            Brakes = 100,
+        }
         Config.VehicleParts[Plate] = VehicleParts
         TriggerClientEvent('mercy-business/client/hayes/sync-parts', -1, Plate, Config.VehicleParts[Plate])
     end

@@ -60,7 +60,7 @@ RegisterNetEvent('mercy-pdm/client/bought-vehicle', function(Model, Plate)
         local Vehicle = VehicleModule.SpawnVehicle(Model, VehicleCoords, Plate, false)
         if Vehicle ~= nil then
             Citizen.SetTimeout(450, function()
-                TriggerServerEvent("mercy-business/server/hayes/load-parts", Plate, { Engine = 100, Axle = 100, Transmission = 100, FuelInjectors = 100, Clutch = 100, Brakes = 100 })
+                TriggerServerEvent("mercy-business/server/hayes/load-parts", Plate, { Engine = 100, Body = 100, Fuel = 100, Axle = 100, Transmission = 100, FuelInjectors = 100, Clutch = 100, Brakes = 100 })
                 exports['mercy-vehicles']:SetVehicleKeys(Plate, true, false)
                 exports['mercy-vehicles']:SetFuelLevel(Vehicle.Vehicle, 100)
             end)

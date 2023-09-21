@@ -256,6 +256,7 @@ RegisterNetEvent("mercy-vehicles/client/spawn-veh", function(Data)
 
     local Model = Data.Vehicle.vehicle
     local MetaData = json.decode(Data.Vehicle.metadata)
+    local Damage = json.decode(Data.Vehicle.damage)
 
     FunctionsModule.RequestModel(Model)
     
@@ -288,7 +289,7 @@ RegisterNetEvent("mercy-vehicles/client/spawn-veh", function(Data)
     TriggerServerEvent('mercy-vehicles/server/set-veh-state', Data.Vehicle.plate, 'Out', NetId)
     
     Citizen.SetTimeout(500, function()
-        DoCarDamage(Vehicle, MetaData.Engine, MetaData.Body)
+        SetCarDamage(Vehicle, MetaData, Damage)
         NetworkRegisterEntityAsNetworked(Vehicle)
         VehicleModule.SetVehicleNumberPlate(Vehicle, Data.Vehicle.plate)
         VehicleModule.ApplyVehicleMods(Vehicle, 'Request', Data.Vehicle.plate)
@@ -321,44 +322,29 @@ RegisterNetEvent("mercy-vehicles/client/spawn-veh", function(Data)
     end)
 end)
 
-function DoCarDamage(Vehicle, EngineHealth, BodyHealth)
-	local SmashWindows, DamageOutside, DamageOutside2 = false, false, false
-	local Engine = EngineHealth + 0.0
-	local Body = BodyHealth + 0.0
-	if Engine < 200.0 then
-		Engine = 200.0
-	end
-	if Body < 150.0 then
-		Body = 150.0
-	end
-	if Body < 950.0 then
-		SmashWindows = true
-	end
-	if Body < 920.0 then
-		DamageOutside = true
-	end
-	if Body < 920.0 then
-		DamageOutside2 = true
-	end
+function SetCarDamage(Vehicle, MetaData, Damage)
 	Citizen.Wait(100)
-	SetVehicleEngineHealth(Vehicle, Engine)
-    SetVehicleBodyHealth(Vehicle, Body)
-	if SmashWindows then
-		SmashVehicleWindow(Vehicle, 0)
-		SmashVehicleWindow(Vehicle, 1)
-		SmashVehicleWindow(Vehicle, 2)
-		SmashVehicleWindow(Vehicle, 3)
-		SmashVehicleWindow(Vehicle, 4)
-	end
-	if DamageOutside then
-		SetVehicleDoorBroken(Vehicle, 1, true)
-		SetVehicleDoorBroken(Vehicle, 6, true)
-		SetVehicleDoorBroken(Vehicle, 4, true)
-	end
-	if DamageOutside2 then
-		SetVehicleTyreBurst(Vehicle, 1, false, 990.0)
-		SetVehicleTyreBurst(Vehicle, 2, false, 990.0)
-		SetVehicleTyreBurst(Vehicle, 3, false, 990.0)
-		SetVehicleTyreBurst(Vehicle, 4, false, 990.0)
+	SetVehicleEngineHealth(Vehicle, MetaData.Engine + 0.0 or 1000.0)
+    SetVehicleBodyHealth(Vehicle, MetaData.Body + 0.0 or 1000.0)
+
+    -- Damage Doors
+    for DoorId, IsDamaged in pairs(Damage.Doors) do
+        if IsDamaged then
+            SetVehicleDoorBroken(Vehicle, tonumber(DoorId), true)
+        end
+    end
+
+    -- Damage Windows
+    for WindowId, IsNotDamaged in pairs(Damage.Windows) do
+        if not IsNotDamaged then
+            SmashVehicleWindow(Vehicle, tonumber(WindowId))
+        end
+    end
+
+    -- Damage Tyres
+    for TyreId, IsDamaged in pairs(Damage.Tyres) do
+        if IsDamaged then
+            SetVehicleTyreBurst(Vehicle, tonumber(TyreId), false, 990.0)
+        end
     end
 end
