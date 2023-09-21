@@ -117,7 +117,7 @@ RegisterNetEvent("mercy-threads/stopped-talking", function()
 end)
 
 RegisterNetEvent("mercy-threads/started-talking", function()
-    if not exports['mercy-voice'] then
+    if not exports['mercy-voice'] or exports['mercy-voice']:TalkingOnRadio() == nil then
         return print('Tried to enable voice hud component but mercy-voice export was not found.')
     end
     SendUIMessage('Hud', 'ToggleComponentActive', {Type = 'Voice', Bool = true, OnRadio = exports['mercy-voice']:TalkingOnRadio()})

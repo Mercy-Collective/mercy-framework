@@ -30,8 +30,8 @@ RegisterNUICallback("Messages/RefreshChats", function(Data, Cb)
 end)
 
 RegisterNUICallback("Messages/SendMessage", function(Data, Cb)
-    EventsModule.TriggerServer("mercy-phone/server/messages/send-message", Data)
-    Cb('Ok')
+    local Success = CallbackModule.SendCallback("mercy-phone/server/messages/send-message", Data)
+    Cb(Success)
 end)
 
 RegisterNetEvent('mercy-phone/client/messages/refresh-chat', function(ChatNumber, NewMessages)

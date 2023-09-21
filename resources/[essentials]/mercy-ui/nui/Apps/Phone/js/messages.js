@@ -1,8 +1,8 @@
-var CurrentChatContact = undefined;
+let CurrentChatContact = undefined;
 
 $(document).on('click', '.phone-message-list-chat', function(){
     $('.phone-messages-home').hide();
-    var ContactData = JSON.parse($(this).attr("ContactData"));
+    let ContactData = JSON.parse($(this).attr("ContactData"));
 
     $.post("https://mercy-phone/Messages/GetChat", JSON.stringify({
         ContactData: ContactData,
@@ -15,15 +15,16 @@ $(document).on('click', '.phone-messages-back', function(){
     CurrentChatContact = undefined;
     $('.phone-messages-chat').hide();
     $('.phone-messages-home').fadeIn(250);
+    $.post("https://mercy-phone/Messages/RefreshChats")
 });
 
 $(document).on('keyup', ".phone-messages-chat-send", function(e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
         if (CurrentChatContact == undefined) return;
         if ($(this).val().length == 0) return;
-        var Chat = $(".phone-messages-chat-messages");
+        let Chat = $(".phone-messages-chat-messages");
 
-        var StringResult = SeperateLinksFromString($(this).val())
+        let StringResult = SeperateLinksFromString($(this).val())
         
         $('.phone-messages-chat-messages').append(`<div class="phone-chat-message">
             <div class="phone-chat-message-inner me">
@@ -46,11 +47,11 @@ $(document).on('keyup', ".phone-messages-chat-send", function(e) {
 Phone.addNuiListener('RenderMessagesChats', (Data) => {
     $('.phone-messages-list').empty();
     for (let i = 0; i < Data.Chats.length; i++) {
-        const Chat = Data.Chats[i];
+        let Chat = Data.Chats[i];
         Chat.messages = JSON.parse(Chat.messages);
-        const LatestMessage = Chat.messages[Chat.messages.length - 1];
+        let LatestMessage = Chat.messages[Chat.messages.length - 1];
 
-        var ContactData = {
+        let ContactData = {
             name: Chat.name,
             number: Chat.number,
         }
@@ -63,9 +64,10 @@ Phone.addNuiListener('RenderMessagesChats', (Data) => {
     };
 });
 
+
 Phone.addNuiListener('RefreshActiveMessagesChat', (Data) => {
-    var Messages = Data.Messages;
-    var Chat = $(".phone-messages-chat-messages");
+    let Messages = Data.Messages;
+    let Chat = $(".phone-messages-chat-messages");
 
     if (CurrentChatContact == undefined || CurrentChatContact == null) return;
 
@@ -77,10 +79,10 @@ Phone.addNuiListener('RefreshActiveMessagesChat', (Data) => {
 
         // Display chat messages
         for (let i = 0; i < Messages.length; i++) {
-            const Message = Messages[i];
-            var StringResult = SeperateLinksFromString(Message.Message);
+            let Message = Messages[i];
+            let StringResult = SeperateLinksFromString(Message.Message);
 
-            var Side = 'other';
+            let Side = 'other';
             if (Message.Sender == PhoneData.PlayerData.CitizenId) Side = 'me';
             
             Chat.append(`<div class="phone-chat-message">
@@ -98,7 +100,7 @@ Phone.addNuiListener('RefreshActiveMessagesChat', (Data) => {
 
 Phone.OpenMessagesChat = (ContactData, Messages) => {
     CurrentChatContact = ContactData;
-    var Chat = $(".phone-messages-chat-messages");
+    let Chat = $(".phone-messages-chat-messages");
 
     if (ContactData.name) {
         $('.phone-messages-chat-contact-name').html(`${ContactData.name}<br/>${FormatPhone(ContactData.number)}`);
@@ -125,10 +127,10 @@ Phone.OpenMessagesChat = (ContactData, Messages) => {
 
         // Display chat messages
         for (let i = 0; i < Messages.length; i++) {
-            const Message = Messages[i];
-            var StringResult = SeperateLinksFromString(Message.Message);
+            let Message = Messages[i];
+            let StringResult = SeperateLinksFromString(Message.Message);
 
-            var Side = 'other';
+            let Side = 'other';
             if (Message.Sender == PhoneData.PlayerData.CitizenId) Side = 'me';
             
             Chat.append(`<div class="phone-chat-message">
@@ -160,13 +162,13 @@ $(document).on('input', '.phone-messages-chat-search input', function(){
 $(document).on('click', '.phone-messages-new', function(e){
     e.preventDefault();
 
-    var SelectedPhoneContact = {};
+    let SelectedPhoneContact = {};
 
     $.post("https://mercy-phone/Contacts/GetContacts", JSON.stringify({}), function(Result){
-        var Contacts = [];
+        let Contacts = [];
 
         for (let i = 0; i < Result.length; i++) {
-            const Contact = Result[i];
+            let Contact = Result[i];
             
             Contacts.push({
                 Icon: false,
@@ -210,14 +212,17 @@ $(document).on('click', '.phone-messages-new', function(e){
                     $.post("https://mercy-phone/Messages/SendMessage", JSON.stringify({
                         ContactData: SelectedPhoneContact,
                         Message: SanitizeHtml(Result['message']),
-                    }), function(){
-
-                        setTimeout(250, function(){
-                            $.post("https://mercy-phone/Messages/RefreshChats")
-                        });
-
+                    }), function(Success) {
                         SetPhoneLoader(false);
-                        ShowPhoneCheckmark();
+                        if (Success) {
+                            ShowPhoneCheckmark();
+
+                            setTimeout(() => {
+                                $.post("https://mercy-phone/Messages/RefreshChats")
+                            }, 500);
+                        } else {
+                            ShowPhoneError("Something went wrong..");
+                        }
                     })
                 }
             }

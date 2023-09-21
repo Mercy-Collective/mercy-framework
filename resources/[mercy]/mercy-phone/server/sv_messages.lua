@@ -28,9 +28,9 @@ Citizen.CreateThread(function()
         end)
     end)
 
-    EventsModule.RegisterServer('mercy-phone/server/messages/send-message', function(Source, Data)
-        -- Data['ContactData'].name,.. and Data['Message']
+    CallbackModule.CreateCallback('mercy-phone/server/messages/send-message', function(Source, Cb, Data)
         local Sender = PlayerModule.GetPlayerBySource(Source)
+        if not Sender then return Cb(false) end
         local Receiver = PlayerModule.GetPlayerByPhoneNumber(Data.ContactData.number)
         local SenderPhone = Sender.PlayerData.CharInfo.PhoneNumber:gsub('%-', '')
 
@@ -40,15 +40,13 @@ Citizen.CreateThread(function()
             Data.ContactData.name
         }, function(ChatData)
             if ChatData[1] ~= nil then -- Check if sender already has chat with receiver.
-                print('[DEBUG]: Sender has chat with Receiver.')
-                -- Get Chat messages
                 local Messages = json.decode(ChatData[1].messages)
                 Messages[#Messages+1] = {
                     ['Message'] = Data.Message,
                     ['Sender'] = Sender.PlayerData.CitizenId,
                     ['Time'] = os.date(),
                 }
-                print('[DEBUG]: Adding new message to array.')
+                MessagesDebugPrint('NewMessageOnline', ('Sender has chat with Receiver, updating it.. | CitizenId: %s'):format(Sender.PlayerData.CitizenId))
                 -- Update messages for sender
                 DatabaseModule.Execute('UPDATE player_phone_messages SET messages = ? WHERE citizenid = ? AND number = ? AND name = ?', {
                     json.encode(Messages),
@@ -56,16 +54,16 @@ Citizen.CreateThread(function()
                     Data.ContactData.number,
                     Data.ContactData.name
                 }, function()
-                    print('[DEBUG]: Saved sender\'s chat, currently refreshing.')
+                    MessagesDebugPrint('NewMessageOnline', ('Saved sender\'s chat, currently refreshing. | CitizenId: %s'):format(Sender.PlayerData.CitizenId))
                     TriggerClientEvent('mercy-phone/client/messages/refresh-chat', Source, Data.ContactData.number, Messages)
 
                     -- Update messages for receiver
                     if Receiver then -- Online
-                        print('[DEBUG]: Receiver is online, trying to update chat.')
+                        MessagesDebugPrint('NewMessageOnline', ('Receiver is online, trying to update chat. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                         local ContactData = IsInContacts(Receiver, SenderPhone) -- Checks if caller in in receiver contacts.
                         local SenderName = ContactData ~= false and ContactData[2] ~= nil and ContactData[2] or SenderPhone or SenderPhone -- Get name by checking if sender is in receiver's contacts.
 
-                        print('[DEBUG]: Checked if Sender is in Receiver\'s contacts.', SenderName)
+                        MessagesDebugPrint('NewMessageOnline', ('Checked if Sender is in Receiver\'s contacts. | SenderName: %s'):format(SenderName))
 
                         -- Check if target already has chat with person
                         DatabaseModule.Execute('SELECT * FROM player_phone_messages WHERE citizenid = ? AND number = ? AND name = ?', {
@@ -74,39 +72,41 @@ Citizen.CreateThread(function()
                             SenderName
                         }, function(TargetChatData)
                             if TargetChatData[1] ~= nil then -- Target already has chat with sender
-                                print('[DEBUG]: Receiver has chat with Sender, updating it..')
+                                MessagesDebugPrint('NewMessageOnline', ('Receiver has chat with Sender, updating it.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                 DatabaseModule.Execute('UPDATE player_phone_messages SET messages = ? WHERE citizenid = ? AND number = ? AND name = ?', {
                                     json.encode(Messages),
                                     Receiver.PlayerData.CitizenId,
                                     SenderPhone,
                                     SenderName
                                 }, function()
-                                    print('[DEBUG]: Saved Receiver\'s chat, currently refreshing..')
+                                    MessagesDebugPrint('NewMessageOnline', ('Saved Receiver\'s chat, currently refreshing.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                     TriggerClientEvent('mercy-phone/client/messages/refresh-chat', Receiver.PlayerData.Source, SenderPhone, Messages)
                                 end)
+                                Cb(true)
                             else -- Target does not have chat with sender so import
-                                print('[DEBUG]: Receiver DOES NOT have chat with Sender, creating one and updating it..')
+                                MessagesDebugPrint('NewMessageOnline', ('Receiver DOES NOT have chat with Sender, creating one and updating it.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                 DatabaseModule.Execute('INSERT INTO player_phone_messages (citizenid, name, number, messages) VALUES (?, ?, ?, ?)', {
                                     Receiver.PlayerData.CitizenId,
                                     SenderPhone,
                                     SenderName,
                                     json.encode(Messages)
                                 }, function()
-                                    print('[DEBUG]: Saved Receiver\'s chat 2, currently refreshing..')
+                                    MessagesDebugPrint('NewMessageOnline', ('Saved Receiver\'s chat, currently refreshing.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                     TriggerClientEvent('mercy-phone/client/messages/refresh-chat', Receiver.PlayerData.Source, Data.ContactData.number, Messages)
                                 end)
+                                Cb(true)
                             end
                         end)
                     else -- Offline
-                        print('[DEBUG]: Receiver is offline, trying to update chat using database info..', (string.sub(Data.ContactData.number, 0, 3)..'-'..string.sub(Data.ContactData.number, 4, (string.len(Data.ContactData.number) + 1))))
+                        MessagesDebugPrint('NewMessageOffline', ('Receiver is offline, trying to update chat using database info.. | Phone Number: %s '):format(string.sub(Data.ContactData.number, 0, 3)..''..string.sub(Data.ContactData.number, 4, (string.len(Data.ContactData.number) + 1))))
                         DatabaseModule.Execute('SELECT * FROM players WHERE CharInfo LIKE ?', { -- Get Target's CitizenId
                             "%"..(string.sub(Data.ContactData.number, 0, 3)..'-'..string.sub(Data.ContactData.number, 4, (string.len(Data.ContactData.number) + 1))).."%"
                         }, function(Players)
                             if Players[1] ~= nil then
-                                print('[DEBUG]: Receiver data found in database..')
+                                MessagesDebugPrint('NewMessageOffline', ('Receiver data found in database.. | CitizenId: %s'):format(Players[1].CitizenId))
                                 local ContactData = IsInContacts(Players[1].CitizenId, SenderPhone) -- Checks if caller in in receiver contacts.
                                 local SenderName = ContactData ~= false and ContactData[2] ~= nil and ContactData[2] or SenderPhone or SenderPhone
-                                print('[DEBUG]: Checked if Sender is in Receiver\'s contacts.', ContactData[1], ContactData[2], SenderName)
+                                MessagesDebugPrint('NewMessageOffline', ('Checked if Sender is in Receiver\'s contacts. | ContactData: %s | ContractData2: %s | SenderName: %s'):format(ContactData[1], ContactData[2], SenderName))
 
                                 DatabaseModule.Execute('UPDATE player_phone_messages SET messages = ? WHERE citizenid = ? AND number = ? AND name = ?', {
                                     json.encode(Messages),
@@ -114,12 +114,14 @@ Citizen.CreateThread(function()
                                     SenderPhone,
                                     SenderName
                                 }, function()
-                                    print('[DEBUG]: Saved Receiver\'s chat in database..')
+                                    MessagesDebugPrint('NewMessageOffline', ('Saved Receiver\'s chat in database.. | CitizenId: %s'):format(Players[1].CitizenId))
                                 end)
+                                Cb(true)
+                            else
+                                Cb(false)
                             end
                         end)
                     end
-
                 end)
             else
                 local Messages = {}
@@ -128,7 +130,7 @@ Citizen.CreateThread(function()
                     ['Sender'] = Sender.PlayerData.CitizenId,
                     ['Time'] = os.date(),
                 }
-                print('[DEBUG:NEW]: Adding new message to array.')
+                MessagesDebugPrint('NewMessageOnline', ('Sender does not have chat with Receiver, creating one and updating it.. | CitizenId: %s'):format(Sender.PlayerData.CitizenId))
                 -- Insert messages for sender
                 DatabaseModule.Execute('INSERT INTO player_phone_messages (citizenid, name, number, messages) VALUES (?, ?, ?, ?)', {
                     Sender.PlayerData.CitizenId,
@@ -136,16 +138,16 @@ Citizen.CreateThread(function()
                     Data.ContactData.number,
                     json.encode(Messages)
                 }, function()
-                    print('[DEBUG:NEW]: Saved sender\'s chat, currently refreshing.')
+                    MessagesDebugPrint('NewMessageOnline', ('Saved sender\'s chat, currently refreshing. | CitizenId: %s'):format(Sender.PlayerData.CitizenId))
                     TriggerClientEvent('mercy-phone/client/messages/refresh-chat', Source, Data.ContactData.number, Messages)
 
                     -- Update messages for receiver
                     if Receiver then -- Online
-                        print('[DEBUG:NEW]: Receiver is online, trying to update chat.')
+                        MessagesDebugPrint('NewMessageOnline', ('Receiver is online, trying to update chat. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                         local ContactData = IsInContacts(Receiver, SenderPhone) -- Checks if caller in in receiver contacts.
                         local SenderName = ContactData ~= false and ContactData[2] ~= nil and ContactData[2] or SenderPhone or SenderPhone-- Get name by checking if sender is in receiver's contacts.
 
-                        print('[DEBUG:NEW]: Checked if Sender is in Receiver\'s contacts.', SenderName)
+                        MessagesDebugPrint('NewMessageOnline', ('Checked if Sender is in Receiver\'s contacts. | SenderName: %s'):format(SenderName))
 
                         -- Check if target already has chat with person
                         DatabaseModule.Execute('SELECT * FROM player_phone_messages WHERE citizenid = ? AND number = ? AND name = ?', {
@@ -154,54 +156,67 @@ Citizen.CreateThread(function()
                             SenderName
                         }, function(TargetChatData)
                             if TargetChatData[1] ~= nil then -- Target already has chat with sender
-                                print('[DEBUG:NEW]: Receiver has chat with Sender, updating it..')
+                                MessagesDebugPrint('NewMessageOnline', ('Receiver has chat with Sender, updating it.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                 DatabaseModule.Execute('UPDATE player_phone_messages SET messages = ? WHERE citizenid = ? AND number = ? AND name = ?', {
                                     json.encode(Messages),
                                     Receiver.PlayerData.CitizenId,
                                     SenderPhone,
                                     SenderName
                                 }, function()
-                                    print('[DEBUG:NEW]: Saved Receiver\'s chat, currently refreshing..')
+                                    MessagesDebugPrint('NewMessageOnline', ('Saved Receiver\'s chat, currently refreshing.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                     TriggerClientEvent('mercy-phone/client/messages/refresh-chat', Receiver.PlayerData.Source, SenderPhone, Messages)
                                 end)
+                                Cb(true)
                             else -- Target does not have chat with sender so import
-                                print('[DEBUG:NEW]: Receiver DOES NOT have chat with Sender, creating one and updating it..')
+                                MessagesDebugPrint('NewMessageOnline', ('Receiver DOES NOT have chat with Sender, creating one and updating it.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                 DatabaseModule.Execute('INSERT INTO player_phone_messages (citizenid, name, number, messages) VALUES (?, ?, ?, ?)', {
                                     Receiver.PlayerData.CitizenId,
                                     SenderPhone,
                                     SenderName,
                                     json.encode(Messages)
                                 }, function()
-                                    print('[DEBUG:NEW]: Saved Receiver\'s chat, currently refreshing..')
+                                    MessagesDebugPrint('NewMessageOnline', ('Saved Receiver\'s chat, currently refreshing.. | CitizenId: %s'):format(Receiver.PlayerData.CitizenId))
                                     TriggerClientEvent('mercy-phone/client/messages/refresh-chat', Receiver.PlayerData.Source, Data.ContactData.number, Messages)
                                 end)
+                                Cb(true)
                             end
                         end)
                     else -- Offline
-                        print('[DEBUG:NEW]: Receiver is offline, trying to update chat using database info..', string.sub(Data.ContactData.number, 0, 3)..''..string.sub(Data.ContactData.number, 4, (string.len(Data.ContactData.number) + 1)))
+                        MessagesDebugPrint('NewMessageOffline', ('Receiver is offline, trying to update chat using database info.. | Phone Number: %s '):format(string.sub(Data.ContactData.number, 0, 3)..''..string.sub(Data.ContactData.number, 4, (string.len(Data.ContactData.number) + 1))))
                         DatabaseModule.Execute('SELECT * FROM players WHERE CharInfo LIKE ?', { -- Get Target's CitizenId
                             "%"..(string.sub(Data.ContactData.number, 0, 3)..'-'..string.sub(Data.ContactData.number, 4, (string.len(Data.ContactData.number) + 1))).."%"
                         }, function(Players)
                             if Players[1] ~= nil then
-                                print('[DEBUG:NEW]: Receiver data found in database..')
+                                MessagesDebugPrint('NewMessageOffline', ('Receiver data found in database.. | CitizenId: %s'):format(Players[1].CitizenId))
                                 local ContactData = IsInContacts(Players[1].CitizenId, SenderPhone) -- Checks if caller in in receiver contacts.
                                 local SenderName = ContactData ~= false and ContactData[2] ~= nil and ContactData[2] or SenderPhone or SenderPhone
-                                print('[DEBUG:NEW]: Checked if Sender is in Receiver\'s contacts.', ContactData[1], ContactData[2], SenderName)
+                                MessagesDebugPrint('NewMessageOffline', ('Checked if Sender is in Receiver\'s contacts. | ContactData: %s | ContractData2: %s | SenderName: %s'):format(ContactData[1], ContactData[2], SenderName))
                                 DatabaseModule.Execute('UPDATE player_phone_messages SET messages = ? WHERE citizenid = ? AND number = ? AND name = ?', {
                                     json.encode(Messages),
                                     Receiver.PlayerData.CitizenId,
                                     SenderPhone,
                                     SenderName
                                 }, function()
-                                    print('[DEBUG:NEW]: Saved Receiver\'s chat 3, currently refreshing..')
+                                    MessagesDebugPrint('NewMessageOffline', ('Saved Receiver\'s chat in database.. | CitizenId: %s'):format(Players[1].CitizenId))
                                     TriggerClientEvent('mercy-phone/client/messages/refresh-chat', Receiver.PlayerData.Source, SenderPhone, Messages)
                                 end)
+                                Cb(true)
+                            else
+                                Cb(false)
                             end
                         end)
                     end
-
                 end)
             end
         end)
     end)
 end)
+
+function MessagesDebugPrint(Type, Message, ...)
+    if not ServerConfig.Debug then return end
+    if ... ~= nil then
+        print(('^4[^5Debug^4:^5Messages^4:^5%s^4]:^7 %s %s'):format(Type, Message, ...))
+    else
+        print(('^4[^5Debug^4:^5Messages^4:^5%s^4]:^7 %s'):format(Type, Message))
+    end
+end

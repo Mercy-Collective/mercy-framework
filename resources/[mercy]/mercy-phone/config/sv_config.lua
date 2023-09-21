@@ -1,6 +1,6 @@
 ServerConfig = ServerConfig or {}
 
-ServerConfig.Debug = true
+ServerConfig.Debug = false
 
 ServerConfig.Networks = {
     ["old_bennys"] = {
