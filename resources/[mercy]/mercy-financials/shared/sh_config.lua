@@ -1,5 +1,7 @@
 Config = Config or {}
 
+Config.Debug = false
+
 Config.BankLocations = {
     {
         ['Coords'] = vector3(149.42, -1040.29, 29.34),
