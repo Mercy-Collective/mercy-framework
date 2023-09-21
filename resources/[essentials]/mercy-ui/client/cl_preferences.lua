@@ -10,7 +10,7 @@ PreferencesModule = {
 
         for PreferenceId, DefaultValue in pairs(Config.DefaultPreferences) do
             if Preferences[PreferenceId] == nil then
-                LoggerModule.Error("Preferences", "No KVP found, setting default for "..PreferenceId.."!")
+                LoggerModule.Error("Preferences", "No preferences found, setting default for "..PreferenceId.."!")
                 Preferences[PreferenceId] = DefaultValue 
             end
             Config.MyPreferences[PreferenceId] = Preferences[PreferenceId]

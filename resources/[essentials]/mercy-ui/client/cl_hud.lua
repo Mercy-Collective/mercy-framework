@@ -71,6 +71,21 @@ AddInitialize(function()
 end)
 
 RegisterNetEvent('mercy-ui/client/ui-reset', function()
+    PreferencesModule.LoadPreference()
+    SendUIMessage('Hud', 'SetAppVisiblity', {
+        Visible = false,
+    })
+    CallbackModule.CreateCallback("mercy-preferences/client/get-preferences", function(Cb)
+        Cb(PreferencesModule.GetPreferences())
+    end)
+    Citizen.SetTimeout(3250, function()
+        SendUIMessage('Hud', 'SetAppVisiblity', {
+            Visible = true,
+        })
+        if KeybindsModule.GetCustomizedKey("eyePeek") ~= 'L Alt' then
+            exports['mercy-ui']:Notify("eye-error", "You've re-binded the peeking functionality, this WILL result in broken or poor functionality! (Default: Left Alt)", "error", 10000)
+        end
+    end)
     RequestHudValues()
 end)
 
