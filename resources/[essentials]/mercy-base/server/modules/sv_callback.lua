@@ -31,6 +31,7 @@ end)
 -- Server callbacks
 RegisterNetEvent("mercy-base/server/callbacks-trigger", function(Id, Name, ...)
     if not RegisteredCallbacks[Name] then return end
+    if RegisteredCallbacks[Name] == nil then return print(('[DEBUG:Callbacks]: Tried to access callback %s but the callback was not found.. (Not created or not yet initialised perhaps?)'):format(Name)) end
     local src = source
     RegisteredCallbacks[Name](src, function(Data)
         TriggerClientEvent("mercy-base/client/callbacks-response", src, Id, Data)
