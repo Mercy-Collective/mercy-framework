@@ -34,7 +34,7 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
     --                 ThermiteTimeout = false
     --                 if Success then
     --                     TriggerServerEvent('mercy-doors/server/set-locks', 135, 0)
-    --                     TriggerServerEvent('mercy-ui/server/send-pacific-rob', FunctionsModule.GetStreetName())
+    --                      EventsModule.TriggerServer('mercy-ui/server/send-pacific-rob', FunctionsModule.GetStreetName())
     --                     EventsModule.TriggerServer("mercy-heists/server/vault/set-hit-status", 'FirstDoor')
     --                 else
     --                     exports['mercy-inventory']:SetBusyState(false)

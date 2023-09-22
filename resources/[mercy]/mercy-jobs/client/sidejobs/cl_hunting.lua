@@ -170,7 +170,7 @@ function BaitDown()
         
                     if RandomAnimal['Illegal'] and math.random(55) < 15 then
                         local StreetLabel = FunctionsModule.GetStreetName()
-                        TriggerServerEvent('mercy-ui/server/send-hunting-illegal', StreetLabel)
+                        EventsModule.TriggerServer('mercy-ui/server/send-hunting-illegal', StreetLabel)
                     end
     
                     TaskGoStraightToCoord(SpawnedAnimal, BaitLocation, 20.0, -1, 0.0, 0.0)

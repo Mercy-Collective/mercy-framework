@@ -9,7 +9,7 @@ RegisterNetEvent('mercy-heists/client/try-panel-hack', function(Data, Entity)
             local BankData = Config.Panels[Type][Data.Panel] ~= nil and Config.Panels[Type][Data.Panel] or false
             if BankData ~= false and not BankData.Hacked and BankData.CanUsePanel then
                 local StreetLabel = FunctionsModule.GetStreetName()
-                TriggerServerEvent('mercy-ui/server/send-bank-rob', StreetLabel)
+                EventsModule.TriggerServer('mercy-ui/server/send-bank-rob', StreetLabel)
                 TriggerServerEvent('mercy-heists/server/banks/set-panel-state', 'Fleeca', Data.Panel, false)
                 EventsModule.TriggerServer('mercy-inventory/server/degen-item', exports['mercy-inventory']:GetSlotForItem('heist-laptop-green'), 33.0)
                 exports['mercy-ui']:MemoryMinigame(function(Outcome)

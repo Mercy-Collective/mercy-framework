@@ -42,7 +42,7 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
                     if Config.OutsideDoorsThermited and Config.InsideDoorsThermited then
                         local StreetLabel = FunctionsModule.GetStreetName() 
                         SpawnSecurity()
-                        TriggerServerEvent('mercy-ui/server/send-bobcat-rob', StreetLabel)
+                        EventsModule.TriggerServer('mercy-ui/server/send-bobcat-rob', StreetLabel)
                     end 
                     exports['mercy-inventory']:SetBusyState(false)
                 else

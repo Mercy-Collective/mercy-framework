@@ -255,7 +255,7 @@ RegisterNetEvent("mercy-vehicles/client/fuel/start-refuel", function(Data)
         while Fueling and not Data.IsElectric do
             if IsVehicleEngineOn(Entity) then
                 AddExplosion(GetEntityCoords(Entity), EXPLOSION_CAR, 4.0, true, false, 20.0)
-                TriggerServerEvent('mercy-ui/server/send-explosion', FunctionsModule.GetStreetName())
+                EventsModule.TriggerServer('mercy-ui/server/send-explosion', FunctionsModule.GetStreetName())
                 exports['mercy-ui']:Notify('fuel-error', "Refueling the vehicle with engine on is not a good idea..", 'error')
             end
             Citizen.Wait(250)

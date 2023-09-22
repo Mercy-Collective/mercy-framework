@@ -84,6 +84,7 @@ Config.BlacklistedEntitys = {
     [GetHashKey('s_m_y_prismuscl_01')] = true,
     [GetHashKey('u_m_y_prisoner_01')] = true,
     [GetHashKey('s_m_y_prisoner_01')] = true,
+	[GetHashKey('s_m_y_swat_01')] = true,
 }
 
 Config.PropList = {

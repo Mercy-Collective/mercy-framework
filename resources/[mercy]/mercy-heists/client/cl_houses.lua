@@ -295,7 +295,7 @@ end)
 RegisterNetEvent('mercy-heists/client/houses-send-alarm', function()
     if math.random(1, 100) <= 100 then
         local StreetLabel = FunctionsModule.GetStreetName()
-        TriggerServerEvent('mercy-ui/server/send-houses-rob', StreetLabel)
+        EventsModule.TriggerServer('mercy-ui/server/send-houses-rob', StreetLabel)
     end
 end)
 

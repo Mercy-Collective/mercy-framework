@@ -1,4 +1,4 @@
-CallbackModule, PlayerModule, FunctionsModule, CommandsModule = nil, nil, nil, nil
+CallbackModule, PlayerModule, FunctionsModule, CommandsModule, EventsModule = nil, nil, nil, nil, nil
 
 local _Ready = false
 AddEventHandler('Modules/server/ready', function()
@@ -7,12 +7,14 @@ AddEventHandler('Modules/server/ready', function()
         'Player',
         'Functions',
         'Commands',
+        'Events'
     }, function(Succeeded)
         if not Succeeded then return end
         CallbackModule = exports['mercy-base']:FetchModule('Callback')
         PlayerModule = exports['mercy-base']:FetchModule('Player')
         FunctionsModule = exports['mercy-base']:FetchModule('Functions')
         CommandsModule = exports['mercy-base']:FetchModule('Commands')
+        EventsModule = exports['mercy-base']:FetchModule('Events')
         _Ready = true
     end)
 end)
@@ -84,6 +86,17 @@ Citizen.CreateThread(function()
         local Player = PlayerModule.GetPlayerBySource(source)
         ToggleBlackout(Player)
     end, "admin")
+
+    -- Events
+
+    EventsModule.RegisterServer("mercy-weathersync/server/set-blackout", function(Source)
+        Config.SyncData['Blackout'] = true
+        TriggerClientEvent('mercy-weathersync/client/sync', -1, Config.SyncData)
+        SetTimeout((1000 * 60) * 60, function() -- 1 hour
+            Config.SyncData['Blackout'] = false
+            TriggerClientEvent('mercy-weathersync/client/sync', -1, Config.SyncData)
+        end)
+    end)
 end)
 
 -- [ Threads ] --
@@ -130,16 +143,6 @@ Citizen.CreateThread(function()
             Citizen.Wait((60 * 1000) * (60 * WaitTime))
         end
     end
-end)
-
-
-RegisterNetEvent("mercy-weathersync/server/set-blackout", function()
-    Config.SyncData['Blackout'] = true
-    TriggerClientEvent('mercy-weathersync/client/sync', -1, Config.SyncData)
-    SetTimeout((1000 * 60) * 60, function() -- 1 hour
-        Config.SyncData['Blackout'] = false
-        TriggerClientEvent('mercy-weathersync/client/sync', -1, Config.SyncData)
-    end)
 end)
 
 -- [ Functions ] --

@@ -87,7 +87,7 @@ RegisterNetEvent('mercy-hospital/client/do-dead-on-player', function(Forced)
     DoPlayerAnimationLoop()
     Citizen.SetTimeout(1500, function()
         local StreetLabel = FunctionModule.GetStreetName()
-        TriggerServerEvent('mercy-ui/server/send-civ-injured', StreetLabel)
+        EventsModule.TriggerServer('mercy-ui/server/send-civ-injured', StreetLabel)
     end)
 end)
 

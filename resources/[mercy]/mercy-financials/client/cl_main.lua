@@ -47,7 +47,7 @@ RegisterNetEvent('mercy-financials/client/open-banking', function(IsBank, Entity
                         for k, v in pairs(Config.BankLocations) do
                             if #(PlayerCoords - v['Coords']) < 10.0 then
                                 local StreetLabel = FunctionsModule.GetStreetName()
-                                TriggerServerEvent('mercy-ui/server/send-bank-monitor', StreetLabel)
+                                EventsModule.TriggerServer('mercy-ui/server/send-bank-monitor', StreetLabel)
                             end
                         end
                         EventsModule.TriggerServer('mercy-financials/server/monitor-account', AccountData)

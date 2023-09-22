@@ -19,7 +19,7 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
             local Success = DoThermite(vector3(-596.02, -283.72, 50.6), true)
             exports['mercy-inventory']:SetBusyState(false)
             if Success then
-                TriggerServerEvent('mercy-ui/server/send-jewelery-rob', FunctionsModule.GetStreetName())
+                EventsModule.TriggerServer('mercy-ui/server/send-jewelery-rob', FunctionsModule.GetStreetName())
                 EventsModule.TriggerServer('mercy-heists/server/jewellery/set-state', true)
                 TriggerEvent('mercy-ui/client/notify', "jewelrob", "Success! The doors will open any minute now!", 'success')
                 Citizen.SetTimeout((1000 * 60) * 3, function()

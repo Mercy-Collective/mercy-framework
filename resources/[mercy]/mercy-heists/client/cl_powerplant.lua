@@ -37,8 +37,8 @@ RegisterNetEvent('mercy-heists/client/try-bomb-power-panel', function()
         TriggerEvent('mercy-inventory/client/reset-weapon')
         Citizen.Wait(20000)
         AddExplosion(ExplodeCoords.x, ExplodeCoords.y, ExplodeCoords.z, EXPLOSION_STICKYBOMB, 15.0, true, false, 10.0)
-        TriggerServerEvent('mercy-weathersync/server/set-blackout')
-        TriggerServerEvent('mercy-ui/server/send-suspicious', FunctionsModule.GetStreetName())
+        EventsModule.TriggerServer('mercy-weathersync/server/set-blackout')
+        EventsModule.TriggerServer('mercy-ui/server/send-suspicious', FunctionsModule.GetStreetName())
         if not exports['mercy-police']:IsStatusAlreadyActive('explosive') then
             TriggerEvent('mercy-police/client/evidence/set-status', 'explosive', 350)
         end

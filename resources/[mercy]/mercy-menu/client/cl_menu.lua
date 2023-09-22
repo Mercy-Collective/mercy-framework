@@ -1,5 +1,5 @@
 ShowMenu, MaxMenuItems = false, 8
-PlayerModule, FunctionsModule, KeybindsModule, PlayerData = nil, nil, nil, {}
+PlayerModule, FunctionsModule, KeybindsModule, EventsModule, PlayerData = nil, nil, nil, nil, {}
 local ClickedAction = false
 
 AddEventHandler('Modules/client/ready', function()
@@ -7,11 +7,13 @@ AddEventHandler('Modules/client/ready', function()
         'Player',
         'Keybinds',
         'Functions',
+        'Events',
     }, function(Succeeded)
         if not Succeeded then return end
         PlayerModule = exports['mercy-base']:FetchModule('Player')
         KeybindsModule = exports['mercy-base']:FetchModule('Keybinds')
         FunctionsModule = exports['mercy-base']:FetchModule('Functions')
+        EventsModule = exports['mercy-base']:FetchModule('Events')
     end)
 end)
 

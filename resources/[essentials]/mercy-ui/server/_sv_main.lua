@@ -1,6 +1,7 @@
 CallbackModule, PlayerModule, DatabaseModule, FunctionsModule, CommandsModule, EventsModule = nil, nil, nil, nil, nil, nil
 local ResetStress = false
 local DispatchData = {}
+AlertList = {}
 
 local _Ready = false
 AddEventHandler('Modules/server/ready', function()
@@ -239,446 +240,441 @@ Citizen.CreateThread(function()
         end
     end)
 
-end)
+    -- Events
+        
+    EventsModule.RegisterServer("mercy-ui/server/send-panic-button", function(Source, StreetLabel, Type)
+        local AlertType = 'alert-panic'
+        if Type == 'B' then AlertType = 'alert-red' end
 
--- [ Code ] --
+        local src = source
+        local Player = PlayerModule.GetPlayerBySource(src)
 
--- [ Events ] --
+        local IsCop = Player.PlayerData.Job.Name == 'police'
+        local IsEMS = Player.PlayerData.Job.Name == 'ems'
 
-AlertList = {}
-
-RegisterNetEvent("mercy-ui/server/send-panic-button", function(StreetLabel, Type)
-    local AlertType = 'alert-panic'
-    if Type == 'B' then AlertType = 'alert-red' end
-
-    local src = source
-    local Player = PlayerModule.GetPlayerBySource(src)
-
-    local IsCop = Player.PlayerData.Job.Name == 'police'
-    local IsEMS = Player.PlayerData.Job.Name == 'ems'
-
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = AlertType,
-        ['AlertCode'] = '10-13',
-        ['AlertName'] = IsCop and 'Officer Down!' or IsEMS and 'EMS Down!' or 'Panic Button',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = false,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = AlertType,
+            ['AlertCode'] = '10-13',
+            ['AlertName'] = IsCop and 'Officer Down!' or IsEMS and 'EMS Down!' or 'Panic Button',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = false,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+                [2] = {
+                    ['Icon'] = '<i class="fas fa-id-badge"></i>',
+                    ['Text'] = Player.PlayerData.Job.Callsign..' | '..Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname,
+                },
             },
-            [2] = {
-                ['Icon'] = '<i class="fas fa-id-badge"></i>',
-                ['Text'] = Player.PlayerData.Job.Callsign..' | '..Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname,
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-explosion", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-02C',
+            ['AlertName'] = 'Explosion Alert',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
             },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], true)
+    end)
 
-RegisterNetEvent("mercy-ui/server/send-explosion", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-02C',
-        ['AlertName'] = 'Explosion Alert',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
+    EventsModule.RegisterServer("mercy-ui/server/send-stealing-vehicle", function(Source, StreetLabel, VehDesc)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-35',
+            ['AlertName'] = 'Car Theft In Progress',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [3] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
             },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], true)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-stealing-vehicle", function(StreetLabel, VehDesc)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-35',
-        ['AlertName'] = 'Car Theft In Progress',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [3] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    for k, v in pairs(VehDesc) do
-        table.insert(AlertList[AlertId]['AlertItems'], v)
-    end
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-bank-monitor", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-10A',
-        ['AlertName'] = 'Bank Monitor',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-            [2] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = "Monitored account accessed.",
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-
-RegisterNetEvent("mercy-ui/server/send-bank-rob", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-42A',
-        ['AlertName'] = 'Robbery At The Fleeca Bank',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-banktruck-rob", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-03A',
-        ['AlertName'] = 'Banktruck Alarm',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-bobcat-rob", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-03A',
-        ['AlertName'] = 'Robbery At Bobcat Security',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-
-RegisterNetEvent("mercy-ui/server/send-houses-rob", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-31A',
-        ['AlertName'] = 'Breaking and entering',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-jewelery-rob", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-42C',
-        ['AlertName'] = 'Robbery At The Jewelery Store',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-suspicious", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-37',
-        ['AlertName'] = 'Investigate Suspicious Activity',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-            [2] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = 'Powerplant',
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-store-rob", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-98A',
-        ['AlertName'] = 'Store Alarm',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-pacific-rob", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-42B',
-        ['AlertName'] = 'Robbery At The Fleeca Bank',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-            [2] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = 'Pacific Bank',
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-civ-injured", function(StreetLabel)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-47',
-        ['AlertName'] = 'Injured Person',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = false,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-civ-alert", function(StreetLabel, Data, Anonymous)
-    local src = source
-    local AlertId = #AlertList + 1
-    local Player = PlayerModule.GetPlayerBySource(src)
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-12A',
-        ['AlertName'] = '911 Call',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = false,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {},
-        ['SendLocation'] = not Anonymous,
-    }
-
-    if not Anonymous then
-        table.insert(AlertList[AlertId]['AlertItems'], {
-            ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-            ['Text'] = StreetLabel,
-        })
-    end
-
-    table.insert(AlertList[AlertId]['AlertItems'], {
-        ['Icon'] = '<i class="fa-solid fa-message"></i>',
-        ['Text'] = (not Anonymous and Data['Who'] or 'Anonymous')..': '..Data['Message'],
-    })
-
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], true, not Anonymous)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-hunting-illegal", function(StreetLabel)
-    local src = source
-    local AlertData = {}
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-57A',
-        ['AlertName'] = 'Illegal Hunting',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-fighting-progress", function(StreetLabel, Melee)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-10',
-        ['AlertName'] = not Melee and 'Fight In Progress' or 'Deadly Fight In Progress',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [1] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    if Melee then -- Knife attack
-        table.insert(AlertList[AlertId]['AlertItems'], {
-            ['Icon'] = '<i class="fas fa-knife-kitchen"></i>',
-            ['Text'] = 'Knife'
-        })
-    end
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
-
-RegisterNetEvent("mercy-ui/server/send-shooting-progress", function(StreetLabel, IsInVehicle, VehDesc)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = IsInVehicle and '10-47B' or '10-47A',
-        ['AlertName'] = not IsInVehicle and 'Gun Shots Reported' or 'Gun Shots Reported From Vehicle',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = true,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [3] = {
-                ['Icon'] = '<i class="fas fa-globe-europe"></i>',
-                ['Text'] = StreetLabel,
-            },
-        },
-    }
-    if IsInVehicle then 
+        }
         for k, v in pairs(VehDesc) do
             table.insert(AlertList[AlertId]['AlertItems'], v)
         end
-    end
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
 
-RegisterNetEvent("mercy-ui/server/send-boosting-alert", function(StreetLabel, VehDesc)
-    local src = source
-    local AlertId = #AlertList + 1
-    AlertList[AlertId] = {
-        ['AlertId'] = AlertId,
-        ['AlertType'] = 'alert-red',
-        ['AlertCode'] = '10-99',
-        ['AlertName'] = 'Tracker Device Manipulation',
-        ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
-        ['AlertArea'] = false,
-        ['AlertTime'] = os.date(),
-        ['AlertItems'] = {
-            [3] = {
+    EventsModule.RegisterServer("mercy-ui/server/send-bank-monitor", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-10A',
+            ['AlertName'] = 'Bank Monitor',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+                [2] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = "Monitored account accessed.",
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+
+    EventsModule.RegisterServer("mercy-ui/server/send-bank-rob", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-42A',
+            ['AlertName'] = 'Robbery At The Fleeca Bank',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-banktruck-rob", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-03A',
+            ['AlertName'] = 'Banktruck Alarm',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-bobcat-rob", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-03A',
+            ['AlertName'] = 'Robbery At Bobcat Security',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+
+    EventsModule.RegisterServer("mercy-ui/server/send-houses-rob", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-31A',
+            ['AlertName'] = 'Breaking and entering',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-jewelery-rob", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-42C',
+            ['AlertName'] = 'Robbery At The Jewelery Store',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-suspicious", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-37',
+            ['AlertName'] = 'Investigate Suspicious Activity',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+                [2] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = 'Powerplant',
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-store-rob", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-98A',
+            ['AlertName'] = 'Store Alarm',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-pacific-rob", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-42B',
+            ['AlertName'] = 'Robbery At The Fleeca Bank',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+                [2] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = 'Pacific Bank',
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-civ-injured", function(Source, StreetLabel)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-47',
+            ['AlertName'] = 'Injured Person',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = false,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-civ-alert", function(Source, StreetLabel, Data, Anonymous)
+        local src = source
+        local AlertId = #AlertList + 1
+        local Player = PlayerModule.GetPlayerBySource(src)
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-12A',
+            ['AlertName'] = '911 Call',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = false,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {},
+            ['SendLocation'] = not Anonymous,
+        }
+
+        if not Anonymous then
+            table.insert(AlertList[AlertId]['AlertItems'], {
                 ['Icon'] = '<i class="fas fa-globe-europe"></i>',
                 ['Text'] = StreetLabel,
-            },
-        },
-    }
-    for k, v in pairs(VehDesc) do
-        table.insert(AlertList[AlertId]['AlertItems'], v)
-    end
-    TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
-end)
+            })
+        end
 
-RegisterNetEvent("mercy-ui/server/send-911-call", function(Data, StreetLabel, IsAnonymously)
-    TriggerClientEvent('mercy-police/client/send-911', -1, Data, IsAnonymously)
+        table.insert(AlertList[AlertId]['AlertItems'], {
+            ['Icon'] = '<i class="fa-solid fa-message"></i>',
+            ['Text'] = (not Anonymous and Data['Who'] or 'Anonymous')..': '..Data['Message'],
+        })
+
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], true, not Anonymous)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-hunting-illegal", function(Source, StreetLabel)
+        local src = source
+        local AlertData = {}
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-57A',
+            ['AlertName'] = 'Illegal Hunting',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-fighting-progress", function(Source, StreetLabel, Melee)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-10',
+            ['AlertName'] = not Melee and 'Fight In Progress' or 'Deadly Fight In Progress',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [1] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        if Melee then -- Knife attack
+            table.insert(AlertList[AlertId]['AlertItems'], {
+                ['Icon'] = '<i class="fas fa-knife-kitchen"></i>',
+                ['Text'] = 'Knife'
+            })
+        end
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-shooting-progress", function(Source, StreetLabel, IsInVehicle, VehDesc)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = IsInVehicle and '10-47B' or '10-47A',
+            ['AlertName'] = not IsInVehicle and 'Gun Shots Reported' or 'Gun Shots Reported From Vehicle',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = true,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [3] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        if IsInVehicle then 
+            for k, v in pairs(VehDesc) do
+                table.insert(AlertList[AlertId]['AlertItems'], v)
+            end
+        end
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-boosting-alert", function(Source, StreetLabel, VehDesc)
+        local src = source
+        local AlertId = #AlertList + 1
+        AlertList[AlertId] = {
+            ['AlertId'] = AlertId,
+            ['AlertType'] = 'alert-red',
+            ['AlertCode'] = '10-99',
+            ['AlertName'] = 'Tracker Device Manipulation',
+            ['AlertCoords'] = GetEntityCoords(GetPlayerPed(src)),
+            ['AlertArea'] = false,
+            ['AlertTime'] = os.date(),
+            ['AlertItems'] = {
+                [3] = {
+                    ['Icon'] = '<i class="fas fa-globe-europe"></i>',
+                    ['Text'] = StreetLabel,
+                },
+            },
+        }
+        for k, v in pairs(VehDesc) do
+            table.insert(AlertList[AlertId]['AlertItems'], v)
+        end
+        TriggerClientEvent('mercy-ui/client/send-emergency-alert', -1, AlertList[AlertId], false)
+    end)
+
+    EventsModule.RegisterServer("mercy-ui/server/send-911-call", function(Source, Data, StreetLabel, IsAnonymously)
+        TriggerClientEvent('mercy-police/client/send-911', -1, Data, IsAnonymously)
+    end)
 end)

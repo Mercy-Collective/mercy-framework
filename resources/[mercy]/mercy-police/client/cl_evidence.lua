@@ -77,21 +77,21 @@ AddEventHandler('gameEventTriggered', function(Name, Args)
         local VictimIsPlayer = IsPedAPlayer(Args[1])
         if math.random(1, 100) < 30 then
             local StreetLabel = FunctionModule.GetStreetName()
-            TriggerServerEvent('mercy-ui/server/send-fighting-progress', StreetLabel, false)
+            EventsModule.TriggerServer('mercy-ui/server/send-fighting-progress', StreetLabel, false)
             NextMeleeAction = GetCloudTimeAsInt() + 135
         end
     end
     if Name == "CEventNetworkEntityDamage" and IsPedArmed(PlayerPedId(), 1) and IsSelfAttacker and GetCloudTimeAsInt() > NextStabbingAction then
         local StreetLabel = FunctionModule.GetStreetName()
         if  math.random(1, 100) < 30 then
-            TriggerServerEvent('mercy-ui/server/send-fighting-progress', StreetLabel, true)
+            EventsModule.TriggerServer('mercy-ui/server/send-fighting-progress', StreetLabel, true)
             NextStabbingAction = GetCloudTimeAsInt() + 135
         end
     end
     if Name == "CEventNetworkEntityDamage" and IsPedArmed(PlayerPedId(), 6) and not IsExemptWeapon(Args[7]) and IsSelfAttacker and GetCloudTimeAsInt() > NextShootingAction then
         if (PlayerData ~= nil and PlayerData.Job.Name ~= 'police' and PlayerData.Job.Duty) then
             local IsInVehicle, StreetLabel = IsPedInAnyVehicle(PlayerPedId()) or false, FunctionModule.GetStreetName()
-            TriggerServerEvent('mercy-ui/server/send-shooting-progress', StreetLabel, IsInVehicle, exports['mercy-vehicles']:GetVehicleDescription())
+            EventsModule.TriggerServer('mercy-ui/server/send-shooting-progress', StreetLabel, IsInVehicle, exports['mercy-vehicles']:GetVehicleDescription())
             NextShootingAction = GetCloudTimeAsInt() + 100
         end
     end

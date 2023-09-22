@@ -11,7 +11,7 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
                 local Success = DoThermite(Coords)
                 if Success then
                     EventsModule.TriggerServer("mercy-heists/server/banktruck/set-truck-state", NetworkGetNetworkIdFromEntity(Entity), true)
-                    TriggerServerEvent('mercy-ui/server/send-banktruck-rob', FunctionsModule.GetStreetName())
+                    EventsModule.TriggerServer('mercy-ui/server/send-banktruck-rob', FunctionsModule.GetStreetName())
                 end
             end
         end)

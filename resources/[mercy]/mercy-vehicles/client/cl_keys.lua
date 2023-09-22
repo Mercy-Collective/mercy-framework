@@ -193,7 +193,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced, isBank
     end
 
     if LastCartheftAlert ~= Entity then
-        TriggerServerEvent('mercy-ui/server/send-stealing-vehicle', FunctionsModule.GetStreetName(), GetVehicleDescription(Entity))
+        EventsModule.TriggerServer('mercy-ui/server/send-stealing-vehicle', FunctionsModule.GetStreetName(), GetVehicleDescription(Entity))
         LastCartheftAlert = Entity
         Citizen.SetTimeout(60000 * 5, function() -- 5 min
             if LastCartheftAlert == Entity then

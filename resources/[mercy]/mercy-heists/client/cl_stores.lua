@@ -17,7 +17,7 @@ RegisterNetEvent('mercy-heists/client/stores-steal-register', function(Data, Ent
     if CanRob then
         if math.random(1, 100) > 75 then
             local StreetLabel = FunctionsModule.GetStreetName()
-            TriggerServerEvent('mercy-ui/server/send-store-rob', StreetLabel)
+            EventsModule.TriggerServer('mercy-ui/server/send-store-rob', StreetLabel)
         end
         EventsModule.TriggerServer('mercy-ui/server/set-stress', 'Add', math.random(1, 3))
         TriggerServerEvent('mercy-heists/server/stores/set-state', RegisterId, 'Busy', true)

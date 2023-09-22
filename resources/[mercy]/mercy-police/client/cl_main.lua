@@ -138,7 +138,7 @@ end)
 
 RegisterNetEvent('mercy-police/client/send-911', function(Data, IsAnonymously)
 	local StreetLabel = exports['mercy-base']:FetchModule('Functions').GetStreetName()
-	TriggerServerEvent('mercy-ui/server/send-civ-alert', StreetLabel, Data, IsAnonymously)
+	EventsModule.TriggerServer('mercy-ui/server/send-civ-alert', StreetLabel, Data, IsAnonymously)
 
 end)
 
@@ -161,7 +161,7 @@ end)
 
 RegisterNetEvent('mercy-police/client/send-911-dispatch', function(Data, IsAnonymously)
     local StreetLabel = exports['mercy-base']:FetchModule('Functions').GetStreetName()
-    TriggerServerEvent('mercy-ui/server/send-911-call', Data, StreetLabel, IsAnonymously)
+	EventsModule.TriggerServer('mercy-ui/server/send-911-call', Data, StreetLabel, IsAnonymously)
 end)
 
 RegisterNetEvent('mercy-items/client/used-spikes', function()

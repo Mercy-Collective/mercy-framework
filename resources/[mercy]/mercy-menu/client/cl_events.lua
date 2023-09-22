@@ -40,7 +40,7 @@ end)
 
 RegisterNetEvent('mercy-menu/client/send-panic-button', function(Type)
     local StreetLabel = exports['mercy-base']:FetchModule('Functions').GetStreetName()
-    TriggerServerEvent('mercy-ui/server/send-panic-button', StreetLabel, Type)
+    EventsModule.TriggerServer('mercy-ui/server/send-panic-button', StreetLabel, Type)
 end)
 
 RegisterNetEvent('mercy-menu/client/park-heli', function(Entity)
