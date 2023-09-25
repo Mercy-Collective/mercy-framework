@@ -104,11 +104,13 @@ RegisterNetEvent('mercy-phone/client/jobcenter/on-job-start', function(Job, Lead
     if Leader ~= PlayerModule.GetPlayerData().CitizenId then return end
 
     HouseRobberies.CurrentHouse = GetAvailableHouse()
+
     EventsModule.TriggerServer('mercy-heists/server/housing/sync-house', 'SetHouseId', HouseRobberies.CurrentHouse)
     EventsModule.TriggerServer('mercy-heists/server/housing/sync-house', 'SetAvailable', HouseRobberies.CurrentHouse, false)
     local NearLocation = false
     Citizen.CreateThread(function()
         while not NearLocation do
+            if HouseRobberies.CurrentHouse == nil then return end
             local Distance = #(GetEntityCoords(PlayerPedId()) - vector3(Config.Houses.Houses[HouseRobberies.CurrentHouse].Coords.x, Config.Houses.Houses[HouseRobberies.CurrentHouse].Coords.y, Config.Houses.Houses[HouseRobberies.CurrentHouse].Coords.z))
             if Distance < 20.0 then
                 NearLocation = true

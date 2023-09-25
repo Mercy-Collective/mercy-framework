@@ -8,6 +8,7 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer("mercy-heists/server/housing/sync-house", function(Source, Type, HouseId, Extra, ExtraTwo)
         if Type == 'SetHouseId' then
             TriggerClientEvent('mercy-heists/client/housing/sync-house', Source, 'SetHouseId', HouseId, Config.Houses.Houses[HouseId])
+            return
         elseif Type == 'SetLocked' then
             Config.Houses.Houses[HouseId].Locked = Extra
         elseif Type == 'SetAvailable' then
@@ -55,7 +56,7 @@ end)
 RegisterNetEvent("mercy-heists/client/housing/on-first-enter", function(HouseId)
     local src = source
     Citizen.SetTimeout((1000 * 60) * Config.Houses.Houses[HouseId].Timer, function() -- 35 Min
-        print('[DEBUG]: Resetting House: '..HouseId)
+        print('[DEBUG:HouseRobberies]: Resetting House: '..HouseId)
         if not Config.Houses.Houses[HouseId].Locked or not Config.Houses.Houses[HouseId].Available then 
             Config.Houses.Houses[HouseId].Alarm = true
             Config.Houses.Houses[HouseId].Available = true
