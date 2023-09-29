@@ -10,6 +10,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(4)
     end
 
+    -- Callbacks
+
     CallbackModule.CreateCallback('mercy-phone/server/jobcenter/is-vpn-required', function(Source, Cb, Job)
         Cb(ServerConfig.Jobs[Job]["RequiresVPN"])
     end)
@@ -50,9 +52,9 @@ Citizen.CreateThread(function()
             else
                 Username = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
             end
-            local GroupId = #ServerConfig.Groups[Job] + 1
-            ServerConfig.Groups[Job][GroupId] = {
-                ['GroupId'] = GroupId,
+            local UniqueId = GetUniqueGroupId(Job)
+            table.insert(ServerConfig.Groups[Job], {
+                ['GroupId'] = UniqueId,
                 ['Leader'] = Player.PlayerData.CitizenId,
                 ['Members'] = {
                     {
@@ -62,63 +64,30 @@ Citizen.CreateThread(function()
                     }
                 },
                 ['Busy'] = false,
-            }
+            })
+            local NewGroup, NewKey = GetPlayerGroup(Source, Job)
+            if not NewGroup then return Cb(false) end -- User is not in any group
             JobsDebugPrint('Create', ('Current Groups for %s | Data: %s'):format(Job, json.encode(ServerConfig.Groups[Job])))
-            JobsDebugPrint('Create', ('Table for group created. Refreshing group screen. | Data: %s'):format(json.encode(ServerConfig.Groups[Job][GroupId])))
-            TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', Source, ServerConfig.Groups[Job][GroupId])
+            JobsDebugPrint('Create', ('Table for group created. Refreshing group screen. | Data: %s'):format(json.encode(NewGroup)))
+            TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', Source, NewGroup)
             Cb(true)
         else
             Cb(false)
         end
     end)
 
-    EventsModule.RegisterServer('mercy-phone/server/jobcenter/job-done', function(Source, Job)
-        local Player = PlayerModule.GetPlayerBySource(Source)
-        -- Check if leader of group completed the job if not then get the leaders group and update the state
-        local Group = GetPlayerGroup(Player.PlayerData.Source, Job)
-        if not Group then return end -- User is not in any group
-
-        if Group['Busy'] then
-            Group['Busy'] = false
-            -- Add Money to group members
-            for _, MemberData in pairs(Group['Members']) do
-                local GroupMember = PlayerModule.GetPlayerBySource(tonumber(MemberData['Source']))
-                if GroupMember then
-                    JobsDebugPrint('JobDone', ('Adding Money to Player for completing job. Source: %s'):format(MemberData['Source']))
-                    -- Add Money
-                    local Money = ServerConfig.Jobs[Job]['Money']
-                    if Money ~= nil then -- Add Money
-                        GroupMember.Functions.SetMetaData('JobsPaycheck', GroupMember.PlayerData.MetaData['JobsPaycheck'] + Money)
-                        TriggerClientEvent('mercy-phone/client/notification', MemberData['Source'], {
-                            Id = math.random(11111111, 99999999),
-                            Title = "Job Center",
-                            Message = "You have earned $"..Money.." for completing the job",
-                            Icon = "fas fa-briefcase",
-                            IconBgColor = "#4f5efc",
-                            IconColor = "white",
-                            Sticky = false,
-                            Duration = 5000,
-                            Buttons = {},
-                        })
-                    end
-                    TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', MemberData['Source'], Group)
-                end
-            end
-        end
-    end)
-
     CallbackModule.CreateCallback('mercy-phone/server/jobcenter/start-job-offer', function(Source, Cb, Job)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if ServerConfig.Jobs[Job]['IsAvailable'] then
-            local Group = GetPlayerGroup(Player.PlayerData.Source, Job)
-            if not Group then return end -- User is not in any group
+            local Group, Key = GetPlayerGroup(Player.PlayerData.Source, Job)
+            if not Group then return Cb(false) end -- User is not in any group
 
             Group['Busy'] = true
             -- Sync start job offer event with members
             for _, MemberData in pairs(Group['Members']) do
                 TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', MemberData['Source'], Group)
-                JobsDebugPrint('StartOffer', ('Syncing start offer job with member. Source: %s | Job: %s | Leader %s | Member: %s'):format(MemberData['Source'], Job, Player.PlayerData.CitizenId, MemberData['CitizenId']))
                 TriggerClientEvent('mercy-phone/client/jobcenter/start-job-offer', MemberData['Source'])
+                JobsDebugPrint('StartOffer', ('Syncing start offer job with member. Source: %s | Job: %s | Leader %s | Member: %s'):format(MemberData['Source'], Job, Player.PlayerData.CitizenId, MemberData['CitizenId']))
             end
             Cb(true)
         else
@@ -131,11 +100,8 @@ Citizen.CreateThread(function()
         local LeaderPlayer = PlayerModule.GetPlayerByStateId(tonumber(Data['Leader']))
         if not LeaderPlayer then return end
 
-        JobsDebugPrint('RequestJoin', ('Requesting to join group. Leader: %s'):format(LeaderPlayer.PlayerData.Source))
-        local Group = GetPlayerGroup(LeaderPlayer.PlayerData.Source, Job)
-        if not Group then return end -- User is not in any group
-
-        local RequestVPN = RequestPlayer.Functions.GetItemByName("vpn")
+        local Group, Key = GetPlayerGroup(LeaderPlayer.PlayerData.Source, Job)
+        if not Group then return Cb(false) end -- User is not in any group
 
         if not CanAddMember(Job, Group) then
             Cb(false)
@@ -152,6 +118,7 @@ Citizen.CreateThread(function()
             })
             return
         end
+        
 
         -- Check if group is busy
         if Group['Busy'] then
@@ -170,6 +137,9 @@ Citizen.CreateThread(function()
             return
         end
 
+        JobsDebugPrint('RequestJoin', ('Requesting to join group. Leader: %s'):format(LeaderPlayer.PlayerData.Source))
+
+        local RequestVPN = RequestPlayer.Functions.GetItemByName("vpn")
         TriggerClientEvent('mercy-phone/client/notification', LeaderPlayer.PlayerData.Source, {
             Id = math.random(11111111, 99999999),
             Title = "Job Center",
@@ -225,6 +195,42 @@ Citizen.CreateThread(function()
             Cb(Amount)
         end
     end)
+
+    -- Events Tokens
+
+    EventsModule.RegisterServer('mercy-phone/server/jobcenter/job-done', function(Source, Job)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+
+        local Group = GetPlayerGroup(Source, Job)
+        if not Group then return end -- User is not in any group
+
+        if Group['Busy'] then
+            Group['Busy'] = false
+            -- Add Money to group members
+            for _, MemberData in pairs(Group['Members']) do
+                local GroupMember = PlayerModule.GetPlayerBySource(tonumber(MemberData['Source']))
+                if not GroupMember then return end
+
+                local Money = ServerConfig.Jobs[Job]['Money']
+                if Money ~= nil then
+                    JobsDebugPrint('JobDone', ('Adding Money to Player for completing job. Source: %s'):format(MemberData['Source']))
+                    GroupMember.Functions.SetMetaData('JobsPaycheck', GroupMember.PlayerData.MetaData['JobsPaycheck'] + Money)
+                    TriggerClientEvent('mercy-phone/client/notification', MemberData['Source'], {
+                        Id = math.random(11111111, 99999999),
+                        Title = "Job Center",
+                        Message = "You have earned $"..Money.." for completing the job",
+                        Icon = "fas fa-briefcase",
+                        IconBgColor = "#4f5efc",
+                        IconColor = "white",
+                        Sticky = false,
+                        Duration = 5000,
+                        Buttons = {},
+                    })
+                end
+                TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', MemberData['Source'], Group)
+            end
+        end
+    end)
 end)
 
 -- [ Events ] --
@@ -242,6 +248,7 @@ end)
 RegisterNetEvent("mercy-phone/server/jobcenter/request-paycheck", function()
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
+    if not Player then return end
     local Amount = Player.PlayerData.MetaData['JobsPaycheck']
     if Amount ~= nil then
         TriggerClientEvent('mercy-phone/client/notification', src, {
@@ -264,13 +271,12 @@ RegisterNetEvent("mercy-phone/server/jobcenter/leave-group", function(Job)
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
 
-    local Group = GetPlayerGroup(Player.PlayerData.Source, Job)
+    local Group, Key = GetPlayerGroup(src, Job)
     if not Group then return end -- User is not in any group
 
     if Player.PlayerData.CitizenId == Group['Leader'] then -- Leader leaves group
-        JobsDebugPrint('Leave', 'Leader left group. Disbanding group.')
-        JobsDebugPrint('Leave', 'Removing group from config')
-        table.remove(ServerConfig.Groups[Job], Group['GroupId'])
+        JobsDebugPrint('Leave', 'Leader left group. Disbanding group and removing group from config')
+        table.remove(ServerConfig.Groups[Job], Key)
         RemoveGroupCount(Job)
         UpdateJobEmployees(Job)
         for MemberId, MemberData in pairs(Group["Members"]) do -- Disband group for every member
@@ -284,7 +290,7 @@ RegisterNetEvent("mercy-phone/server/jobcenter/leave-group", function(Job)
                 IconBgColor = "#4f5efc",
                 IconColor = "white",
                 Sticky = false,
-                Duration = 2000,
+                Duration = 2500,
                 Buttons = {},
             })
         end
@@ -293,7 +299,7 @@ RegisterNetEvent("mercy-phone/server/jobcenter/leave-group", function(Job)
 
     -- Non leader left group
     for MemberId, MemberData in pairs(Group["Members"]) do
-        if MemberData["Source"] == Player.PlayerData.Source then
+        if MemberData["Source"] == src then
             table.remove(Group["Members"], MemberId)
             TriggerClientEvent('mercy-phone/client/notification', src, {
                 Id = math.random(11111111, 99999999),
@@ -313,7 +319,7 @@ RegisterNetEvent("mercy-phone/server/jobcenter/leave-group", function(Job)
                     TriggerClientEvent('mercy-phone/client/notification', MemberData2['Source'], {
                         Id = math.random(11111111, 99999999),
                         Title = "Job Center",
-                        Message = MemberData2['Name'].." left the group.",
+                        Message = MemberData['Name'].." left the group.",
                         Icon = "fas fa-briefcase",
                         IconBgColor = "#4f5efc",
                         IconColor = "white",
@@ -330,12 +336,15 @@ RegisterNetEvent("mercy-phone/server/jobcenter/leave-group", function(Job)
 end)
 
 RegisterNetEvent("mercy-phone/server/jobcenter/cancel-join-request", function(Job, Data)
-    -- Data['Target'] = Leader
+    local Player = PlayerModule.GetPlayerBySource(Data.Source)
+    if Data['Target'] ~= Player.PlayerData.CitizenId then return end -- Check if player is leader
     AcceptedJoinRequest = false
 end)
 
 RegisterNetEvent("mercy-phone/server/jobcenter/answer-request", function(Job, Data, Accept)
-    -- Data['Target'] = Leader
+    local Player = PlayerModule.GetPlayerBySource(Data.Source)
+    if Data['Target'] ~= Player.PlayerData.CitizenId then return end -- Check if player is leader
+
     if Accept then
         AcceptedJoinRequest = true
         TriggerClientEvent('mercy-phone/client/notification', Data.Source, {
@@ -369,11 +378,14 @@ RegisterNetEvent("mercy-phone/server/jobcenter/answer-request", function(Job, Da
 end)
 
 RegisterNetEvent("mercy-phone/server/jobcenter/success-task", function(Job, TaskId, Finished)
-    for GroupId, GroupData in pairs(ServerConfig.Groups[Job]) do
-        for _, MemberData in pairs(GroupData['Members']) do
-            JobsDebugPrint('SuccessTask', ('Setting success state for task for member. | Source: %s | TaskId: %s | Finished: %s'):format(MemberData['Source'], TaskId, Finished))
-            TriggerClientEvent('mercy-phone/client/jobcenter/success-task', MemberData['Source'], TaskId, Finished)
-        end
+    -- Get player group
+    local src = source
+    local Group, Key = GetPlayerGroup(src, Job)
+    if not Group then return end -- User is not in any group
+    
+    for _, MemberData in pairs(Group['Members']) do
+        JobsDebugPrint('SuccessTask', ('Setting success state for task for member. | Source: %s | TaskId: %s | Finished: %s'):format(MemberData['Source'], TaskId, Finished))
+        TriggerClientEvent('mercy-phone/client/jobcenter/success-task', MemberData['Source'], TaskId, Finished)
     end
 end)
 
@@ -382,7 +394,7 @@ RegisterNetEvent("mercy-phone/server/jobcenter/set-ready", function(Job, Bool)
     local Player = PlayerModule.GetPlayerBySource(src)
     if not Player then return end
 
-    local Group = GetPlayerGroup(Player.PlayerData.Source, Job)
+    local Group, Key = GetPlayerGroup(src, Job)
     if not Group then return end -- User is not in any group
 
     if Bool == nil then
@@ -393,6 +405,7 @@ RegisterNetEvent("mercy-phone/server/jobcenter/set-ready", function(Job, Bool)
     -- Sync Ready state for members
     for k, MemberData in pairs(Group['Members']) do
         local MemberPlayer = PlayerModule.GetPlayerBySource(MemberData['Source'])
+        if not MemberPlayer then return end
         local IsLeader = false
         if MemberPlayer.PlayerData.CitizenId == Group['Leader'] then
             IsLeader = true
@@ -405,7 +418,7 @@ end)
 
 RegisterNetEvent("mercy-phone/server/jobcenter/update-task", function(Job, TaskId, ExtraDone)
     local src = source
-    local Group = GetPlayerGroup(src, Job)
+    local Group, Key = GetPlayerGroup(src, Job)
     if not Group then return end -- User is not in any group
 
     for _, MemberData in pairs(Group['Members']) do
@@ -416,25 +429,23 @@ end)
 RegisterNetEvent("mercy-phone/server/jobcenter/join-group", function(Job, Leader)
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
-    if Player then
-        local VPN = Player.Functions.GetItemByName('vpn')
-        for GroupId, GroupData in pairs(ServerConfig.Groups[Job]) do
-            if GroupData['Leader'] == Leader then -- Get correct group
-                local Username = "Not found.."
-                if VPN ~= nil and VPN.Amount > 0 then
-                    Username = not Player.PlayerData.MetaData["Phone"].Username and ServerConfig.RandomNames.First[math.random(1, #ServerConfig.RandomNames.First)]..' '..ServerConfig.RandomNames.Last[math.random(1, #ServerConfig.RandomNames.Last)] or Player.PlayerData.MetaData["Phone"].Username
-                else
-                    Username = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
-                end
-                table.insert(ServerConfig.Groups[Job][GroupId]["Members"], {
-                    ["Source"] = src,
-                    ["Name"] = Username,
-                    ['CitizenId'] = Player.PlayerData.CitizenId,
-                })
-                UpdateJobEmployees(Job)
-                for _, MemberData in pairs(ServerConfig.Groups[Job][GroupId]["Members"]) do
-                    TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', MemberData['Source'], ServerConfig.Groups[Job][GroupId])
-                end
+    if not Player then return end
+    
+    local VPN = Player.Functions.GetItemByName('vpn')
+    for GroupId, GroupData in pairs(ServerConfig.Groups[Job]) do
+        if GroupData['Leader'] == Leader then -- Get correct group
+            local Username = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
+            if VPN ~= nil and VPN.Amount > 0 then
+                Username = not Player.PlayerData.MetaData["Phone"].Username and ServerConfig.RandomNames.First[math.random(1, #ServerConfig.RandomNames.First)]..' '..ServerConfig.RandomNames.Last[math.random(1, #ServerConfig.RandomNames.Last)] or Player.PlayerData.MetaData["Phone"].Username
+            end
+            table.insert(ServerConfig.Groups[Job][GroupId]["Members"], {
+                ["Source"] = src,
+                ["Name"] = Username,
+                ['CitizenId'] = Player.PlayerData.CitizenId,
+            })
+            UpdateJobEmployees(Job)
+            for _, MemberData in pairs(ServerConfig.Groups[Job][GroupId]["Members"]) do
+                TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', MemberData['Source'], ServerConfig.Groups[Job][GroupId])
             end
         end
     end
@@ -445,7 +456,7 @@ RegisterNetEvent("mercy-phone/server/jobcenter/cancel-task", function(Job)
     local Player = PlayerModule.GetPlayerBySource(src)
     if not Player then return end
 
-    local Group = GetPlayerGroup(Player.PlayerData.Source, Job)
+    local Group, Key = GetPlayerGroup(Player.PlayerData.Source, Job)
     if not Group then return end 
 
     if Group['Leader'] == Player.PlayerData.CitizenId then
@@ -490,40 +501,23 @@ end
 
 function RemoveGroupCount(Job)
     local NewGroupCount = ServerConfig.Jobs[Job]['GroupCount'] - 1
-    if (NewGroupCount) < 0 then
+    if NewGroupCount < 0 then
         ServerConfig.Jobs[Job]['GroupCount'] = 0
         ServerConfig.Jobs[Job]['IsAvailable'] = true
         JobsDebugPrint('JobsCount', ('Setting job to available for %s (%s) '):format(Job, ServerConfig.Jobs[Job]['GroupCount']))
-    else
-        if NewGroupCount <= ServerConfig.Jobs[Job]['MaxGroupCount'] then
-            ServerConfig.Jobs[Job]['GroupCount'] = NewGroupCount
-            ServerConfig.Jobs[Job]['IsAvailable'] = true
-            JobsDebugPrint('JobsCount',('Removing group count for %s (%s) '):format(Job, ServerConfig.Jobs[Job]['GroupCount']))
-            JobsDebugPrint('JobsCount', ('Setting job to available for %s (%s) '):format(Job, ServerConfig.Jobs[Job]['GroupCount']))
-        end
+    elseif NewGroupCount <= ServerConfig.Jobs[Job]['MaxGroupCount'] then
+        ServerConfig.Jobs[Job]['GroupCount'] = NewGroupCount
+        ServerConfig.Jobs[Job]['IsAvailable'] = true
+        JobsDebugPrint('JobsCount',('Removing group count for %s (%s) '):format(Job, ServerConfig.Jobs[Job]['GroupCount']))
+        JobsDebugPrint('JobsCount', ('Setting job to available for %s (%s) '):format(Job, ServerConfig.Jobs[Job]['GroupCount']))
     end
-end
-
-function GetPlayerGroup(Source, Job)
-    local Player = PlayerModule.GetPlayerBySource(Source)
-    if not Player then return false end
-    if not ServerConfig.Groups[Job] then return false end
-
-    for _, GroupData in pairs(ServerConfig.Groups[Job]) do
-        for _, MemberData in pairs(GroupData['Members']) do
-            if MemberData['Source'] == Player.PlayerData.Source then
-                return GroupData
-            end
-        end
-    end
-    return false
 end
 
 function CancelJobTask(Job)
     local Player = PlayerModule.GetPlayerBySource(Source)
     if not Player then return end
 
-    local Group = GetPlayerGroup(Player.PlayerData.Source, Job)
+    local Group, Key = GetPlayerGroup(Player.PlayerData.Source, Job)
     if not Group then return end 
 
     if Group['Leader'] == Player.PlayerData.CitizenId then
@@ -537,6 +531,21 @@ function CancelJobTask(Job)
 end
 exports('CancelJobTask', CancelJobTask)
 
+function GetPlayerGroup(Source, Job)
+    local Player = PlayerModule.GetPlayerBySource(Source)
+    if not Player then return false end
+    if not ServerConfig.Groups[Job] then return false end
+
+    for GroupKey, GroupData in pairs(ServerConfig.Groups[Job]) do
+        for _, MemberData in pairs(GroupData['Members']) do
+            if MemberData['Source'] == Player.PlayerData.Source then
+                return GroupData, GroupKey
+            end
+        end
+    end
+    return false
+end
+
 -- RegisterCommand('crashJob', function(source, args, RawCommand)
 --     TriggerEvent('playerDropped', 'Test', source)
 -- end)
@@ -547,61 +556,59 @@ AddEventHandler('playerDropped', function (reason)
     local Player = PlayerModule.GetPlayerBySource(src)
     if not Player then return end
 
-    -- Check if player was in group
-    for Job, JobData in pairs(ServerConfig.Groups) do
-        for GroupId, GroupData in pairs(JobData) do
-            JobsDebugPrint('Crash', 'Checking if player was in group..')
+    local Group, Key = GetPlayerGroup(src, Job)
+    if not Group then return end -- User is not in any group
 
-            -- Leader left
-            if GroupData['Leader'] == Player.PlayerData.CitizenId then
-                JobsDebugPrint('Crash', 'Player was in group and was leader, removing group..')
-                for _, MemberData in pairs(GroupData['Members']) do
-                    TriggerClientEvent('mercy-phone/client/jobcenter/reset-group', MemberData['Source'])
-                    TriggerClientEvent('mercy-phone/client/jobcenter/on-crash', MemberData['Source'], Job)
-                    TriggerClientEvent('mercy-phone/client/notification', MemberData['Source'], {
-                        Id = math.random(11111111, 99999999),
-                        Title = "Job Center",
-                        Message = "The group has been disbanded",
-                        Icon = "fas fa-briefcase",
-                        IconBgColor = "#4f5efc",
-                        IconColor = "white",
-                        Sticky = false,
-                        Duration = 4000,
-                        Buttons = {},
-                    })
-                end
-                if ServerConfig.Groups[Job][GroupId] ~= nil then
-                    table.remove(ServerConfig.Groups[Job], GroupId)
-                    JobsDebugPrint('Crash', 'Removed group from config..')
-                    UpdateJobEmployees(Job)
-                    RemoveGroupCount(Job)
-                end
-                TriggerClientEvent('mercy-phone/client/jobcenter/update', -1)
-                return
-            end
+    -- Leader left
+    if Group['Leader'] == Player.PlayerData.CitizenId then
+        JobsDebugPrint('Crash', 'Player was in group and was leader, removing group..')
+        if ServerConfig.Groups[Job][Key] ~= nil then
+            table.remove(ServerConfig.Groups[Job], Key)
+            JobsDebugPrint('Crash', 'Removed group from config..')
+            UpdateJobEmployees(Job)
+            RemoveGroupCount(Job)
+        end
+        for _, MemberData in pairs(Group['Members']) do
+            TriggerClientEvent('mercy-phone/client/jobcenter/reset-group', MemberData['Source'])
+            TriggerClientEvent('mercy-phone/client/jobcenter/refresh-all-groups', MemberData["Source"], Job)
+            TriggerClientEvent('mercy-phone/client/jobcenter/on-crash', MemberData['Source'], Job)
+            TriggerClientEvent('mercy-phone/client/notification', MemberData['Source'], {
+                Id = math.random(11111111, 99999999),
+                Title = "Job Center",
+                Message = "The group has been disbanded",
+                Icon = "fas fa-briefcase",
+                IconBgColor = "#4f5efc",
+                IconColor = "white",
+                Sticky = false,
+                Duration = 4000,
+                Buttons = {},
+            })
+        end
 
-            -- Member Left
-            for _, MemberData in pairs(GroupData['Members']) do
-                if MemberData['Source'] == Player.PlayerData.Source then
-                    JobsDebugPrint('Crash', 'Player was in group, removing from group..')
-                    table.remove(ServerConfig.Groups[Job][GroupId]['Members'], MemberData['Source'])
-                    JobsDebugPrint('Crash', 'Removed player from group..')
-                    UpdateJobEmployees(Job)
-                    for _, NewMemberData in pairs(GroupData['Members']) do
-                        TriggerClientEvent('mercy-phone/client/notification', NewMemberData['Source'], {
-                            Id = math.random(11111111, 99999999),
-                            Title = "Job Center",
-                            Message = (MemberData["Name"] ~= nil and MemberData["Name"] or Player.PlayerData.Name).." has left the group",
-                            Icon = "fas fa-briefcase",
-                            IconBgColor = "#4f5efc",
-                            IconColor = "white",
-                            Sticky = false,
-                            Duration = 4000,
-                            Buttons = {},
-                        })
-                        TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', NewMemberData['Source'], GroupData)
-                    end
-                end
+        -- TriggerClientEvent('mercy-phone/client/jobcenter/update', -1)
+        return
+    end
+
+    -- Member Left
+    for _, MemberData in pairs(Group['Members']) do
+        if MemberData['Source'] == Player.PlayerData.Source then
+            JobsDebugPrint('Crash', 'Player was in group, removing from group..')
+            table.remove(ServerConfig.Groups[Job][Key]['Members'], MemberData['Source'])
+            JobsDebugPrint('Crash', 'Removed player from group..')
+            UpdateJobEmployees(Job)
+            for _, NewMemberData in pairs(Group['Members']) do
+                TriggerClientEvent('mercy-phone/client/notification', NewMemberData['Source'], {
+                    Id = math.random(11111111, 99999999),
+                    Title = "Job Center",
+                    Message = (MemberData["Name"] ~= nil and MemberData["Name"] or Player.PlayerData.Name).." has left the group",
+                    Icon = "fas fa-briefcase",
+                    IconBgColor = "#4f5efc",
+                    IconColor = "white",
+                    Sticky = false,
+                    Duration = 4000,
+                    Buttons = {},
+                })
+                TriggerClientEvent('mercy-phone/client/jobcenter/refresh-group', NewMemberData['Source'], Group)
             end
         end
     end
@@ -614,4 +621,14 @@ function JobsDebugPrint(Type, Message, ...)
     else
         print(('^4[^5Debug^4:^5Jobs^4:^5%s^4]:^7 %s'):format(Type, Message))
     end
+end
+
+function GetUniqueGroupId(Job)
+    local GroupId = math.random(11111111, 99999999)
+    for _, GroupData in pairs(ServerConfig.Groups[Job]) do
+        if GroupData['GroupId'] == GroupId then
+            GetUniqueGroupId(Job)
+        end
+    end
+    return GroupId
 end
