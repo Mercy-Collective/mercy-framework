@@ -123,7 +123,7 @@ Citizen.CreateThread(function()
                         end)
                     end
                 end)
-            else
+            else -- Create new chat
                 local Messages = {}
                 Messages[#Messages+1] = {
                     ['Message'] = Data.Message,

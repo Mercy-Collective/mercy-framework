@@ -35,9 +35,9 @@
                 <div id="app-employment" class="phone-app ui-cursor-pointer" data-tooltip="Employment"          data-apptype="employment"><div class="phone-app-icon"></div></div>
                 <!-- <div id="app-sports"     class="phone-app ui-cursor-pointer" data-tooltip="Diamond Sports Back" data-apptype="sports"><div class="phone-app-icon"><i class="fas fa-gem"></i></div></div> -->
                 <!-- Calculator -->
+                <div id="app-calculator" class="phone-app ui-cursor-pointer" data-tooltip="Calculator"          data-apptype="calculator"><div class="phone-app-icon"></div></div>
                 <!-- Department Of Justice -->
                 <div id="app-dark"       class="phone-app ui-cursor-pointer" data-tooltip="Milk Road"           data-apptype="dark"><div class="phone-app-icon"><i class="fas fa-user-secret"></i></div></div>
-                <!-- <div id="app-race"       class="phone-app ui-cursor-pointer" data-tooltip="Racing"              data-apptype="race"><div class="phone-app-icon"></div></div> -->
                 <div id="app-camera"     class="phone-app ui-cursor-pointer" data-tooltip="Cameras"             data-apptype="camera"><div class="phone-app-icon"><i class="fas fa-camera"></i></div></div>
             </div>
 
@@ -506,57 +506,69 @@
                     </div>
                 </div>
                 
-                <!-- <div class="phone-app-race">
-                    <div class="phone-racing-topbar">
-                        <div data-target="races" class="phone-racing-topbar-option active"><i class="fas fa-flag-checkered"></i></div>
-                        <div data-target="tracks" class="phone-racing-topbar-option"><i class="fas fa-map-marker"></i></div>
-                        <div data-target="scoreboard" class="phone-racing-topbar-option"><i class="fas fa-trophy"></i></div>
-                    </div>
 
-                    <div class="phone-racing-races">
-                        <div class="phone-races-items">
-                            <p>Pending</p>
-                            <div class="phone-races-items-race">
-                                <div class="phone-races-race-name">Een race - $500</div>
-                                <div class="phone-races-race-laps">Laps (4) / B</div>
-                                <div class="phone-races-race-length">4.13mi</div>
-                                <div class="phone-races-race-hover">
-                                    <div class="phone-races-race-hover-icons">
-                                        <i data-tooltip="Set GPS" class="fas fa-map-marker"></i>
-                                        <i data-tooltip="Preview" class="fas fa-eye"></i>
-                                        <i data-tooltip="Chat" class="fas fa-comment"></i>
-                                        <i data-tooltip="Join Race" class="fas fa-user-plus"></i>
-                                    </div>
-                                </div>
-                                <div class="phone-races-race-drivers">
-                                    <div class="phone-races-race-drivers-item">
-                                        <div class="phone-races-race-drivers-item-icon"><i class="fas fa-user"></i></div>
-                                        <div class="phone-races-race-drivers-item-name">Eddie Dexter</div>
-                                    </div>
-                                    <div class="phone-races-race-drivers-item">
-                                        <div class="phone-races-race-drivers-item-icon"><i class="fas fa-user"></i></div>
-                                        <div class="phone-races-race-drivers-item-name">Yeet</div>
-                                    </div>
+                <div class="phone-app-calculator">
+                    <div id="body_box">
+                        <div id="calculations">
+                            <div id="container">
+                              <p id="text_area">0</p>
+                            </div>
+                        </div>
+                        <div id="control_panel">
+                            <div class="row_1 row">
+                                <div id ="AC" class="one_1 one grey">AC</div>
+                                <div id="change_sign" class="one_2 one grey">+/-</div>
+                                <div id="perc" class="one_3 one grey">%</div>
+                                <div id="division" class="one_4 one accent">
+                                    <span class="div_icon"><svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 9.5H19.5" stroke="white" stroke-width="2.5"/><circle cx="9.75" cy="16.75" r="2.25" fill="white"/><circle cx="9.75" cy="2.25" r="2.25" fill="white"/></svg>
+                                    </span>
                                 </div>
                             </div>
-                            <p>Completed</p>
-                            <div class="phone-races-items-race">
-                                <div class="phone-races-race-name">Noon - $500 B/B+ Jet</div>
-                                <div class="phone-races-race-laps">Laps (4) / B</div>
-                                <div class="phone-races-race-length">4.13mi</div>
-                                <div class="phone-races-race-hover">
-                                    <div class="phone-races-race-hover-icons">
-                                        <i data-tooltip="Show Lap" class="fas fa-eye"></i>
-                                        <i data-tooltip="Set GPS" class="fas fa-map-marker"></i>
-                                        <i data-tooltip="Join Race" class="fas fa-user-plus"></i>
-                                    </div>
+                            <div class="row_2 row">
+                                <div id ="sevenButton" class="one_1 one numbers">7</div>
+                                <div id ="eightButton" class="one_2 one numbers">8</div>
+                                <div id ="nineButton" class="one_3 one numbers">9</div>
+                                <div id ="multiplicationButton" class="one_4 one accent">
+                                    <span class="mult_icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L15 15" stroke="white" stroke-width="2.5"/>
+                                        <path d="M1 15L15 0.999999" stroke="white" stroke-width="2.5"/>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row_3 row">
+                                <div id ="fourButton" class="one_1 one numbers">4</div>
+                                <div id ="fiveButton" class="one_2 one numbers">5</div>
+                                <div id ="sixButton" class="one_3 one numbers">6</div>
+                                <div id="subtract" class="one_4 one accent">
+                                    <span class="minus_icon">
+                                        <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_23_7" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="32"><rect width="30" height="31.7143" fill="#D9D9D9"/></mask><g mask="url(#mask0_23_7)"><path d="M6.25049 17.1786V14.5357H23.7505V17.1786H6.25049Z" fill="white"/></g></svg>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row_4 row">
+                              <div id ="oneButton" name="1" class="one_1 one numbers">1</div>
+                              <div id ="twoButton" class="one_2 one numbers">2</div>
+                              <div id ="threeButton" class="one_3 one numbers">3</div>
+                              <div id="plus" class="one_4 one accent">
+                                <span class="add_icon">
+                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <mask id="mask0_22_7" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="28" height="28">
+                                    <rect width="28" height="28" fill="#D9D9D9"/></mask><g mask="url(#mask0_22_7)"><path d="M12.8334 15.1667H5.83337V12.8333H12.8334V5.83333H15.1667V12.8333H22.1667V15.1667H15.1667V22.1667H12.8334V15.1667Z" fill="white"/></g></svg></span>   
+                                </div>
+                            </div>
+                            <div class="row_5 row">
+                                <div id ="zeroButton" class="one_1 one numbers EXCEPTION" value="0"><span>0</span></div>
+                                <div id="commaButton" class="one_3 one numbers">,</div>
+                                <div id="equal" class="one_4 one accent">
+                                    <span class="equal_icon">
+                                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_18_51" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25"><rect width="25" height="25" fill="#D9D9D9"/></mask><g mask="url(#mask0_18_51)"><path d="M4.16675 17.7083V14.5833H20.8334V17.7083H4.16675ZM4.16675 10.4167V7.29166H20.8334V10.4167H4.16675Z" fill="white"/></g></svg>
+                                    </span>    
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="phone-racing-tracks"></div>
-                    <div class="phone-racing-scoreboard"></div>
-                </div> -->
+                </div>
 
                 <div class="phone-app-camera">
                     <div class="phone-camera-new ui-cursor-pointer" data-position="left" data-tooltip="Add Camera"><i class="fas fa-plus"></i></div>
@@ -581,7 +593,6 @@
                 <div class="ui-cursor-pointer phone-bottombar-home" data-tooltip="Home"></div>
                 <div class="ui-cursor-pointer phone-bottombar-photo" data-tooltip="Selfie!"><i class="fas fa-camera"></i></div>
             </div>
-
         </div>
         <img src="./images/phone-outline.png" class="phone-outline">
     </div>

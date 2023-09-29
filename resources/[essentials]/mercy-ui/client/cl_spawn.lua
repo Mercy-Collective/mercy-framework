@@ -50,7 +50,7 @@ RegisterNetEvent('mercy-spawn/client/open-spawn-selector', function()
             Wait(100)
         end
         
-        if PlayerData.MetaData['Jail'] >= 1 then
+        if PlayerData.MetaData['Jail'] ~= nil and PlayerData.MetaData['Jail'] >= 1 then
             SendUIMessage('Spawn', 'SetupSpawns', {
                 Spawns = {
                     {

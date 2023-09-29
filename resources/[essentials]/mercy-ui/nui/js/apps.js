@@ -123,7 +123,7 @@ RegisteredApps = [
         app: 'Phone',
         html: ['index.html'],
         css: ['main.css', 'extra.import.css'],
-        js: [ 'main.js', 'details.js', 'contacts.js', 'calls.js', 'messages.js', 'pinger.js', 'mails.js', 'advert.js', 'twitter.js', 'garage.js', 'debt.js', 'documents.js', 'housing.js', 'crypto.js', 'jobcenter.js', 'employment.js', 'dark.js', 'cameras.js' ],
+        js: [ 'main.js', 'details.js', 'contacts.js', 'calls.js', 'messages.js', 'pinger.js', 'mails.js', 'advert.js', 'twitter.js', 'garage.js', 'debt.js', 'documents.js', 'housing.js', 'crypto.js', 'jobcenter.js', 'employment.js', 'dark.js', 'calculator.js', 'cameras.js' ],
         status: false,
     },
     {
