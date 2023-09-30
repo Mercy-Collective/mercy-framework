@@ -1,5 +1,3 @@
--- [ NUI Callbacks ] --
-
 RegisterNUICallback('MDW/Profiles/GetProfiles', function(Data, Cb)
     local Result = CallbackModule.SendCallback("mercy-mdw/server/get-profiles")
     Cb(Result)

@@ -1,5 +1,3 @@
--- [ NUI Callbacks ] --
-
 RegisterNUICallback('MDW/Legislation/Get', function(Data, Cb)
     local Result = CallbackModule.SendCallback("mercy-mdw/server/get-legislation")
     Cb(Result)

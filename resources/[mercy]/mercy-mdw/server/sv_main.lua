@@ -280,11 +280,11 @@ Citizen.CreateThread(function()
             end    
         end, true)
         -- Get Priors
-        DatabaseModule.Execute('SELECT priors FROM mdw_profiles WHERE citizenid = ? and id = ?', {CitizenId, Id}, function(ProfileData)
+        DatabaseModule.Execute('SELECT * FROM mdw_profiles WHERE citizenid = ? and id = ?', {CitizenId, Id}, function(ProfileData)
             if ProfileData ~= nil then
                 for k, ProfData in pairs(ProfileData) do
-                    if ProfData['priors'] ~= nil then
-                        ProfileData['Priors'] = ProfData['priors']
+                    if ProfData['Priors'] ~= nil then
+                        ProfileData['Priors'] = ProfData['Priors']
                     end
                 end
             end
@@ -537,7 +537,7 @@ Citizen.CreateThread(function()
         end)
     end)
 
-    EventsModule.RegisterServer("mercy-mdw/server/reports-save-scum-charges", function(Source, Data)
+    EventsModule.RegisterServer("mercy-mdw/server/reports/save-scum-charges", function(Source, Data)
         -- Id, ScumId, Charges
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then

@@ -1,5 +1,3 @@
--- [ NUI Callbacks ] --
-
 RegisterNUICallback('MDW/Reports/GetReports', function(Data, Cb)
     local Result = CallbackModule.SendCallback("mercy-mdw/server/get-reports")
     Cb(Result)
@@ -43,7 +41,7 @@ RegisterNUICallback('MDW/Reports/DeleteCriminalScum', function(Data, Cb)
 end)
 
 RegisterNUICallback('MDW/Reports/SaveScumCharges', function(Data, Cb)
-    EventsModule.TriggerServer("mercy-mdw/server/reports-save-scum-charges", Data)
+    EventsModule.TriggerServer("mercy-mdw/server/reports/save-scum-charges", Data)
     Cb('Ok')
 end)
 
