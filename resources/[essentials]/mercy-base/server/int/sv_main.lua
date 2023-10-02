@@ -260,13 +260,40 @@ AddEventHandler('Modules/server/ready', function()
             local Player = PlayerModule.GetPlayerBySource(Source)
             Player.Functions.RemoveCrypto(Type, Amount)
         end)
+
+        local NoPayCheckBusinesses = {
+            'Burger Shot',
+            'Pizza This',
+            'UwU Café',
+            'Hayes Repairs',
+            'Digital Den',
+            '6STR. Tuner Shop',
+        }
                 
-        EventsModule.RegisterServer("mercy-base/server/receive-salary", function(Source)
+        EventsModule.RegisterServer("mercy-base/server/receive-paycheck", function(Source)
             local Player = PlayerModule.GetPlayerBySource(Source)
             if not Player then return end
-            if exports['mercy-business']:IsEmployedAtBusiness(Source) then return end -- If the player is employed at a business, they will not receive a salary.
+
+            local IsInBusiness = false
+            for k, Name in pairs(NoPayCheckBusinesses) do
+                if exports['mercy-business']:IsPlayerInBusiness(Player, Name) then
+                    IsInBusiness = true 
+                end
+            end
+            if IsInBusiness then return end
+
             Player.Functions.SetMetaData('SalaryPayheck', Player.PlayerData.MetaData['SalaryPayheck'] + Player.PlayerData.Job.Salary)
-            -- Player.Functions.Notify('salary-received', 'You have received your paycheck of $'..Player.PlayerData.Job.Salary..'.', 'success', 5000)
+            TriggerClientEvent('mercy-phone/client/notification', Source, {
+                Id = math.random(11111111, 99999999),
+                Title = "Bank",
+                Message = "You have received your paycheck of $"..Money.." ($"..Player.PlayerData.MetaData['SalaryPayheck']..")",
+                Icon = "fas fa-dollar",
+                IconBgColor = "#4f5efc",
+                IconColor = "white",
+                Sticky = false,
+                Duration = 5000,
+                Buttons = {},
+            })
         end)
 
         EventsModule.RegisterServer("mercy-base/server/save-position", function(Source, Coords)

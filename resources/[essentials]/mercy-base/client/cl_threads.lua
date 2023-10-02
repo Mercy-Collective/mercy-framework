@@ -129,7 +129,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(4)
         if LocalPlayer.state.LoggedIn then
             Citizen.Wait((1000 * 60) * 10) -- 10 mins
-            EventsModule.TriggerServer('mercy-base/server/receive-salary')
+            EventsModule.TriggerServer('mercy-base/server/receive-paycheck')
         end
     end
 end)
