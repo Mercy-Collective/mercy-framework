@@ -29,6 +29,7 @@ EventsModule = {
         RegisteredEvents[Name] = AddEventHandler(Name, function(Token, ...)
             local src = source
             if Token ~= exports[GetCurrentResourceName()]:FetchModule('Events')['Token'] then return end
+            if src == nil then return print('[DEBUG:EventsModule]: Source not found, not able to finish creating Protected Event..') end
             Callback(src, ...)
         end)
     end,
