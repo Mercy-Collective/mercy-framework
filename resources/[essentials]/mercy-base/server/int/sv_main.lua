@@ -286,7 +286,7 @@ AddEventHandler('Modules/server/ready', function()
             TriggerClientEvent('mercy-phone/client/notification', Source, {
                 Id = math.random(11111111, 99999999),
                 Title = "Bank",
-                Message = "You have received your paycheck of $"..Money.." ($"..Player.PlayerData.MetaData['SalaryPayheck']..")",
+                Message = "You have received your paycheck of $"..Player.PlayerData.Job.Salary.." ($"..Player.PlayerData.MetaData['SalaryPayheck']..")",
                 Icon = "fas fa-dollar",
                 IconBgColor = "#4f5efc",
                 IconColor = "white",
