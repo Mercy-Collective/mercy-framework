@@ -462,6 +462,11 @@ Citizen.CreateThread(function()
                     ['Scums'] = json.decode(ReportData[1].scums),
                     ['Officers'] = {},
                     ['Evidence'] = EvidenceData,
+                    ['title'] = ReportData[1].title,
+                    ['category'] = ReportData[1].category,
+                    ['content'] = ReportData[1].content,
+                    ['tags'] = json.decode(ReportData[1].tags),
+                    ['id'] = ReportData[1].id,
                 }
 
                 -- Add Officers
@@ -676,8 +681,21 @@ Citizen.CreateThread(function()
         -- Id, Officers
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
+                local Officers = json.decode(ReportData[1].officers)
+                if Officers == nil then Officers = {} end
+                for _, Officer in pairs(Data.Officers) do
+                    local Found = false
+                    for _, Officer2 in pairs(Officers) do
+                        if Officer == Officer2 then
+                            Found = true
+                        end
+                    end
+                    if not Found then
+                        table.insert(Officers, Officer)
+                    end
+                end
                 DatabaseModule.Update('UPDATE mdw_reports SET officers = ? WHERE id = ?', {
-                    json.encode(Data.Officers),
+                    json.encode(Officers),
                     Data.Id,
                 })
             end

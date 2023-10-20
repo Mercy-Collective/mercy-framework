@@ -430,7 +430,7 @@ ClickedOnReport = async function(ReportData) {
         $('.block-two > .mdw-reports > .mdw-reports-block > .mdw-reports-block-data > .ui-styles-input > #title').val(ReportData.title);
         $('.block-two > .mdw-reports > .mdw-block-header > .mdw-block-header-title').text(`Edit Report (#${ReportData.id})`);
 
-        ReportsNoteEditor.setData(ReportData.report);
+        ReportsNoteEditor.setData(ReportData.content);
         MdwData.ReportData.EditingReport = true;
         MdwData.ReportData.CreatingReport = false;
         MdwData.ReportData.CurrentEditingData = ReportData;
