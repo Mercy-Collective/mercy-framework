@@ -77,8 +77,23 @@ Citizen.CreateThread(function()
 
     --  Evidence
 
+    function GetUniqueEvidenceId()
+        local UniqueId = math.random(111111, 999999)
+        local Promise = promise:new()
+       
+        DatabaseModule.Execute('SELECT * FROM mdw_evidences WHERE id = ?', {UniqueId}, function(Result)
+            if Result[1] ~= nil then
+                GetUniqueEvidenceId()
+            else
+                Promise:resolve(UniqueId)
+            end
+        end)
+        return Citizen.Await(Promise)
+    end
+
     EventsModule.RegisterServer("mercy-mdw/server/evidence/create", function(Source, Data)
-        local EvidenceId = Data.Id ~= nil and Data.Id or math.random(111111, 999999)
+        -- Data.Id
+        local EvidenceId = GetUniqueEvidenceId()
         DatabaseModule.Insert('INSERT INTO mdw_evidences (id, type, identifier, description) VALUES (?, ?, ?, ?)', {
             EvidenceId,
             Data.Data.Type,
@@ -452,9 +467,22 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer("mercy-mdw/server/reports/add-tag", function(Source, Data)
         -- Id, Tags
         DatabaseModule.Execute('SELECT tags FROM mdw_reports WHERE id = ?', {Data.Id}, function(ReportData)
-            if ReportData ~= nil then
+            if ReportData[1] ~= nil then
+                -- Add tags to existing tags if not same
+                local Tags = json.decode(ReportData[1].tags)
+                for _, Tag in pairs(Data.Tags) do
+                    local Found = false
+                    for _, Tag2 in pairs(Tags) do
+                        if Tag == Tag2 then
+                            Found = true
+                        end
+                    end
+                    if not Found then
+                        table.insert(Tags, Tag)
+                    end
+                end
                 DatabaseModule.Update('UPDATE mdw_reports SET tags = ? WHERE id = ?', {
-                    json.encode(Data.Tags),
+                    json.encode(Tags),
                     Data.Id,
                 })
             else
