@@ -1,7 +1,7 @@
 TableGames = {}
 TablePlayers = {}
 
-RegisterCommand("showrcorepool", function(source)
+RegisterCommand("showpool", function(source)
     if source == 0 then 
         print(">> Cue data")
         GetTableData(TablePlayers)
@@ -149,10 +149,6 @@ SyncDistance = function(GameId, src)
         end
     end
 end
-
-RegisterCommand('yeet', function(source, args, RawCommand)
-    print((GetHashKey("vagner")~(-1939284557)))
-end)
 
 SyncGames = function(GameId, isCueBallHit, hitStrength)
     TriggerClientEvent("mercy-pool:syncTableState", -1, GameId, TableGames[GameId], isCueBallHit, hitStrength)

@@ -1,4 +1,5 @@
 Config = {
+    Debug = true,
     NotificationDistance = 10.0,
     PropsToRemove = {
         vector3(1992.803, 3047.312, 46.22865),
@@ -14,6 +15,8 @@ Config = {
             print(serverId, message)
         end)
     ]]
+    AllowedPoolPlaces = nil, -- {vector3(-574.52, 288.8, 79.17)},
+
     CustomNotifications = true,
 
     --[[
