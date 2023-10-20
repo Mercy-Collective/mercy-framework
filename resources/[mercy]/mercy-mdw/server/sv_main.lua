@@ -311,8 +311,21 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer("mercy-mdw/server/add-profile-tag", function(Source, Data)
         DatabaseModule.Execute('SELECT tags FROM mdw_profiles WHERE id = ?', {Data.Id}, function(TagsData)
             if TagsData ~= nil then
+                -- Add tags to existing tags if not same
+                local Tags = json.decode(TagsData[1].tags)
+                for _, Tag in pairs(Data.Tags) do
+                    local Found = false
+                    for _, Tag2 in pairs(Tags) do
+                        if Tag == Tag2 then
+                            Found = true
+                        end
+                    end
+                    if not Found then
+                        table.insert(Tags, Tag)
+                    end
+                end
                 DatabaseModule.Update('UPDATE mdw_profiles SET tags = ? WHERE id = ?', {
-                    json.encode(Data.Tags),
+                    json.encode(Tags),
                     Data.Id,
                 })
             else
@@ -341,16 +354,21 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/remove-profile-license", function(Source, Data)
-        DatabaseModule.Execute('SELECT * FROM players WHERE CitizenId = ?', {Data.CitizenId}, function(PlayerData)
+        DatabaseModule.Execute('SELECT * FROM players WHERE CitizenId = ?', {
+            Data.CitizenId
+        }, function(PlayerData)
             if PlayerData[1] ~= nil then
-                -- Get Licences
-                for k, v in pairs(PlayerData) do
-                    local Licences = v['Globals']['Licenses']
-                    for i=1, #Licences do
-                        local License = Licences[i]
-                        if License == Data.License then
-                            Licences[i] = false
-                            DatabaseModule.Update('UPDATE players SET Globals = ? WHERE CitizenId = ?', {v['Globals'], Data.CitizenId})
+                for _, PData in pairs(PlayerData) do
+                    local Licences = json.decode(PData['Licenses'])
+                    for k, v in pairs(Licences) do
+                        if k == Data.License then
+                            local TPlayer = PlayerModule.GetPlayerByStateId(Data.CitizenId)
+                            if TPlayer then
+                                TPlayer.Functions.SetPlayerLicense(Data.License, false)
+                            else
+                                Licences[k] = false
+                                DatabaseModule.Update('UPDATE players SET Licenses = ? WHERE CitizenId = ?', {json.encode(Licences), Data.CitizenId})
+                            end
                         end
                     end
                 end    
@@ -786,8 +804,21 @@ Citizen.CreateThread(function()
         -- Id, Tags
         DatabaseModule.Execute('SELECT tags FROM mdw_staff WHERE id = ?', {Data.Id}, function(StaffData)
             if StaffData ~= nil then
+                -- Add tags to existing tags if not same
+                local Tags = json.decode(StaffData[1].tags)
+                for _, Tag in pairs(Data.Tags) do
+                    local Found = false
+                    for _, Tag2 in pairs(Tags) do
+                        if Tag == Tag2 then
+                            Found = true
+                        end
+                    end
+                    if not Found then
+                        table.insert(Tags, Tag)
+                    end
+                end
                 DatabaseModule.Update('UPDATE mdw_staff SET tags = ? WHERE id = ?', {
-                    json.encode(Data.Tags),
+                    json.encode(Tags),
                     Data.Id,
                 })
             else
