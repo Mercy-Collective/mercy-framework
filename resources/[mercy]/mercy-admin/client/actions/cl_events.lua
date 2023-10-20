@@ -6,6 +6,61 @@ Spectate = {
 
 -- [ Events ] --
 
+-- Businesses
+
+local CreateTimeout = false
+RegisterNetEvent("Admin:Businesses:Create", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+    if CreateTimeout then 
+        exports['mercy-ui']:Notify("create-timeout", "You are creating businesses too fast..", "error")
+        return 
+    end
+
+    CreateTimeout = true
+    EventsModule.TriggerServer('mercy-business/server/create-business', Result['name'], false, Result['logo'], Result['player'])
+    SetTimeout(20 * 1000, function()
+        CreateTimeout = false
+    end)
+end)
+
+RegisterNetEvent("Admin:Businesses:SetOwner", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    EventsModule.TriggerServer('mercy-business/server/set-owner', Result['name'], Result['player'])
+end)
+
+RegisterNetEvent("Admin:Businesses:SetLogo", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    EventsModule.TriggerServer('mercy-business/server/set-logo', Result['name'], Result['logo'])
+end)
+
+RegisterNetEvent("Admin:Businesses:AddEmployee", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    local Data = CallbackModule.SendCallback('mercy-business/server/add-employee', {
+        ['BusinessName'] = Result['name'],
+        ['Result'] = {
+            ['rank'] = Result['rank'] ~= nil and Result['rank'] or 'Employee',
+            ['player'] = Result['player'],
+        },
+    })
+
+    if Data['Success'] then
+        exports['mercy-ui']:Notify("add-employee-success", 'Successfuly added '..Result['player']..' to '..Result['name']..' as '..Result['rank'], "success")
+    else
+        exports['mercy-ui']:Notify("add-employee-failed", Data['Fail'], "error")
+    end
+end)
+
+RegisterNetEvent("Admin:Businesses:Delete", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    EventsModule.TriggerServer('mercy-business/server/delete-business', Result['name'])
+end)
+
+-- Perms
+
 RegisterNetEvent("Admin:Permissions:Set", function(Result)
     if not PlayerModule.IsPlayerAdmin() then return end
 

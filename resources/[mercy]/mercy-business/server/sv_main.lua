@@ -62,8 +62,19 @@ Citizen.CreateThread(function()
     
     -- Employment Actions
 
-    EventsModule.RegisterServer('mercy-business/server/create-business', function(Source, BusinessName, StateId, Logo) 
-        local TPlayer = PlayerModule.GetPlayerByStateId(StateId)
+    EventsModule.RegisterServer('mercy-business/server/create-business', function(Source, BusinessName, StateId, Logo, IsSource) 
+        local TPlayer 
+        local StateId
+        -- Check if player is a source or state id
+        if IsSource == nil or not IsSource then
+            TPlayer = PlayerModule.GetPlayerByStateId(StateId)
+            StateId = tonumber(StateId)
+        else
+            TPlayer = PlayerModule.GetPlayerBySource(IsSource)
+            if StateId == nil or not StateId then
+                StateId = TPlayer.PlayerData.CitizenId
+            end
+        end
         if not TPlayer then 
             TriggerClientEvent('mercy-ui/client/notify', Source, "not-found", "Target not found..", 'error')
             return
@@ -105,6 +116,92 @@ Citizen.CreateThread(function()
                 TriggerClientEvent('mercy-ui/client/notify', TPlayer.PlayerData.Source, "received-business", "You are now the CEO of "..BusinessName, 'success')
             else
                 TriggerClientEvent('mercy-ui/client/notify', Source, "already-exists-busi", "A business with this name already exists..", 'error')
+            end
+        end)
+    end)
+
+    EventsModule.RegisterServer('mercy-business/server/set-owner', function(Source, BusinessName, NewOwner) 
+        local TPlayer = PlayerModule.GetPlayerBySource(tonumber(NewOwner))
+        local StateId = TPlayer.PlayerData.CitizenId
+        if not TPlayer then 
+            TriggerClientEvent('mercy-ui/client/notify', Source, "not-found", "Target not found..", 'error')
+            return
+        end
+        DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
+            BusinessName
+        }, function(BusinessResult)
+            if BusinessResult[1] ~= nil then
+                local Business = BusinessResult[1]
+                local Employees = json.decode(Business.employees)
+                -- Set old CEO as employee
+                for k, v in pairs(Employees) do
+                    if v.CitizenId == Business.owner then
+                        Employees[k].Rank = 'Employee'
+                    end
+                end
+                -- Import into employees if not exist
+                local IsEmployee = false
+                for k, v in pairs(Employees) do
+                    if v.CitizenId == StateId then
+                        IsEmployee = true
+                    end
+                end
+
+                if not IsEmployee then
+                    table.insert(Employees, {
+                        CitizenId = StateId,
+                        Rank = 'Owner',
+                        Name = TPlayer.PlayerData.CharInfo.Firstname..' '..TPlayer.PlayerData.CharInfo.Lastname,
+                    })
+                else
+                    -- Set new CEO as owner
+                    for k, v in pairs(Employees) do
+                        if v.CitizenId == StateId then
+                            Employees[k].Rank = 'Owner'
+                        end
+                    end
+                end
+                
+                DatabaseModule.Update("UPDATE player_business SET owner = ?, employees = ? WHERE name = ?", {
+                    StateId,
+                    json.encode(Employees),
+                    BusinessName
+                })
+                TriggerClientEvent('mercy-ui/client/notify', Source, "set-owner", "Successfully set "..TPlayer.PlayerData.CharInfo.Firstname..' '..TPlayer.PlayerData.CharInfo.Lastname.." as the owner of "..BusinessName, 'success')
+                TriggerClientEvent('mercy-ui/client/notify', TPlayer.PlayerData.Source, "received-business", "You are now the CEO of "..BusinessName, 'success')
+            else
+                TriggerClientEvent('mercy-ui/client/notify', Source, "not-found", "Business not found..", 'error')
+            end
+        end)
+    end)
+
+    EventsModule.RegisterServer('mercy-business/server/set-logo', function(Source, BusinessName, NewLogo) 
+        DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
+            BusinessName
+        }, function(BusinessResult)
+            if BusinessResult[1] ~= nil then
+                DatabaseModule.Update("UPDATE player_business SET logo = ? WHERE name = ?", {
+                    NewLogo,
+                    BusinessName
+                })
+                TriggerClientEvent('mercy-ui/client/notify', Source, "set-logo", "Successfully set the logo of "..BusinessName, 'success')
+            else
+                TriggerClientEvent('mercy-ui/client/notify', Source, "not-found", "Business not found..", 'error')
+            end
+        end)
+    end)
+
+    EventsModule.RegisterServer('mercy-business/server/delete-business', function(Source, BusinessName) 
+        DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
+            BusinessName
+        }, function(BusinessResult)
+            if BusinessResult[1] ~= nil then
+                DatabaseModule.Execute("DELETE FROM player_business WHERE name = ?", {
+                    BusinessName
+                })
+                TriggerClientEvent('mercy-ui/client/notify', Source, "deleted-business", "Successfully deleted "..BusinessName, 'success')
+            else
+                TriggerClientEvent('mercy-ui/client/notify', Source, "not-found", "Business not found..", 'error')
             end
         end)
     end)
@@ -194,6 +291,12 @@ Citizen.CreateThread(function()
 
     CallbackModule.CreateCallback('mercy-business/server/add-employee', function(Source, Cb, Data) 
         -- Data.Result['state_id'], Data['BusinessName'], Data.Result['rank']
+        -- Admin Menu 
+        if Data.Result['state_id'] == nil then
+            local Player = PlayerModule.GetPlayerBySource(tonumber(Data.Result['player']))
+            Data.Result['state_id'] = Player.PlayerData.CitizenId
+        end
+
         DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
             Data['BusinessName']
         }, function(BusinessResult)
@@ -326,6 +429,24 @@ Citizen.CreateThread(function()
             end, true)
             Cb(BusinessList)
         end
+    end)
+
+    CallbackModule.CreateCallback('mercy-business/server/get-businesses', function(Source, Cb)
+        local BusinessList = {}
+        DatabaseModule.Execute("SELECT * FROM player_business", {}, function(BusinessData)
+            if BusinessData ~= nil then
+                for BusinessId, BusinessData in pairs(BusinessData) do
+                    table.insert(BusinessList, {
+                        Name = BusinessData.name,
+                        Owner = BusinessData.owner,
+                        Employees = json.decode(BusinessData.employees),
+                        Ranks = json.decode(BusinessData.ranks),
+                        Logo = BusinessData.logo,
+                    })
+                end
+            end
+        end, true)
+        Cb(BusinessList)
     end)
 end)
 

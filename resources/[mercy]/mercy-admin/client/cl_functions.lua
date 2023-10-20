@@ -662,6 +662,29 @@ function GetFarts()
     return Citizen.Await(Prom)
 end
 
+function GetBusinesses()
+    while CallbackModule == nil do
+        Wait(100)
+    end
+    local Prom = promise:new()
+    local BusinessList = {}
+    local Businesses = CallbackModule.SendCallback('mercy-business/server/get-businesses')
+    if Businesses ~= nil then
+        for k, v in pairs(Businesses) do
+            BusinessList[#BusinessList + 1] = {
+                Text = v['Name'],
+            }
+            table.sort(BusinessList, function(a, b)
+                return a.Text < b.Text
+            end)
+        end
+        Prom:resolve(BusinessList)
+    else
+        DebugPrint('businesses', 'Could not find businesses.')
+    end
+    return Citizen.Await(Prom)
+end
+
 -- function GetGangs()
 --     local Prom = promise:new()
 --     local GangsList = {}

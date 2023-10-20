@@ -198,6 +198,132 @@ Config.CommandList = {
                 },
             },
             {
+                ['Id'] = 'create_business',
+                ['Name'] = 'Create Business',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Businesses:Create',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Owner (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                    {
+                        ['Id'] = 'name',
+                        ['Name'] = 'Business Name',
+                        ['Type'] = 'input',
+                        ['InputType'] = 'text',
+                    },
+                    {
+                        ['Id'] = 'logo',
+                        ['Name'] = 'Business Logo (Font Awesome: eg. fas fa-car)',
+                        ['Type'] = 'input',
+                        ['InputType'] = 'text',
+                    },
+                },
+            },
+            {
+                ['Id'] = 'delete_business',
+                ['Name'] = 'Delete Business',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Businesses:Delete',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'name',
+                        ['Name'] = 'Business',
+                        ['Type'] = 'input-choice',
+                        ['Choices'] = GetBusinesses(),
+                    },
+                },
+            },
+            {
+                ['Id'] = 'set_business_owner',
+                ['Name'] = 'Set Business Owner',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Businesses:SetOwner',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                    {
+                        ['Id'] = 'name',
+                        ['Name'] = 'Business',
+                        ['Type'] = 'input-choice',
+                        ['Choices'] = GetBusinesses(),
+                    },
+                },
+            },
+            {
+                ['Id'] = 'set_business_logo',
+                ['Name'] = 'Set Business Logo',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Businesses:SetLogo',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'name',
+                        ['Name'] = 'Business',
+                        ['Type'] = 'input-choice',
+                        ['Choices'] = GetBusinesses(),
+                    },
+                    {
+                        ['Id'] = 'logo',
+                        ['Name'] = 'Business Logo (Font Awesome: eg. fas fa-car)',
+                        ['Type'] = 'input',
+                        ['InputType'] = 'text',
+                    },
+                },
+            },
+            {
+                ['Id'] = 'add_business_employee',
+                ['Name'] = 'Add Business Employee',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Businesses:AddEmployee',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                    {
+                        ['Id'] = 'name',
+                        ['Name'] = 'Business',
+                        ['Type'] = 'input-choice',
+                        ['Choices'] = GetBusinesses(),
+                    },
+                    {
+                        ['Id'] = 'rank',
+                        ['Name'] = 'Rank',
+                        ['Type'] = 'input',
+                        ['InputType'] = 'text',
+                    },
+                },
+            },
+            {
                 ['Id'] = 'reviveRadius',
                 ['Name'] = 'Revive in Radius',
                 ['UseKVPGroups'] = true, 
