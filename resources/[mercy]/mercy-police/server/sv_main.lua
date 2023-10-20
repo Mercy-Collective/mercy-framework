@@ -696,12 +696,15 @@ Citizen.CreateThread(function()
                 local Player = PlayerModule.GetPlayerBySource(v)
                 if Player then 
                     local RadioItem = Player.Functions.GetItemByName('pdradio')
-                    if ((Player.PlayerData.Job.Name == "police" or Player.PlayerData.Job.Name == "ems") and Player.PlayerData.Job.Duty and RadioItem ~= nil and RadioItem.Amount >= 1) then
+                    local IsPolice = Player.PlayerData.Job.Name == "police" and Player.PlayerData.Job.Duty
+                    local IsEMS = Player.PlayerData.Job.Name == "ems" and Player.PlayerData.Job.Duty
+                    if ((IsPolice or IsEMS) and RadioItem ~= nil and RadioItem.Amount >= 1) then
                         table.insert(DutyPlayers, {
                             ServerId = Player.PlayerData.Source, 
                             Coords = GetEntityCoords(GetPlayerPed(v)),
                             Callsign = Player.PlayerData.Job.Callsign,
                             Name = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname, 
+                            Color = IsPolice and 55 or 46,
                         })
                     end
                 end

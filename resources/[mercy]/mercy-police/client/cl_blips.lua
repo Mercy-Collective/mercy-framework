@@ -13,10 +13,20 @@ RegisterNetEvent('mercy-police/client/update-service-blips', function(BlipData)
         if tonumber(v.ServerId) ~= tonumber(ServerId) then
             local BlipId = 'duty-player-'..v.ServerId
             local Color = v.Color ~= nil and v.Color or 55
-            if BlipModule.GetBlipById(BlipId) == false then
-                BlipModule.CreateBlip('duty-player-'..v.ServerId, v.Coords, v.Callsign..' - '..v.Name, 480, Color, false, 0.75, nil, 7)
+            local Vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+            local VehicleClass = GetVehicleClass(Vehicle)
+            if Vehicle ~= 0 and Vehicle ~= -1 then
+                if VehicleClass == 14 then -- Boat
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 427, Color, false, 1.0, nil, 7, nil, true)
+                elseif VehicleClass == 15 then -- Helicopter
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 43, Color, false, 1.0, nil, 7, nil, true)
+                elseif VehicleClass == 16 then -- Plane
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 423, Color, false, 1.0, nil, 7, nil, true)
+                else -- Car
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 56, Color, false, 1.0, nil, 7, nil, true)
+                end
             else
-                BlipModule.SetBlipCoords(BlipId, v.Coords)
+                BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 1, Color, false, 1.0, nil, 7, nil, true)
             end
         end
     end
