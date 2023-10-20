@@ -634,16 +634,12 @@ Citizen.CreateThread(function()
                         Scums[k]['ForceAllowed'] = Data.ForceAllowed
                         Scums[k]['ForceDenied'] = Data.ForceDenied
                         if Data.Warrent then
-                            DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
-                                if ReportData[1] == nil then
-                                    DatabaseModule.Insert('INSERT INTO mdw_warrants (name, report, mugshot, expires) VALUES (?, ?, ?, ?)', {
-                                        Scums[k]['Profile'].name,
-                                        Data.Id,
-                                        Scums[k]['Profile'].mugshot,
-                                        os.time() + 604800, -- 7 days
-                                    })
-                                end
-                            end)
+                            DatabaseModule.Insert('INSERT INTO mdw_warrants (name, report, mugshot, expires) VALUES (?, ?, ?, ?)', {
+                                Scums[k]['Profile'].name,
+                                Data.Id,
+                                Scums[k]['Profile'].mugshot,
+                                os.time() + 604800, -- 7 days
+                            })
                         else
                             DatabaseModule.Update('DELETE FROM mdw_warrants WHERE report = ?', {
                                 Data.Id,
