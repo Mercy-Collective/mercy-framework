@@ -282,12 +282,14 @@ AddEventHandler('Modules/server/ready', function()
             end
             if IsInBusiness then return end
 
-            Player.Functions.SetMetaData('SalaryPayheck', Player.PlayerData.MetaData['SalaryPayheck'] + Player.PlayerData.Job.Salary)
+            local NewAmount = Player.PlayerData.MetaData['SalaryPayheck'] + Player.PlayerData.Job.Salary
+            Player.Functions.SetMetaData('SalaryPayheck', NewAmount)
+            Player.Functions.Save()
             TriggerClientEvent('mercy-phone/client/notification', Source, {
                 Id = math.random(11111111, 99999999),
                 Title = "Bank",
                 Message = "You have received your paycheck of $"..Player.PlayerData.Job.Salary.." ($"..Player.PlayerData.MetaData['SalaryPayheck']..")",
-                Icon = "fas fa-dollar",
+                Icon = "fas fa-dollar-sign",
                 IconBgColor = "#4f5efc",
                 IconColor = "white",
                 Sticky = false,

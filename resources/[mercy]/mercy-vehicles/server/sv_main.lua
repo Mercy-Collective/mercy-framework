@@ -112,6 +112,12 @@ Citizen.CreateThread(function()
         end
         Cb(PaidForFuel[Plate])
     end)
+
+    -- Keys
+
+    CallbackModule.CreateCallback('mercy-vehicles/server/get-keys', function(Source, Cb)
+        Cb(Config.VehicleKeys)
+    end)
     
     -- Garage
 

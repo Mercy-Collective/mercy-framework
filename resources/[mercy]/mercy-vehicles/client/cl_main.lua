@@ -42,6 +42,9 @@ RegisterNetEvent('mercy-base/client/on-login', function()
         InitSirens()
         InitGasStations()
         KeybindsModule.Add('toggleDriftMode', 'Vehicle', 'Toggle Drift Mode', '', false, 'mercy-vehicles/client/toggle-driftmode')
+        -- Set Keys
+        local Keys = CallbackModule.SendCallback('mercy-vehicles/server/get-keys')
+        Config.VehicleKeys = Keys
     end)
 end)
 
