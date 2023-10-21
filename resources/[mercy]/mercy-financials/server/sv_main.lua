@@ -63,7 +63,7 @@ Citizen.CreateThread(function()
             Player.PlayerData.CitizenId,
         }, function(BankData) 
             if BankData[1] ~= nil then
-                -- Add Main Account first
+                -- Add Main Account of player
                 for i=1, #BankData do
                     local Account = BankData[i]
                     if Account.Type == 'Standard' then
@@ -80,22 +80,25 @@ Citizen.CreateThread(function()
                     end
                 end
 
-                -- Add Others later
-                for j=1, #BankData do
-                    local Account = BankData[j]
-                    if Account.Type ~= 'Standard' then
-                        local AccountData = {}
-                        AccountData['AccountOwner'] = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
-                        AccountData['AccountName'] = Account.Name
-                        AccountData['AccountId'] = Account.BankId
-                        AccountData['Balance'] = Account.Balance
-                        AccountData['Type'] = Account.Type
-                        AccountData['Transactions'] = json.decode(Account.Transactions)
-                        AccountData['Active'] = Account.Active
-                        AccountData['Monitoring'] = Account.Monitoring
-                        AccountTable[#AccountTable+1] = AccountData
+                DatabaseModule.Execute("SELECT * FROM player_accounts", {}, function(AccountsData) 
+                    if AccountsData[1] ~= nil then
+                        for k, v in pairs(AccountsData) do
+                            if exports['mercy-business']:IsPlayerInBusiness(Player, v.Name) and exports['mercy-business']:HasBusinessPermission(Player, v.Name, 'account_access') then
+                                local AccountData = {}
+                                AccountData['AccountOwner'] = exports['mercy-business']:GetBusinessOwnerName(v.Name)
+                                AccountData['AccountName'] = v.Name
+                                AccountData['AccountId'] = v.BankId
+                                AccountData['Balance'] = v.Balance
+                                AccountData['Type'] = v.Type
+                                AccountData['Transactions'] = json.decode(v.Transactions)
+                                AccountData['Active'] = v.Active
+                                AccountData['Monitoring'] = v.Monitoring
+                                AccountTable[#AccountTable+1] = AccountData
+                            end
+                        end
                     end
-                end
+                end, true)
+
                 Cb(AccountTable)
             else
                 DebugPrint('Info', 'No accounts found for player, creating main account.')

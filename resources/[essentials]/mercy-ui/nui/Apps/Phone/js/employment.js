@@ -441,6 +441,11 @@ $(document).on('click', '.phone-employment-employees-options', function(e){
                         Label: "Craft Access",
                         Checked: false,
                     },
+                    {
+                        Name: "account_access",
+                        Label: "Account Access",
+                        Checked: false,
+                    }
                 ])
             }
         });
@@ -465,6 +470,7 @@ $(document).on('click', '.phone-employment-employees-options', function(e){
                             $(`.phone-input-container #property_keys`).find('input').prop("checked", Rank.Permissions['property_keys'])
                             $(`.phone-input-container #stash_access`).find('input').prop("checked", Rank.Permissions['stash_access'])
                             $(`.phone-input-container #craft_access`).find('input').prop("checked", Rank.Permissions['craft_access'])
+                            $(`.phone-input-container #account_access`).find('input').prop("checked", Rank.Permissions['account_access'])
                         })
                     },
                 ],
@@ -540,6 +546,11 @@ $(document).on('click', '.phone-employment-employees-options', function(e){
                     {
                         Name: "craft_access",
                         Label: "Craft Access",
+                        Checked: false,
+                    },
+                    {
+                        Name: "account_access",
+                        Label: "Account Access",
                         Checked: false,
                     },
                 ])

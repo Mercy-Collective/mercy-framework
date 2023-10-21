@@ -221,15 +221,16 @@ Citizen.CreateThread(function()
                     Name = Data.Result['name'],
                     Default = false,
                     Permissions = {
-                        ['hire'] = Data.Result['hire'],
-                        ['fire'] = Data.Result['fire'],
-                        ['change_role'] = Data.Result['change_role'],
-                        ['pay_employee'] = Data.Result['pay_employee'],
-                        ['pay_external'] = Data.Result['pay_external'],
-                        ['charge_external'] = Data.Result['charge_external'],
-                        ['property_keys'] = Data.Result['property_keys'],
-                        ['stash_access'] = Data.Result['stash_access'],
-                        ['craft_access'] = Data.Result['craft_access'],
+                        ['hire'] = Data.Result['hire'] or false,
+                        ['fire'] = Data.Result['fire'] or false,
+                        ['change_role'] = Data.Result['change_role'] or false,
+                        ['pay_employee'] = Data.Result['pay_employee'] or false,
+                        ['pay_external'] = Data.Result['pay_external'] or false,
+                        ['charge_external'] = Data.Result['charge_external'] or false,
+                        ['property_keys'] = Data.Result['property_keys'] or false,
+                        ['stash_access'] = Data.Result['stash_access'] or false,
+                        ['craft_access'] = Data.Result['craft_access'] or false,
+                        ['account_access'] = Data.Result['account_access'] or false,
                     }
                 }
                 DatabaseModule.Update("UPDATE player_business SET ranks = ? WHERE name = ?", {
@@ -451,6 +452,68 @@ Citizen.CreateThread(function()
 end)
 
 -- [ Functions ] --
+
+function HasBusinessPermission(Player, Name, PermissionName)
+    local Promise = promise:new()
+    DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
+        Name
+    }, function(BusinessResult)
+        if BusinessResult[1] ~= nil then
+            if Player then
+                local Employees = json.decode(BusinessResult[1].employees)
+                for k, v in pairs(Employees) do
+                    if v.CitizenId == Player.PlayerData.CitizenId then
+                        local Ranks = json.decode(BusinessResult[1].ranks)
+                        for Rank, RankData in pairs(Ranks) do
+                            if RankData.Name == v.Rank then
+                                if RankData.Permissions[PermissionName] ~= nil and RankData.Permissions[PermissionName] then
+                                    Promise:resolve(true)
+                                else
+                                    Promise:resolve(false)
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                Promise:resolve(false)
+            end
+        else
+            Promise:resolve(false)
+        end
+    end)
+    return Citizen.Await(Promise)
+end
+exports('HasBusinessPermission', HasBusinessPermission)
+
+function GetBusinessOwnerName(Name)
+    local Promise = promise:new()
+    DatabaseModule.Execute("SELECT * FROM player_business WHERE name = ?", {
+        Name
+    }, function(BusinessResult)
+        if BusinessResult[1] ~= nil then
+            local Player = PlayerModule.GetPlayerByStateId(BusinessResult[1].owner)
+            if Player then
+                Promise:resolve(Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname)
+            else
+                DatabaseModule.Execute("SELECT * FROM players WHERE CitizenId = ?", {
+                    BusinessResult[1].owner
+                }, function(CharacterResult)
+                    if CharacterResult[1] ~= nil then
+                        local CharInfo = json.decode(CharacterResult[1].CharInfo)
+                        Promise:resolve(CharInfo.Firstname..' '..CharInfo.Lastname)
+                    else
+                        Promise:resolve('Unknown')
+                    end
+                end)
+            end
+        else
+            Promise:resolve('Unknown')
+        end
+    end)
+    return Citizen.Await(Promise)
+end
+exports('GetBusinessOwnerName', GetBusinessOwnerName)
 
 function IsPlayerInBusiness(Player, Name)   
     local Promise = promise:new()
