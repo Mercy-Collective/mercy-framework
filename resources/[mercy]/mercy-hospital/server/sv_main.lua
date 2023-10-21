@@ -136,6 +136,15 @@ Citizen.CreateThread(function()
             TriggerClientEvent('mercy-hospital/client/revive', TargetPlayer.PlayerData.Source, true)
         end
     end)
+
+    EventsModule.RegisterServer("mercy-hospital/server/reset-vitals", function(Source)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player ~= nil then
+            Player.Functions.SetMetaData("Food", 100)
+            Player.Functions.SetMetaData("Water", 100)
+            Player.Functions.SetMetaData("Stress", 0)
+        end
+    end)
 end)
 
 -- [ Code ] --
