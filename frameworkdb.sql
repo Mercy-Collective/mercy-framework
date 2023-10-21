@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `mdw_announcements` (
 CREATE TABLE IF NOT EXISTS `mdw_evidences` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(50) DEFAULT NULL,
-  `identifier` varchar(50) DEFAULT NULL,
+  `identifier` text DEFAULT NULL,
   `description` text DEFAULT NULL,
   `scums` longtext DEFAULT NULL,
   `evidence` longtext DEFAULT NULL,
