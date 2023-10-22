@@ -1,9 +1,10 @@
 Config = Config or {}
 
+
 Config.PoliceAccount = '1247668815'
 
 Config.EnableHelicam = true
-
+Config.ObjectList = {}
 Config.Handcuffed, Config.Escorted = false, false
 
 Config.ParkingSlots = {
@@ -246,6 +247,40 @@ Config.PoliceStore = {
         ['Amount'] = 1,
         ['Slot'] = 30,
     },
+}
+
+Config.Objects = {
+    {
+        ['Object'] = 'prop_roadcone02a',
+        ['Label'] = 'Cone',
+        ['Freeze'] = false,
+    },
+    {
+        ['Object'] = 'prop_barrier_work05',
+        ['Label'] = 'Barrier Police',
+        ['Freeze'] = true,
+    },
+    {
+        ['Object'] = 'prop_barrier_work06a',
+        ['Label'] = 'Barrier Work',
+        ['Freeze'] = true,
+    },
+    {
+        ['Object'] = 'prop_barrier_work06b',
+        ['Label'] = 'Barrier Work 2',
+        ['Freeze'] = true,
+    },
+    {
+        ['Object'] = 'prop_gazebo_03',
+        ['Label'] = 'Tent',
+        ['Freeze'] = true,
+    },
+    {
+        ['Object'] = 'prop_worklight_03b',
+        ['Label'] = 'Work Light',
+        ['Freeze'] = true,
+    },
+
 }
 
 Config.JailCrafting = {

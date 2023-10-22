@@ -1,4 +1,4 @@
-PlayerModule, EventsModule, FunctionModule, VehicleModule, BlipModule, EntityModule, KeybindsModule = nil, nil, nil, nil, nil, nil, nil
+PlayerModule, EventsModule, FunctionModule, VehicleModule, BlipModule, EntityModule, KeybindsModule = nil
 PlayerData = {}
 
 AddEventHandler('Modules/client/ready', function()
@@ -58,6 +58,42 @@ end)
 
 -- [ Code ] --
 
+-- [ Threads ] --
+
+ActiveObjects = {}
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(4)
+        if LocalPlayer.state.LoggedIn then
+            local PlayerCoords = GetEntityCoords(PlayerPedId())
+
+            if Config.ObjectList == nil then Config.ObjectList = {} end
+
+            for k, v in ipairs(Config.ObjectList) do
+                if k % 100 == 0 then
+                    Citizen.Wait(0)
+                end
+
+                if #(PlayerCoords - vector3(v.Coords.X, v.Coords.Y, v.Coords.Z)) <= 50.0 then
+                    if not ActiveObjects[v.Id] then
+                        local Entity = CreatePoliceObject(v.Coords, v.Model, v.Freeze, v.Id)
+                        ActiveObjects[v.Id] = {
+                            Object = Entity,
+                        }
+                    end
+                else
+                    RemoveObject(v.Id)
+                end
+            end
+
+            Citizen.Wait(2000)
+        else
+            Citizen.Wait(450)
+        end
+    end
+end)
+
 -- [ Events ] --
 
 RegisterNetEvent('mercy-police/client/open-police-store', function()
@@ -95,6 +131,84 @@ RegisterNetEvent('mercy-police/client/open-police-command-stash', function()
 			EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', "police_command_stash", 'Stash', 50, 2500)
 	    end
     end)
+end)
+
+RegisterNetEvent("mercy-police/client/object", function()
+	local MenuData = {}
+	for k, v in pairs(Config.Objects) do
+		local List = {
+			['Title'] = v.Label,
+			['Desc'] = 'Click to place this object',
+			['Data'] = {['Event'] = 'mercy-police/client/place-object', ['Type'] = 'Client', ['ObjectData'] = v},
+		}
+		table.insert(MenuData, List)
+	end
+	exports['mercy-ui']:OpenContext({ ['MainMenuItems'] = MenuData }) 
+end)
+
+RegisterNetEvent("mercy-police/client/place-object", function(Data)
+	EntityModule.DoEntityPlacer(Data['ObjectData']['Object'], 45.0, true, true, nil, function(DidPlace, Coords, Heading)
+		if not DidPlace then
+            return exports['mercy-ui']:Notify("object-error", "You stopped placing the object, or something went wrong..", "error")
+        end
+		exports['mercy-inventory']:SetBusyState(true)
+		TriggerEvent('mercy-animations/client/play-animation', "mechanic")
+		exports['mercy-ui']:ProgressBar('Placing object...', 1500, {}, nil, true, false, function(DidComplete)
+			exports['mercy-inventory']:SetBusyState(false)
+			ClearPedTasks(PlayerPedId())
+			TriggerEvent('mercy-animations/client/clear-animation')
+			SetTimeout(1000, function()
+				ClearPedTasksImmediately(PlayerPedId())
+			end)
+			if DidComplete then
+				local NewId = #Config.ObjectList + 1
+				exports['mercy-ui']:AddEyeEntry("police-object-"..NewId, {
+					Type = 'Model',
+					Model = Data['ObjectData']['Object'], 
+					SpriteDistance = 10.0,
+					Distance = 5.0,
+					Options = {
+						{
+							Name = 'police-object-removal',
+							Icon = 'fas fa-trash',
+							Label = "Remove Object",
+							EventType = 'Server',
+							EventName = 'mercy-police/server/try-remove',
+							EventParams = {
+								Id = NewId,
+							},
+							Enabled = function(Entity)
+								local Player = PlayerModule.GetPlayerData()
+								return Player.Job.Name == 'police' and Player.Job.Duty
+							end,
+						},
+					}
+				})
+				EventsModule.TriggerServer('mercy-police/server/place-object', Coords, Heading, NewId, Data['ObjectData']['Object'], Data['ObjectData']['Freeze'])
+			end
+		end) 
+	end)
+end)
+
+RegisterNetEvent("mercy-police/client/remove-object", function(Id)
+    exports['mercy-inventory']:SetBusyState(true)
+	TriggerEvent('mercy-animations/client/play-animation', "pickup")
+    exports['mercy-ui']:ProgressBar('Picking up object', 1500, false, false, true, true, function(DidComplete)
+        if DidComplete then
+            TriggerServerEvent('mercy-police/server/remove-object', Id)
+        end
+		TriggerEvent('mercy-animations/client/clear-animation')
+        exports['mercy-inventory']:SetBusyState(false)
+    end) 
+end)
+
+RegisterNetEvent("mercy-police/client/sync-objects", function(Data, Remove, Id)
+    if Remove ~= nil and Remove then
+        RemoveObject(Data.Id)
+        Config.ObjectList[Id] = nil
+    else
+        Config.ObjectList[#Config.ObjectList + 1] = Data
+    end
 end)
 
 RegisterNetEvent('mercy-police/client/create-badge', function()
@@ -371,6 +485,16 @@ RegisterNetEvent('mercy-police/client/fire-police', function(Data)
 	EventsModule.TriggerServer('mercy-police/server/fire-employee', Data.CitizenId)
 end)
 
+AddEventHandler('onResourceStop', function(resourceName)
+    if (GetCurrentResourceName() ~= resourceName) then
+        return
+    end
+
+	for k, v in pairs(ActiveObjects) do
+		EntityModule.DeleteEntity(v['Object'])
+	end
+end)
+
 -- [ Functions ] --
 
 function PoliceInit()
@@ -386,3 +510,22 @@ function GetTotalOndutyCops()
 	return ActiveCops
 end
 exports('GetTotalOndutyCops', GetTotalOndutyCops)
+
+function CreatePoliceObject(Coords, Type, Freeze, Id)
+    local PoliceObject = EntityModule.CreateEntity(Type, vector3(Coords.X, Coords.Y, Coords.Z), true)
+    if PoliceObject then
+		PlaceObjectOnGroundProperly(PoliceObject)
+        FreezeEntityPosition(PoliceObject, Freeze)
+        SetEntityHeading(PoliceObject, Coords.H + 0.0)
+        return PoliceObject
+    else
+        return false
+    end
+end
+
+function RemoveObject(ObjId)
+    if ActiveObjects[ObjId] then
+        EntityModule.DeleteEntity(ActiveObjects[ObjId]['Object'])
+        ActiveObjects[ObjId] = nil
+    end
+end

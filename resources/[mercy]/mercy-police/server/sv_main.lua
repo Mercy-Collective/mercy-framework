@@ -237,10 +237,19 @@ CreateThread(function()
         end
     end)
 
+    CommandsModule.Add({"barricade", "placeobject"}, "Put barricade down", {}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
+            TriggerClientEvent('mercy-police/client/object', source)
+        else
+            Player.Functions.Notify('no-perm', 'No Permission..', 'error')
+        end
+    end)
+
     CommandsModule.Add("setrank", "Set someone's rank", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
         local Target = PlayerModule.GetPlayerBySource(tonumber(args[1]))
-	if Target == nil then return Player.Functions.Notify('no-player', 'This id does not exist.', 'error') end
+	    if Target == nil then return Player.Functions.Notify('no-player', 'This id does not exist.', 'error') end
         local Rank = args[2]:gsub("^%l", string.upper)
         if Player.PlayerData.Job['HighCommand'] then
             if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
@@ -410,6 +419,44 @@ CreateThread(function()
         --     DatabaseModule.Update("UPDATE player_vehicles SET state = ?, depotprice = ? WHERE plate = ? ", {State, 0, Plate})
         -- end
         DatabaseModule.Update("UPDATE player_vehicles SET state = ? WHERE plate = ? ", {State, Plate})
+    end)
+
+    -- Object
+        
+    EventsModule.RegisterServer("mercy-police/server/place-object", function(Source, Coords, Heading, NewId, Model, Freeze)
+        local CustomId = math.random(11111, 99999)
+        local NewObject = {
+            Id = CustomId,
+            Name = "Police-Object-"..CustomId,
+            Model = Model,
+            Freeze = Freeze,
+            Coords = { 
+                X = Coords.x,
+                Y = Coords.y,
+                Z = Coords.z,
+                H = Heading
+            },
+        }
+        Config.ObjectList[NewId] = NewObject
+        TriggerClientEvent('mercy-police/client/sync-objects', -1, NewObject)
+    end)
+
+    RegisterNetEvent("mercy-police/server/try-remove", function(Data)
+        local src = source
+        local Player = PlayerModule.GetPlayerBySource(src)
+        if not Player then return end
+        TriggerClientEvent('mercy-police/client/remove-object', src, Data.Id)
+    end)
+
+    RegisterNetEvent("mercy-police/server/remove-object", function(Id)
+        local src = source
+        for ObjId, Object in pairs(Config.ObjectList) do
+            if tonumber(ObjId) == tonumber(Id) then
+                TriggerClientEvent('mercy-police/client/sync-objects', -1, Object, true, ObjId)
+                table.remove(Config.ObjectList, ObjId)
+                return
+            end
+        end
     end)
 
     -- Escort
@@ -710,6 +757,8 @@ Citizen.CreateThread(function()
                 end
             end
             TriggerClientEvent('mercy-police/client/update-service-blips', -1, DutyPlayers)
+            Citizen.Wait(2000)
+        else
             Citizen.Wait(2000)
         end
     end
