@@ -70,6 +70,7 @@ Citizen.CreateThread(function()
             TPlayer = PlayerModule.GetPlayerByStateId(StateId)
         else
             TPlayer = PlayerModule.GetPlayerBySource(tonumber(IsSource))
+            StateId = TPlayer.PlayerData.CitizenId
         end
         if not TPlayer then 
             TriggerClientEvent('mercy-ui/client/notify', Source, "not-found", "Target not found..", 'error')
@@ -585,6 +586,7 @@ exports('AddMoneyToBusinessAccount', AddMoneyToBusinessAccount)
 
 function RemoveMoneyFromBusinessAccount(BusinessName, Amount)
     local Promise = promise:new()
+    if Amount == nil or Amount <= 0 then Promise:resolve(false) end
     DatabaseModule.Execute("SELECT * FROM player_accounts WHERE name = ?", {
         BusinessName
     }, function(Result)

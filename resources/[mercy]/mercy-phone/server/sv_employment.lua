@@ -92,6 +92,14 @@ Citizen.CreateThread(function()
             if Result[1] == nil then return false end
             CompanyBankId = Result[1].BankId
         end, true)
+
+        if Data.Result['amount'] == nil or Data.Result['amount'] == '' or Data.Result['amount'] <= 0 then
+            Cb({
+                Success = false,
+                FailMessage = 'Amount is required and can\'t be 0 or lower',
+            })
+            return
+        end
         
         print('[DEBUG:PayExternal]: Paying employee', CompanyBankId)
         if CompanyBankId then
