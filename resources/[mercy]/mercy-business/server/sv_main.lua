@@ -63,17 +63,13 @@ Citizen.CreateThread(function()
     -- Employment Actions
 
     EventsModule.RegisterServer('mercy-business/server/create-business', function(Source, BusinessName, StateId, Logo, IsSource) 
-        local TPlayer 
-        local StateId
+        local TPlayer = false
+        local StateId = tonumber(StateId)
         -- Check if player is a source or state id
         if IsSource == nil or not IsSource then
             TPlayer = PlayerModule.GetPlayerByStateId(StateId)
-            StateId = tonumber(StateId)
         else
-            TPlayer = PlayerModule.GetPlayerBySource(IsSource)
-            if StateId == nil or not StateId then
-                StateId = TPlayer.PlayerData.CitizenId
-            end
+            TPlayer = PlayerModule.GetPlayerBySource(tonumber(IsSource))
         end
         if not TPlayer then 
             TriggerClientEvent('mercy-ui/client/notify', Source, "not-found", "Target not found..", 'error')
