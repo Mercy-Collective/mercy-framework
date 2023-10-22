@@ -447,6 +447,16 @@ CREATE TABLE IF NOT EXISTS `server_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=140 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+-- Structuur van  tabel mercy-framework.server_logs wordt geschreven
+CREATE TABLE IF NOT EXISTS `server_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` varchar(50) DEFAULT NULL,
+  `name` text DEFAULT NULL,
+  `log` text DEFAULT NULL,
+  `date` bigint(255) DEFAULT floor(unix_timestamp(current_timestamp(3)) * 1000),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
 -- Data exporteren was gedeselecteerd
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
