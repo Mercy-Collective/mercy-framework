@@ -28,6 +28,7 @@ Config.DefaultRanks = {
             ['property_keys'] = true,
             ['stash_access'] = true,
             ['craft_access'] = true,
+            ['account_access'] = true,
         }
     },
     ['Employee'] = {
@@ -43,6 +44,7 @@ Config.DefaultRanks = {
             ['property_keys'] = true,
             ['stash_access'] = false,
             ['craft_access'] = false,
+            ['account_access'] = false,
         }
     },
 }
