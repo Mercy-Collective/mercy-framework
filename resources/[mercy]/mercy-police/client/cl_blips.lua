@@ -17,8 +17,10 @@ RegisterNetEvent('mercy-police/client/update-service-blips', function(BlipData)
             local VehicleClass = GetVehicleClass(Vehicle)
             if Vehicle ~= 0 and Vehicle ~= -1 then
                 if GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then  -- If in vehicle and not driver don't show blip
-                    BlipModule.RemoveBlip(BlipId)
-                    return 
+                    if not IsVehicleSeatFree(Vehicle, -1) then -- If in vehicle and there is a driver don't show blip
+                        BlipModule.RemoveBlip(BlipId)
+                        return
+                    end
                 end
                 if VehicleClass == 14 then -- Boat
                     BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 427, Color, false, 1.0, nil, nil, nil, true)
