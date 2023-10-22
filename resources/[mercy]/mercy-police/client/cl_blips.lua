@@ -16,17 +16,21 @@ RegisterNetEvent('mercy-police/client/update-service-blips', function(BlipData)
             local Vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
             local VehicleClass = GetVehicleClass(Vehicle)
             if Vehicle ~= 0 and Vehicle ~= -1 then
+                if GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then  -- If in vehicle and not driver don't show blip
+                    BlipModule.RemoveBlip(BlipId)
+                    return 
+                end
                 if VehicleClass == 14 then -- Boat
-                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 427, Color, false, 1.0, nil, 7, nil, true)
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 427, Color, false, 1.0, nil, nil, nil, true)
                 elseif VehicleClass == 15 then -- Helicopter
-                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 43, Color, false, 1.0, nil, 7, nil, true)
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 43, Color, false, 1.0, nil, nil, nil, true)
                 elseif VehicleClass == 16 then -- Plane
-                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 423, Color, false, 1.0, nil, 7, nil, true)
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 423, Color, false, 1.0, nil, nil, nil, true)
                 else -- Car
-                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 56, Color, false, 1.0, nil, 7, nil, true)
+                    BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 56, Color, false, 1.0, nil, nil, nil, true)
                 end
             else
-                BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 1, Color, false, 1.0, nil, 7, nil, true)
+                BlipModule.CreateBlip(BlipId, v.Coords, v.Callsign..' - '..v.Name, 1, Color, false, 1.0, nil, nil, nil, true)
             end
         end
     end

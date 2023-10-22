@@ -34,8 +34,18 @@ end)
 
 RegisterNetEvent('mercy-base/client/on-logout', function()
 	TriggerServerEvent('mercy-police/server/clear-blip')
-	RemoveAllJobBlips() ResetJail()
-    PlayerData = {}
+	RemoveAllJobBlips() 
+	ResetJail()
+
+	-- Second blip removal if above one doesn't work
+    if PlayerData.Job.Name == 'ems' or PlayerData.Job.Name == 'police' then 
+		local BlipId = 'duty-player-'..GetPlayerServerId(PlayerId())
+		if BlipModule.GetBlipById(BlipId) ~= false then
+			BlipModule.RemoveBlip(BlipId)
+		end
+	end
+
+	PlayerData = {}
 end)
 
 RegisterNetEvent('mercy-base/client/on-job-update', function(JobData, DutyUpdate)
