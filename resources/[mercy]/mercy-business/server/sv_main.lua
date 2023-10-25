@@ -64,10 +64,10 @@ Citizen.CreateThread(function()
 
     EventsModule.RegisterServer('mercy-business/server/create-business', function(Source, BusinessName, StateId, Logo, IsSource) 
         local TPlayer = false
-        local StateId = tonumber(StateId)
+        local StateId = StateId
         -- Check if player is a source or state id
         if IsSource == nil or not IsSource then
-            TPlayer = PlayerModule.GetPlayerByStateId(StateId)
+            TPlayer = PlayerModule.GetPlayerByStateId(tonumber(StateId))
         else
             TPlayer = PlayerModule.GetPlayerBySource(tonumber(IsSource))
             StateId = TPlayer.PlayerData.CitizenId
