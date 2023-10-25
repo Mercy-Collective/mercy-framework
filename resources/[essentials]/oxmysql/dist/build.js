@@ -1609,9 +1609,9 @@ var require_index_cjs = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/errors.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/errors.js
 var require_errors = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/errors.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/errors.js"(exports) {
     "use strict";
     exports.EE_CANTCREATEFILE = 1;
     exports.EE_READ = 2;
@@ -9729,9 +9729,9 @@ var require_lib = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/string.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/string.js
 var require_string = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/string.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/string.js"(exports) {
     "use strict";
     var Iconv = require_lib();
     exports.decode = function(buffer, encoding, start, end, options) {
@@ -9755,9 +9755,9 @@ var require_string = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/packet.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/packet.js
 var require_packet = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/packet.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/packet.js"(exports, module2) {
     "use strict";
     var ErrorCodeToName = require_errors();
     var NativeBuffer = require("buffer").Buffer;
@@ -10515,9 +10515,9 @@ var require_packet = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packet_parser.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packet_parser.js
 var require_packet_parser = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packet_parser.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packet_parser.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var MAX_PACKET_LENGTH = 16777215;
@@ -10682,9 +10682,9 @@ var require_packet_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_next_factor.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_next_factor.js
 var require_auth_next_factor = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_next_factor.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_next_factor.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthNextFactor = class {
@@ -10716,9 +10716,9 @@ var require_auth_next_factor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_switch_request.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request.js
 var require_auth_switch_request = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_switch_request.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthSwitchRequest = class {
@@ -10750,9 +10750,9 @@ var require_auth_switch_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js
 var require_auth_switch_request_more_data = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthSwitchRequestMoreData = class {
@@ -10781,9 +10781,9 @@ var require_auth_switch_request_more_data = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_switch_response.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_response.js
 var require_auth_switch_response = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/auth_switch_response.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_response.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthSwitchResponse = class {
@@ -10810,9 +10810,9 @@ var require_auth_switch_response = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/types.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/types.js
 var require_types = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/types.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/types.js"(exports, module2) {
     "use strict";
     module2.exports = {
       0: "DECIMAL",
@@ -10875,9 +10875,9 @@ var require_types = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/binary_row.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binary_row.js
 var require_binary_row = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/binary_row.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binary_row.js"(exports, module2) {
     "use strict";
     var Types = require_types();
     var Packet = require_packet();
@@ -10960,9 +10960,9 @@ var require_binary_row = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/commands.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/commands.js
 var require_commands = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/commands.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/commands.js"(exports, module2) {
     "use strict";
     module2.exports = {
       SLEEP: 0,
@@ -11001,9 +11001,9 @@ var require_commands = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/binlog_dump.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_dump.js
 var require_binlog_dump = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/binlog_dump.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_dump.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -11031,9 +11031,9 @@ var require_binlog_dump = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/client.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/client.js
 var require_client = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/client.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/client.js"(exports) {
     "use strict";
     exports.LONG_PASSWORD = 1;
     exports.FOUND_ROWS = 2;
@@ -11066,9 +11066,9 @@ var require_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_41.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_41.js
 var require_auth_41 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_41.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_41.js"(exports) {
     "use strict";
     var crypto = require("crypto");
     function sha1(msg, msg1, msg2) {
@@ -11125,9 +11125,9 @@ var require_auth_41 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/charset_encodings.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charset_encodings.js
 var require_charset_encodings = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/charset_encodings.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charset_encodings.js"(exports, module2) {
     "use strict";
     module2.exports = [
       "utf8",
@@ -11443,9 +11443,9 @@ var require_charset_encodings = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/change_user.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/change_user.js
 var require_change_user = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/change_user.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/change_user.js"(exports, module2) {
     "use strict";
     var CommandCode = require_commands();
     var ClientConstants = require_client();
@@ -11535,9 +11535,9 @@ var require_change_user = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/close_statement.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/close_statement.js
 var require_close_statement = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/close_statement.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/close_statement.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -11557,9 +11557,9 @@ var require_close_statement = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/field_flags.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/field_flags.js
 var require_field_flags = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/field_flags.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/field_flags.js"(exports) {
     "use strict";
     exports.NOT_NULL = 1;
     exports.PRI_KEY = 2;
@@ -11579,9 +11579,9 @@ var require_field_flags = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/column_definition.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/column_definition.js
 var require_column_definition = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/column_definition.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/column_definition.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var StringParser = require_string();
@@ -11820,9 +11820,9 @@ var require_column_definition = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/cursor.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/cursor.js
 var require_cursor = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/cursor.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/cursor.js"(exports, module2) {
     "use strict";
     module2.exports = {
       NO_CURSOR: 0,
@@ -11833,9 +11833,9 @@ var require_cursor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/execute.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/execute.js
 var require_execute = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/execute.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/execute.js"(exports, module2) {
     "use strict";
     var CursorType = require_cursor();
     var CommandCodes = require_commands();
@@ -11999,9 +11999,9 @@ var require_execute = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/handshake.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake.js
 var require_handshake = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/handshake.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var ClientConstants = require_client();
@@ -12101,9 +12101,9 @@ var require_handshake = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/handshake_response.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake_response.js
 var require_handshake_response = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/handshake_response.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake_response.js"(exports, module2) {
     "use strict";
     var ClientConstants = require_client();
     var CharsetToEncoding = require_charset_encodings();
@@ -12241,9 +12241,9 @@ var require_handshake_response = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/prepare_statement.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepare_statement.js
 var require_prepare_statement = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/prepare_statement.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepare_statement.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -12270,9 +12270,9 @@ var require_prepare_statement = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/prepared_statement_header.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepared_statement_header.js
 var require_prepared_statement_header = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/prepared_statement_header.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepared_statement_header.js"(exports, module2) {
     "use strict";
     var PreparedStatementHeader = class {
       constructor(packet) {
@@ -12288,9 +12288,9 @@ var require_prepared_statement_header = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/query.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/query.js
 var require_query = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/query.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/query.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCode = require_commands();
@@ -12317,9 +12317,9 @@ var require_query = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/register_slave.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/register_slave.js
 var require_register_slave = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/register_slave.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/register_slave.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -12356,9 +12356,9 @@ var require_register_slave = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/server_status.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/server_status.js
 var require_server_status = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/server_status.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/server_status.js"(exports) {
     "use strict";
     exports.SERVER_STATUS_IN_TRANS = 1;
     exports.SERVER_STATUS_AUTOCOMMIT = 2;
@@ -12377,9 +12377,9 @@ var require_server_status = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/encoding_charset.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/encoding_charset.js
 var require_encoding_charset = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/encoding_charset.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/encoding_charset.js"(exports, module2) {
     "use strict";
     module2.exports = {
       big5: 1,
@@ -12428,9 +12428,9 @@ var require_encoding_charset = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/session_track.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/session_track.js
 var require_session_track = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/session_track.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/session_track.js"(exports) {
     "use strict";
     exports.SYSTEM_VARIABLES = 0;
     exports.SCHEMA = 1;
@@ -12443,9 +12443,9 @@ var require_session_track = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/resultset_header.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/resultset_header.js
 var require_resultset_header = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/resultset_header.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/resultset_header.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var ClientConstants = require_client();
@@ -12552,9 +12552,9 @@ var require_resultset_header = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/ssl_request.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/ssl_request.js
 var require_ssl_request = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/ssl_request.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/ssl_request.js"(exports, module2) {
     "use strict";
     var ClientConstants = require_client();
     var Packet = require_packet();
@@ -12579,9 +12579,9 @@ var require_ssl_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/text_row.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/text_row.js
 var require_text_row = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/text_row.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/text_row.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var TextRow = class {
@@ -12626,9 +12626,9 @@ var require_text_row = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/index.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/index.js
 var require_packets = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/index.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/index.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var AuthNextFactor = require_auth_next_factor();
@@ -12756,9 +12756,9 @@ var require_packets = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/command.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/command.js
 var require_command = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/command.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/command.js"(exports, module2) {
     "use strict";
     var EventEmitter = require("events").EventEmitter;
     var Timers = require("timers");
@@ -12809,9 +12809,9 @@ var require_command = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/sha256_password.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/sha256_password.js
 var require_sha256_password = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/sha256_password.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/sha256_password.js"(exports, module2) {
     "use strict";
     var PLUGIN_NAME = "sha256_password";
     var crypto = require("crypto");
@@ -12863,9 +12863,9 @@ var require_sha256_password = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js
 var require_caching_sha2_password = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js"(exports, module2) {
     "use strict";
     var PLUGIN_NAME = "caching_sha2_password";
     var crypto = require("crypto");
@@ -12951,9 +12951,9 @@ var require_caching_sha2_password = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js
 var require_mysql_native_password = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js"(exports, module2) {
     "use strict";
     var auth41 = require_auth_41();
     module2.exports = (pluginOptions) => ({ connection, command }) => {
@@ -12982,9 +12982,9 @@ var require_mysql_native_password = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js
 var require_mysql_clear_password = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js"(exports, module2) {
     "use strict";
     function bufferFromStr(str) {
       return Buffer.from(`${str}\0`);
@@ -12999,9 +12999,9 @@ var require_mysql_clear_password = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/auth_switch.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/auth_switch.js
 var require_auth_switch = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/auth_switch.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/auth_switch.js"(exports, module2) {
     "use strict";
     var Packets = require_packets();
     var sha256_password = require_sha256_password();
@@ -13211,9 +13211,9 @@ var require_seq_queue2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/compressed_protocol.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/compressed_protocol.js
 var require_compressed_protocol = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/compressed_protocol.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/compressed_protocol.js"(exports, module2) {
     "use strict";
     var zlib2 = require("zlib");
     var PacketParser = require_packet_parser();
@@ -13312,9 +13312,9 @@ var require_compressed_protocol = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/client_handshake.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/client_handshake.js
 var require_client_handshake = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/client_handshake.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/client_handshake.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -13498,9 +13498,9 @@ var require_client_handshake = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/server_handshake.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/server_handshake.js
 var require_server_handshake = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/server_handshake.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/server_handshake.js"(exports, module2) {
     "use strict";
     var CommandCode = require_commands();
     var Errors = require_errors();
@@ -13649,9 +13649,9 @@ var require_server_handshake = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/charsets.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charsets.js
 var require_charsets = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/charsets.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charsets.js"(exports) {
     "use strict";
     exports.BIG5_CHINESE_CI = 1;
     exports.LATIN2_CZECH_CS = 2;
@@ -13969,9 +13969,9 @@ var require_charsets = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/helpers.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/helpers.js
 var require_helpers = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/helpers.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/helpers.js"(exports) {
     "use strict";
     function srcEscape(str) {
       return JSON.stringify({
@@ -14190,9 +14190,9 @@ var require_generate_function = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/parser_cache.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/parser_cache.js
 var require_parser_cache = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/parser_cache.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/parser_cache.js"(exports, module2) {
     "use strict";
     var LRU = require_index_cjs().default;
     var parserCache = new LRU({
@@ -14230,9 +14230,9 @@ var require_parser_cache = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/text_parser.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/text_parser.js
 var require_text_parser = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/text_parser.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/text_parser.js"(exports, module2) {
     "use strict";
     var Types = require_types();
     var Charsets = require_charsets();
@@ -14406,9 +14406,9 @@ var require_text_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/query.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/query.js
 var require_query2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/query.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/query.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var Timers = require("timers");
@@ -14693,9 +14693,9 @@ var require_query2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/close_statement.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/close_statement.js
 var require_close_statement2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/close_statement.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/close_statement.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -14713,9 +14713,9 @@ var require_close_statement2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/binary_parser.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/binary_parser.js
 var require_binary_parser = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/parsers/binary_parser.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/binary_parser.js"(exports, module2) {
     "use strict";
     var FieldFlags = require_field_flags();
     var Charsets = require_charsets();
@@ -14862,9 +14862,9 @@ var require_binary_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/execute.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/execute.js
 var require_execute2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/execute.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/execute.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Query = require_query2();
@@ -14953,9 +14953,9 @@ var require_execute2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/prepare.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/prepare.js
 var require_prepare = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/prepare.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/prepare.js"(exports, module2) {
     "use strict";
     var Packets = require_packets();
     var Command = require_command();
@@ -15085,9 +15085,9 @@ var require_prepare = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/ping.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/ping.js
 var require_ping = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/ping.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/ping.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var CommandCode = require_commands();
@@ -15118,9 +15118,9 @@ var require_ping = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/register_slave.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/register_slave.js
 var require_register_slave2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/register_slave.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/register_slave.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -15146,9 +15146,9 @@ var require_register_slave2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/binlog_query_statusvars.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_query_statusvars.js
 var require_binlog_query_statusvars = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/packets/binlog_query_statusvars.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_query_statusvars.js"(exports, module2) {
     "use strict";
     var keys = {
       FLAGS2: 0,
@@ -15257,9 +15257,9 @@ var require_binlog_query_statusvars = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/binlog_dump.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/binlog_dump.js
 var require_binlog_dump2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/binlog_dump.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/binlog_dump.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -15354,9 +15354,9 @@ var require_binlog_dump2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/change_user.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/change_user.js
 var require_change_user2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/change_user.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/change_user.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -15409,9 +15409,9 @@ var require_change_user2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/quit.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/quit.js
 var require_quit = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/quit.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/quit.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var CommandCode = require_commands();
@@ -15440,9 +15440,9 @@ var require_quit = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/index.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/index.js
 var require_commands2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/commands/index.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/index.js"(exports, module2) {
     "use strict";
     var ClientHandshake = require_client_handshake();
     var ServerHandshake = require_server_handshake();
@@ -15471,12 +15471,12 @@ var require_commands2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/package.json
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/package.json
 var require_package = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/package.json"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/package.json"(exports, module2) {
     module2.exports = {
       name: "mysql2",
-      version: "3.6.0",
+      version: "3.5.1",
       description: "fast mysql driver. Implements core protocol, prepared statements, ssl and compression in native JS",
       main: "index.js",
       directories: {
@@ -15567,9 +15567,9 @@ var require_package = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/ssl_profiles.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/ssl_profiles.js
 var require_ssl_profiles = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/constants/ssl_profiles.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/ssl_profiles.js"(exports) {
     "use strict";
     exports["Amazon RDS"] = {
       ca: [
@@ -15635,9 +15635,9 @@ var require_ssl_profiles = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/connection_config.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection_config.js
 var require_connection_config = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/connection_config.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection_config.js"(exports, module2) {
     "use strict";
     var { URL: URL2 } = require("url");
     var ClientConstants = require_client();
@@ -15661,7 +15661,6 @@ var require_connection_config = __commonJS({
       flags: 1,
       host: 1,
       insecureAuth: 1,
-      infileStreamFactory: 1,
       isServer: 1,
       keepAliveInitialDelay: 1,
       localAddress: 1,
@@ -15732,7 +15731,6 @@ var require_connection_config = __commonJS({
         this.database = options.database;
         this.connectTimeout = isNaN(options.connectTimeout) ? 10 * 1e3 : options.connectTimeout;
         this.insecureAuth = options.insecureAuth || false;
-        this.infileStreamFactory = options.infileStreamFactory || void 0;
         this.supportBigNumbers = options.supportBigNumbers || false;
         this.bigNumberStrings = options.bigNumberStrings || false;
         this.decimalNumbers = options.decimalNumbers || false;
@@ -15873,9 +15871,9 @@ var require_connection_config = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/connection.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection.js
 var require_connection = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/connection.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection.js"(exports, module2) {
     "use strict";
     var Net = require("net");
     var Tls = require("tls");
@@ -16349,14 +16347,9 @@ var require_connection = __commonJS({
         return stmt;
       }
       execute(sql, values, cb) {
-        let options = {
-          infileStreamFactory: this.config.infileStreamFactory
-        };
+        let options = {};
         if (typeof sql === "object") {
-          options = {
-            ...options,
-            ...sql
-          };
+          options = sql;
           if (typeof values === "function") {
             cb = values;
           } else {
@@ -16577,14 +16570,10 @@ var require_connection = __commonJS({
       }
       static createQuery(sql, values, cb, config) {
         let options = {
-          rowsAsArray: config.rowsAsArray,
-          infileStreamFactory: config.infileStreamFactory
+          rowsAsArray: config.rowsAsArray
         };
         if (typeof sql === "object") {
-          options = {
-            ...options,
-            ...sql
-          };
+          options = sql;
           if (typeof values === "function") {
             cb = values;
           } else if (values !== void 0) {
@@ -16608,9 +16597,9 @@ var require_connection = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool_connection.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_connection.js
 var require_pool_connection = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool_connection.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_connection.js"(exports, module2) {
     "use strict";
     var Connection = require_mysql2().Connection;
     var PoolConnection = class extends Connection {
@@ -16663,9 +16652,9 @@ var require_pool_connection = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool.js
 var require_pool = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var mysql = require_mysql2();
@@ -16872,9 +16861,9 @@ var require_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool_config.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_config.js
 var require_pool_config = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool_config.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_config.js"(exports, module2) {
     "use strict";
     var ConnectionConfig = require_connection_config();
     var PoolConfig = class {
@@ -16894,9 +16883,9 @@ var require_pool_config = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool_cluster.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_cluster.js
 var require_pool_cluster = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/pool_cluster.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_cluster.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var Pool2 = require_pool();
@@ -17131,9 +17120,9 @@ var require_pool_cluster = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/server.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/server.js
 var require_server = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/server.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/server.js"(exports, module2) {
     "use strict";
     var net = require("net");
     var EventEmitter = require("events").EventEmitter;
@@ -17166,9 +17155,9 @@ var require_server = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/index.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/index.js
 var require_auth_plugins = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/lib/auth_plugins/index.js"(exports, module2) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/index.js"(exports, module2) {
     "use strict";
     module2.exports = {
       caching_sha2_password: require_caching_sha2_password(),
@@ -17179,9 +17168,9 @@ var require_auth_plugins = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/index.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/index.js
 var require_mysql2 = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/index.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/index.js"(exports) {
     "use strict";
     var SqlString = require_sqlstring();
     var Connection = require_connection();
@@ -17250,9 +17239,9 @@ var require_mysql2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/promise.js
+// node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/promise.js
 var require_promise = __commonJS({
-  "node_modules/.pnpm/mysql2@3.6.0/node_modules/mysql2/promise.js"(exports) {
+  "node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/promise.js"(exports) {
     "use strict";
     var core = require_mysql2();
     var EventEmitter = require("events").EventEmitter;
@@ -17645,7 +17634,7 @@ var require_promise = __commonJS({
         super();
         this.poolCluster = poolCluster;
         this.Promise = thePromise || Promise;
-        inheritEvents(poolCluster, this, ["warn", "remove"]);
+        inheritEvents(poolCluster, this, ["acquire", "connection", "enqueue", "release"]);
       }
       getConnection() {
         const corePoolCluster = this.poolCluster;
@@ -22929,10 +22918,10 @@ var init_esm_min = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/errors/base.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/errors/base.js
 var FetchBaseError;
 var init_base = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/errors/base.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/errors/base.js"() {
     FetchBaseError = class extends Error {
       constructor(message, type) {
         super(message);
@@ -22949,10 +22938,10 @@ var init_base = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/errors/fetch-error.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/errors/fetch-error.js
 var FetchError;
 var init_fetch_error = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/errors/fetch-error.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/errors/fetch-error.js"() {
     init_base();
     FetchError = class extends FetchBaseError {
       constructor(message, type, systemError) {
@@ -22966,10 +22955,10 @@ var init_fetch_error = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/is.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/is.js
 var NAME, isURLSearchParameters, isBlob, isAbortSignal, isDomainOrSubdomain, isSameProtocol;
 var init_is = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/is.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/is.js"() {
     NAME = Symbol.toStringTag;
     isURLSearchParameters = (object) => {
       return typeof object === "object" && typeof object.append === "function" && typeof object.delete === "function" && typeof object.get === "function" && typeof object.getAll === "function" && typeof object.has === "function" && typeof object.set === "function" && typeof object.sort === "function" && object[NAME] === "URLSearchParams";
@@ -23051,7 +23040,7 @@ var init_from = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/multipart-parser.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/multipart-parser.js
 var multipart_parser_exports = {};
 __export(multipart_parser_exports, {
   toFormData: () => toFormData
@@ -23145,7 +23134,7 @@ async function toFormData(Body2, ct) {
 }
 var s, S, f2, F, LF, CR, SPACE, HYPHEN, COLON, A, Z, lower, noop, MultipartParser;
 var init_multipart_parser = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/multipart-parser.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/multipart-parser.js"() {
     init_from();
     init_esm_min();
     s = 0;
@@ -23404,7 +23393,7 @@ var init_multipart_parser = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/body.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/body.js
 async function consumeBody(data) {
   if (data[INTERNALS].disturbed) {
     throw new TypeError(`body used already for: ${data.url}`);
@@ -23451,7 +23440,7 @@ async function consumeBody(data) {
 }
 var import_node_stream, import_node_util, import_node_buffer, pipeline, INTERNALS, Body, clone, getNonSpecFormDataBoundary, extractContentType, getTotalBytes, writeToStream;
 var init_body = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/body.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/body.js"() {
     import_node_stream = __toESM(require("node:stream"), 1);
     import_node_util = require("node:util");
     import_node_buffer = require("node:buffer");
@@ -23637,7 +23626,7 @@ var init_body = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/headers.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/headers.js
 function fromRawHeaders(headers = []) {
   return new Headers(
     headers.reduce((result, value, index, array) => {
@@ -23658,7 +23647,7 @@ function fromRawHeaders(headers = []) {
 }
 var import_node_util2, import_node_http, validateHeaderName, validateHeaderValue, Headers;
 var init_headers = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/headers.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/headers.js"() {
     import_node_util2 = require("node:util");
     import_node_http = __toESM(require("node:http"), 1);
     validateHeaderName = typeof import_node_http.default.validateHeaderName === "function" ? import_node_http.default.validateHeaderName : (name) => {
@@ -23811,10 +23800,10 @@ var init_headers = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/is-redirect.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/is-redirect.js
 var redirectStatus, isRedirect;
 var init_is_redirect = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/is-redirect.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/is-redirect.js"() {
     redirectStatus = /* @__PURE__ */ new Set([301, 302, 303, 307, 308]);
     isRedirect = (code) => {
       return redirectStatus.has(code);
@@ -23822,10 +23811,10 @@ var init_is_redirect = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/response.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/response.js
 var INTERNALS2, Response;
 var init_response = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/response.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/response.js"() {
     init_headers();
     init_body();
     init_is_redirect();
@@ -23935,10 +23924,10 @@ var init_response = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/get-search.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/get-search.js
 var getSearch;
 var init_get_search = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/get-search.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/get-search.js"() {
     getSearch = (parsedURL) => {
       if (parsedURL.search) {
         return parsedURL.search;
@@ -23950,7 +23939,7 @@ var init_get_search = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/referrer.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/referrer.js
 function stripURLForUseAsAReferrer(url, originOnly = false) {
   if (url == null) {
     return "no-referrer";
@@ -24078,7 +24067,7 @@ function parseReferrerPolicyFromHeader(headers) {
 }
 var import_node_net, ReferrerPolicy, DEFAULT_REFERRER_POLICY;
 var init_referrer = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/utils/referrer.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/utils/referrer.js"() {
     import_node_net = require("node:net");
     ReferrerPolicy = /* @__PURE__ */ new Set([
       "",
@@ -24095,10 +24084,10 @@ var init_referrer = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/request.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/request.js
 var import_node_url, import_node_util3, INTERNALS3, isRequest, doBadDataWarn, Request, getNodeRequestOptions;
 var init_request = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/request.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/request.js"() {
     import_node_url = require("node:url");
     import_node_util3 = require("node:util");
     init_headers();
@@ -24271,6 +24260,9 @@ var init_request = __esm({
       if (typeof agent === "function") {
         agent = agent(parsedURL);
       }
+      if (!headers.has("Connection") && !agent) {
+        headers.set("Connection", "close");
+      }
       const search = getSearch(parsedURL);
       const options = {
         path: parsedURL.pathname + search,
@@ -24287,10 +24279,10 @@ var init_request = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/errors/abort-error.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/errors/abort-error.js
 var AbortError;
 var init_abort_error = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/errors/abort-error.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/errors/abort-error.js"() {
     init_base();
     AbortError = class extends FetchBaseError {
       constructor(message, type = "aborted") {
@@ -24300,7 +24292,7 @@ var init_abort_error = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/index.js
+// node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/index.js
 async function fetch(url, options_) {
   return new Promise((resolve, reject) => {
     const request = new Request(url, options_);
@@ -24564,7 +24556,7 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 }
 var import_node_http2, import_node_https, import_node_zlib, import_node_stream2, import_node_buffer2, supportedSchemas;
 var init_src = __esm({
-  "node_modules/.pnpm/node-fetch@3.3.2/node_modules/node-fetch/src/index.js"() {
+  "node_modules/.pnpm/node-fetch@3.3.1/node_modules/node-fetch/src/index.js"() {
     import_node_http2 = __toESM(require("node:http"), 1);
     import_node_https = __toESM(require("node:https"), 1);
     import_node_zlib = __toESM(require("node:zlib"), 1);
@@ -24612,7 +24604,6 @@ var init_update = __esm({
         for (let i2 = 1; i2 < currentVersion.length; i2++) {
           const current = parseInt(currentVersion[i2]);
           const latest = parseInt(latestVersion[i2]);
-          console.log(current, latest);
           if (current !== latest) {
             if (current < latest)
               return console.log(
@@ -24884,7 +24875,7 @@ var parseResponse = (type, result) => {
 };
 
 // src/logger/index.ts
-function printError(invokingResource, cb, isPromise, ...args) {
+function logError(invokingResource, cb, isPromise, ...args) {
   const err = `${invokingResource} was unable to execute a query!
 ${args.join("\n")}`;
   if (cb && isPromise)
@@ -25037,7 +25028,7 @@ var rawQuery = async (type, invokingResource, query, parameters, cb, isPromise) 
   try {
     [query, parameters] = parseArguments(query, parameters);
   } catch (err) {
-    return printError(invokingResource, cb, isPromise, `Query: ${query}`, err.message);
+    return logError(invokingResource, cb, isPromise, `Query: ${query}`, err.message);
   }
   if (!isServerConnected)
     await waitForConnection();
@@ -25062,7 +25053,7 @@ var rawQuery = async (type, invokingResource, query, parameters, cb, isPromise) 
         }
       }
   } catch (err) {
-    printError(invokingResource, cb, isPromise, `Query: ${query}`, JSON.stringify(parameters), err.message);
+    logError(invokingResource, cb, isPromise, `Query: ${query}`, JSON.stringify(parameters), err.message);
     TriggerEvent("oxmysql:error", {
       query,
       parameters,
@@ -25092,9 +25083,6 @@ var parseTransaction = (queries, parameters) => {
     return transactions2;
   }
   const transactions = queries.map((query) => {
-    if (!isTransactionQuery(query) && !(query.parameters || query.values)) {
-      return { query };
-    }
     const [parsedQuery, parsedParameters] = parseArguments(
       isTransactionQuery(query) ? query.query : query,
       isTransactionQuery(query) ? query.parameters || query.values : parameters
@@ -25117,7 +25105,7 @@ var rawTransaction = async (invokingResource, queries, parameters, cb, isPromise
   try {
     transactions = parseTransaction(queries, parameters);
   } catch (err) {
-    return printError(invokingResource, cb, isPromise, err.message);
+    return logError(invokingResource, cb, isPromise, err.message);
   }
   if (!isServerConnected)
     await waitForConnection();
@@ -25227,7 +25215,7 @@ var rawExecute = async (invokingResource, query, parameters, cb, isPromise, unpa
     placeholders = query.split("?").length - 1;
     parameters = parseExecute(placeholders, parameters);
   } catch (err) {
-    return printError(invokingResource, cb, isPromise, query, err.message);
+    return logError(invokingResource, cb, isPromise, query, err.message);
   }
   if (!isServerConnected)
     await waitForConnection();
@@ -25248,10 +25236,10 @@ var rawExecute = async (invokingResource, query, parameters, cb, isPromise, unpa
       if (cb) {
         if (Array.isArray(result) && result.length > 1) {
           for (const value of result) {
-            response.push(parseResponse(type, value));
+            response.push(unpack ? parseResponse(type, value) : value);
           }
         } else
-          response.push(parseResponse(type, result));
+          response.push(unpack ? parseResponse(type, result) : result);
       }
       if (hasProfiler && (index > 0 && index % 100 === 0 || index === parametersLength - 1)) {
         await profileBatchStatements(connection, invokingResource, query, parameters, index < 100 ? 0 : index);
@@ -25280,7 +25268,7 @@ var rawExecute = async (invokingResource, query, parameters, cb, isPromise, unpa
       }
     }
   } catch (err) {
-    printError(invokingResource, cb, isPromise, `Query: ${query}`, err.message);
+    logError(invokingResource, cb, isPromise, `Query: ${query}`, err.message);
     TriggerEvent("oxmysql:error", {
       query,
       parameters,

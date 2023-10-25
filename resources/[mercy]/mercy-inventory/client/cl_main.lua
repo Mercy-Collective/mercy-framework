@@ -314,7 +314,6 @@ RegisterNetEvent("mercy-inventory/client/reset-weapon", function(Anim)
 end)
 
 RegisterNetEvent('mercy-inventory/client/update-slot-quality', function(Slot, ItemName, CreateDate)
-    print('Updating slot quality', Slot, ItemName, CreateDate)
     SendNUIMessage({
         Action = 'UpdateSlotQuality',
         Slot = Slot,
