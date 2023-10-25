@@ -40,14 +40,14 @@ RegisterNetEvent("mercy-business/server/foodchain/pay-register", function(Data)
         if Data.PaymentType == 'Bank' then
             if Player.Functions.RemoveMoney('Bank', Payment.Costs, 'FoodChain-Order-Bank') then
                 TriggerClientEvent('mercy-business/client/foodchain/receive-receipt', Payment.Creator, Data['Foodchain'], Payment)
-                table.remove(Config.ActivePayments[Data['Foodchain']], Data['Register'])
+                Config.ActivePayments[Data['Foodchain']][Data['Register']] = nil
             else
                 Player.Functions.Notify('foodchain-bank-money', 'Not enough money..', 'error')
             end
         elseif Data.PaymentType == 'Cash' then
             if Player.Functions.RemoveMoney('Cash', Payment.Costs, 'FoodChain-Order-Cash') then
                 TriggerClientEvent('mercy-business/client/foodchain/receive-receipt', Payment.Creator, Data['Foodchain'], Payment)
-                table.remove(Config.ActivePayments[Data['Foodchain']], Data['Register'])
+                Config.ActivePayments[Data['Foodchain']][Data['Register']] = nil
             else
                 Player.Functions.Notify('foodchain-cash-money', 'Not enough money..', 'error')
             end
