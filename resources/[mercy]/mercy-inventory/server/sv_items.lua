@@ -1,3 +1,5 @@
+local MaxTime = (((1000 * 60) * 60) * 24) * 28
+
 -- [ Code ] --
 
 -- [ Threads ] --
@@ -24,13 +26,15 @@ Citizen.CreateThread(function()
         local Player = PlayerModule.GetPlayerBySource(Source)
         local ItemData = Player.Functions.GetItemBySlot(Slot)
         if ItemData ~= nil and ItemData.Amount > 0 then
-            if FunctionsModule.CanUseItem(ItemData.ItemName) then
-                TriggerClientEvent('mercy-inventory/client/item-box', Source, 'Used', Shared.ItemList[ItemData.ItemName], false)
-                FunctionsModule.UseItem(Source, ItemData)
-            elseif ItemData['Type'] == 'Weapon' then
+            if FunctionsModule.CanUseItem(ItemData.ItemName) or ItemData['Type'] == 'Weapon' then
                 if ItemData.Info.Quality ~= nil then
+                    print(ItemData.Info.Quality)
                     if ItemData.Info.Quality > 0 then
                         TriggerClientEvent('mercy-inventory/client/item-box', Source, 'Used', Shared.ItemList[ItemData.ItemName], false)
+                        if ItemData['Type'] ~= 'Weapon' then
+                            FunctionsModule.UseItem(Source, ItemData)
+                            return
+                        end
                         TriggerClientEvent('mercy-inventory/client/use-weapon', Source, ItemData)
                     else
                         Player.Functions.Notify("broken-item", "Item is broken..", 'error')
@@ -57,49 +61,55 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer('mercy-inventory/server/degen-item', function(Source, Slot, Amount)
         local Player = PlayerModule.GetPlayerBySource(Source)
         local ItemData = Player.Functions.GetItemBySlot(Slot)
-
-        -- Check if ItemData exists
-        if ItemData == nil then 
-            return 
+    
+        if ItemData == nil or Amount <= 0 then
+            return
         end
+    
+        local CurrentQuality = GetQuality(ItemData.ItemName, ItemData.Info.CreateDate)
+        if CurrentQuality == 0 then
+            TriggerClientEvent('mercy-inventory/client/on-fully-degen-item', Source, ItemData)
+            return
+        end
+    
+        if ItemData.Info.Quality ~= nil then
+            local NewQuality = CurrentQuality - Amount
+            if NewQuality < 0 then
+                NewQuality = 0
+            end
+    
+            -- Calculate the new CreateDate based on the current quality
+            local OriginalQuality = GetQuality(ItemData.ItemName, ItemData.Info.CreateDate)
+            local DecayR = Shared.ItemList[ItemData.ItemName].DecayRate
 
-        -- -- Check if the item has quality
-        -- if ItemData.Info.Quality ~= nil then
-        --     print('Item has quality')
-        --     ItemData.Info.CreateDate = tonumber(ItemData.Info.CreateDate)
-        --     -- Calculate the time difference since the item was created
-        --     local CurrentTime = os.time()
-        --     local StartDate = os.time(ItemData.Info.CreateDate)
-        --     local TimeDifference = CurrentTime - StartDate
-            
-        --     -- Calculate the degradation based on time
-        --     local DecayRate = Shared.ItemList[ItemData.ItemName].DecayRate
-        --     local TimeExtra = (((1000 * 60) * 60) * 24) * 28 * DecayRate
-        --     local TimeBasedQualityLoss = math.ceil((TimeDifference / TimeExtra))           
-        --     -- Calculate the new item quality after applying the amount loss
-        --     local NewQuality = ItemData.Info.Quality - Amount - TimeBasedQualityLoss       
+            if DecayR == 0.0 then
+                print('[DEBUG:DegenItem]: DecayRate is 0.0. Item will not degrade.')
+                return
+            end
 
-        --     -- Ensure quality doesn't go below 0
-        --     if NewQuality < 0 then
-        --         NewQuality = 0
-        --     end
+            local TimeExtra = MaxTime * DecayR
+    
+            -- Calculate the time difference to achieve the new quality
+            local QualityDifference = OriginalQuality - NewQuality
+            local TimeDifference = (QualityDifference / 100) * TimeExtra
+    
+            -- Calculate the new CreateDate as a timestamp
+            local NewCreateDate = math.floor((ParseDate(ItemData.Info.CreateDate) - TimeDifference) / 1000)
+    
+            ItemData.Info.Quality = NewQuality
+            ItemData.Info.CreateDate = os.date("%a %b %d %H:%M:%S %Y", NewCreateDate)
 
-        --     -- Calculate the adjusted CreateDate based on the new quality
-        --     local NewTimeDifference = (100 - NewQuality) * TimeExtra / 100
-        --     local NewStartDate = CurrentTime - NewTimeDifference
-        --     print('Setting new date to ', NewStartDate)
-        --     ItemData.Info.CreateDate = os.date("*t", math.floor(NewStartDate))
-            
-        --     -- Update the item quality
-        --     print('Setting new quality to', NewQuality)
-        --     ItemData.Info.Quality = NewQuality
-
-        --     TriggerClientEvent('mercy-inventory/client/update-slot-quality', Source, Slot, ItemData.ItemName, NewStartDate)
-        --     Player.Functions.Save()
-        --     if NewQuality < 1 then
-        --         TriggerClientEvent('mercy-inventory/client/on-fully-degen-item', Source, ItemData)
-        --     end
-        -- end
+            Player.PlayerData.Inventory[Slot].Info.Quality = NewQuality
+            Player.PlayerData.Inventory[Slot].Info.CreateDate = os.date("%a %b %d %H:%M:%S %Y", NewCreateDate)
+            Player.Functions.SetItemData(Player.PlayerData.Inventory)
+            TriggerClientEvent('mercy-inventory/client/update-player', Source)
+            print('[DEBUG:DegenItem]: Updating quality of '..Player.PlayerData.Inventory[Slot].ItemName..'.. \nNew Quality: ' .. NewQuality .. '\nNew CreateDate: ' .. ItemData.Info.CreateDate)
+            if NewQuality < 1 then
+                TriggerClientEvent('mercy-inventory/client/on-fully-degen-item', Source, ItemData)
+            end
+        else
+            print('[DEBUG:DegenItem]: No quality found..')
+        end
     end)
 
     EventsModule.RegisterServer('mercy-inventory/server/add-item', function(Source, ItemName, Amount, Slot, ItemInfo, Show)
@@ -107,3 +117,54 @@ Citizen.CreateThread(function()
         Player.Functions.AddItem(ItemName, Amount, Slot, ItemInfo, Show)
     end)
 end)
+
+-- [ Functions ] --
+
+function ParseDate(dateString)
+    if dateString == nil then
+        print('[DEBUG:Degen:ParseDate]: dateString is nil.')
+        return false
+    end
+    local monthNames = {Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6, Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12}
+    local day, month, dayNum, time, year = dateString:match("(%a+) (%a+) (%d+) (%d+:%d+:%d+) (%d+)")
+    local monthNum = monthNames[month]
+
+    if day and monthNum and dayNum and time and year then
+        local timestamp = os.time({year = year, month = monthNum, day = dayNum, hour = time:match("(%d+):%d+:%d+"), min = time:match("%d+:(%d+):%d+"), sec = time:match("%d+:%d+:(%d+)")})
+        return timestamp * 1000 -- Convert to milliseconds
+    else
+        return false
+    end
+end
+
+function GetQuality(ItemName, CreateDate)
+    local StartDate = ParseDate(CreateDate)
+
+    if not StartDate then
+        DebugPrint("GetQuality", "Failed to get quality for item " .. ItemName .. ".")
+        return
+    end
+
+    if Shared.ItemList[ItemName] == nil then
+        DebugPrint("GetQuality", "Failed to get quality for item " .. ItemName .. ".")
+        return
+    end
+
+    local DecayRate = Shared.ItemList[ItemName].DecayRate
+    local TimeExtra = MaxTime * DecayRate
+    local Quality = 100 - math.ceil(((os.time() * 1000 - StartDate) / TimeExtra) * 100)
+
+    if DecayRate == 0 then
+        Quality = 100
+    end
+
+    if Quality <= 0 then
+        Quality = 0
+    end
+
+    if Quality > 99.0 then
+        Quality = 100
+    end
+
+    return Quality
+end

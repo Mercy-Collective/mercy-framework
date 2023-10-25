@@ -719,6 +719,7 @@ PlayerModule = {
         end
     
         self.Functions.SetItemData = function(ItemData)
+            if type(ItemData) ~= 'table' then return end
             self.PlayerData.Inventory = ItemData
             PlayerModule.SaveInventory(self.PlayerData.CitizenId, self.PlayerData.Inventory)
             self.Functions.UpdatePlayerData()

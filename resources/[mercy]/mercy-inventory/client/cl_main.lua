@@ -59,6 +59,15 @@ RegisterNetEvent("mercy-base/client/player-spawned", function()
         })
     end)
 end)
+ 
+-- [ Degen Command ] -- 
+RegisterCommand('degen', function(source, args, RawCommand)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    local Item = args[1]
+    local Amount = args[2] ~= nil and tonumber(args[2]) or 1
+    EventsModule.TriggerServer('mercy-inventory/server/degen-item', exports['mercy-inventory']:GetSlotForItem(Item), Amount)
+end)
 
 -- [ Code ] -- 
 
@@ -305,6 +314,7 @@ RegisterNetEvent("mercy-inventory/client/reset-weapon", function(Anim)
 end)
 
 RegisterNetEvent('mercy-inventory/client/update-slot-quality', function(Slot, ItemName, CreateDate)
+    print('Updating slot quality', Slot, ItemName, CreateDate)
     SendNUIMessage({
         Action = 'UpdateSlotQuality',
         Slot = Slot,

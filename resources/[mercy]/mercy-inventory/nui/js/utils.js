@@ -3,9 +3,12 @@ let MaxTime = (((1000 * 60) * 60) * 24) * 28
 let DebugEnabled = false;
 
 GetItemImage = function(Image) {
-    // const ItemData = GetItemData(Item);
-    // if (ItemData.IsExternImage) return ItemData.Image;
     return `./img/items/${Image}`;
+}
+
+GetItemLabel = function(ItemName) {
+    if (ItemList[ItemName] == undefined) return DebugPrint("GetItemLabel", `Failed to get label for item ${ItemName}..`);
+    return ItemList[ItemName].Label;
 }
 
 GetQuality = function (ItemName, CreateDate) {
@@ -20,7 +23,7 @@ GetQuality = function (ItemName, CreateDate) {
     if (Quality <= 0) { Quality = 0; }
     if (Quality > 99.0) { Quality = 100; }
   
-    DebugPrint("GetQuality", `Percent for ${ItemName}: ${Quality}%`);
+    // DebugPrint("GetQuality", `Percent for ${ItemName}: ${Quality}%`);
     return Quality;
 };
 

@@ -134,17 +134,18 @@ Citizen.CreateThread(function()
 		if ToInventory == '.my-inventory-blocks' and FromInventory == '.other-inventory-blocks' then
 			if Type == 'Store' then
 				local StoreItem = Shared.ItemList[OtherInventoryItems[FromSlot]['ItemName']:lower()]
-				if Player.Functions.RemoveMoney('Cash', FunctionsModule.GetTaxPrice((StoreItem.Price * Amount), 'Goods')) then
+				local TaxPrice = FunctionsModule.GetTaxPrice((StoreItem.Price * Amount), 'Goods')
+				if Player.Functions.RemoveMoney('Cash', TaxPrice) then
 					if StoreItem['Type'] == 'Weapon' and not StoreItem['Melee'] then
 						local SerialNumber = SubType == 'PoliceStore' and Player.PlayerData.Job.Serial or Shared.RandomStr(2)..Shared.RandomInt(3):upper()..Shared.RandomStr(3)..Shared.RandomInt(3):upper()..Shared.RandomStr(2)..Shared.RandomInt(3):upper()
 						OtherInventoryItems[FromSlot].Info = {Quality = 100, CreateDate = os.date(), Ammo = 1, Serial = SerialNumber}
 					else
-						OtherInventoryItems[FromSlot].Info = {Quality = 100, CreateDate = os.date(),}
+						OtherInventoryItems[FromSlot].Info = {Quality = 100, CreateDate = os.date()}
 					end
 					if Player.Functions.AddItem(StoreItem['ItemName'], Amount, ToSlot, OtherInventoryItems[FromSlot].Info, false, 'Inventory') then
 						Cb(true)
 					else
-						Player.Functions.AddMoney('Cash', (StoreItem.Price * Amount))
+						Player.Functions.AddMoney('Cash', TaxPrice)
 						Player.Functions.Notify('invalid-action', 'Failed to buy item. Maybe we are full?', 'error')
 						Cb(false)
 					end
@@ -231,6 +232,7 @@ Citizen.CreateThread(function()
 								ItemName = Item,
 								Slot = ToSlot,
 								Amount = Amount,
+								Info = Player.PlayerData.Inventory[FromSlot].Info,
 							}
 						else
 							Config.Drops[SubType]['Items'][ToSlot].Amount = Config.Drops[SubType]['Items'][ToSlot].Amount + Amount
@@ -246,6 +248,8 @@ Citizen.CreateThread(function()
 					local PlayerCoords = GetEntityCoords(GetPlayerPed(Source))
 					local Item = Player.PlayerData.Inventory[FromSlot]['ItemName']:lower()
 
+					if not WeightCheck(MaxOtherWeight, 0, Amount, Player.PlayerData.Inventory[FromSlot].Weight) then return Cb(false) end
+
 					if Player.Functions.RemoveItem(Item, Amount, FromSlot, false) then
 						TriggerClientEvent("mercy-inventory/client/inventory-log", Source, "Threw "..Amount..'x '..Item.. " on ground. ("..SubType..")")
 						Config.Drops[SubType] = {
@@ -256,6 +260,7 @@ Citizen.CreateThread(function()
 							['Coords'] = vector3(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z),
 							['Heading'] = PlayerCoords.w,
 							['ItemCount'] = 1,
+							['MaxWeight'] = Config.MaxDropWeight,
 							['Items'] = {
 								[ToSlot] = {
 									ItemName = Item,
@@ -595,6 +600,14 @@ RegisterNetEvent('mercy-inventory/server/set-player-items', function(PlayerItems
 	local src = source
 	local Player = PlayerModule.GetPlayerBySource(src)
 	if not Player then return end
+
+	for k, v in pairs(PlayerItems) do
+		local CurrentQuality = GetQuality(v.ItemName, v.Info.CreateDate)
+		if CurrentQuality ~= nil then
+			PlayerItems[k].Info.Quality = CurrentQuality
+		end
+	end
+
 	Player.Functions.SetItemData(PlayerItems)
 end)
 
@@ -666,6 +679,7 @@ RegisterNetEvent('mercy-inventory/server/add-new-drop-core', function(Source, It
 		['InvSlots'] = DropSlots,
 		['Coords'] = vector3(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z),
 		['Heading'] =  PlayerCoords.w,
+		['MaxWeight'] = Config.MaxDropWeight,
 		['ItemCount'] = 1,
 		['Items'] = {
 			[1] = {
