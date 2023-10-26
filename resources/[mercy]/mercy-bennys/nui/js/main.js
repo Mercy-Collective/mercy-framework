@@ -1,9 +1,10 @@
-var Menus = {}
-var InMenu = true;
-var MaxMenuItems = 13;
-var ColorPickerData = {};
-var CurrentItemData = {};
-var ResetSelections = ['ResprayMetallic', 'ResprayMetal', 'ResprayMatte', 'WheelsSport', 'WheelsMuscle', 'WheelsLowrider', 'WheelsSUV', 'WheelsOffroad', 'WheelsTuner', 'WheelsMotorcycle', 'WheelsHighend']
+let Menus = {}
+let Menu = undefined;
+let InMenu = true;
+let MaxMenuItems = 10;
+let ColorPickerData = {};
+let CurrentItemData = {};
+let ResetSelections = ['ResprayMetallic', 'ResprayMetal', 'ResprayMatte', 'WheelsSport', 'WheelsMuscle', 'WheelsLowrider', 'WheelsSUV', 'WheelsOffroad', 'WheelsTuner', 'WheelsMotorcycle', 'WheelsHighend']
 
 $(document).ready(function(e){
     window.addEventListener('message', function(event){
@@ -27,7 +28,7 @@ $(document).ready(function(e){
                 };
                 break;
             case 'PopulateMenu':
-                var MenuData = Menus[Data.Name];
+                let MenuData = Menus[Data.Name];
                 Menus[Data.Name].Items.push(Data.Item);
                 $(`.menu-${Data.Name}`).append(`<div data-index="${MenuData.Items.length}" class="${Number(MenuData.Items.length) == 1 ? 'menu-item selected' : 'menu-item'}"><i class='fas fa-angle-double-right'></i> ${Data.Item.Label} ${Data.Item.Installed ? '<span class="price installed">INSTALLED<span>' : (Data.Item.Costs != undefined ? '<span class="price">' + Data.Item.Costs + '</span>' : '')}</div>`)
                 break;
@@ -41,16 +42,17 @@ $(document).ready(function(e){
                 break;
             case 'SetHeader':
                 $('.menu-header').html(Data.Text);
+                $('.menu-banner').attr("src", `./images/${Data.Banner}.png`)
                 break;
             case 'SetSubHeader':
                 $('.menu-subheader').html(Data.Text);
                 break;
             case "UpdateMenuPopulation":
                 Menus[Data.Name].Items[Number(Data.Index - 1)] = Data.Item;
-                var OldIndex = Number($(`.menu-${Data.Name}`).find('.installed').parent().attr("data-index"));
+                let OldIndex = Number($(`.menu-${Data.Name}`).find('.installed').parent().attr("data-index"));
 
                 if (OldIndex) {
-                    var OldItem = Menus[Data.Name].Items[OldIndex - 1]
+                    let OldItem = Menus[Data.Name].Items[OldIndex - 1]
                     $(`.menu-${Data.Name} .menu-item[data-index="${OldIndex}"]`).find('span').remove();
                     $(`.menu-${Data.Name} .menu-item[data-index="${OldIndex}"]`).append(OldItem.Costs != undefined ? '<span class="price">' + OldItem.Costs + '</span>' : '');
                 }
@@ -68,13 +70,13 @@ $(document).ready(function(e){
                 if (!Data.Show) {
                     $(`.menu-${Data.Name}`).hide();
                 } else {
-                    var Menu = GetActiveMenu();
+                    Menu = GetActiveMenu();
                     if (Menu) {
                         Menu.DOM.hide();
                         Menus[Menu.Name].Show = false;
                     }
 
-                    var NewMenu = Menus[Data.Name];
+                    let NewMenu = Menus[Data.Name];
 
                     $(`.menu-${Data.Name} .menu-item`).hide();
 
@@ -88,20 +90,20 @@ $(document).ready(function(e){
                             if (i < MaxMenuItems) {
                                 $(`.menu-${Data.Name} .menu-item[data-index="${(i + 1)}"]`).show();
                             };
-                        }
+                        };
                     } else {
                         for (let i = 0; i < NewMenu.Items.length; i++) {
                             if (i > (NewMenu.SelectedIndex - MaxMenuItems) && i <= (MaxMenuItems + (NewMenu.SelectedIndex - MaxMenuItems))) {
                                 $(`.menu-${Data.Name} .menu-item[data-index="${(i + 1)}"]`).show();
                             };
-                        }
+                        };
                     };
 
                     CurrentItemData = NewMenu.Items[0]
                     $(`.menu-item.selected`).removeClass('selected');
                     $(`.menu-${Data.Name} .menu-item[data-index="${NewMenu.SelectedIndex}"]`).addClass('selected');
 
-                    $.post("https://mercy-bennys/PreviewUpgrade", JSON.stringify({
+                    $.post(`https://${GetParentResourceName()}/PreviewUpgrade`, JSON.stringify({
                         Menu: NewMenu.Name,
                         Index: NewMenu.SelectedIndex,
                     }))
@@ -118,7 +120,7 @@ $(document).keyup(function(e){
     if (InMenu) {
         switch (e.keyCode) {
             case 38: // Arrow Up
-                var Menu = GetActiveMenu();
+                Menu = GetActiveMenu();
                 $('.menu-item.selected').removeClass('selected');
                 
                 if (Menu.Data.SelectedIndex == 1) {
@@ -146,18 +148,18 @@ $(document).keyup(function(e){
 
                 CurrentItemData = Menu.Data.Items[Menu.Data.SelectedIndex - 1];
 
-                $.post("https://mercy-bennys/PreviewUpgrade", JSON.stringify({
+                $.post(`https://${GetParentResourceName()}/PreviewUpgrade`, JSON.stringify({
                     Menu: Menu.Name,
                     Index: Menu.Data.SelectedIndex,
                 }))
 
-                $.post("https://mercy-bennys/PlaySoundFrontend", JSON.stringify({
+                $.post(`https://${GetParentResourceName()}/PlaySoundFrontend`, JSON.stringify({
                     Name: 'NAV_UP_DOWN',
                     Set: 'HUD_FRONTEND_DEFAULT_SOUNDSET',
                 }));
                 break;
             case 40: // Arrow Down
-                var Menu = GetActiveMenu();
+                Menu = GetActiveMenu();
                 $('.menu-item.selected').removeClass('selected');
 
                 if (Menu.Data.SelectedIndex < MaxMenuItems && Menu.Data.SelectedIndex < Menu.Data.Items.length) {
@@ -183,52 +185,52 @@ $(document).keyup(function(e){
                     $(`.menu-${Menu.Name} .menu-item[data-index="${Menu.Data.SelectedIndex}"]`).addClass('selected');
                 }
 
+
                 CurrentItemData = Menu.Data.Items[Menu.Data.SelectedIndex - 1];
 
-                $.post("https://mercy-bennys/PreviewUpgrade", JSON.stringify({
+                $.post(`https://${GetParentResourceName()}/PreviewUpgrade`, JSON.stringify({
                     Menu: Menu.Name,
                     Index: Menu.Data.SelectedIndex,
                 }))
 
-                $.post("https://mercy-bennys/PlaySoundFrontend", JSON.stringify({
+                $.post(`https://${GetParentResourceName()}/PlaySoundFrontend`, JSON.stringify({
                     Name: 'NAV_UP_DOWN',
                     Set: 'HUD_FRONTEND_DEFAULT_SOUNDSET',
                 }));
                 break;
             case 13: // Enter
-                var Menu = GetActiveMenu();
-
+                Menu = GetActiveMenu();
                 if (Menu.Data.Items[Menu.Data.SelectedIndex - 1].TargetMenu == undefined) {
-                    $.post("https://mercy-bennys/PurchaseUpgrade", JSON.stringify({
+                    $.post(`https://${GetParentResourceName()}/PurchaseUpgrade`, JSON.stringify({
                         Menu: Menu.Name,
                         Index: Menu.Data.SelectedIndex,
                     }))
                 } else {
-                    $.post("https://mercy-bennys/OpenTargetMenu", JSON.stringify({
+                    $.post(`https://${GetParentResourceName()}/OpenTargetMenu`, JSON.stringify({
                         CurrentMenu: Menu.Name,
                         TargetMenu: Menu.Data.Items[Menu.Data.SelectedIndex - 1].TargetMenu
                     }))
                 }
 
-                $.post("https://mercy-bennys/PlaySoundFrontend", JSON.stringify({
+                $.post(`https://${GetParentResourceName()}/PlaySoundFrontend`, JSON.stringify({
                     Name: 'SELECT',
                     Set: 'HUD_FRONTEND_DEFAULT_SOUNDSET',
                 }));
                 break;
             case 8: // Backspace
-                var Menu = GetActiveMenu();
+                Menu = GetActiveMenu();
                 if (Menu != undefined && Menu.Data != undefined && Menu.Data.Parent == undefined) {
-                    $.post("https://mercy-bennys/CloseBennys");
+                    $.post(`https://${GetParentResourceName()}/CloseBennys`);
                 } else if (Menu != undefined && Menu.Data != undefined && Menu.Data.Parent != undefined) {
-                    $.post("https://mercy-bennys/OpenTargetMenu", JSON.stringify({
+                    $.post(`https://${GetParentResourceName()}/OpenTargetMenu`, JSON.stringify({
                         CurrentMenu: Menu.Name,
                         TargetMenu: Menu.Data.Parent
                     }))
                 } else {
-                    $.post("https://mercy-bennys/CloseBennys");
+                    $.post(`https://${GetParentResourceName()}/CloseBennys`);
                 }
 
-                $.post("https://mercy-bennys/PlaySoundFrontend", JSON.stringify({
+                $.post(`https://${GetParentResourceName()}/PlaySoundFrontend"`, JSON.stringify({
                     Name: 'NAV_UP_DOWN',
                     Set: 'HUD_FRONTEND_DEFAULT_SOUNDSET',
                 }));
@@ -237,17 +239,7 @@ $(document).keyup(function(e){
     }
 })
 
-
-function HexToRGB(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      R: parseInt(result[1], 16),
-      G: parseInt(result[2], 16),
-      B: parseInt(result[3], 16)
-    } : null;
-}
-
-var GetActiveMenu = () => {
+let GetActiveMenu = () => {
     var Retval = undefined;
     $.each(Menus, function(Key, Menu){
         if (Menu != undefined && Menu.Show == true) {

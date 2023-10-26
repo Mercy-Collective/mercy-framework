@@ -1,38 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
 
-.archivo {
-    font-family: 'Archivo Black';
-    font-variant: small-caps;
-    text-transform: capitalize;
-}
-
 .menu-wrapper {
-    position: absolute;
-    display: none;
+    margin: 1.5vh 0 0 1.5vh;
 
-    top: 1.5vh;
-    left: 1.5vh;
-    
+    user-select: none;
+
     background-color: #222831be;
+
+    display: none;
+    flex-flow: column;
+    
+    width: 39.8vh;
+    height: max-content;
+    max-height: 58.3vh;
 
     font-family: 'Oswald';
     font-size: 1vh;
 
     user-select: none;
-
     color: white;
-
-    width: 43vh;
-    height: max-content;
-    max-height: 58.3vh;
 }
 
 .menu-banner {
-    width: 100%;
-    height: 100%;
+    background-size: cover;
+    background-position: center;
 
-    margin: 0;
-    padding: 0;
+    width: 39.8vh;
+    height: 10.6vh;
+
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
 }
 
 .menu-directions {
@@ -50,46 +47,55 @@
 
 .menu-header {
     text-align: center;
+    color: rgb(236, 240, 241);
 
-    font-family: 'Oswald', sans-serif;
+    font-family: Oswald, sans-serif;
+    font-size: 1.97vh;
+    font-style: oblique;
     font-weight: 400;
-    font-style: italic;
-    font-size: 2vh;
-    
+
     background-color: #191e25be;
+
+    width: 39.8vh;
 }
 
 .menu-subheader {
     text-align: center;
-    line-height: 2vh;
+    color: rgb(236, 240, 241);
 
-    font-family: 'Oswald', sans-serif;
-    font-size: 1vh;
+    font-family: Oswald, sans-serif;
+    font-size: 1.5vh;
     font-weight: 300;
-    
+
     background-color: #191e25be;
 
-    height: 2vh;
+    width: 39.8vh;
 }
 
 .menu-items {
-    overflow-y: hidden;
-    max-height: 39vh;
-}
+    margin: 0;
+    padding: 0;
 
-.menu-item {
-    height: 3vh;
-
-    text-align: left;
-    line-height: 3vh;
-    
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.3vh;
+    font-family: Oswald;
+    font-size: 1.73vh;
     font-style: normal;
     font-weight: 300;
 
-    padding-left: 1.5vh;
-    padding-right: 1.5vh;
+    color: rgb(236, 240, 241);
+
+    list-style-type: none;
+    text-align: left;
+    line-height: 3.05vh;
+
+    width: 39.8vh;
+}
+
+.menu-item {
+    /* display: flex; */
+    /* justify-content: space-between; */
+    height: 3.24vh;
+    padding-left: 1.4vh;
+    padding-right: 1.4vh;
 }
 
 .menu-item > i {
@@ -107,7 +113,7 @@
 }
 
 .menu-item.selected > i {
-    font-size: 1.3vh;
+    font-size: 1.73vh;
 }
 
 .menu-item > .price {

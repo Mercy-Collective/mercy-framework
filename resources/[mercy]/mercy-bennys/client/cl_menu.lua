@@ -5,7 +5,7 @@ function BuildMenu(Vehicle)
     local BodyHealth = GetVehicleBodyHealth(Vehicle)
     SetVehicleModKit(Vehicle, 0)
     
-    Menu.SetHeader("Welcome to Benny's Original Motorworks")
+    Menu.SetHeader("Welcome to Benny's Original Motorworks", "banner")
     if BodyHealth < 1000.0 then
         local Costs = math.ceil(1000 - BodyHealth)
         
@@ -100,7 +100,7 @@ function BuildMenu(Vehicle)
                         Menu.Populate(Data.Id, {
                             Id = Data.Id,
                             Label = 'Stock ' .. Data.Label,
-                            Costs = "$" .. 0,
+                            Costs = "$0",
                             Installed = GetVehicleMod(Vehicle, Data.ModType) == -1,
                             Data = {
                                 Costs = 0,
@@ -109,22 +109,22 @@ function BuildMenu(Vehicle)
                             }
                         })
                         
-                        for i = 1, GetNumVehicleMods(Vehicle, Data.ModType) do
-                            local ModLabel = GetLabelText(GetModTextLabel(Vehicle, Data.ModType, (i - 1)))
+                        for i = 0, (GetNumVehicleMods(Vehicle, Data.ModType) - 1) do
+                            local ModLabel = GetLabelText(GetModTextLabel(Vehicle, Data.ModType, i))
     
                             if ModLabel == "NULL" then
-                                ModLabel = Data.Label .. " " .. i
+                                ModLabel = Data.Label .. " " .. (i + 1)
                             end
-    
+                            
                             Menu.Populate(Data.Id, {
                                 Id = Data.Id,
                                 Label = ModLabel,
-                                Costs = "$" .. GetModPrice(Data.Id, i),
-                                Installed = GetVehicleMod(Vehicle, Data.ModType) == (i - 1),
+                                Costs = "$" .. GetModPrice(Data.Id, (i + 1)),
+                                Installed = GetVehicleMod(Vehicle, Data.ModType) == i,
                                 Data = {
-                                    Costs = GetModPrice(Data.Id, i),
+                                    Costs = GetModPrice(Data.Id, (i + 1)),
                                     ModType = Data.ModType,
-                                    ModIndex = i - 1,
+                                    ModIndex = i,
                                 }
                             })
                         end
@@ -154,6 +154,7 @@ function BuildMenu(Vehicle)
                         Menu.Populate(v.Id, {
                             Id = Sub.Id,
                             Label = Sub.Label,
+                            Installed = v.Data ~= nil and IsModInstalled(Vehicle, Sub.Data) or nil,
                             Costs = Sub.Costs,
                             Data = Sub.Data or {},
                         })
@@ -175,6 +176,7 @@ function BuildMenu(Vehicle)
                     Menu.Populate(v.Id, {
                         Id = Sub.Id,
                         Label = Sub.Label,
+                        Installed = v.Data ~= nil and IsModInstalled(Vehicle, Sub.Data) or nil,
                         Costs = Sub.Costs,
                         Data = Sub.Data or {},
                     })
@@ -195,6 +197,7 @@ function BuildMenu(Vehicle)
                     Menu.Populate(v.Id, {
                         Id = Sub.Id,
                         Label = Sub.Label,
+                        Installed = v.Data ~= nil and IsModInstalled(Vehicle, Sub.Data) or nil,
                         Costs = Sub.Costs,
                         Data = Sub.Data or {},
                     })
@@ -388,10 +391,10 @@ function BuildFitmentMenu(Vehicle)
             FROffset = GetVehicleWheelXOffset(Vehicle, 1),
             RLOffset = GetVehicleWheelXOffset(Vehicle, 2),
             RROffset = GetVehicleWheelXOffset(Vehicle, 3),
-            FLRotation = GetVehicleWheelYRotation(Vehicle, 0),
-            FRRotation = GetVehicleWheelYRotation(Vehicle, 1),
-            RLRotation = GetVehicleWheelYRotation(Vehicle, 2),
-            RRRotation = GetVehicleWheelYRotation(Vehicle, 3),
+            -- FLRotation = GetVehicleWheelYRotation(Vehicle, 0),
+            -- FRRotation = GetVehicleWheelYRotation(Vehicle, 1),
+            -- RLRotation = GetVehicleWheelYRotation(Vehicle, 2),
+            -- RRRotation = GetVehicleWheelYRotation(Vehicle, 3),
         })
 
         CurrentWheelfitmentIndex = 0
@@ -449,10 +452,11 @@ function Menu.EmptyMenu(Name)
     })
 end
 
-function Menu.SetHeader(Text)
+function Menu.SetHeader(Text, Banner)
     SendNUIMessage({
         Action = 'SetHeader',
-        Text = Text
+        Text = Text,
+        Banner = Banner
     })
 end
 
@@ -494,14 +498,26 @@ function IsModInstalled(Vehicle, Data)
         return GetVehicleNumberPlateTextIndex(Vehicle) == Data.ModIndex
     elseif Data.ModType == 'Windows' then
         return GetVehicleWindowTint(Vehicle) == Data.ModIndex
-    elseif Data.ModIndex == 'NeonSide' then
+    elseif Data.ModType == 'NeonSide' then
         return IsVehicleNeonLightEnabled(Vehicle, Data.ModIndex)
+    elseif Data.ModType == 'NeonColor' then
+        local r, g, b = GetVehicleNeonLightsColour(Vehicle)
+        local _oRGB = {R = r, G = g, B = b}
+        return json.encode(_oRGB) == json.encode(Data.ModIndex) 
     elseif Data.ModType == 'Headlights' then
         if Data.ModIndex == 1 and IsToggleModOn(Vehicle, 22) then
             return true
         else
             return false
         end
+    elseif Data.ModType == 'Wheels' and Data.WheelType == GetVehicleWheelType(Vehicle) then
+        -- Stock wheels are returned with -1, just like GetVehicleMod when the mod is empty
+        local _bModInstalled = false
+        if GetVehicleMod(Vehicle, 23) ~= -1 and GetVehicleMod(Vehicle, 23) == Data.ModIndex then _bModInstalled = true end
+        if GetVehicleMod(Vehicle, 24) ~= -1 and GetVehicleMod(Vehicle, 24) == Data.ModIndex then _bModInstalled = true end
+        return _bModInstalled
+    elseif Data.ModType == 'PrimaryColor' then
+        return GetVehicleCustomPrimaryColour(Vehicle) == Data.ModType
     elseif Data.ModType == 'XenonColor' then
         return GetVehicleHeadlightsColour(Vehicle) == Data.ModIndex
     elseif Data.ModType == 18 then
@@ -510,6 +526,14 @@ function IsModInstalled(Vehicle, Data)
         else
             return false
         end
+    elseif Data.ModType == 22 then
+        if Data.ModIndex == 1 and IsToggleModOn(Vehicle, 22) then
+            return true
+        else
+            return false
+        end
+    elseif Data.ModType == 14 then
+        return GetVehicleMod(Vehicle, 14) == Data.ModIndex
     else
         return nil
     end
