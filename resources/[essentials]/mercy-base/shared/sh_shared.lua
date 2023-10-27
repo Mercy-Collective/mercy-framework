@@ -23,20 +23,11 @@ Shared.RandomInt = function(Length)
 	end
 end
 
-Shared.ServerDebug = true
-
-Shared.InventoryMaxWeight = 250.0
-
 Shared.Tax = {
     ['Property'] = 15, -- +15% of the price
     ['Vehicle'] = 49, -- +49% of the price
     ['Goods'] = 15, -- +15% of the price
     ['Clothes'] = 15, -- +15% of the prices,
-}
-
-Shared.DefaultCrypto = {
-    ['shungite'] = 0.00,
-    ['guinea'] = 0.00,
 }
 
 Shared.Groups = {

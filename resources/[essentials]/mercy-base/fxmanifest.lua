@@ -7,14 +7,13 @@ description 'Base'
 ui_page "nui/index.html"
 
 shared_scripts {
+    'shared/sh_config.lua',
     'shared/sh_shared.lua',
     '@mercy-inventory/shared/sh_items.lua',
 }
 
 client_scripts {
     '@mercy-assets/client/cl_errorlog.lua',
-    'shared/cl_*.lua',
-    -- 'config/cl_*.lua',
     'client/int/*.lua',
     'client/modules/*.lua',
     'client/*.lua',
@@ -24,8 +23,6 @@ client_scripts {
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     '@mercy-assets/server/sv_errorlog.lua',
-    -- 'shared/sv_*.lua',
-    -- 'config/sv_*.lua',
     'server/int/*.lua',
     'server/modules/*.lua',
     'server/*.lua',

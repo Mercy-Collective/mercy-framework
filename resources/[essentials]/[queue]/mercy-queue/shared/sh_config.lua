@@ -8,8 +8,8 @@ Config = {
 		Discord = false,
 		Steam = false
 	},
-	WhitelistRequired = true, -- If this option is set to true, a player must have a role in Config.Rankings to be allowed into the server
-	Debug = false,
+	WhitelistRequired = false, -- If this option is set to true, a player must have a role in Config.Rankings to be allowed into the server
+	Debug = true,
 	Webhook = 'WEBHOOK_HERE',
 	Displays = {
 		Prefix = '[mercy-queue]',

@@ -1,6 +1,4 @@
 ServerPlayers = {}
-PlayerPermission = {}
-BloodTypes = { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" }
 
 local _Ready = false
 AddEventHandler('Modules/server/ready', function()
@@ -11,12 +9,10 @@ AddEventHandler('Modules/server/ready', function()
 end)
 
 RegisterNetEvent('mercy-base/server/set-playerdata', function(PlayerData)
-    PlayerModule._PlayerData = PlayerData
     PlayerModule.PlayerData = PlayerData
 end)
 
 PlayerModule = {
-    _PlayerData = {},
     PlayerData = {},
     GetPlayerBySource = function(Source)
         local Functions = exports[GetCurrentResourceName()]:FetchModule('Functions')
@@ -74,8 +70,8 @@ PlayerModule = {
         local SteamIdentifier = Functions.GetIdentifier(Source, "steam")
         Database.Execute("SELECT * FROM server_users WHERE steam = ? ", {SteamIdentifier}, function(UserData)
             if UserData[1] ~= nil then
-                PlayerPermission[Source] = {}
-                PlayerPermission[Source].permission = UserData[1].permission
+                Config.Server['PermissionList'][Source] = {}
+                Config.Server['PermissionList'][Source].permission = UserData[1].permission
             end
         end, true)
     end,
@@ -83,20 +79,20 @@ PlayerModule = {
         local Functions = exports[GetCurrentResourceName()]:FetchModule('Functions')
         local Database = exports[GetCurrentResourceName()]:FetchModule('Database')
         local SteamIdentifier = Functions.GetIdentifier(Source, "steam")
-        if PlayerPermission[Source] == nil then
-            PlayerPermission[Source] = {}
+        if Config.Server['PermissionList'][Source] == nil then
+            Config.Server['PermissionList'][Source] = {}
         end
-        if PlayerPermission[Source].permission == nil then
+        if Config.Server['PermissionList'][Source].permission == nil then
             Database.Execute("SELECT * FROM server_users WHERE steam = ? ", {SteamIdentifier}, function(UserData)
                 if UserData[1] ~= nil then
-                    PlayerPermission[Source].permission = UserData[1].permission
+                    Config.Server['PermissionList'][Source].permission = UserData[1].permission
                 end
             end, true)
         end
         if Cb ~= nil then
-            Cb(PlayerPermission[Source].permission)
+            Cb(Config.Server['PermissionList'][Source].permission)
         else
-            return PlayerPermission[Source].permission
+            return Config.Server['PermissionList'][Source].permission
         end
     end,
     GetFirstSlotByItem = function(InventoryItems, Name)
@@ -265,20 +261,14 @@ PlayerModule = {
         PlayerData.Name = GetPlayerName(source)
         PlayerData.Identifiers = FunctionsModule.GetPlayerIdentifiers(source)
         PlayerData.Skin = PlayerData.Skin ~= nil and PlayerData.Skin or {}
-        PlayerData.Licenses = PlayerData.Licenses ~= nil and PlayerData.Licenses or {
-            ["Drivers"] = true, 
-            ['Hunting'] = false, 
-            ['Fishing'] = false,
-            ['Weapons'] = false,
-            ['Pilot'] = false,
-        }
+        PlayerData.Licenses = PlayerData.Licenses ~= nil and PlayerData.Licenses or Config.Player['LicenseTypes']
         
         -- [ Money ] --
         PlayerData.Money = PlayerData.Money ~= nil and PlayerData.Money or {}
-        PlayerData.Money['Cash'] = PlayerData.Money['Cash'] ~= nil and PlayerData.Money['Cash'] or 500
-        PlayerData.Money['Bank'] = PlayerData.Money['Bank'] ~= nil and PlayerData.Money['Bank'] or 2500
-        PlayerData.Money['Casino'] = PlayerData.Money['Casino'] ~= nil and PlayerData.Money['Casino'] or 0
-        PlayerData.Money['Crypto'] = PlayerData.Money['Crypto'] ~= nil and PlayerData.Money['Crypto'] or Shared.DefaultCrypto
+        PlayerData.Money['Cash'] = PlayerData.Money['Cash'] ~= nil and PlayerData.Money['Cash'] or Config.Player['MoneyTypes']['Cash']
+        PlayerData.Money['Bank'] = PlayerData.Money['Bank'] ~= nil and PlayerData.Money['Bank'] or Config.Player['MoneyTypes']['Bank']
+        PlayerData.Money['Casino'] = PlayerData.Money['Casino'] ~= nil and PlayerData.Money['Casino'] or Config.Player['MoneyTypes']['Casino']
+        PlayerData.Money['Crypto'] = PlayerData.Money['Crypto'] ~= nil and PlayerData.Money['Crypto'] or Config.Player['MoneyTypes']['Crypto']
 
         -- [ Character Info ] --
         PlayerData.CharInfo = PlayerData.CharInfo ~= nil and PlayerData.CharInfo or {}
@@ -286,9 +276,9 @@ PlayerModule = {
         PlayerData.CharInfo.Lastname = PlayerData.CharInfo.Lastname ~= nil and PlayerData.CharInfo.Lastname or "Lastname"
         PlayerData.CharInfo.Date = PlayerData.CharInfo.Date ~= nil and PlayerData.CharInfo.Date or "00-00-0000"
         PlayerData.CharInfo.Gender = PlayerData.CharInfo.Gender ~= nil and PlayerData.CharInfo.Gender or 'Male'
-        PlayerData.CharInfo.PhoneNumber = PlayerData.CharInfo.PhoneNumber ~= nil and PlayerData.CharInfo.PhoneNumber or "202-555"..math.random(1111, 9999)
-        PlayerData.CharInfo.BankNumber = PlayerData.CharInfo.BankNumber ~= nil and PlayerData.CharInfo.BankNumber or math.random(1111111111, 9999999999) 
-        PlayerData.CharInfo.Email = PlayerData.CharInfo.Email ~= nil and PlayerData.CharInfo.Email or PlayerData.CharInfo.Firstname.."."..PlayerData.CharInfo.Lastname.."@lossantos.com"
+        PlayerData.CharInfo.PhoneNumber = PlayerData.CharInfo.PhoneNumber ~= nil and PlayerData.CharInfo.PhoneNumber or Config.Player['DefaultPhone']
+        PlayerData.CharInfo.BankNumber = PlayerData.CharInfo.BankNumber ~= nil and PlayerData.CharInfo.BankNumber or Config.Player['DefaultBank']
+        PlayerData.CharInfo.Email = PlayerData.CharInfo.Email ~= nil and PlayerData.CharInfo.Email or PlayerData.CharInfo.Firstname.."."..PlayerData.CharInfo.Lastname..Config.Player['DefaultEmail']
     
         -- [ Jobs ] --
         PlayerData.Job = PlayerData.Job ~= nil and PlayerData.Job or {}
@@ -314,7 +304,7 @@ PlayerModule = {
         PlayerData.MetaData["Stress"] = PlayerData.MetaData["Stress"] ~= nil and PlayerData.MetaData["Stress"] or 0
         PlayerData.MetaData["Dead"] = PlayerData.MetaData["Dead"] ~= nil and PlayerData.MetaData["Dead"] or false
         -- [ DNA ] --
-        PlayerData.MetaData["BloodType"] = PlayerData.MetaData["BloodType"] ~= nil and PlayerData.MetaData["BloodType"] or BloodTypes[math.random(1, #BloodTypes)]
+        PlayerData.MetaData["BloodType"] = PlayerData.MetaData["BloodType"] ~= nil and PlayerData.MetaData["BloodType"] or Config.Player['BloodTypes'][math.random(1, #Config.Player['BloodTypes'])]
         PlayerData.MetaData["FingerPrint"] = PlayerData.MetaData["FingerPrint"] ~= nil and PlayerData.MetaData["FingerPrint"] or PlayerModule.CreateDnaId('finger')
         PlayerData.MetaData["SlimeCode"] = PlayerData.MetaData["SlimeCode"] ~= nil and PlayerData.MetaData["SlimeCode"] or PlayerModule.CreateDnaId('slime')
         PlayerData.MetaData["HairCode"] = PlayerData.MetaData["HairCode"] ~= nil and PlayerData.MetaData["HairCode"] or PlayerModule.CreateDnaId('hair')
@@ -363,8 +353,9 @@ PlayerModule = {
 
         PlayerModule.LoadPlayer(PlayerData)
     end,
-    DebugLog = function(Part, Log)
-        print('[DEBUG:'..Part..']: '..Log)
+    DebugLog = function(Type, Log)
+        if not Config.Server['Debug'] then return end
+        print('[DEBUG:'..Type..']: '..Log)
     end,
     LoadPlayer = function(PlayerData)
         local self = {}
@@ -614,7 +605,7 @@ PlayerModule = {
                 local NewWeight = TotalWeight + (ItemData["Weight"] * Amount)
                 PlayerModule.DebugLog('weight-check', 'Checking new weight before adding item: '..NewWeight)
 
-                if NewWeight <= Shared.InventoryMaxWeight then -- Max weight
+                if NewWeight <= Config.Player['InventoryMaxWeight'] then -- Max weight
                     -- Item Exists so + 1
                     if (Slot ~= nil and self.PlayerData.Inventory[Slot] ~= nil) and (self.PlayerData.Inventory[Slot].ItemName:lower() == Item:lower()) and (ItemData["Type"] == "Item" and not ItemData["Unique"]) then
                         self.PlayerData.Inventory[Slot].Amount = self.PlayerData.Inventory[Slot].Amount + Amount
@@ -753,7 +744,7 @@ PlayerModule = {
         end
 
         ServerPlayers[self.PlayerData.Source] = self
-        PlayerPermission[self.PlayerData.Source] = {}
+        Config.Server['PermissionList'][self.PlayerData.Source] = {}
 
         -- PlayerModule.DebugLog('LoadPlayer', 'LOADED PLAYER')
     
@@ -823,10 +814,10 @@ PlayerModule = {
         local Functions = exports[GetCurrentResourceName()]:FetchModule('Functions')
         local Database = exports[GetCurrentResourceName()]:FetchModule('Database')
         local SteamIdentifier = Functions.GetIdentifier(Source, "steam")
-        if PlayerPermission[Source] == nil then
-            PlayerPermission[Source] = {}
+        if Config.Server['PermissionList'][Source] == nil then
+            Config.Server['PermissionList'][Source] = {}
         end
-        PlayerPermission[Source].permission = Group
+        Config.Server['PermissionList'][Source].permission = Group
         Database.Execute("UPDATE server_users SET permission = ? WHERE steam = ? ", {Group, SteamIdentifier}, function(Result)
             PlayerModule.DebugLog('SetPermission', 'Set Permission for '..Source..' to '..Group)
         end, true)
