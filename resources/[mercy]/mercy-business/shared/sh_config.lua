@@ -56,6 +56,11 @@ Config.FoodChainLocations = {
     ['UwU Café'] = vector3(-581.79, -1059.72, 22.34)
 }
 
+Config.ActiveEmployees = {
+    ['Burger Shot'] = {},
+    ['UwU Café'] = {}
+}
+
 Config.ActivePayments = {
     ['Burger Shot'] = {},
     ['UwU Café'] = {}

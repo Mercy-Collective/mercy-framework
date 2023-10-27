@@ -619,7 +619,7 @@ function InitFoodzones()
                     Icon = 'fas fa-clock',
                     Label = 'Clock In',
                     EventType = 'Client',
-                    EventName = 'mercy-business/client/foodchain/set-duty',
+                    EventName = 'mercy-business/server/foodchain/set-duty',
                     EventParams = {Business = 'Burger Shot', Clocked = true},
                     Enabled = function(Entity)
                         local ClockData = exports['mercy-business']:GetClockedData()
@@ -635,7 +635,7 @@ function InitFoodzones()
                     Icon = 'fas fa-clock',
                     Label = 'Clock Out',
                     EventType = 'Client',
-                    EventName = 'mercy-business/client/foodchain/set-duty',
+                    EventName = 'mercy-business/server/foodchain/set-duty',
                     EventParams = {Business = 'None', Clocked = false},
                     Enabled = function(Entity)
                         local ClockData = exports['mercy-business']:GetClockedData()

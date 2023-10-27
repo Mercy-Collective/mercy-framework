@@ -23,9 +23,33 @@ Citizen.CreateThread(function()
         if Register[RegisterId] == nil then Cb(false) end
         Cb(Register[RegisterId])
     end)
+
+    CallbackModule.CreateCallback('mercy-business/server/get-clocked-in-employees', function(Source, Cb, Business)
+        Cb(Config.ActiveEmployees[Business])
+    end)
 end)
 
 -- [ Events ] --
+
+RegisterNetEvent('mercy-business/server/foodchain/set-duty', function(Data)
+    local src = source
+    if Data.Clocked then
+        table.insert(Config.ActiveEmployees[Data.Business], {
+            Source = src,
+            Name = GetPlayerName(src),
+            Business = Data.Business,
+            Clocked = Data.Clocked,
+        })
+    else
+        for EmployeeId, Employee in pairs(Config.ActiveEmployees[Data.Business]) do
+            if Employee.Source == src then
+                table.remove(Config.ActiveEmployees[Data.Business], EmployeeId)
+            end
+        end
+    end
+    TriggerClientEvent('mercy-business/client/foodchain/set-duty', src, Data)	
+end)
+
 
 RegisterNetEvent("mercy-business/server/foodchain/add-to-register", function(Business, RegisterId, Cost, Order)
     local src = source

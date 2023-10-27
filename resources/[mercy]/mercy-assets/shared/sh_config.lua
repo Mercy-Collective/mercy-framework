@@ -121,17 +121,17 @@ Config.PropList = {
 		["ZR"] = 0.0,
     	["VertexIndex"] = 0
 	},
-	-- ['Box'] = {
-	-- 	["Model"] = "prop_cs_cardbox_01",
-	-- 	["Bone"] = 57005,
-	-- 	['X'] = 0.05,
-	-- 	['Y'] = 0.1,
-	-- 	['Z'] = -0.3,
-	-- 	['XR'] = 300.0,
-	-- 	['YR'] = 250.0,
-	-- 	['ZR'] = 20.0,
-    -- 	["VertexIndex"] = 0
-	-- },
+	['CardBox'] = {
+		["Model"] = "prop_cs_cardbox_01",
+		["Bone"] = 57005,
+		['X'] = 0.05,
+		['Y'] = 0.1,
+		['Z'] = -0.3,
+		['XR'] = 300.0,
+		['YR'] = 250.0,
+		['ZR'] = 20.0,
+    	["VertexIndex"] = 0
+	},
 	['Drill'] = {
 		["Model"] = "hei_prop_heist_drill",
 		["Bone"] = 57005,

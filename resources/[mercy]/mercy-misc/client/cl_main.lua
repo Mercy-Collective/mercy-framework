@@ -7,6 +7,7 @@ RegisterNetEvent('mercy-base/client/on-login', function()
         Config.GoPros = GoPros
         InitGoPros()
         InitMiscZones()
+        InitTea()
     end)
 end)
 

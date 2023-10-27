@@ -3412,6 +3412,21 @@ Shared.ItemList["fish-whale"] = {
 	['Price'] = 1,
 }
 
+Shared.ItemList["mugoftea"] = {
+	['ItemName'] = "mugoftea",
+	['Label'] = "Mug of tea",
+	['Weight'] = 0.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "mugoftea.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "Slurp, slurp...",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 200,
+}
+
 Shared.ItemList["trowel"] = {
 	['ItemName'] = "trowel",
 	['Label'] = "Trowel",

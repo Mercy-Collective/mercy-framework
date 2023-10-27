@@ -130,7 +130,7 @@ Config.Animations = {
         ['Dict'] = 'anim@heists@box_carry@',
         ['Animation'] = 'idle',
         ['Moving'] = true,
-        ['Looping'] = true,
+        ['Looping'] = false,
         ['Hidden'] = false
     },
     -- C
@@ -1423,6 +1423,16 @@ Config.Animations = {
         ['Animation'] = 'idle_a',
         ['Looping'] = false,
         ['Moving'] = true,
+        ['Hidden'] = false,
+    },
+    {
+        ['Id'] = 'mechanic4',
+        ['Name'] = 'Mechanic #4',
+        ['Type'] = 'Animation',
+        ['Dict'] = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@',
+        ['Animation'] = 'machinic_loop_mechandplayer',
+        ['Looping'] = true,
+        ['Moving'] = false,
         ['Hidden'] = false,
     },
     {

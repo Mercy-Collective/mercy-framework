@@ -117,7 +117,19 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer('mercy-misc/server/metal-detecting/get-loot', function(Source)
         print('[DEBUG:Misc]: Giving metal detecting loot.')
     end)
-    
+
+    EventsModule.RegisterServer('mercy-misc/server/recycle/get-loot', function(Source)
+        print('[DEBUG:Misc]: Giving recycle loot.')
+
+    end)
+
+    EventsModule.RegisterServer('mercy-misc/server/get-tea', function(Source)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if not Player then return end
+
+        Player.Functions.AddItem('mugoftea', 1, false, {}, true)
+    end)
+
     EventsModule.RegisterServer('mercy-misc/server/write-notepad', function(Source, Text)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if not Player then return end

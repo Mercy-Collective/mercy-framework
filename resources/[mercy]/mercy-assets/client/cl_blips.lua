@@ -44,4 +44,6 @@ function AddBlips()
     BlipModule.CreateBlip('jail', vector3(1695.32, 2602.01, 45.0), 'Bolingbroke Penitentiary', 188, 0, false, 0.70)
     
     BlipModule.CreateBlip('casino', vector3(925.94, 45.9, 81.1), 'Diamond Casino', 304, 36, false, 0.45)
+    
+    BlipModule.CreateBlip('recycle-center', vector3(55.61, 6472.12, 31.43), 'Recycle Center', 365, 2, false, 0.6)
 end

@@ -343,6 +343,15 @@ RegisterNetEvent("mercy-base/server/sync-request", function(Native, ServerId, Ne
    TriggerClientEvent('mercy-base/client/sync-execute', ServerId, Native, NetId, ...)
 end)
 
+RegisterNetEvent("mercy-base/server/set-meta-data", function(Type, Amount)
+    local Source = source
+    local Player = PlayerModule.GetPlayerBySource(Source)
+	if Player then
+        Player.Functions.SetMetaData(Type, Amount)
+        Player.Functions.Save()
+    end
+end)
+
 RegisterNetEvent("mercy-base/server/reduce-player-food-water", function()
     local Source = source
     local Player = PlayerModule.GetPlayerBySource(Source)

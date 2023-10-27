@@ -199,6 +199,14 @@ Citizen.CreateThread(function()
         end
     end)
 
+
+    FunctionsModule.CreateUseableItem("mugoftea", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-misc/client/used-tea', Source)
+        end
+    end)
+
     FunctionsModule.CreateUseableItem("notepad", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then

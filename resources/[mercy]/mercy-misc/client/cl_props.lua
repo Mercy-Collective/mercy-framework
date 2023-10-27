@@ -40,7 +40,7 @@ function AddPropToHands(PropName)
     HasItem = true
     TriggerEvent('mercy-assets/client/attach-items')
     exports['mercy-assets']:AttachProp(PropName)
-    if PropName ~= 'BriefCase' then
+    if PropName ~= 'Duffel' and PropName ~= 'BriefCase' then
         IgnoreControls = false
         while HasItem do
             Citizen.Wait(4)

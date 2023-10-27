@@ -98,7 +98,7 @@ RegisterNetEvent('mercy-animations/client/play-animation', function(Animation)
                 if AnimationData['Looping'] ~= nil and AnimationData['Looping'] then
                     AnimMovement = 1
                 elseif AnimationData['Moving'] ~= nil and AnimationData['Moving'] then
-                    AnimMovement = 51
+                    AnimMovement = 49
                 end
                 FunctionsModule.RequestAnimDict(AnimationData['Dict'])
                 TaskPlayAnim(PlayerPedId(), AnimationData['Dict'], AnimationData['Animation'], 2.0, 2.0, -1, AnimMovement, 0, false, false, false)
