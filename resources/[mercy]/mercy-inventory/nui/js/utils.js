@@ -195,6 +195,8 @@ HandleInventoryInfo = function (ItemData) {
             InfoText = `Id: ${ItemData.Info.Id}; Serial: ${ItemData.Info.Data.Serial}`;
         } else if (ItemData.ItemName == "casinomember") {
             InfoText = `StateId: ${ItemData.Info.StateId}`;
+        } else if (ItemData.ItemName == "notepad") {
+            InfoText = `Pages: ${ItemData.Info.Pages}`;
         } else if (ItemData.ItemName == "idcard") {
             InfoText = `Citizen reference: ${ItemData.Info.CitizenId}; Firstname: ${ItemData.Info.Firstname}; Lastname: ${ItemData.Info.Lastname}; Birthdate: ${ItemData.Info.Date}; Gender: ${ItemData.Info.Sex}`;
         }

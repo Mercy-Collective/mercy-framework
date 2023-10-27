@@ -165,6 +165,10 @@ Citizen.CreateThread(function()
         TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Source, Position, Data['Distance'], Data['Name'], Data['Volume'])
     end)
 
+    EventsModule.RegisterServer("mercy-ui/server/play-sound-at-pos", function(Source, Sound, Coords, Range, Volume)
+        TriggerClientEvent('mercy-ui/client/play-audio-at-pos', Source, {[1] = Coords.x, [2] = Coords.y, [3] = Coords.z}, Range, Sound, Volume)
+    end)
+
     -- [ Characters ] --
 
     EventsModule.RegisterServer("mercy-ui/server/create-character", function(Source, Data)

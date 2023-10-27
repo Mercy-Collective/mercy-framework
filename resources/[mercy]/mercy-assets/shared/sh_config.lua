@@ -385,6 +385,28 @@ Config.PropList = {
 		['ZR'] = -10.0,
     	["VertexIndex"] = 0
 	},
+	['Notepad'] = {
+        ['Model'] = 'prop_notepad_01',
+		["Bone"] = 60309,
+		["X"] = 0.0,
+		["Y"] = -0.0,
+		["Z"] = -0.0,
+		["XR"] = 0.0,
+		["YR"] = 0.0,
+		["ZR"] = 0.0,
+		["VertexIndex"] = 0
+    },
+    ['Pencil'] = {
+        ['Model'] = 'prop_pencil_01',
+		["Bone"] = 58870,
+		["X"] = 0.04,
+		["Y"] = 0.0225,
+		["Z"] = 0.08,
+		["XR"] = 320.0,
+		["YR"] = 0.0,
+		["ZR"] = 220.0,
+		["VertexIndex"] = 0
+    },
 	['Clipboard'] = {
 		["Model"] = "p_amb_clipboard_01",
     	["Bone"] = 18905,

@@ -591,6 +591,10 @@ PlayerModule = {
                         elseif ItemName == 'hunting-carcass-one' then
                             Info.Date = os.date()
                             Info.Animal = "Kane"
+                        elseif ItemName == 'notepad' then
+                            Info.Pages = 10
+                        elseif ItemName == 'notepad-page' then
+                            Info.Note = "This is an empty note.."
                         end
                     end
                 else -- If Info exists
@@ -728,6 +732,22 @@ PlayerModule = {
             local Slot = tonumber(Slot)
             if self.PlayerData.Inventory[Slot] ~= nil then
                 return self.PlayerData.Inventory[Slot]
+            end
+        end
+
+        self.Functions.SetItemBySlotAndKey = function(Slot, Key, ItemData)
+            local Slot = tonumber(Slot)
+            if self.PlayerData.Inventory[Slot] ~= nil then
+                self.PlayerData.Inventory[Slot][Key] = ItemData
+                self.Functions.UpdatePlayerData()
+            end
+        end
+
+        self.Functions.SetItemBySlot = function(Slot, ItemData)
+            local Slot = tonumber(Slot)
+            if self.PlayerData.Inventory[Slot] ~= nil then
+                self.PlayerData.Inventory[Slot] = ItemData
+                self.Functions.UpdatePlayerData()
             end
         end
     

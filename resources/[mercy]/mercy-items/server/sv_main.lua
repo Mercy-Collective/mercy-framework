@@ -199,6 +199,34 @@ Citizen.CreateThread(function()
         end
     end)
 
+    FunctionsModule.CreateUseableItem("notepad", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-misc/client/write-note', Source)
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("notepad-page", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-misc/client/open-note', Source, Item.Info)
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("metaldetector", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-misc/client/used-metaldetector', Source)
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("trowel", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-misc/client/used-trowel', Source)
+        end
+    end)
+
     FunctionsModule.CreateUseableItem("pdbadge", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then

@@ -3412,6 +3412,65 @@ Shared.ItemList["fish-whale"] = {
 	['Price'] = 1,
 }
 
+Shared.ItemList["trowel"] = {
+	['ItemName'] = "trowel",
+	['Label'] = "Trowel",
+	['Weight'] = 2.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "trowel.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Useful for digging holes",
+	['DecayRate'] = 1.0,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 400,
+}
+
+Shared.ItemList["notepad"] = {
+	['ItemName'] = "notepad",
+	['Label'] = "Notepad",
+	['Weight'] = 0.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "notepad.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "A notepad with 10 pages",
+	['DecayRate'] = 1.0,
+	['RemoveWhenDecayed'] = true,
+	['Price'] = 200,
+}
+
+Shared.ItemList["notepad-page"] = {
+	['ItemName'] = "notepad-page",
+	['Label'] = "A Note",
+	['Weight'] = 0.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "notepad-page.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "A note with text?",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = true,
+}
+
+Shared.ItemList["metaldetector"] = {
+	['ItemName'] = "metaldetector",
+	['Label'] = "Metaldetector",
+	['Weight'] = 20.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "metaldetector.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "If I have to believe the internet, you can find similar gold diggers",
+	['DecayRate'] = 0.5,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 25000,
+}
+
 Shared.ItemList["pickaxe"] = {
 	['ItemName'] = "pickaxe",
 	['Label'] = "Mining Pickaxe",
@@ -3419,7 +3478,7 @@ Shared.ItemList["pickaxe"] = {
 	['Type'] = "Item",
 	['Metal'] = true,
 	['Image'] = "j_pickaxe.png",
-	['Unique'] = false,
+	['Unique'] = true,
 	['Combinable'] = nil,
 	['Description'] = "Minecwaft?",
 	['DecayRate'] = 0.00277,

@@ -28,7 +28,6 @@ Citizen.CreateThread(function()
         if ItemData ~= nil and ItemData.Amount > 0 then
             if FunctionsModule.CanUseItem(ItemData.ItemName) or ItemData['Type'] == 'Weapon' then
                 if ItemData.Info.Quality ~= nil then
-                    print(ItemData.Info.Quality)
                     if ItemData.Info.Quality > 0 then
                         TriggerClientEvent('mercy-inventory/client/item-box', Source, 'Used', Shared.ItemList[ItemData.ItemName], false)
                         if ItemData['Type'] ~= 'Weapon' then

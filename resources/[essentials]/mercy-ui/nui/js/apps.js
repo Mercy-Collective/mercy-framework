@@ -182,6 +182,13 @@ RegisteredApps = [
         js: ['main.js'],
         status: false,
     },
+    {
+        app: 'Notepad',
+        html: ['index.html'],
+        css: ['main.css'],
+        js: ['main.js'],
+        status: false,
+    },
 ];
 
 RegisterAllApps = () => {

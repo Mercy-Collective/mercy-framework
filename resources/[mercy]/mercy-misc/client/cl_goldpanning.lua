@@ -20,7 +20,7 @@ RegisterNetEvent("mercy-items/client/used/gold-pan", function(Item)
         CurrentlyPanning = false
     end)
 
-    TriggerServerEvent('mercy-inventory/server/decay-item', Item.ItemName, Item.Slot, 2)
+    EventsModule.TriggerServer('mercy-inventory/server/degen-item', Item.Slot, 2)
 
     local AnimDict, AnimName = 'amb@world_human_bum_wash@male@high@idle_a', 'idle_a'
     FunctionsModule.RequestAnimDict(AnimDict)

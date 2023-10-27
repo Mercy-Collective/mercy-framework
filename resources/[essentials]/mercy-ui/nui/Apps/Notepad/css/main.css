@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
+
+.notepad-wrapper {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.notepad-container {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.notepad-image {
+    position: absolute;
+    top:50vh;
+    right: 1vw;
+    width: 423px;
+    height: 493px;
+    user-select: none;
+}
+
+.notepad-content {
+    position: absolute;
+    top:54.8vh;
+    right: 0.8vw;
+    z-index: 99;
+    user-select: none;
+}
+
+.notepad-content textarea {
+    font-family: 'Kalam', cursive!important;
+    font-size: 18px;
+    min-width: 385px;
+    min-height: 380px;
+    max-width: 385px;
+    max-height: 380px;
+    resize: none;
+    background: transparent!important;
+    border: none!important;
+    line-height: 1.45em;
+    overflow: hidden;
+}
+
+.notepad-content textarea:focus {
+    border: none;
+    outline: none;
+}
+
+.btn-dropnote {
+    position: absolute;
+
+    bottom: 6vh;
+    left: 79vw;
+
+    z-index: 99;
+    outline: none;
+    border: none;
+
+    background: #a81e1e;
+    color: #ffffff;
+
+    border-radius: 3px!important;
+
+    font-size: 12px!important;
+    padding: 10px 30px!important;
+
+    transition: all .1s ease-in-out;
+}
+
+.btn-dropnote:hover {
+    cursor: pointer;
+    background: #e63030;
+}

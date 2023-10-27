@@ -1467,6 +1467,16 @@ Config.Animations = {
     },
     -- N
     {
+        ['Id'] = 'notepad',
+        ['Name'] = 'Notepad',
+        ['Type'] = 'Animation',
+        ['Dict'] = 'amb@medic@standing@timeofdeath@base',
+        ['Animation'] = 'base',
+        ['Moving'] = true,
+        ['Looping'] = true,
+        ['Hidden'] = false
+    },
+    {
         ['Id'] = 'no',
         ['Name'] = 'No #1',
         ['Type'] = 'Animation',
