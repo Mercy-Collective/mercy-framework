@@ -5,7 +5,7 @@ Config.SavedDuiData, Config.DuiLinks = {}, {}
 Config.Density = {
     ['Vehicle'] = 0.55,
     ['Parked'] = 0.80,
-    ['Peds'] = 0.55,
+    ['Peds'] = 1.0,
     ['Scenarios'] = 0.55,
 }
 
@@ -24,18 +24,18 @@ Config.DiscordSettings = {
     ['Text'] = 'Mercy Collective',
 }
 
-Config.BlacklistedScenarios = {
-    ['TYPES'] = {
-        "WORLD_VEHICLE_MILITARY_PLANES_SMALL",
-        "WORLD_VEHICLE_MILITARY_PLANES_BIG",
-    },
-    ['GROUPS'] = {
-        2017590552,
-        2141866469,
-        1409640232,
-        GetHashKey('ng_planes'),
-    }
-}
+-- Config.BlacklistedScenarios = {
+--     ['TYPES'] = {
+--         "WORLD_VEHICLE_MILITARY_PLANES_SMALL",
+--         "WORLD_VEHICLE_MILITARY_PLANES_BIG",
+--     },
+--     ['GROUPS'] = {
+--         2017590552,
+--         2141866469,
+--         1409640232,
+--         GetHashKey('ng_planes'),
+--     }
+-- }
 
 Config.BlacklistedEntitys = {
 	-- Vehicles

@@ -4,7 +4,7 @@ local AlreadyDetcording = false
 
 -- [ Events ] --
 
-RegisterNetEvent('mercy-items/client/used-lockpick', function(isAdvanced)
+RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced)
     Citizen.SetTimeout(450, function()
         local PlayerData = PlayerModule.GetPlayerData()
         local Entity, EntityType, EntityCoords = FunctionsModule.GetEntityPlayerIsLookingAt(4.0, 0.2, 286, PlayerPedId())
@@ -16,6 +16,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(isAdvanced)
                     TriggerServerEvent('mercy-doors/server/set-locks', DoorId, 0)
                     TriggerServerEvent('mercy-doors/server/toggle-locks', DoorId, 0)
                 else
+                    exports['mercy-assets']:RemoveLockpickChance(IsAdvanced)
                     TriggerEvent('mercy-ui/client/notify', 'lockpick-error', "Failed attempt..", 'error')
                 end
             else

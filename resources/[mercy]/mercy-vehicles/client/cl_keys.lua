@@ -210,6 +210,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced, isBank
         LoopAnimation(false)
         if not Outcome then
             exports['mercy-ui']:Notify('keys-error', "Failed attempt..", 'error')
+            exports['mercy-assets']:RemoveLockpickChance(IsAdvanced)
             return
         end
 
@@ -226,6 +227,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced, isBank
         LoopAnimation(false)
         if not Outcome then
             exports['mercy-ui']:Notify('keys-error', "Failed attempt..", 'error')
+            exports['mercy-assets']:RemoveLockpickChance(IsAdvanced)
             return
         end
 

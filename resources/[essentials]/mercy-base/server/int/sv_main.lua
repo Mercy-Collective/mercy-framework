@@ -260,6 +260,25 @@ AddEventHandler('Modules/server/ready', function()
             local Player = PlayerModule.GetPlayerBySource(Source)
             Player.Functions.RemoveCrypto(Type, Amount)
         end)
+        
+        EventsModule.RegisterServer("mercy-base/server/create-log", function(Source, Log)
+            local Player = PlayerModule.GetPlayerBySource(Source)
+    
+            local Name = Player.PlayerData.Name..' ('..Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname..')'
+
+            if string.sub(Log, -1) == '.' then
+                Log = Log
+            else
+                Log = Log..'.'
+            end
+            DatabaseModule.Insert("INSERT INTO server_logs (cid, name, log) VALUES (?, ?, ?)", {Player.PlayerData.CitizenId, Name, Log}, function(Inserted)
+                if Inserted ~= nil then
+                    print("[SERVER:LOGS]: Inserted server log.")
+                else
+                    print("[SERVER:LOGS]: Failed to insert server log.")
+                end
+            end)
+        end)
 
         local NoPayCheckBusinesses = {
             'Burger Shot',

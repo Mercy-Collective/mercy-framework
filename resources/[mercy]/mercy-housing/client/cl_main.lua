@@ -121,7 +121,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(4)
-        if LocalPlayer.state.LoggedIn and Config.Houses ~= nil then
+        if LocalPlayer.state.LoggedIn and Config.Houses ~= nil and next(Config.Houses) ~= nil then
             if not InsideHouse then
                 SetClosestHouse()
             end

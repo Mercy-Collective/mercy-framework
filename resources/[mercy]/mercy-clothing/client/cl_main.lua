@@ -1,6 +1,6 @@
+PlayerModule, EventsModule, FunctionsModule, BlipModule, CallbackModule, LoggerModule = nil
 SavedSkin = {}
 local CreatingNew = false
-PlayerModule, EventsModule, FunctionsModule, BlipModule, CallbackModule = nil, nil, nil, nil, nil
 
 AddEventHandler('Modules/client/ready', function()
     TriggerEvent('Modules/client/request-dependencies', {
@@ -9,6 +9,7 @@ AddEventHandler('Modules/client/ready', function()
         'Functions',
         'BlipManager',
         'Callback',
+        'Logger',
     }, function(Succeeded)
         if not Succeeded then return end
         PlayerModule = exports['mercy-base']:FetchModule('Player')
@@ -16,6 +17,7 @@ AddEventHandler('Modules/client/ready', function()
         FunctionsModule = exports['mercy-base']:FetchModule('Functions')
         BlipModule = exports['mercy-base']:FetchModule('BlipManager')
         CallbackModule = exports['mercy-base']:FetchModule('Callback')
+        LoggerModule = exports['mercy-base']:FetchModule('Logger')
     end)
 end)
 
@@ -85,7 +87,7 @@ RegisterNetEvent("mc-clothing/client/load-skin", function(Model, Skin, Tattoos)
     local SkinData = {}
     local Player = PlayerModule.GetPlayerData()
     Model = Model ~= nil and Model or Player.CharInfo.Gender == 'Male' and "mp_m_freemode_01" or 'mp_f_freemode_01'
-    DebugLog('SkinLoad', 'Loading skin for player. '.. Model ..' | '.. json.encode(Skin) ..' | '.. json.encode(Tattoos))
+    DebugLog('SkinLoad', Model)
     Citizen.CreateThread(function()
         if FunctionsModule.RequestModel(Model) then 
             SetPlayerModel(PlayerId(), GetHashKey(Model)) 
@@ -103,12 +105,12 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     local TattoosData = Data['Tattoos']
     local EntityModel = GetEntityModel(PlayerPed)
 
-    if SkinData == nil then
-        DebugLog('SkinLoad', 'Skin data is nil. Can\'t load skin...')
+    if SkinData == nil or next(SkinData) == nil then
+        DebugLog('SkinLoad', 'Skin data not found. Can\'t load skin...')
         return
     end
-    if TattoosData == nil then
-        DebugLog('TattoosLoad', 'Tattoos data is nil. Can\'t load tattoos...')
+    if TattoosData == nil or next(TattoosData) == nil then
+        DebugLog('TattoosLoad', 'Tattoos data not found. Can\'t load tattoos...')
         return
     end
 
@@ -150,7 +152,7 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
         SkinData["Skinmix"].Item, 
         SkinData["Thirdmix"].Item, false)
 
-        DebugLog('Parents', 'Applied parents to ped. ('.. SkinData["Face"].Item ..' | '.. SkinData["Face2"].Item ..' | '.. SkinData["Face3"].Item ..' | '.. SkinData["Facemix"].Item ..' | '.. SkinData["Skinmix"].Item ..' | '.. SkinData["Thirdmix"].Item ..')')
+        DebugLog('Parents', '('.. SkinData["Face"].Item ..' | '.. SkinData["Face2"].Item ..' | '.. SkinData["Face3"].Item ..' | '.. SkinData["Facemix"].Item ..' | '.. SkinData["Skinmix"].Item ..' | '.. SkinData["Thirdmix"].Item ..')')
     end
 
     ---
@@ -173,7 +175,7 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     SetPedHeadOverlay(PlayerPed, 10, SkinData["Chesthair"].Item, SkinData["Chesthair"].Opacity)
     SetPedHeadOverlayColor(PlayerPed, 10, 1, SkinData["Chesthair"].Texture, SkinData["Chesthair"].Texture2)
 
-    DebugLog('Hair', 'Applied hair to ped.')
+    DebugLog('Hair', '(Hair: '.. SkinData["Hair"].Item ..' | Eyebrows: '.. SkinData["Eyebrows"].Item ..' | Beard: '.. SkinData["Beard"].Item ..' | Chest: '.. SkinData["Chesthair"].Item ..')')
 
     ---
     -- Skin
@@ -182,25 +184,21 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     -- Blemishes
     if SkinData["Blemishes"].Item ~= -1 and SkinData["Blemishes"].Item ~= 0 then
         SetPedHeadOverlay(PlayerPed, 0, SkinData["Blemishes"].Item, SkinData["Blemishes"].Opacity)
-        -- SetPedHeadOverlayColor(PlayerPed, 0, 1, SkinData["Blemishes"].Texture, 0)
     end
 
     -- Ageing
     if SkinData["Wrinkles"].Item ~= -1 and SkinData["Wrinkles"].Item ~= 0 then
         SetPedHeadOverlay(PlayerPed, 3, SkinData["Wrinkles"].Item, SkinData["Wrinkles"].Opacity)
-        -- SetPedHeadOverlayColor(PlayerPed, 3, 1, SkinData["Wrinkles"].Texture, 0)
     end
 
     -- Complexion
     if SkinData["Complexion"].Item ~= -1 and SkinData["Complexion"].Item ~= 0 then
         SetPedHeadOverlay(PlayerPed, 6, SkinData["Complexion"].Item, SkinData["Complexion"].Opacity)
-        -- SetPedHeadOverlayColor(PlayerPed, 6, 1, SkinData["Complexion"].Texture, 0)
     end
 
     -- Sun Damage
     if SkinData["SunDamage"].Item ~= -1 and SkinData["SunDamage"].Item ~= 0 then
         SetPedHeadOverlay(PlayerPed, 7, SkinData["SunDamage"].Item, SkinData["SunDamage"].Opacity)
-        -- SetPedHeadOverlayColor(PlayerPed, 7, 1, SkinData["SunDamage"].Texture, 0)
     end
 
     -- Moles & Freckles
@@ -211,28 +209,27 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     -- Body Blemishes
     if SkinData["BodyBlemishes"].Item ~= -1 and SkinData["BodyBlemishes"].Item ~= 0 then
         SetPedHeadOverlay(PlayerPed, 11, SkinData["BodyBlemishes"].Item, SkinData["BodyBlemishes"].Opacity)
-        -- SetPedHeadOverlayColor(PlayerPed, 11, 1, SkinData["BodyBlemishes"].Texture, 0)
     end
 
-    DebugLog('Skin', 'Applied skin to ped.')
+    DebugLog('Skin', '(Blemishes: '.. SkinData["Blemishes"].Item ..' | Ageing: '.. SkinData["Wrinkles"].Item ..' | Complexion: '.. SkinData["Complexion"].Item ..' | Sun Damage: '.. SkinData["SunDamage"].Item ..' | Moles: '.. SkinData["Moles"].Item ..' | Body Blemishes: '.. SkinData["BodyBlemishes"].Item ..')')
 
     ---
     -- Makeup
     ---
 
     -- Makeup
-    SetPedHeadOverlay(PlayerPed, 4, SkinData["Makeup"].Item, 1.0)
+    SetPedHeadOverlay(PlayerPed, 4, SkinData["Makeup"].Item, SkinData["Makeup"].Opacity)
     SetPedHeadOverlayColor(PlayerPed, 4, 2, SkinData["Makeup"].Texture, SkinData["Makeup"].Texture2)
 
     -- Blush
-    SetPedHeadOverlay(PlayerPed, 5, SkinData["Blush"].Item, 1.0)
+    SetPedHeadOverlay(PlayerPed, 5, SkinData["Blush"].Item, SkinData["Blush"].Opacity)
     SetPedHeadOverlayColor(PlayerPed, 5, 2, SkinData["Blush"].Texture, SkinData["Blush"].Texture2)
 
     -- Lipstick
-    SetPedHeadOverlay(PlayerPed, 8, SkinData["Lipstick"].Item, 1.0)
+    SetPedHeadOverlay(PlayerPed, 8, SkinData["Lipstick"].Item, SkinData["Lipstick"].Opacity)
     SetPedHeadOverlayColor(PlayerPed, 8, 2, SkinData["Lipstick"].Texture, SkinData["Lipstick"].Texture2)
 
-    DebugLog('Makeup', 'Applied makeup to ped.')
+    DebugLog('Makeup', '(Makeup: '.. SkinData["Makeup"].Item ..' | Blush: '.. SkinData["Blush"].Item ..' | Lipstick: '.. SkinData["Lipstick"].Item ..')')
 
     ---
     -- Clothing
@@ -269,7 +266,14 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     SetPedComponentVariation(PlayerPed, 10, SkinData["Decals"].Item, 0, 2)
     SetPedComponentVariation(PlayerPed, 10, SkinData["Decals"].Item, SkinData["Decals"].Texture, 0)
 
-    DebugLog('Clothing', 'Applied clothing to ped.')
+    local Hat = next(SkinData["Hat"]) ~= nil and SkinData["Hat"].Item or "Not found."
+    local Jacket = next(SkinData["Shirts"]) ~= nil and SkinData["Shirts"].Item or "Not found."
+    local Undershirt = next(SkinData["UnderShirt"]) ~= nil and SkinData["UnderShirt"].Item or "Not found."
+    local Arms = next(SkinData["Arms"]) ~= nil and SkinData["Arms"].Item or "Not found."
+    local Pants = next(SkinData["Pants"]) ~= nil and SkinData["Pants"].Item or "Not found."
+    local Shoes = next(SkinData["Shoes"]) ~= nil and SkinData["Shoes"].Item or "Not found."
+    local Decals = next(SkinData["Decals"]) ~= nil and SkinData["Decals"].Item or "Not found."
+    DebugLog('Clothing', '(Hat: '..Hat..' | Jacket: '..Jacket..' | Undershirt: '..Undershirt..' | Arms: '..Arms..' | Pants: '..Pants..' | Shoes: '..Shoes..' | Decals: '..Decals..')')
 
     ---
     -- Accessories
@@ -319,28 +323,30 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     SetPedComponentVariation(PlayerPed, 5, SkinData["Bag"].Item, 0, 2)
     SetPedComponentVariation(PlayerPed, 5, SkinData["Bag"].Item, SkinData["Bag"].Texture, 0)
 
-    DebugLog('Accessories', 'Applied accessories to ped.')
+    DebugLog('Accessories', '(Mask: '.. SkinData["Mask"].Item ..' | Glasses: '.. SkinData["Glasses"].Item ..' | Earrings: '.. SkinData["Earpiece"].Item ..' | Scarfs & Necklaces: '.. SkinData["Necklace"].Item ..' | Watches: '.. SkinData["Watch"].Item ..' | Bracelets: '.. SkinData["Bracelet"].Item ..' | Vest: '.. SkinData["ArmorVest"].Item ..' | Bag: '.. SkinData["Bag"].Item ..')')
 
     -- Tattoos
     ClearPedDecorations(PlayerPed)
     if TattoosData["TChest"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["TChest"].Collection, TattoosData["TChest"].Texture)
+        AddPedDecorationFromHashes(PlayerPed, TattoosData["TChest"].Collection, TattoosData["TChest"].Texture)
     end
     if TattoosData["THead"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["THead"].Collection, TattoosData["THead"].Texture)
+        AddPedDecorationFromHashes(PlayerPed, TattoosData["THead"].Collection, TattoosData["THead"].Texture)
     end
     if TattoosData["LLeg"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["LLeg"].Collection, TattoosData["LLeg"].Texture)
+        AddPedDecorationFromHashes(PlayerPed, TattoosData["LLeg"].Collection, TattoosData["LLeg"].Texture)
     end
     if TattoosData["RLeg"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["RLeg"].Collection, TattoosData["RLeg"].Texture)
+        AddPedDecorationFromHashes(PlayerPed, TattoosData["RLeg"].Collection, TattoosData["RLeg"].Texture)
     end
     if TattoosData["LArm"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["LArm"].Collection, TattoosData["LArm"].Texture)
+        AddPedDecorationFromHashes(PlayerPed, TattoosData["LArm"].Collection, TattoosData["LArm"].Texture)
     end
     if TattoosData["RArm"].Item ~= 0 then
-        ApplyPedOverlay(PlayerPed, TattoosData["RArm"].Collection, TattoosData["RArm"].Texture)
+        AddPedDecorationFromHashes(PlayerPed, TattoosData["RArm"].Collection, TattoosData["RArm"].Texture)
     end
+
+    DebugLog('Tattoos', '(Chest: '.. TattoosData["TChest"].Item ..' | Head: '.. TattoosData["THead"].Item ..' | Left Leg: '.. TattoosData["LLeg"].Item ..' | Right Leg: '.. TattoosData["RLeg"].Item ..' | Left Arm: '.. TattoosData["LArm"].Item ..' | Right Arm: '.. TattoosData["RArm"].Item ..')')
 
     ---
     -- FACE CATEGORY
@@ -383,7 +389,12 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     SetPedFaceFeature(PlayerPed, 19, (SkinData['NeckThickness'].Item / 10))
     SetPedFaceFeature(PlayerPed, 12, (SkinData['LipsThickness'].Item / 10))
 
-    DebugLog('Face', 'Applied face to ped.')
+    DebugLog('Face', 'Nose: (Width: '.. SkinData['NoseWidth'].Item ..' | Peak Height: '.. SkinData['PeakHeight'].Item ..' | Peak Length: '.. SkinData['PeakLength'].Item ..' | Bone Height: '.. SkinData['BoneHeight'].Item ..' | Peak Lowering: '.. SkinData['PeakLowering'].Item ..' | Bone Twist: '.. SkinData['BoneTwist'].Item ..')'..
+    '\nEyebrows: (Height: '.. SkinData['EyebrowHeight'].Item ..' | Depth: '.. SkinData['EyebrowDepth'].Item ..')'.. 
+    '\nCheeks: (Bone Height: '.. SkinData['CheekBoneHeight'].Item ..' | Bone Width: '.. SkinData['CheekBoneWidth'].Item ..' | Width: '.. SkinData['CheekWidth'].Item ..')'.. 
+    '\nJaw Bone: (Width: '.. SkinData['JawBoneWidth'].Item ..' | Back Length: '.. SkinData['JawBoneBackLength'].Item ..')'..
+    '\nChin Bone: (Height: '.. SkinData['ChinBoneHeight'].Item ..' | Length: '.. SkinData['ChinBoneLength'].Item ..' | Width: '.. SkinData['ChinBoneWidth'].Item ..' Cleft: | '.. SkinData['ChinCleft'].Item ..')'.. 
+    '\nMiscellaneous: (Eyes Squint'.. SkinData['EyesSquint'].Item ..' | Neck Thickness:'.. SkinData['NeckThickness'].Item ..' | Lips Thickness: '.. SkinData['LipsThickness'].Item ..')')
 
     -- Hair Fade
     local Gender = "Female"
@@ -391,11 +402,11 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     if Model == `mp_m_freemode_01` then Gender = "Male" end
     local FacialDec = Config.HairFades[Gender][SkinData["HairFade"].Item]
     if Model ~= nil and FacialDec then
-        SetPedFacialDecoration(PlayerPed, FacialDec[1], FacialDec[2])
+        AddPedDecorationFromHashesInCorona(PlayerPed, FacialDec[1], FacialDec[2])
     end
+    DebugLog('HairFade', SkinData["HairFade"].Item)
 
-    DebugLog('Tattoos', 'Applied tattoos to ped.')
-    DebugLog('Skin', 'Applied skin to ped.')
+
     Config.SkinData['Skin'] = SkinData
     Config.SkinData['Tattoos'] = TattoosData
 end)

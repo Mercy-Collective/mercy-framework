@@ -8,12 +8,16 @@ local ErrorMatches = {
     "invalid",
     "cannot",
     ".lua", 
+    ".js", 
+    ".ts", 
     "server",
     "client",
     "attempt",
     "traceback",
     "stack",
-    "function"
+    "function",
+    "nil",
+    "undefined"
 }
 
 function Citizen.Trace(...)

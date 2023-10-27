@@ -1,4 +1,4 @@
-CallbackModule, CommandsModule = nil, nil, nil
+CallbackModule, CommandsModule = nil, nil
 local BlockedModels = {}
 
 -- [ Code ] --
@@ -25,8 +25,9 @@ Citizen.CreateThread(function()
 
     -- [ Commands ] --
 
-    CommandsModule.Add("shuff", "Shuff your ass", {}, false, function(source, args)
-        TriggerClientEvent('mercy-assets/client/shuffle-seat', source)
+    CommandsModule.Add({"me"}, "Character Expression", {{Name="message", Help="Message"}}, false, function(source, args)
+        local Text = table.concat(args, ' ')
+        TriggerClientEvent('mercy-misc/client/me', -1, source, Text)
     end)
 
     CommandsModule.Add("duty", "Duty Menu", {}, false, function(source, args)

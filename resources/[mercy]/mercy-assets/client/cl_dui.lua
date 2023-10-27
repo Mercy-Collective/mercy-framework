@@ -22,7 +22,6 @@ function GenerateNewDui(URL, Width, Height, DuiId)
             ['Height'] = Height,
             ['DuiUrl'] = URL,
         }
-        
         Config.DuiLinks[DuiId] = URL
         Config.SavedDuiData[DuiId] = ReturnData
         TriggerServerEvent('mercy-assets/server/set-dui-data', DuiId, ReturnData)
@@ -37,6 +36,7 @@ function GetDuiData(DuiId)
         return Config.SavedDuiData[DuiId]
     end
 end
+exports("GetDuiData", GetDuiData)
 
 function ReleaseDui(DuiId)
     if Config.SavedDuiData[DuiId] ~= nil then
@@ -46,13 +46,15 @@ function ReleaseDui(DuiId)
         Config.SavedDuiData[DuiId] = nil
     end
 end
+exports("ReleaseDui", ReleaseDui)
 
 function DeactivateDui(DuiId)
-    if Config.SavedDuiData[DuiId] ~= nil then
-        local Settings = Config.SavedDuiData[DuiId]
-        SetDuiUrl(Settings['DuiObject'], 'about:blank')
-    end
+    -- if Config.SavedDuiData[DuiId] ~= nil then
+    --     local Settings = Config.SavedDuiData[DuiId]
+    --     SetDuiUrl(Settings['DuiObject'], 'about:blank')
+    -- end
 end
+exports("DeactivateDui", DeactivateDui)
 
 function ActivateDui(DuiId)
     if Config.SavedDuiData[DuiId] ~= nil then
@@ -60,12 +62,14 @@ function ActivateDui(DuiId)
         SetDuiUrl(Settings['DuiObject'], Config.DuiLinks[DuiId])
     end
 end
+exports("ActivateDui", ActivateDui)
 
 function ChangeDuiURL(DuiId, URL)
     if not Config.SavedDuiData[DuiId] then return end
     local Settings = Config.SavedDuiData[DuiId]
     SetDuiUrl(Settings['DuiObject'], URL)
 end
+exports("ChangeDuiURL", ChangeDuiURL)
 
 -- [ Events ] --
 
@@ -89,19 +93,11 @@ RegisterNetEvent('mercy-assets/client/change-dui-url', function(DuiId)
     else
         DuiId = DuiId
     end
-    local TargetId = DuiId
     Citizen.SetTimeout(450, function()
         local Data = {{Name = 'Url', Label = 'URL', Icon = 'fas fa-link'}}
         local DUIInput = exports['mercy-ui']:CreateInput(Data)
         if DUIInput['Url'] then
-            TriggerServerEvent('mercy-assets/server/set-dui-url', TargetId, DUIInput['Url'])
+            TriggerServerEvent('mercy-assets/server/set-dui-url', DuiId, DUIInput['Url'])
         end
     end)
 end)
-
-exports("GenerateNewDui", GenerateNewDui) 
-exports("GetDuiData", GetDuiData) 
-exports("ReleaseDui", ReleaseDui) 
-exports("DeactivateDui", DeactivateDui) 
-exports("ActivateDui", ActivateDui) 
-exports("ChangeDuiURL", ChangeDuiURL)

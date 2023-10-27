@@ -1,5 +1,4 @@
-local HasPlayerIdOpen = false
-
+local HasScoreboardOpen = false
 -- [ Code ] --
 
 -- [ Threads ] --
@@ -8,64 +7,38 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(4)
         if LocalPlayer.state.LoggedIn then
-            if IsControlJustPressed(0, 213) then
-                if not HasPlayerIdOpen then
-                    HasPlayerIdOpen = true
+            if IsControlJustPressed(0, 213) or IsDisabledControlJustPressed(0, 213) then -- Home Key
+                if not HasScoreboardOpen then
+                    HasScoreboardOpen = true
                 end
             end
-            if IsControlJustReleased(0, 213) then
-                if HasPlayerIdOpen then
-                    HasPlayerIdOpen = false
-                end
+            if IsControlJustReleased(0, 213) or IsDisabledControlJustReleased(0, 213) then
+                HasScoreboardOpen = false
             end
-            if HasPlayerIdOpen then
+            if HasScoreboardOpen then
                 local Players = GetPlayersFromCoords(GetEntityCoords(PlayerPedId()), 10.0)
                 for _, Player in pairs(Players) do
                     local PlayerId = GetPlayerServerId(Player)
-                    local Ped = GetPlayerPed(Player)
-                    local PlayerCoords = GetPedBoneCoords(Ped, 0x796e)
-                    local CanSee = HasEntityClearLosToEntity(PlayerPedId(), Ped, 17)
-                    local IsDucking = IsPedDucking(Ped)
-                    local IsStealth = GetPedStealthMovement(Ped)
-                    local IsDriveBy = IsPedDoingDriveby(Ped)
-                    local IsInCover = IsPedInCover(Ped, true)
+                    local PlayerPed = GetPlayerPed(Player)
+                    local PlayerCoords = GetPedBoneCoords(PlayerPed, 0x796e)
+                    local CanSee = HasEntityClearLosToEntity(PlayerPedId(), PlayerPed, 17)
+                    local IsDucking = IsPedDucking(PlayerPed)
+                    local IsStealth = GetPedStealthMovement(PlayerPed)
+                    local IsDriveBy = IsPedDoingDriveby(PlayerPed)
+                    local IsInCover = IsPedInCover(PlayerPed, true)
                     if IsDucking or IsStealth == 1 or IsDriveBy or IsInCover then CanSee = false end
                     if CanSee then
-                        if NetworkIsPlayerTalking(Player) then
-                            DrawText3D(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z + 0.5, PlayerId, {r = 255, g = 56, b = 47})
-                        else
-                            DrawText3D(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z + 0.5, PlayerId)
-                        end
+                        DrawText3D(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z + 0.5, PlayerId)
                     end
                 end
             end
         else
-           Citizen.Wait(450)
+           Citizen.Wait(1000)
         end
     end
 end)
 
 -- [ Functions ] --
-
-function GetPlayersFromCoords(Coords, Distance)
-    local Players = GetPlayers()
-    local ClosePlayers = {}
-    if Coords == nil then
-		Coords = GetEntityCoords(PlayerPedId())
-    end
-    if Distance == nil then
-        Distance = 5.0
-    end
-    for _, Player in pairs(Players) do
-		local Target = GetPlayerPed(Player)
-		local TargetCoords = GetEntityCoords(Target)
-		local Targetdistance = GetDistanceBetweenCoords(TargetCoords, Coords.x, Coords.y, Coords.z, true)
-		if Targetdistance <= Distance then
-			table.insert(ClosePlayers, Player)
-		end
-    end
-    return ClosePlayers
-end
 
 function GetPlayers()
     local Players = {}
@@ -78,19 +51,35 @@ function GetPlayers()
     return Players
 end
 
-function DrawText3D(X, Y, Z, Text, Color)
-    local Color = Color or {r = 255, g = 255, b = 255}
-    SetTextScale(0.0, 0.5)
-    SetTextFont(0)
+function GetPlayersFromCoords(Coords, Distance)
+    local players = GetPlayers()
+    local closePlayers = {}
+    if coords == nil then
+        coords = GetEntityCoords(PlayerPedId())
+    end
+    if distance == nil then
+        distance = 5.0
+    end
+    for _, player in pairs(players) do
+        local target = GetPlayerPed(player)
+        local targetCoords = GetEntityCoords(target)
+        local targetdistance = GetDistanceBetweenCoords(targetCoords, coords.x, coords.y, coords.z, true)
+        if (IsEntityVisible(target) or IsAdmin) and targetdistance <= distance then
+            table.insert(closePlayers, player)
+        end
+    end
+    return closePlayers
+end
+
+function DrawText3D(x, y, z, text)
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
     SetTextProportional(1)
-    SetTextColour(Color.r, Color.g, Color.b, 255)
-    SetTextDropshadow(0, 0, 0, 0, 55)
-    SetTextEdge(2, 0, 0, 0, 150)
-    SetTextDropShadow()
-    SetTextOutline()
+    SetTextColour(255, 255, 255, 215)
     SetTextEntry("STRING")
-    SetTextCentre(1)
-    AddTextComponentString(Text)
-    SetDrawOrigin(X, Y, Z, 0)
-    DrawText(0, 0)
+    SetTextCentre(true)
+    AddTextComponentString(text)
+    SetDrawOrigin(x,y,z, 0)
+    DrawText(0.0, 0.0)
+    ClearDrawOrigin()
 end

@@ -90,6 +90,8 @@ AddEventHandler('playerConnecting', function(playerName, setKickReason, deferral
 	deferrals.update("Everything has succesfully loaded! We are searching a spot for you..")
     Citizen.Wait(1250)
     deferrals.done()
+
+	TriggerClientEvent('setPlayerCount', -1, #GetPlayers() + 1)
 end)
 
 AddEventHandler('playerDropped', function(Reason) 

@@ -2,26 +2,39 @@
 
 Citizen.CreateThread(function()
     while true do
-		Citizen.Wait(8)
+		Citizen.Wait(4)
         if LocalPlayer.state.LoggedIn then
-		    SetVehicleDensityMultiplierThisFrame(Config.Density['Vehicle'])
-            SetRandomVehicleDensityMultiplierThisFrame(Config.Density['Vehicle'])
-	        SetParkedVehicleDensityMultiplierThisFrame(Config.Density['Parked'])
-		    SetPedDensityMultiplierThisFrame(Config.Density['Peds'])
+            SetVehicleDensityMultiplierThisFrame(Config.Density['Vehicle'])
+            SetPedDensityMultiplierThisFrame(Config.Density['Peds'])
+            SetParkedVehicleDensityMultiplierThisFrame(Config.Density['Parked'])
             SetScenarioPedDensityMultiplierThisFrame(Config.Density['Scenario'], Config.Density['Scenario'])
+            SetVehicleModelIsSuppressed(GetHashKey("blimp"), true)
         else
             Citizen.Wait(450)
         end
 	end
 end)
 
--- [ Exports ] --
+-- Populate world
+Citizen.CreateThread(function ()
+    while true do
+        Citizen.Wait(4)
+        if not LoggedIn then goto Skip end
+        PopulateNow()
 
-exports("SetDensity", function(Type, Value)
-    if Config.Density[Type] ~= nil then
-        Config.Density[Type] = Value
-        print('Density: '..Type..' set to: '..Value)
-    else
-        print('Density doesnt exits.')
+        ::Skip::
+        Citizen.Wait((1000 * 60) * 15) -- 15 minutes
     end
 end)
+
+-- [ Exports ] --
+
+function SetDensity(Type, Value)
+    if Config.Density[Type] == Value then 
+        print('^1[ERROR]^7 Density [' .. Type .. '] does not exist.')
+        return 
+    end
+
+    Config.Density[Type] = Value
+end
+exports("SetDensity", SetDensity)

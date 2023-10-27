@@ -1,5 +1,5 @@
 EntityModule, CallbackModule, FunctionsModule, BlipModule, PlayerModule, EventsModule, KeybindsModule, VehicleModule = nil, nil, nil, nil, nil, nil, nil, nil
-local LimitSpeed, LastVehicle, LimiterEnabled = 0.0, nil, false
+local SpeedLimit, LastVehicle, LimiterEnabled = 999.0, nil, false
 local Carrying, AttachedEntity = false, nil
 
 AddEventHandler('Modules/client/ready', function()
@@ -193,23 +193,29 @@ function InitMain()
     KeybindsModule.Add('toggleHorn', 'Vehicle', 'Emergency Horn', 'E', false, 'mercy-vehicles/client/sirens-horn')
     KeybindsModule.Add("speedLimiter", "Vehicle", "Limiter", '', function(IsPressed)
         if not IsPressed then return end
-        local playerPed = PlayerPedId()
-        if IsPedInAnyVehicle(PlayerPedId()) then
-            local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-            if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
-                LimitSpeed = GetEntitySpeed(Vehicle)
-                if LimiterEnabled then
-                    LimiterEnabled = false
-                    LastVehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-                    SetEntityMaxSpeed(GetVehiclePedIsIn(PlayerPedId(), false), GetVehicleHandlingFloat(GetVehiclePedIsIn(PlayerPedId(), false), "CHandlingData", "fInitialDriveMaxFlatVel"))
-                    exports['mercy-ui']:Notify('limiter-disabled', "Limiter disabled", 'error')
-                else
-                    LimiterEnabled = true
-                    LastVehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-                    SetEntityMaxSpeed(GetVehiclePedIsIn(PlayerPedId(), false), LimitSpeed)
-                    exports['mercy-ui']:Notify('limiter-set', "Limiter set on " .. tostring(math.floor(LimitSpeed * 2.236936)) .. "mp/h")
-                end
-            end
+
+        local Vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+        local DriverPed = GetPedInVehicleSeat(Vehicle, -1)
+        if DriverPed ~= PlayerPedId() then
+            return
+        end
+
+        local Speed = GetEntitySpeed(Vehicle)
+        local MPHSpeed = math.floor(Speed * 2.236936)
+        if MPHSpeed < 35 then
+            exports['mercy-ui']:Notify('limiter-error', "You can't set the limiter below 35mp/h", 'error')
+            return
+        end
+    
+        if LimiterEnabled then
+            SetEntityMaxSpeed(Vehicle, 9990)
+            exports['mercy-ui']:Notify('limiter-toggled', "Limiter disabled", 'error')
+            LimiterEnabled, SpeedLimit = false, 999.0
+        else
+            LimiterEnabled = true
+            SetEntityMaxSpeed(Vehicle, Speed)
+            exports['mercy-ui']:Notify('limiter-toggled', "Limiter set on " .. tostring(math.floor(MPHSpeed)) .. "mp/h")
+            LimiterEnabled, SpeedLimit = true, Speed
         end
     end)
 end

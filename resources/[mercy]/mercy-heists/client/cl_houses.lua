@@ -189,6 +189,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced)
         TriggerEvent('mercy-phone/client/jobcenter/request-task-success', 2, true)
         TriggerEvent('mercy-heists/client/houses-enter', HouseRobberies.CurrentHouse)
     else
+        exports['mercy-assets']:RemoveLockpickChance(IsAdvanced)
         TriggerEvent('mercy-ui/client/notify', 'housesr-error', "Failed attempt..", 'error')
     end
 end)
