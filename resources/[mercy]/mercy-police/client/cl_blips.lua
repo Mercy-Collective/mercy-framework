@@ -48,7 +48,6 @@ RegisterNetEvent('mercy-police/client/update-service-blips', function(BlipData)
 end)
 
 RegisterNetEvent('mercy-police/client/clear-service-blips', function()
-    print('Clearing blips for colleagues')
     RemoveAllJobBlips()
 end)
 
@@ -71,7 +70,6 @@ function RemoveAllJobBlips()
     for k, v in pairs(BlipData) do
         local BlipName = string.sub(k, 1, 11)
         if BlipName == 'duty-player' then
-            print('Removing Duty Blip')
             BlipModule.RemoveBlip(k)
         end
     end
