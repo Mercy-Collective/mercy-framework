@@ -18,6 +18,7 @@ client_scripts {
     '@mercy-inventory/shared/sh_config.lua',
     '@mercy-inventory/shared/sh_items.lua',
     'client/**/cl_*.lua',
+    'entityhashes/entity.lua',
     'shared/sh_commands.lua',
 }
 

@@ -595,6 +595,24 @@ Config.CommandList = {
                 ['Collapse'] = false,
             },
             {
+                ['Id'] = 'toggleCoords',
+                ['Name'] = 'Toggle Coords',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Coords:Toggle',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                },
+            },
+            {
                 ['Id'] = 'teleportCoords',
                 ['Name'] = 'Teleport Coords',
                 ['UseKVPGroups'] = true, 
@@ -1058,6 +1076,101 @@ Config.CommandList = {
                 -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
                 ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
                 ['Event'] = 'Admin:Toggle:Spectate',
+                ['EventType'] = 'Client',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                }
+            },
+            {
+                ['Id'] = 'veh_devmode',
+                ['Name'] = 'Vehicle Dev Mode',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Toggle:VehDevMode',
+                ['EventType'] = 'Client',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                }
+            },
+            {
+                ['Id'] = 'object_view',
+                ['Name'] = 'Object Debug',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Toggle:ObjectView',
+                ['EventType'] = 'Client',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                }
+            },
+            {
+                ['Id'] = 'ped_view',
+                ['Name'] = 'Ped Debug',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Toggle:PedView',
+                ['EventType'] = 'Client',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                }
+            },
+            {
+                ['Id'] = 'veh_view',
+                ['Name'] = 'Vehicle Debug',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Toggle:VehView',
+                ['EventType'] = 'Client',
+                ['Collapse'] = true,
+                ['Options'] = {
+                    {
+                        ['Id'] = 'player',
+                        ['Name'] = 'Target (Not Required)',
+                        ['Type'] = 'input-choice',
+                        ['PlayerList'] = true,
+                    },
+                }
+            },
+            {
+                ['Id'] = 'entity_freeaim',
+                ['Name'] = 'Entity Free Aim Debug',
+                ['UseKVPGroups'] = true, 
+                -- Below Groups Table will not be used when Option above is enabled. 
+                -- Command Groups will be handled by KVP and can be changed thru a command ingame: menuperms [add,remove,list] [commandid] [group]
+                ['Groups'] = {'all'}, -- 'all', 'admin', 'god', 'mod'
+                ['Event'] = 'Admin:Toggle:EntityFreeAim',
                 ['EventType'] = 'Client',
                 ['Collapse'] = true,
                 ['Options'] = {

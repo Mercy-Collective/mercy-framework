@@ -6,6 +6,44 @@ Spectate = {
 
 -- [ Events ] --
 
+-- Dev
+
+RegisterNetEvent("Admin:Toggle:EntityFreeAim", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    ToggleEntityFreeView()
+end)
+
+RegisterNetEvent("Admin:Toggle:VehView", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    ToggleEntityVehicleView()
+end)
+
+RegisterNetEvent("Admin:Toggle:PedView", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+    
+    ToggleEntityPedView()
+end)
+
+RegisterNetEvent("Admin:Toggle:ObjectView", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+    
+    ToggleEntityObjectView()
+end)
+
+RegisterNetEvent("Admin:Coords:Toggle", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    ToggleShowCoordinates()
+end)
+
+RegisterNetEvent("Admin:Toggle:VehDevMode", function(Result)
+    if not PlayerModule.IsPlayerAdmin() then return end
+
+    ToggleVehicleDeveloperMode()
+end)
+
 -- Businesses
 
 local CreateTimeout = false
