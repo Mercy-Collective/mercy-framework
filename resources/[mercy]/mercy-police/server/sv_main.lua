@@ -861,4 +861,5 @@ AddEventHandler('playerDropped', function(reason)
     if PlayerStatus[source] ~= nil then
         PlayerStatus[source] = nil
     end
+    TriggerClientEvent('mercy-police/client/clear-service-blips', -1)
 end)
