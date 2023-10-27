@@ -435,7 +435,7 @@ RegisterNUICallback('PurchaseUpgrade', function(Data, Cb)
         end
 
         if type(Button.Data.Costs) == 'number' and Costs > 0 and not IsAdmin then
-            if Costs > Cash then
+            if Costs > tonumber(Cash) then
                 return exports['mercy-ui']:Notify("bennys-error", "Not enough cash..", "error") 
             end
 
