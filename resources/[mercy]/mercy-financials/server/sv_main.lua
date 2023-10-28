@@ -220,7 +220,7 @@ Citizen.CreateThread(function()
                     -- Update Target Money
                     local TargetStateId = PlayerResult[1].CitizenId
                     local TargetMoney = json.decode(PlayerResult[1].Money)
-                    TargetMoney['Bank'] = (TargetMoney['Bank'] + Data['Amount'])
+                    TargetMoney['Bank'] = (tonumber(TargetMoney['Bank']) + tonumber(Data['Amount']))
                     DatabaseModule.Update("UPDATE players SET Money = ? WHERE CitizenId = ?", {
                         json.encode(TargetMoney),
                         TargetStateId

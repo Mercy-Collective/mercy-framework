@@ -25,7 +25,7 @@ Config.Player = {
         },
     },
     ['LicenseTypes'] = {
-        ["Drivers"] = true, 
+        ['Drivers'] = true, 
         ['Hunting'] = false, 
         ['Fishing'] = false,
         ['Weapons'] = false,

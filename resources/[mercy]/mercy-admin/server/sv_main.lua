@@ -157,7 +157,7 @@ Citizen.CreateThread(function()
             local ServerId, Amount = tonumber(args[1]), tonumber(args[2])
             local Player = PlayerModule.GetPlayerBySource(ServerId)
             if Player ~= nil then
-                Player.Functions.AddMoney('cash', Amount)
+                Player.Functions.AddMoney('Cash', Amount)
                 print(Lang:t('info.gavemoney', {amount = Amount, moneytype = 'Cash'}))
             end
         end
@@ -418,6 +418,7 @@ RegisterNetEvent("mc-admin/server/give-money", function(ServerId, MoneyType, Mon
     local src = source
     if not AdminCheck(src) then return end
     ServerId = tonumber(ServerId)
+    MoneyAmount = tonumber(MoneyAmount)
     local PlayerSource = ServerId ~= nil and ServerId or src
 
     local TPlayer = PlayerModule.GetPlayerBySource(PlayerSource)
