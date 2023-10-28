@@ -108,6 +108,10 @@ RegisterNetEvent('mercy-business/client/foodchain/set-duty', function(Data)
     end
 end)
 
+RegisterNetEvent("mercy-business/client/foodchain/set-duty-data", function(Business, Data)
+    Config.ActiveEmployees[Business] = Data   
+end)
+
 RegisterNetEvent('mercy-business/client/foodchain/prepare-meal', function(Type)
     local MenuItems = {}
     local FoodType = Config.FoodChainDishes[ClockedData.Business][Type]

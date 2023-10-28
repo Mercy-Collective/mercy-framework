@@ -40,14 +40,23 @@ RegisterNetEvent('mercy-business/server/foodchain/set-duty', function(Data)
             Business = Data.Business,
             Clocked = Data.Clocked,
         })
+        TriggerClientEvent('mercy-business/client/foodchain/set-duty-data', -1, Data.Business, Config.ActiveEmployees[Data.Business])	
     else
-        for EmployeeId, Employee in pairs(Config.ActiveEmployees[Data.Business]) do
-            if Employee.Source == src then
-                table.remove(Config.ActiveEmployees[Data.Business], EmployeeId)
+        local ClockedData = GetClockedData(src)
+        if  ClockedData then 
+            if Config.ActiveEmployees[ClockedData.Business] ~= nil then 
+                for EmployeeId, Employee in pairs(Config.ActiveEmployees[ClockedData.Business]) do
+                    if Employee.Source == src then
+                        table.remove(Config.ActiveEmployees[ClockedData.Business], EmployeeId)
+                    end
+                end
+                TriggerClientEvent('mercy-business/client/foodchain/set-duty-data', -1, Data.Business, Config.ActiveEmployees[ClockedData.Business])	
             end
+        else
+            print('[DEBUG:FoodChain]: Something went wrong while trying to clock out..')
         end
     end
-    TriggerClientEvent('mercy-business/client/foodchain/set-duty', src, Data)	
+    TriggerClientEvent('mercy-business/client/foodchain/set-duty', src, Data)
 end)
 
 
@@ -80,3 +89,15 @@ RegisterNetEvent("mercy-business/server/foodchain/pay-register", function(Data)
         Player.Functions.Notify('error-paid', 'Order already paid for..', 'error')
     end
 end)
+
+function GetClockedData(src)
+    local Player = PlayerModule.GetPlayerBySource(src)
+    for _, Business in pairs(Config.ActiveEmployees) do
+        for k, BusinessData in pairs(Business) do
+            if BusinessData.Source == src then
+                return BusinessData
+            end
+        end
+    end
+    return false
+end

@@ -618,7 +618,7 @@ function InitFoodzones()
                     Name = 'burgershot_check_in',
                     Icon = 'fas fa-clock',
                     Label = 'Clock In',
-                    EventType = 'Client',
+                    EventType = 'Server',
                     EventName = 'mercy-business/server/foodchain/set-duty',
                     EventParams = {Business = 'Burger Shot', Clocked = true},
                     Enabled = function(Entity)
@@ -634,7 +634,7 @@ function InitFoodzones()
                     Name = 'burgershot_check_out',
                     Icon = 'fas fa-clock',
                     Label = 'Clock Out',
-                    EventType = 'Client',
+                    EventType = 'Server',
                     EventName = 'mercy-business/server/foodchain/set-duty',
                     EventParams = {Business = 'None', Clocked = false},
                     Enabled = function(Entity)
