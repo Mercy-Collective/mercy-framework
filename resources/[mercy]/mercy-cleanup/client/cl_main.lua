@@ -14,15 +14,15 @@ end)
 
 -- [ Threads ] --
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Wait(4)
         if LocalPlayer.state.LoggedIn then
             local ShitList = {}
             local PropList = GetGamePool("CObject")
 
             if SkipCleanupChecks then
-                Citizen.Wait(2500)
+                Wait(2500)
                 goto skipwhile
             end
             
@@ -50,7 +50,7 @@ Citizen.CreateThread(function()
                 ::continue::
             end
 
-            Citizen.Wait(2500)
+            Wait(2500)
 
             for k, v in ipairs(ShitList) do 
                 local Success, Model = pcall(function()
@@ -88,9 +88,7 @@ Citizen.CreateThread(function()
                 ::continue::
             end
             ::skipwhile::
-            Citizen.Wait(250)
-        else
-            Citizen.Wait(450)
         end
+        Wait(1000)
     end
 end)

@@ -226,7 +226,15 @@ Config.BlacklistedProps = {
     [GetHashKey('prop_wine_bot_02')] = true,
     [GetHashKey('prop_wine_bot_01')] = true,
     [GetHashKey('prop_rolled_sock_01')] = true,
-    [GetHashKey('prop_flag_uk')] = true
+    [GetHashKey('prop_flag_uk')] = true,
+    [GetHashKey("prop_bollard_02c")] = true,
+    [GetHashKey("vw_prop_casino_blckjack_01")] = true,
+    [GetHashKey("vw_prop_casino_blckjack_01b")] = true,
+    [GetHashKey("ch_prop_ch_fib_01a")] = true,
+    [GetHashKey("prop_gazebo_01")] = true,
+    [GetHashKey("ch_prop_ch_gazebo_01")] = true,
+
+    [GetHashKey("prop_container_ld_d")] = true,
 }
 
 Config.RoadCheckObjects = {
