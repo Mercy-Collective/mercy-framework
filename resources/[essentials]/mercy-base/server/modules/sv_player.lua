@@ -276,8 +276,8 @@ PlayerModule = {
         PlayerData.CharInfo.Lastname = PlayerData.CharInfo.Lastname ~= nil and PlayerData.CharInfo.Lastname or "Lastname"
         PlayerData.CharInfo.Date = PlayerData.CharInfo.Date ~= nil and PlayerData.CharInfo.Date or "00-00-0000"
         PlayerData.CharInfo.Gender = PlayerData.CharInfo.Gender ~= nil and PlayerData.CharInfo.Gender or 'Male'
-        PlayerData.CharInfo.PhoneNumber = PlayerData.CharInfo.PhoneNumber ~= nil and PlayerData.CharInfo.PhoneNumber or Config.Player['DefaultPhone']
-        PlayerData.CharInfo.BankNumber = PlayerData.CharInfo.BankNumber ~= nil and PlayerData.CharInfo.BankNumber or Config.Player['DefaultBank']
+        PlayerData.CharInfo.PhoneNumber = PlayerData.CharInfo.PhoneNumber ~= nil and PlayerData.CharInfo.PhoneNumber or "202-555"..math.random(1111, 9999)
+        PlayerData.CharInfo.BankNumber = PlayerData.CharInfo.BankNumber ~= nil and PlayerData.CharInfo.BankNumber or math.random(1111111111, 9999999999)
         PlayerData.CharInfo.Email = PlayerData.CharInfo.Email ~= nil and PlayerData.CharInfo.Email or PlayerData.CharInfo.Firstname.."."..PlayerData.CharInfo.Lastname..Config.Player['DefaultEmail']
     
         -- [ Jobs ] --

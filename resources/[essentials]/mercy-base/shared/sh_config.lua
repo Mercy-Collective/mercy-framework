@@ -33,8 +33,6 @@ Config.Player = {
     },
     ['InventoryMaxWeight'] = 250.0,
     ['BloodTypes'] = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"},
-    ['DefaultPhone'] = "202-555"..math.random(1111, 9999),
-    ['DefaultBank'] = math.random(1111111111, 9999999999),
     ['DefaultEmail'] = "@lossantos.com",
     ['DeleteTables'] = { -- Tables to delete on char deletion.
         'player_skins', 
