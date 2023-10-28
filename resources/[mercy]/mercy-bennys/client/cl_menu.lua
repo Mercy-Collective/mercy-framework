@@ -42,7 +42,7 @@ function BuildMenu(Vehicle)
             -- local VehicleRecord = CallbackModule.SendCallback("mercy-police/server/getVehicleRecord", GetVehicleNumberPlateText(Vehicle))
             -- local IsVinScratched = VehicleRecord ~= nil and VehicleRecord[0] ~= nil and VehicleRecord[0].vinscratched == 1
             -- If vehicle is Emergency class and menu item disabled for emergency, skip.
-            if exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) and Data.Disabled.Emergency then goto Skip end
+            if exports['mercy-vehicles']:IsGovVehicle(Vehicle) and Data.Disabled.Emergency then goto Skip end
             -- if IsVinScratched and Data.Disabled.Vin then goto Skip end
 
             if Data.ModType and GetNumVehicleMods(Vehicle, Data.ModType) > 0 or (not Data.ModType) or Data.ModType == 'Extra' then

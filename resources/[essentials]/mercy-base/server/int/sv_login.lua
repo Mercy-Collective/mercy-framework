@@ -91,6 +91,7 @@ AddEventHandler('playerConnecting', function(playerName, setKickReason, deferral
     Citizen.Wait(1250)
     deferrals.done()
 
+	TriggerClientEvent('onPlayerJoining', src)
 	TriggerClientEvent('setPlayerCount', -1, #GetPlayers() + 1)
 end)
 

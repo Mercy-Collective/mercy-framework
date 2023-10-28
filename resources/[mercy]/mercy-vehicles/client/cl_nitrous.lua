@@ -33,7 +33,7 @@ RegisterNetEvent('mercy-items/client/used-nitrous', function()
         if DoingNitrous then return end
         if Vehicle == 0 or Vehicle == -1 or not CurrentVehicleData.IsDriver or GetVehicleMeta(Vehicle, 'Nitrous') == nil then return end
 
-        if IsPoliceVehicle(Vehicle) then
+        if IsGovVehicle(Vehicle) then
             exports['mercy-ui']:Notify('nitrous-error', "I don\'t think this vehicle should take some nitrous..", 'error')
             return
         end

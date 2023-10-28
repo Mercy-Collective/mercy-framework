@@ -5617,6 +5617,43 @@ Shared.ItemList["spray-vagos"] = {
 	}
 }
 
+-- Heists
+
+Shared.ItemList["security_hacking_device"] = {
+	['ItemName'] = "security_hacking_device",
+	['Label'] = "Security Hacking Device",
+	['Weight'] = 0.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "security_hacking_device.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Marked for seizure.",
+	['DecayRate'] = 1.0,
+	['RemoveWhenDecayed'] = true,
+	['Cost'] = {
+        { Item = 'copper', Amount = 149 },
+        { Item = 'rubber', Amount = 149 },
+        { Item = 'plastic', Amount = 149 },
+        { Item = 'aluminum', Amount = 149 },
+	}
+}
+
+Shared.ItemList["heist-drill-basic"] = {
+	['ItemName'] = "heist-drill-basic",
+	['Label'] = "Basic Drill",
+	['Weight'] = 5.0,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "h_drill_basic.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Basic drill..",
+	['DecayRate'] = 2.0,
+	['RemoveWhenDecayed'] = false,
+	['Cost'] = {}
+}
+
 -- Boosting
 
 Shared.ItemList["tracker-disabler"] = {

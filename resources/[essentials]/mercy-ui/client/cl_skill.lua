@@ -28,17 +28,7 @@ RegisterNetEvent('mercy-ui/client/ui-reset', function()
     Colors = { BgColor = { Red = 37, Green = 50, Blue = 56 }, HudColor = { Red = 0, Green = 150, Blue = 136 }, CursorColor = { Red = 220, Green = 0, Blue = 0 }}
 end)
 
-RegisterCommand('testskill', function(source, args, RawCommand)
-    local Outcome = exports['mercy-ui']:StartSkillTest(3, { 7, 10 }, { 1000, 1500 }, false)
-    if Outcome then
-        print('Success')
-    else
-        print('Failed')
-    end
-end)
-
 -- [ Functions ] --
-
 
 function StartSkillTest(NeededStreak, SkillGap, ReqSpeed, Reverse)
     if DoingTask then return end
@@ -62,7 +52,7 @@ function BuildSkillTest(NeededStreak, SkillGap, ReqSpeed, Reverse, Callback)
     while not HasStreamedTextureDictLoaded("mercy_sprites") do
         Citizen.Wait(0)
     end
-
+    
     local MinigameResult = false
     local SkillGapSent = math.random(SkillGap[1], SkillGap[2])
     local KeyToPress = tostring(math.random(1, 4))

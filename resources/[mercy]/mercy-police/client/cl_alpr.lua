@@ -12,7 +12,7 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
     local Vehicle = GetVehiclePedIsIn(PlayerPedId())
 
     if AlprVisible then
-        if not exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) then 
+        if not exports['mercy-vehicles']:IsGovVehicle(Vehicle) then 
             AlprVisible = false
             return 
         end
@@ -36,7 +36,7 @@ function InitAlpr()
         if not IsPressed then return end
         local Vehicle = GetVehiclePedIsIn(PlayerPedId())
         if Vehicle == 0 then return end
-        if not exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) then return end
+        if not exports['mercy-vehicles']:IsGovVehicle(Vehicle) then return end
 
         AlprVisible = not AlprVisible
         if AlprVisible then
@@ -51,7 +51,7 @@ function InitAlpr()
         if not AlprVisible then return end
         local Vehicle = GetVehiclePedIsIn(PlayerPedId())
         if Vehicle == 0 then return end
-        if not exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) then return end
+        if not exports['mercy-vehicles']:IsGovVehicle(Vehicle) then return end
 
         AlprLocked = not AlprLocked
 

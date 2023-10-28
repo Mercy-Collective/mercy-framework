@@ -1,5 +1,6 @@
 local MessagesCount, CanStealShoes = 0, true
 EventsModule, CallbackModule, FunctionsModule, PlayerModule, EntityModule, VehicleModule = nil, nil, nil, nil, nil, nil
+CurrentCops = 0
 
 RegisterNetEvent('mercy-base/client/on-login', function()
     Citizen.SetTimeout(350, function()
@@ -37,6 +38,10 @@ end)
 -- [ Code ] --
 
 -- [ Events ] --
+
+RegisterNetEvent("mercy-police/set-cop-count", function(Amount)
+    CurrentCops = Amount
+end)
 
 RegisterNetEvent('mercy-misc/client/steal-target-shoes', function(Data)
     if CanStealShoes then

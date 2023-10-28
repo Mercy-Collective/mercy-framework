@@ -73,6 +73,13 @@ CreateThread(function()
         Cb(Cops)
     end)
 
+    Citizen.CreateThread(function()
+        while true do 
+            Citizen.Wait((1000 * 60))
+            TriggerEvent('mercy-police/server/update-cop-count')
+        end
+    end)
+
     CallbackModule.CreateCallback('mercy-police/server/get-active-cops', function(Source, Cb)
         local CopAmount = 0
         local Promise = promise:new()
@@ -629,6 +636,21 @@ CreateThread(function()
 end)
 
 -- [ Events ] --
+
+-- Cop Count
+
+RegisterServerEvent('mercy-police/server/update-cop-count', function()
+    local PoliceAmount = 0
+    for k, v in pairs(PlayerModule.GetPlayers()) do
+        local Player = PlayerModule.GetPlayerBySource(v)
+        if Player ~= nil then 
+            if (Player.PlayerData.Job.Name == "police" and Player.PlayerData.Job.Duty) then
+                PoliceAmount = PoliceAmount + 1
+            end
+        end
+    end
+    TriggerClientEvent("mercy-police/set-cop-count", -1, PoliceAmount)
+end)
 
 -- Spikes
 RegisterNetEvent("mercy-police/server/lay-down-spikes", function(SendData)

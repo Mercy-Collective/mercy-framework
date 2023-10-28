@@ -296,7 +296,7 @@ end)
 
 RegisterNetEvent('mercy-police/client/scan-plate', function(Nothing, Entity)
     local EntityType = GetEntityType(Entity) 
-    if EntityType ~= 2 or exports['mercy-vehicles']:IsPoliceVehicle(Entity) then
+    if EntityType ~= 2 or exports['mercy-vehicles']:IsGovVehicle(Entity) then
         PlaySoundFromEntity(-1, "Keycard_Fail", PlayerPedId(), "DLC_HEISTS_BIOLAB_FINALE_SOUNDS", 1, 5.0)
         return
     end

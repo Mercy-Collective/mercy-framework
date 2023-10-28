@@ -30,6 +30,7 @@ function GenerateNewDui(URL, Width, Height, DuiId)
         return false
     end
 end
+exports("GenerateNewDui", GenerateNewDui)
 
 function GetDuiData(DuiId)
     if Config.SavedDuiData[DuiId] ~= nil then

@@ -503,7 +503,7 @@ RegisterNUICallback('PurchaseUpgrade', function(Data, Cb)
             ['Nitrous'] = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'Nitrous'),
             ['Harness'] = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, 'Harness'),
         }
-        local ModsSaved = VehicleModule.SaveVehicle(Vehicle, Plate, VehicleMeta, exports['mercy-vehicles']:IsPoliceVehicle(Vehicle) and 'Police' or 'None')
+        local ModsSaved = VehicleModule.SaveVehicle(Vehicle, Plate, VehicleMeta, exports['mercy-vehicles']:IsGovVehicle(Vehicle) and 'Police' or 'None')
         if not ModsSaved then
             -- CloseBennys()
             exports['mercy-ui']:Notify("bennys-error", "Failed to save upgrades! (Costs: "..Button.Data.Costs..")", "error", 7000)

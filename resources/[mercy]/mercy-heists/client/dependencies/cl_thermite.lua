@@ -57,6 +57,32 @@ function DoThermite(Coords, IsColor)
 end
 exports('DoThermite', DoThermite)
 
+function DoNormalThermite(IsColor)
+    if AlreadyThermiting then return end
+
+    AlreadyThermiting = true
+    local Prom = promise:new()
+
+    local OnSuccess = function(Success)
+        if Success then
+            ClearPedTasks(Ped)
+            exports['mercy-inventory']:SetBusyState(false)
+        end
+
+        AlreadyThermiting = false
+        Prom:resolve(Success)
+    end
+
+    if IsColor then
+        exports['mercy-ui']:ColorMinigame(OnSuccess)
+    else
+        exports['mercy-ui']:MemoryMinigame(OnSuccess)
+    end
+
+    return Citizen.Await(Prom)
+end
+exports('DoNormalThermite', DoNormalThermite)
+
 RegisterNetEvent('mercy-heists/client/thermite/sync-fx', function(Coords, Detcord)
     local PlayerCoords = GetEntityCoords(PlayerPedId())
     local Distance = #(PlayerCoords - Coords)

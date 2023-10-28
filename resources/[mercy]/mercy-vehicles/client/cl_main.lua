@@ -107,7 +107,6 @@ RegisterNetEvent("mercy-threads/exited-vehicle", function()
     SetVehicleHasBeenOwnedByPlayer(CurrentVehicleData.Vehicle, true)
     NetworkRegisterEntityAsNetworked(CurrentVehicleData.Vehicle)
     
-    CheckForSirenSound(CurrentVehicleData.Vehicle)
     DisplayRadar(false)
     CurrentVehicleData.Vehicle = 0
     CurrentVehicleData.IsDriver = false
@@ -254,14 +253,35 @@ function HasOverdueDebts(Plate)
 end
 
 function IsPoliceVehicle(Vehicle)
+    local Model = GetEntityModel(Vehicle)
     for k, v in pairs(Config.PoliceVehicles) do
-        if GetEntityModel(Vehicle) == GetHashKey(v) then
+        if Model == GetHashKey(v) then
             return true
         end
     end
+
     return false
 end
 exports('IsPoliceVehicle', IsPoliceVehicle)
+
+function IsGovVehicle(Vehicle)
+    local Model = GetEntityModel(Vehicle)
+    for k, v in pairs(Config.PoliceVehicles) do
+        if Model == GetHashKey(v) then
+            return true
+        end
+    end
+
+    local Model = GetEntityModel(Vehicle)
+    for k, v in pairs(Config.EmsVehicles) do
+        if Model == GetHashKey(v) then
+            return true
+        end
+    end
+
+    return false
+end
+exports('IsGovVehicle', IsGovVehicle)
 
 function IsEmsVehicle(Vehicle)
     for k, v in pairs(Config.EmsVehicles) do

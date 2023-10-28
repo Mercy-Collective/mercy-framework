@@ -188,7 +188,7 @@ RegisterNetEvent("mercy-vehicles/client/park-vehicle", function(Data)
         return
     end
 
-    if (IsGovGarage and not IsPoliceVehicle(Data.Entity)) or (not IsGovGarage and IsPoliceVehicle(Data.Entity)) then
+    if (IsGovGarage and not IsGovVehicle(Data.Entity)) or (not IsGovGarage and IsGovVehicle(Data.Entity)) then
         return exports['mercy-ui']:Notify('not-parked', "Vehicle can't be parked here..", "error")
     end
 
