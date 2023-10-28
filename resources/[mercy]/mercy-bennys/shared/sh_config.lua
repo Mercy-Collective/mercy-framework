@@ -1,4 +1,4 @@
-Config = Config or {}
+Config = {}
 
 Config.WheelFitment = {
     Width = { 0.5, 1.25 },

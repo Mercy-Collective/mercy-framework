@@ -1,7 +1,6 @@
 PlayerModule, CallbackModule, FunctionsModule, VehicleModule, BlipManager, EventsModule = nil
 VehicleMods, CurrentBennyZone, CurrentRespray = {}, nil, nil
 local _Ready, AlreadyDoing, IsInBennysZone = false, false, false
-
 IsEmployedAtMechanic, InVehicle, InBennys, IsAdmin, CurrentWheelfitmentIndex = false, false, false, false, 0
 
 AddEventHandler('Modules/client/ready', function()
@@ -118,7 +117,7 @@ RegisterNetEvent('mercy-polyzone/client/enter-polyzone', function(PolyData, Coor
         end)
     end
 end)
-
+ 
 RegisterNetEvent('mercy-polyzone/client/leave-polyzone', function(PolyData, Coords)
     if PolyData.name == 'bennys' then
         exports['mercy-ui']:HideInteraction()
@@ -164,6 +163,7 @@ RegisterNetEvent('mercy-bennys/client/open-bennys', function(Admin)
 end)
 
 -- [ Functions ] --
+
 function Round(Value, Decimals)
     return Decimals and math.floor((Value * 10 ^ Decimals) + 0.5) / (10 ^ Decimals) or math.floor(Value + 0.5)
 end
@@ -221,7 +221,6 @@ function CanOpenBennys(Authorized)
 
     return false
 end
-
 
 function IsBennysGov(Authorized)
     if not Authorized then return false end

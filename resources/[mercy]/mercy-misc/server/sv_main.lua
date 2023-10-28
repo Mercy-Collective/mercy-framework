@@ -158,8 +158,9 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer('mercy-misc/server/get-tea', function(Source)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if not Player then return end
-
-        Player.Functions.AddItem('mugoftea', 1, false, {}, true)
+        if Player.Functions.RemoveItem('water', 1) then
+            Player.Functions.AddItem('mugoftea', 1, false, {}, true)
+        end
     end)
 
     EventsModule.RegisterServer('mercy-misc/server/write-notepad', function(Source, Text)

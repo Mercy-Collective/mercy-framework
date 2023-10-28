@@ -22,11 +22,6 @@ server_scripts {
 }
 
 files {
-    '@mercy-ui/nui/fonts/gta.ttf',
-    '@mercy-ui/nui/fonts/pricedown.ttf',
-    '@mercy-ui/nui/fonts/tvnord.ttf',
-    '@mercy-ui/nui/css/colors.css',
-    '@mercy-ui/nui/Apps/Styles/css/main.css',
     'nui/index.html',
     'nui/images/*.png',
     'nui/css/*.css',

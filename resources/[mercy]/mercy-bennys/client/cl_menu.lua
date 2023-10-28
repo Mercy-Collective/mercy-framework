@@ -4,7 +4,7 @@ Menu.Menus = {}
 function BuildMenu(Vehicle)
     local BodyHealth = GetVehicleBodyHealth(Vehicle)
     SetVehicleModKit(Vehicle, 0)
-    
+
     Menu.SetHeader("Welcome to Benny's Original Motorworks", "banner")
     if BodyHealth < 1000.0 then
         local Costs = math.ceil(1000 - BodyHealth)
@@ -71,7 +71,7 @@ function BuildMenu(Vehicle)
                     Menu.CreateMenu(Data.Id, 'MainMenu')
 
                     local ExtraLabels = CheckVehicleExtras(GetEntityModel(Vehicle))
-
+   
                     for i = 1, 12 do
                         if DoesExtraExist(Vehicle, i) then
                             Menu.Populate(Data.Id, {
@@ -551,10 +551,7 @@ RegisterNUICallback("OpenTargetMenu", function(Data, Cb)
     local Vehicle = GetVehiclePedIsIn(PlayerPedId())
 
     Citizen.SetTimeout(250, function()
-        if VehicleMods == nil then return end
-        if not VehicleModule.ApplyVehicleMods(Vehicle, VehicleMods, GetVehicleNumberPlateText(Vehicle), true) then
-            LoggerModule.Error("Bennys/OpenTargetMenu", "Failed to apply vehicle mods.")
-        end
+        VehicleModule.ApplyVehicleMods(Vehicle, VehicleMods, GetVehicleNumberPlateText(Vehicle), true)
     end)
 
     if Data.TargetMenu == 'ResprayTypeMenu' and CurrentRespray ~= 'Primary' and CurrentRespray ~= 'Secondary' then
