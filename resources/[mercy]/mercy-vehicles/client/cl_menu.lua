@@ -10,11 +10,11 @@ RegisterNetEvent('mercy-vehicles/client/open-vehicle-menu', function()
 end)
 
 RegisterNetEvent('mercy-vehicles/client/switch-seat', function(SeatNumber, IsMenu)
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = CurrentVehicleData.Vehicle
     if IsVehicleSeatFree(Vehicle, SeatNumber) then
         TaskWarpPedIntoVehicle(PlayerPedId(), Vehicle, SeatNumber)
         if IsMenu then
-            Citizen.Wait(25)
+            Wait(25)
             exports['mercy-ui']:SendUIMessage('Vehicle', 'RefreshData', {
                 Settings = CalculateSettings()
             })
@@ -24,7 +24,7 @@ RegisterNetEvent('mercy-vehicles/client/switch-seat', function(SeatNumber, IsMen
 end)
 
 RegisterNetEvent('mercy-vehicles/client/toggle-door-data', function(Data)
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = CurrentVehicleData.Vehicle
     local LockStatus = GetVehicleDoorLockStatus(Vehicle)
     if Vehicle == nil or Vehicle == 0 or Vehicle == -1 then
         local Entity, EntityType, EntityCoords = FunctionsModule.GetEntityPlayerIsLookingAt(8.0, 0.2, 286, PlayerPedId())
@@ -42,7 +42,7 @@ RegisterNetEvent('mercy-vehicles/client/toggle-door-data', function(Data)
             VehicleModule.SetVehicleDoorShut(Vehicle, Data.DoorNumber)
         end
         if Data.IsMenu then
-            Citizen.Wait(500)
+            Wait(500)
             exports['mercy-ui']:SendUIMessage('Vehicle', 'RefreshData', {
                 Settings = CalculateSettings()
             })
@@ -51,7 +51,7 @@ RegisterNetEvent('mercy-vehicles/client/toggle-door-data', function(Data)
 end)
 
 RegisterNetEvent('mercy-vehicles/client/toggle-door', function(DoorNumber, IsMenu)
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = CurrentVehicleData.Vehicle
     local LockStatus = GetVehicleDoorLockStatus(Vehicle)
     if LockStatus == 1 or LockStatus == 0 then
         local DoorAngle = GetVehicleDoorAngleRatio(Vehicle, DoorNumber)
@@ -61,7 +61,7 @@ RegisterNetEvent('mercy-vehicles/client/toggle-door', function(DoorNumber, IsMen
             VehicleModule.SetVehicleDoorShut(Vehicle, DoorNumber)
         end
         if IsMenu then
-            Citizen.Wait(500)
+            Wait(500)
             exports['mercy-ui']:SendUIMessage('Vehicle', 'RefreshData', {
                 Settings = CalculateSettings()
             })
@@ -70,7 +70,7 @@ RegisterNetEvent('mercy-vehicles/client/toggle-door', function(DoorNumber, IsMen
 end)
 
 RegisterNetEvent('mercy-vehicles/client/toggle-window', function(WindowNumber, IsMenu)
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = CurrentVehicleData.Vehicle
     if not IsVehicleWindowIntact(Vehicle, WindowNumber) then
         RollUpWindow(Vehicle, WindowNumber)
         if not IsVehicleWindowIntact(Vehicle, WindowNumber) then
@@ -80,7 +80,7 @@ RegisterNetEvent('mercy-vehicles/client/toggle-window', function(WindowNumber, I
         RollDownWindow(Vehicle, WindowNumber)
     end
     if IsMenu then
-        Citizen.Wait(25)
+        Wait(25)
         exports['mercy-ui']:SendUIMessage('Vehicle', 'RefreshData', {
             Settings = CalculateSettings()
         })

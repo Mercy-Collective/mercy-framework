@@ -10,26 +10,25 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
     local Plate = GetVehicleNumberPlateText(Vehicle)
     InVehicle = true
 
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while InVehicle do
             if not IsVehicleEngineOn(Vehicle) then
                 goto Skip
             end
 
-            if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
-                local Plate = GetVehicleNumberPlateText(Vehicle)
+            if CurrentVehicleData.IsDriver then
                 local FuelLevel = GetVehicleMeta(Vehicle, 'Fuel')
                 if FuelLevel ~= 0 then
                     if GetEntitySpeed(Vehicle) > 3 then
-                        local NewLevel = tonumber(FuelLevel) - (0.3 * (FuelRates[Plate] or 1.0))
-                        -- print("Fuel - Current: " .. FuelLevel .. " | New: " .. NewLevel .. " | Rate: " .. (FuelRates[Plate] or 1.0))
+                        local NewLevel = tonumber(FuelLevel) - (0.3 * (FuelRates[CurrentVehicleData.Plate] or 1.0))
+                        -- print("Fuel - Current: " .. FuelLevel .. " | New: " .. NewLevel .. " | Rate: " .. (FuelRates[CurrentVehicleData.Plate] or 1.0))
                         SetFuelLevel(Vehicle, tonumber(NewLevel))
-                        Citizen.Wait(12500)
+                        Wait(12500)
                     end
                 end
             end
             ::Skip::
-            Citizen.Wait(1000)
+            Wait(1000)
         end
     end)
 end)
@@ -52,11 +51,6 @@ RegisterNetEvent("mercy-vehicles/client/fuel/use-charger", function()
             ['Desc'] = 'Price per KWH: $' ..Config.ChargePrice..',-',
             ['Data'] = {['Event'] = 'mercy-vehicles/client/fuel/grab-charger-hose', ['Type'] = 'Client'}
         },
-        -- { -- TODO: add hose to car and charge slower
-        --     ['Title'] = 'Normal',
-        --     ['Desc'] = 'Price per KWH: $' ..(Config.ChargePrice - 2)..',-',
-        --     ['Data'] = {['Event'] = 'mercy-vehicles/client/fuel/grab-charger-hose', ['Type'] = 'Client'}
-        -- },
     }
     exports['mercy-ui']:OpenContext({ ['MainMenuItems'] = MenuItems })
 end)
@@ -82,12 +76,12 @@ RegisterNetEvent("mercy-vehicles/client/fuel/grab-charger-hose", function()
     local NozzlePos = GetEntityCoords(ElectricNozzle)
     NozzlePos = GetOffsetFromEntityInWorldCoords(ElectricNozzle, -0.005, 0.185, -0.05)
     AttachEntitiesToRope(Rope, Charger, ElectricNozzle, ChargerCoords.x, ChargerCoords.y, ChargerCoords.z + 1.76, NozzlePos.x, NozzlePos.y, NozzlePos.z, 5.0, false, false, nil, nil)
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while HasChargerNozzle do
             if not exports['mercy-assets']:GetSpecificPropStatus('ChargerNozzle') then
                 exports['mercy-assets']:AttachProp('ChargerNozzle')
             end
-            Citizen.Wait(100)
+            Wait(100)
         end
     end)
 end)
@@ -143,12 +137,12 @@ RegisterNetEvent("mercy-vehicles/client/fuel/grab-fuel-hose", function()
     local NozzlePos = GetEntityCoords(FuelNozzle)
     NozzlePos = GetOffsetFromEntityInWorldCoords(FuelNozzle, -0.005, 0.185, -0.05)
     AttachEntitiesToRope(Rope, Pump, FuelNozzle, PumpCoords.x, PumpCoords.y, PumpCoords.z + 1.0, NozzlePos.x, NozzlePos.y, NozzlePos.z, 5.0, false, false, nil, nil)
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while HasFuelNozzle do
             if not exports['mercy-assets']:GetSpecificPropStatus('FuelNozzle') then
                 exports['mercy-assets']:AttachProp('FuelNozzle')
             end
-            Citizen.Wait(100)
+            Wait(100)
         end
     end)
 end)
@@ -235,7 +229,7 @@ RegisterNetEvent("mercy-vehicles/client/fuel/send-bill", function(Data)
     if Data['SelfServe'] then
         TriggerServerEvent('mercy-vehicles/server/fuel/send-bill', Plate, PlayerModule.GetPlayerData().CitizenId, Amount, Data['IsElectric'])
     else
-        Citizen.SetTimeout(250, function()
+        SetTimeout(250, function()
             local Result = exports['mercy-ui']:CreateInput({
                 { Label = 'StateId', Icon = 'fas fa-user', Name = 'Cid' },
             })
@@ -251,14 +245,14 @@ RegisterNetEvent("mercy-vehicles/client/fuel/start-refuel", function(Data)
     if Entity <= 0 or EntityType ~= 2 then return end
 
     Fueling = true
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while Fueling and not Data.IsElectric do
             if IsVehicleEngineOn(Entity) then
                 AddExplosion(GetEntityCoords(Entity), EXPLOSION_CAR, 4.0, true, false, 20.0)
                 EventsModule.TriggerServer('mercy-ui/server/send-explosion', FunctionsModule.GetStreetName())
                 exports['mercy-ui']:Notify('fuel-error', "Refueling the vehicle with engine on is not a good idea..", 'error')
             end
-            Citizen.Wait(250)
+            Wait(250)
         end
     end)
 
@@ -283,10 +277,8 @@ RegisterNetEvent("mercy-vehicles/client/fuel/start-refuel", function(Data)
     Wait(300)
     TriggerEvent('mercy-ui/client/notify', 'is-fueling', Data.IsElectric and "Vehicle is currently recharging and will be ready in "..math.ceil((500 * Data.Amount) / 1000).." seconds." or "Vehicle is currently refueling and will be ready in "..math.ceil(((500 * Data.Amount) / 1000)).." seconds.", 'success', 4000)
 
-    Citizen.Wait(500 * Data.Amount)
+    Wait(500 * Data.Amount)
 
-    -- exports['mercy-ui']:ProgressBar(Data.IsElectric and 'Charging..' or "Refueling..", 500 * Data.Amount, {['AnimName'] = 'gar_ig_5_filling_can', ['AnimDict'] = 'timetable@gardener@filling_can', ['AnimFlag'] = 49}, false, true, true, function(DidComplete)
-    --     if DidComplete then
     Fueling = false
     DeleteEntity(Prop)
     if Data.IsElectric then
@@ -296,25 +288,14 @@ RegisterNetEvent("mercy-vehicles/client/fuel/start-refuel", function(Data)
     end
     local Plate = GetVehicleNumberPlateText(Entity)
     SetFuelLevel(Entity, 100.0)
-    -- StopAnimTask(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 1.0)
     TriggerEvent('mercy-ui/client/notify', 'fueled', Data.IsElectric and "Recharged Vehicle" or "Refueled Vehicle", 'success', 4000)
     TriggerServerEvent("mercy-vehicles/server/fuel/set-paid-state", Plate)
-        -- else
-        --     Fueling = false
-        --     DeleteEntity(Prop)
-        --     if Data.IsElectric then
-        --         TriggerEvent('mercy-vehicles/client/fuel/grab-charger-hose')
-        --     else
-        --         TriggerEvent('mercy-vehicles/client/fuel/grab-fuel-hose')
-        --     end
-        -- end
-    -- end)
 end)
 
 -- [ Functions ] --
 
 function InitGasStations()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         for k, v in pairs(Config.GasStations) do
             if v.blip then
                 BlipModule.CreateBlip('gasstation-'..k, v.center, 'Gas Station', 361, 6, false, 0.38)

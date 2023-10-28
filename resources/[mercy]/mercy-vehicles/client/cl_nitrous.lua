@@ -12,14 +12,14 @@ local ExhaustNames = {
 
 -- [ Threads ] --
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Wait(4)
         if LocalPlayer.state.LoggedIn and DoingNitrous then
-            DisableControlAction(0, 75, true)
-            DisableControlAction(27, 75, true)
+            DisableControlAction(0, 75, true) -- Disable exit vehicle
+            DisableControlAction(27, 75, true) -- Disable exit vehicle
         else
-            Citizen.Wait(450)
+            Wait(450)
         end
     end
 end)
@@ -27,11 +27,12 @@ end)
 -- [ Events ] --
 
 RegisterNetEvent('mercy-items/client/used-nitrous', function()
-    Citizen.SetTimeout(450, function()
-        local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-        local Plate = GetVehicleNumberPlateText(Vehicle)
+    SetTimeout(450, function()
+        local Vehicle = CurrentVehicleData.Vehicle
+        local Plate = CurrentVehicleData.Plate
         if DoingNitrous then return end
-        if Vehicle == 0 or Vehicle == -1 or GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() or GetVehicleMeta(Vehicle, 'Nitrous') == nil then return end
+        if Vehicle == 0 or Vehicle == -1 or not CurrentVehicleData.IsDriver or GetVehicleMeta(Vehicle, 'Nitrous') == nil then return end
+
         if IsPoliceVehicle(Vehicle) then
             exports['mercy-ui']:Notify('nitrous-error', "I don\'t think this vehicle should take some nitrous..", 'error')
             return
@@ -75,9 +76,9 @@ end)
 
 RegisterNetEvent('mercy-vehicles/client/nitrous-usage', function(OnPress)
     if not OnPress then return end
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-    local Plate = GetVehicleNumberPlateText(Vehicle)
-    if Vehicle == 0 or Vehicle == -1 or GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then return end
+    local Vehicle = CurrentVehicleData.Vehicle
+    local Plate = CurrentVehicleData.Plate
+    if Vehicle == 0 or Vehicle == -1 or not CurrentVehicleData.IsDriver then return end
     local Nitrous = GetVehicleMeta(Vehicle, 'Nitrous')
     if Nitrous ~= nil and Nitrous > 0 then
         if NitrousStage + 1 > #NitrousStages then
@@ -92,9 +93,9 @@ end)
 
 RegisterNetEvent('mercy-vehicles/client/nitrous-type', function(OnPress)
     if not OnPress then return end
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-    local Plate = GetVehicleNumberPlateText(Vehicle)
-    if Vehicle == 0 or Vehicle == -1 or GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then return end
+    local Vehicle = CurrentVehicleData.Vehicle
+    local Plate = CurrentVehicleData.Plate
+    if Vehicle == 0 or Vehicle == -1 or not CurrentVehicleData.IsDriver then return end
     local Nitrous = GetVehicleMeta(Vehicle, 'Nitrous')
     if Nitrous ~= nil and Nitrous > 0 then
         if NitrousType == 'Nitrous' then
@@ -108,9 +109,9 @@ end)
 
 RegisterNetEvent('mercy-vehicles/client/nitrous', function(OnPress)
     if OnPress then
-        local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-        local Plate = GetVehicleNumberPlateText(Vehicle)
-        if Vehicle == 0 or Vehicle == -1 or GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then return end
+        local Vehicle = CurrentVehicleData.Vehicle
+        local Plate = CurrentVehicleData.Plate
+        if Vehicle == 0 or Vehicle == -1 or not CurrentVehicleData.IsDriver then return end
         local NitrousLevel = GetVehicleMeta(Vehicle, 'Nitrous')
         if NitrousLevel ~= nil and NitrousLevel > 0 then
             DoingNitrous = true
@@ -124,17 +125,17 @@ RegisterNetEvent('mercy-vehicles/client/nitrous', function(OnPress)
         end
     else
         if DoingNitrous then
-            local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-            local Plate = GetVehicleNumberPlateText(Vehicle)
+            local Vehicle = CurrentVehicleData.Vehicle
+            local Plate = CurrentVehicleData.Plate
             DoingNitrous = false
             if NitrousType == 'Nitrous' then
                 SetVehicleBoostActive(Vehicle, false)
                 SetVehicleEnginePowerMultiplier(Vehicle, 1.0)
                 SetVehicleEngineTorqueMultiplier(Vehicle, 1.0)
                 TriggerServerEvent('mercy-vehicles/server/set-vehicle-flames', VehToNet(Vehicle), false)
-                Citizen.SetTimeout(100, function()
+                SetTimeout(100, function()
                     TriggerServerEvent('mercy-vehicles/server/set-vehicle-purge', VehToNet(Vehicle), true)
-                    Citizen.Wait(1500)
+                    Wait(1500)
                     TriggerServerEvent('mercy-vehicles/server/set-vehicle-purge', VehToNet(Vehicle), false)
                 end)
             elseif NitrousType == 'Purge' then
@@ -147,16 +148,16 @@ end)
 RegisterNetEvent("mercy-threads/exited-vehicle", function()
     if DoingNitrous then
         DoingNitrous = false
-        local Vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
-        local Plate = GetVehicleNumberPlateText(Vehicle)
+        local Vehicle = CurrentVehicleData.Vehicle
+        local Plate = CurrentVehicleData.Plate
         if NitrousType == 'Nitrous' then
             SetVehicleBoostActive(Vehicle, false)
             SetVehicleEnginePowerMultiplier(Vehicle, 1.0)
             SetVehicleEngineTorqueMultiplier(Vehicle, 1.0)
             TriggerServerEvent('mercy-vehicles/server/set-vehicle-flames', VehToNet(Vehicle), false)
-            Citizen.SetTimeout(100, function()
+            SetTimeout(100, function()
                 TriggerServerEvent('mercy-vehicles/server/set-vehicle-purge', VehToNet(Vehicle), true)
-                Citizen.Wait(1500)
+                Wait(1500)
                 TriggerServerEvent('mercy-vehicles/server/set-vehicle-purge', VehToNet(Vehicle), false)
             end)
         elseif NitrousType == 'Purge' then
@@ -170,9 +171,9 @@ end)
 -- Nitrous Loop
 
 function DoNitrousLoop(Vehicle, Plate)
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while DoingNitrous do
-            Citizen.Wait(4)
+            Wait(4)
             local NewNitrous = GetVehicleMeta(Vehicle, 'Nitrous') - NitrousStages[NitrousStage]
             if NewNitrous > 0 then
                 if NitrousType == 'Nitrous' then
@@ -192,16 +193,16 @@ function DoNitrousLoop(Vehicle, Plate)
                     SetVehicleEnginePowerMultiplier(Vehicle, 1.0)
                     SetVehicleEngineTorqueMultiplier(Vehicle, 1.0)
                     TriggerServerEvent('mercy-vehicles/server/set-vehicle-flames', VehToNet(Vehicle), false)
-                    Citizen.SetTimeout(100, function()
+                    SetTimeout(100, function()
                         TriggerServerEvent('mercy-vehicles/server/set-vehicle-purge', VehToNet(Vehicle), true)
-                        Citizen.Wait(1500)
+                        Wait(1500)
                         TriggerServerEvent('mercy-vehicles/server/set-vehicle-purge', VehToNet(Vehicle), false)
                     end)
                 elseif NitrousType == 'Purge' then
                     TriggerServerEvent('mercy-vehicles/server/set-vehicle-purge', VehToNet(Vehicle), false)
                 end
             end
-            Citizen.Wait(1000)
+            Wait(1000)
         end
     end)
 end
@@ -209,14 +210,14 @@ end
 -- Flames
 
 function CreateVehicleExhaustBackfire(Vehicle)
-    Citizen.CreateThread(function()
-        local Plate = GetVehicleNumberPlateText(Vehicle)
+    CreateThread(function()
+        local Plate = CurrentVehicleData.Plate
         if Vehicle ~= -1 and Plate ~= nil then
             if VehicleParticles[Plate] == nil then VehicleParticles[Plate] = {} end
             for k, v in pairs(ExhaustNames) do
                 if GetEntityBoneIndexByName(Vehicle, v) ~= -1 then
                     SetPtfxAssetNextCall('veh_xs_vehicle_mods')
-                    Citizen.InvokeNative(0x6C38AF3693A69A91, 'veh_xs_vehicle_mods')
+                    InvokeNative(0x6C38AF3693A69A91, 'veh_xs_vehicle_mods')
                     table.insert(VehicleParticles[Plate], StartNetworkedParticleFxLoopedOnEntityBone('veh_nitrous', Vehicle, 0.0, -0.02, 0.0, 0.0, 0.0, 0.0, GetEntityBoneIndexByName(Vehicle, v), FlameScale, 0.0, 0.0, 0.0))
                 end
             end
@@ -225,8 +226,8 @@ function CreateVehicleExhaustBackfire(Vehicle)
 end
 
 function RemoveVehicleExhaustBackfire(Vehicle)
-    Citizen.CreateThread(function()
-        local Plate = GetVehicleNumberPlateText(Vehicle)
+    CreateThread(function()
+        local Plate = CurrentVehicleData.Plate
         if Vehicle ~= -1 and Plate ~= nil then
             if VehicleParticles[Plate] ~= nil then
                 for k, v in pairs(VehicleParticles[Plate]) do
@@ -246,8 +247,8 @@ function CreateVehicleSpray(Vehicle, X, Y, Z, XRot, YRot, ZRot)
 end
 
 function CreateVehiclePurgeSpray(Vehicle)
-    Citizen.CreateThread(function()
-        local Plate = GetVehicleNumberPlateText(Vehicle)
+    CreateThread(function()
+        local Plate = CurrentVehicleData.Plate
         if Vehicle ~= -1 and Plate ~= nil then
             local Position = GetWorldPositionOfEntityBone(Vehicle, GetEntityBoneIndexByName(Vehicle, 'bonnet'))
             local OffSets = GetOffsetFromEntityGivenWorldCoords(Vehicle, Position.x, Position.y, Position.z)
@@ -259,8 +260,8 @@ function CreateVehiclePurgeSpray(Vehicle)
 end
 
 function RemoveVehiclePurgeSpray(Vehicle)
-    Citizen.CreateThread(function()
-        local Plate = GetVehicleNumberPlateText(Vehicle)
+    CreateThread(function()
+        local Plate = CurrentVehicleData.Plate
         if Vehicle ~= -1 and Plate ~= nil then
             if VehicleParticles[Plate] ~= nil then
                 for k, v in pairs(VehicleParticles[Plate]) do

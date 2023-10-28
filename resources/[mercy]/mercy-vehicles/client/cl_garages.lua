@@ -1,9 +1,7 @@
 local CurrentGarage, IsGovGarage, PreviewVehicle = false, false, false
 
-Citizen.CreateThread(function()
-    while CallbackModule == nil do
-        Citizen.Wait(4)
-    end
+CreateThread(function()
+    while CallbackModule == nil do Wait(100) end
 
     local HouseGarages = CallbackModule.SendCallback("mercy-vehicles/server/get-house-garages")
     for k, v in pairs(HouseGarages) do
@@ -51,14 +49,12 @@ RegisterNetEvent('mercy-polyzone/client/enter-polyzone', function(PolyData, Coor
         CurrentGarage = 'depot'
         exports['mercy-ui']:SetInteraction("[E] Depot")
 
-        Citizen.CreateThread(function()
+        CreateThread(function()
             while CurrentGarage == 'depot' do
-
                 if IsControlJustPressed(0, 38) then
                     TriggerEvent('mercy-vehicles/client/open-depot')
                 end
-
-                Citizen.Wait(4)
+                Wait(4)
             end
         end)
     elseif string.match(PolyData.name, "garage-") then
@@ -271,10 +267,10 @@ RegisterNetEvent("mercy-vehicles/client/spawn-veh", function(Data)
 
     local Veh = VehicleModule.SpawnVehicle(Model, { X = Spot.x, Y = Spot.y, Z = Spot.z, Heading = Spot.w }, Data.Vehicle.plate)
     local NetId = Veh['VehicleNet']
-    while not NetworkDoesEntityExistWithNetworkId(NetId) do Citizen.Wait(100) end
+    while not NetworkDoesEntityExistWithNetworkId(NetId) do Wait(100) end
     
     local Vehicle = NetToVeh(NetId)
-    while not DoesEntityExist(Vehicle) do Citizen.Wait(100) end
+    while not DoesEntityExist(Vehicle) do Wait(100) end
 
     if PreviewVehicle then
         VehicleModule.DeleteVehicle(PreviewVehicle)
@@ -288,7 +284,7 @@ RegisterNetEvent("mercy-vehicles/client/spawn-veh", function(Data)
     exports['mercy-vehicles']:SetFuelLevel(Vehicle, MetaData.Fuel)
     TriggerServerEvent('mercy-vehicles/server/set-veh-state', Data.Vehicle.plate, 'Out', NetId)
     
-    Citizen.SetTimeout(500, function()
+    SetTimeout(500, function()
         SetCarDamage(Vehicle, MetaData, Damage)
         NetworkRegisterEntityAsNetworked(Vehicle)
         VehicleModule.SetVehicleNumberPlate(Vehicle, Data.Vehicle.plate)
@@ -299,7 +295,7 @@ RegisterNetEvent("mercy-vehicles/client/spawn-veh", function(Data)
 
         if not MetaData.WheelFitment then return end
 
-        Citizen.CreateThread(function()
+        CreateThread(function()
             local LastFetch = GetGameTimer()
             local WheelFitment = MetaData.WheelFitment
             while DoesEntityExist(Vehicle) and WheelFitment do
@@ -316,14 +312,14 @@ RegisterNetEvent("mercy-vehicles/client/spawn-veh", function(Data)
                     if WheelFitment.RLOffset then SetVehicleWheelXOffset(Vehicle, 2, WheelFitment.RLOffset) end
                     if WheelFitment.RROffset then SetVehicleWheelXOffset(Vehicle, 3, WheelFitment.RROffset) end
                 end
-                Citizen.Wait(4)
+                Wait(4)
             end
         end)
     end)
 end)
 
 function SetCarDamage(Vehicle, MetaData, Damage)
-	Citizen.Wait(100)
+	Wait(100)
 	SetVehicleEngineHealth(Vehicle, MetaData.Engine + 0.0 or 1000.0)
     SetVehicleBodyHealth(Vehicle, MetaData.Body + 0.0 or 1000.0)
 

@@ -62,7 +62,7 @@ RegisterNetEvent('mercy-vehicles/client/rent-vehicle', function(Data)
                     local VehicleCoords = {['X'] = Config.RentalSpawn[Data.RentalType].x, ['Y'] = Config.RentalSpawn[Data.RentalType].y, ['Z'] = Config.RentalSpawn[Data.RentalType].z - 1.0, ['Heading'] = Config.RentalSpawn[Data.RentalType].w}
                     local Vehicle = VehicleModule.SpawnVehicle(Data.Model, VehicleCoords, RandomPlate, false)
                     if Vehicle ~= nil then        
-                        Citizen.SetTimeout(650, function()
+                        SetTimeout(650, function()
                             EventsModule.TriggerServer('mercy-vehicles/server/receive-rental-papers', RandomPlate)
                             exports['mercy-vehicles']:SetVehicleKeys(RandomPlate, true, false)
                             exports['mercy-vehicles']:SetFuelLevel(Vehicle['Vehicle'], 100)
@@ -79,7 +79,7 @@ end)
 
 -- [ Threads ] --
 
-Citizen.CreateThread(function()
+CreateThread(function()
     exports['mercy-ui']:AddEyeEntry("vehicle-rentals", {
         Type = 'Entity',
         EntityType = 'Ped',

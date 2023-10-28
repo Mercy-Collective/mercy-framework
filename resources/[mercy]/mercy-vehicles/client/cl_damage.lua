@@ -4,25 +4,22 @@ HasBelt, HasHarness = false, false
 
 -- [ Code ] --
 
-
 -- [ Threads ] --
 
 -- Belt
 
-Citizen.CreateThread(function()
-    while KeybindsModule == nil do Citizen.Wait(10) end
+CreateThread(function()
+    while KeybindsModule == nil do Wait(100) end
 
     KeybindsModule.Add('toggleBelt', 'Vehicle', 'Toggle Belt', 'B', function(OnPress)
         if not OnPress then return end
         
-        local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+        local Vehicle = CurrentVehicleData.Vehicle
         if Vehicle == 0 then return end
 
-        local VehicleClass = GetVehicleClass(Vehicle)
         local HarnessLevel = exports['mercy-vehicles']:GetVehicleMeta(Vehicle, "Harness")
 
-
-        if VehicleClass ~= 8 and VehicleClass ~= 13 and VehicleClass ~= 14 and GetEntityModel(Vehicle) ~= GetHashKey('polbike') then
+        if CurrentVehicleData.Class ~= 8 and CurrentVehicleData.Class ~= 13 and CurrentVehicleData.Class ~= 14 and GetEntityModel(Vehicle) ~= GetHashKey('polbike') then
             if HarnessLevel and HarnessLevel > 0.0 then
                 local Text = HasHarness and "Taking off harness" or "Putting on harness"
                 local Duration = HasHarness and 2000 or 5000
@@ -46,11 +43,11 @@ Citizen.CreateThread(function()
     end)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Wait(4)
         if LocalPlayer.state.LoggedIn then
-            if Vehicle == 0 or Vehicle == -1 or not HasHarness then goto SkipLoop end
+            if CurrentVehicleData.Vehicle == 0 or CurrentVehicleData.Vehicle == -1 or not HasHarness then goto SkipLoop end
 
             DisableControlAction(0, 75, true)
             if IsDisabledControlJustReleased(1, 75) then
@@ -59,20 +56,20 @@ Citizen.CreateThread(function()
 
             ::SkipLoop::
         else
-            Citizen.Wait(750)
+            Wait(750)
         end
     end
 end)
 
 -- Engine / Body
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Wait(4)
         if LocalPlayer.state.LoggedIn then
-            if IsPedInAnyVehicle(PlayerPedId()) and GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()), -1) == PlayerPedId() then
-                local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-                local VehicleClass = GetVehicleClass(Vehicle)
+            if CurrentVehicleData.InVeh and CurrentVehicleData.IsDriver then
+                local Vehicle = CurrentVehicleData.Vehicle
+                local VehicleClass = CurrentVehicleData.Class
                 local CurrentMotor, CurrentBody = GetVehicleEngineHealth(Vehicle), GetVehicleBodyHealth(Vehicle)
                 if not InVehicle then
                     InVehicle = true
@@ -109,7 +106,7 @@ Citizen.CreateThread(function()
                             EventsModule.TriggerServer('mercy-business/server/hayes/do-parts-damage', GetVehicleNumberPlateText(Vehicle), GetEntityModel(Vehicle), 'Engine')
                             if CurrentHarnessLevel then
                                 SetVehicleMeta(Vehicle, "Harness", CurrentHarnessLevel - 1.5)
-                                Citizen.SetTimeout(1000, function()
+                                SetTimeout(1000, function()
                                     SetVehicleUndriveable(Vehicle, false)
                                 end)
                             end
@@ -119,28 +116,27 @@ Citizen.CreateThread(function()
                 end
                 if InVehicle and CurrentMotor <= Config.EngineSafeGuard then
                     SetVehicleUndriveable(Vehicle, true)
-                    Citizen.Wait(150)
+                    Wait(150)
                 end
-                Citizen.Wait(250)
+                Wait(250)
             else
                 InVehicle, CurrentMotorDamage, CurrentBodyDamage = false, 0, 0
-                Citizen.Wait(450)
+                Wait(450)
             end
         else
-            Citizen.Wait(450)
+            Wait(450)
         end
     end
 end)
 
 -- Wheels & Ejecting
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Wait(4)
         if LocalPlayer.state.LoggedIn then
-            if IsPedInAnyVehicle(PlayerPedId()) then
-                local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-                local VehicleClass = GetVehicleClass(Vehicle)
+            if CurrentVehicleData.InVeh then
+                local Vehicle = CurrentVehicleData.Vehicle
                 local CurrentVehicleSpeed, CurrentBody = GetEntitySpeed(Vehicle) * 2.236936, GetVehicleBodyHealth(Vehicle)
                 if not InEjectVehicle then
                     InEjectVehicle = true
@@ -150,7 +146,7 @@ Citizen.CreateThread(function()
                     if not HasHarness and math.ceil(CurrentBodyEject - CurrentBody) > 35.0 then
                         if CurrentHarnessLevel then SetVehicleMeta(Vehicle, "Harness", CurrentHarnessLevel - 1.0) end
                         if (not HasBelt and CurrentVehicleSpeed > math.random(60, 80)) or (HasBelt and CurrentVehicleSpeed > math.random(100, 120)) then
-                            if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() and VehicleClass ~= 15 and VehicleClass ~= 16 then
+                            if CurrentVehicleData.IsDriver == PlayerPedId() and CurrentVehicleData.Class ~= 15 and CurrentVehicleData.Class ~= 16 then
                                 DoWheelDamage(Vehicle)
                             end
                             EjectFromVehicle(Vehicle, GetEntityVelocity(Vehicle))  
@@ -162,35 +158,13 @@ Citizen.CreateThread(function()
                 if InEjectVehicle then
                     InEjectVehicle, CurrentBodyEject = false, 0
                 end
-                Citizen.Wait(450)
+                Wait(450)
             end
         else
-            Citizen.Wait(450)
+            Wait(450)
         end
     end
 end)
-
--- Flipping
-
--- Citizen.CreateThread(function()
---     while true do
---         Citizen.Wait(4)
---         if LocalPlayer.state.LoggedIn and IsPedInAnyVehicle(PlayerPedId()) then
---             local Vehicle = GetVehiclePedIsIn(PlayerPedId())
---             if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
---                 local VehicleRoll = GetEntityRoll(Vehicle)
--- 				if (VehicleRoll > 75.0 or VehicleRoll < -75.0) and GetEntitySpeed(Vehicle) < 3.0 then
--- 					DisableControlAction(2, 59, true)
--- 					DisableControlAction(2, 60, true)
--- 				end
---             else
---                 Citizen.Wait(450)
---             end
---         else
---             Citizen.Wait(450)
---         end
---     end
--- end)
 
 -- [ Functions ] --
 

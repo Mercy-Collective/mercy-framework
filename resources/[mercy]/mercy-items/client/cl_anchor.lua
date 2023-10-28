@@ -1,6 +1,7 @@
 local AnchoredBoats, Synced = {}, false
 local WasNearVehicle = false
 local Count = 0
+local InVeh = false
 
 RegisterNetEvent('Mercy/client/on-login', function()
  	Citizen.SetTimeout(1250, function()
@@ -48,18 +49,32 @@ RegisterNetEvent('mercy-items/client/use-anchor-raise', function()
     end)
 end)
 
+RegisterNetEvent('mercy-threads/entered-vehicle', function() 
+    InVeh = true
+end)
+
+RegisterNetEvent('mercy-threads/exited-vehicle', function() 
+    InVeh = false
+end)
+
 -- [ Threads ] --
 
 
 Citizen.CreateThread(function() 
     while true do
-        Wait(0)
-        local NearVehicle = false
-        if VehicleModule ~= nil then
-            local Vehicle = VehicleModule.GetClosestVehicle()
-            local VehicleCoords = GetEntityCoords(Vehicle['Vehicle'])
-            if GetVehicleClass(Vehicle['Vehicle']) == 14 then
-                if AnchoredBoats[GetVehicleNumberPlateText(Vehicle['Vehicle'])] and GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, false) <= 2.0 then
+        Wait(4)
+        if LocalPlayer.state.LoggedIn then
+            local NearVehicle = false
+            if VehicleModule ~= nil then
+                local Vehicle = VehicleModule.GetClosestVehicle()
+                local VehicleCoords = GetEntityCoords(Vehicle['Vehicle'])
+                if GetVehicleClass(Vehicle['Vehicle']) ~= 14 then 
+                    Wait(1000)
+                    return 
+                end
+
+                local BoatDist = #(GetEntityCoords(PlayerPedId()) - vector3(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z))
+                if AnchoredBoats[GetVehicleNumberPlateText(Vehicle['Vehicle'])] and BoatDist <= 2.0 then
                     WasNearVehicle = true
                     NearVehicle = true
 
@@ -69,9 +84,8 @@ Citizen.CreateThread(function()
                         Synced = true
                     end
 
-                    if IsPedInAnyVehicle(PlayerPedId(), true) then
+                    if InVeh then
                         TaskLeaveVehicle(PlayerPedId(), Vehicle['Vehicle'], 16)
-
                         if not IsPedSittingInAnyVehicle(PlayerPedId()) then
                             SetBoatAnchor(Vehicle['Vehicle'], true)
                             SetForcedBoatLocationWhenAnchored(Vehicle['Vehicle'], true)
@@ -92,16 +106,18 @@ Citizen.CreateThread(function()
                         WasNearVehicle = false
                     end
                 end
-            end
 
-            if not NearVehicle then
-                Wait(1000)
-            end
+                if not NearVehicle then
+                    Wait(1000)
+                end
 
-            if ShowedNotify then
-                Wait(1300)
-                ShowedNotify = false
+                if ShowedNotify then
+                    Wait(1300)
+                    ShowedNotify = false
+                end
             end
+        else
+            Wait(1000)
         end
     end
 end)

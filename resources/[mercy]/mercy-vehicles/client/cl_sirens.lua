@@ -2,19 +2,22 @@ local HornSoundId, SirenSoundId = nil, nil
 
 -- [ Threads ] --
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
-        if LocalPlayer.state.LoggedIn and IsPedInAnyVehicle(PlayerPedId()) then
-            local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-            if GetVehicleClass(Vehicle) == 18 and GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
+        Wait(4)
+        if LocalPlayer.state.LoggedIn then
+            if CurrentVehicleData.Vehicle == nil or not CurrentVehicleData.InVeh then
+                Wait(450)
+                return 
+            end
+            if CurrentVehicleData.Class == 18 and CurrentVehicleData.IsDriver then
                 DisableControlAction(0, 85, true)
                 DisableControlAction(0, 86, true)
             else
-                Citizen.Wait(450)
+                Wait(450)
             end
         else
-            Citizen.Wait(450)
+            Wait(450)
         end
     end
 end)
@@ -22,10 +25,10 @@ end)
 -- [ Events ] --
 
 RegisterNetEvent('mercy-vehicles/client/sirens-horn', function(OnPress)
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = CurrentVehicleData.Vehicle
     if Vehicle == 0 or Vehicle == -1 then return end
-    if GetVehicleClass(Vehicle) ~= 18 then return end
-    if GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then return end
+    if CurrentVehicleData.Class ~= 18 then return end
+    if not CurrentVehicleData.IsDriver then return end
     if OnPress then
         if HornSoundId ~= nil then return end
         HornSoundId = GetSoundId()
@@ -40,9 +43,9 @@ end)
 
 RegisterNetEvent('mercy-vehicles/client/toggle-lights', function(OnPress)
     if not OnPress then return end
-    if IsPedInAnyVehicle(PlayerPedId()) then
-        local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-        if GetVehicleClass(Vehicle) == 18 and GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
+    if CurrentVehicleData.InVeh then
+        local Vehicle = CurrentVehicleData.Vehicle
+        if CurrentVehicleData.Class == 18 and CurrentVehicleData.IsDriver then
             if IsVehicleSirenOn(Vehicle) then
                 SetVehicleSiren(Vehicle, false)
                 if SirenSoundId ~= nil then
@@ -63,11 +66,11 @@ end)
 
 RegisterNetEvent('mercy-vehicles/client/toggle-sirens', function(OnPress)
     if not OnPress then return end
-    if not IsPedInAnyVehicle(PlayerPedId()) then return end
+    if not CurrentVehicleData.InVeh then return end
 
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = CurrentVehicleData.Vehicle
     local SirenSound = Shared.Vehicles[GetEntityModel(Vehicle)] ~= nil and Shared.Vehicles[GetEntityModel(Vehicle)]['Siren'] or 'VEHICLES_HORNS_SIREN_1'
-    if GetVehicleClass(Vehicle) == 18 and GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
+    if CurrentVehicleData.Class == 18 and CurrentVehicleData.IsDriver then
         if IsVehicleSirenOn(Vehicle) then
             if SirenSoundId == nil then
                 SirenSoundId = GetSoundId()

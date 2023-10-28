@@ -13,42 +13,43 @@ local ToggledDriftMode = false
 
 -- [ Threads ] --
 
-Citizen.CreateThread( function()
-	while true do
-		Citizen.Wait(200)
-		if IsPedInAnyVehicle(PlayerPedId()) then
-			local Veh = GetVehiclePedIsIn(PlayerPedId(), false)
-			if (GetPedInVehicleSeat(Veh, -1) == PlayerPedId()) then	
-				-- Drift Car  
-				if GetVehicleHandlingFloat(Veh, "CHandlingData", "fDriveBiasFront") ~= 1 and IsVehicleOnAllWheels(Veh) and DriftMode and IsVehicleClassWhitelisted(GetVehicleClass(Veh)) then
-					if not ToggledDriftMode then
-                        ToggleDrift(Veh)
-                    end
-				end
-				if GetVehicleHandlingFloat(Veh, "CHandlingData", "fInitialDragCoeff") < 90 then
-					SetVehicleEnginePowerMultiplier(Veh, 0.0)
-				else
-					if GetVehicleHandlingFloat(Veh, "CHandlingData", "fDriveBiasFront") == 0.0 then
-						SetVehicleEnginePowerMultiplier(Veh, 190.0)
-					else
-						SetVehicleEnginePowerMultiplier(Veh, 100.0)
-					end
-				end
+-- CreateThread( function()
+-- 	while true do
+-- 		Wait(200)
+-- 		if IsPedInAnyVehicle(PlayerPedId()) then
+-- 			local Veh = GetVehiclePedIsIn(PlayerPedId(), false)
+-- 			if (GetPedInVehicleSeat(Veh, -1) == PlayerPedId()) then	
+-- 				-- Drift Car  
+-- 				if GetVehicleHandlingFloat(Veh, "CHandlingData", "fDriveBiasFront") ~= 1 and IsVehicleOnAllWheels(Veh) and DriftMode and IsVehicleClassWhitelisted(GetVehicleClass(Veh)) then
+-- 					if not ToggledDriftMode then
+--                         ToggleDrift(Veh)
+--                     end
+-- 				end
+-- 				if GetVehicleHandlingFloat(Veh, "CHandlingData", "fInitialDragCoeff") < 90 then
+-- 					SetVehicleEnginePowerMultiplier(Veh, 0.0)
+-- 				else
+-- 					if GetVehicleHandlingFloat(Veh, "CHandlingData", "fDriveBiasFront") == 0.0 then
+-- 						SetVehicleEnginePowerMultiplier(Veh, 190.0)
+-- 					else
+-- 						SetVehicleEnginePowerMultiplier(Veh, 100.0)
+-- 					end
+-- 				end
 
-			end
-		end
-	end
-end)
+-- 			end
+-- 		end
+-- 	end
+-- end)
 
 -- [ Events ] --
 
 function ToggleDrift(Veh)
 	local Modifier = 1
-	if GetVehicleHandlingFloat(Veh, "CHandlingData", "fInitialDragCoeff") > 90 then
-		DriftMode = false
-	else 
-		DriftMode = true
-	end
+	-- if GetVehicleHandlingFloat(Veh, "CHandlingData", "fInitialDragCoeff") > 90 then
+	-- 	DriftMode = false
+	-- else 
+	-- 	DriftMode = true
+	-- end
+	DriftMode = not DriftMode
 	if not DriftMode then
 		Modifier = -1
 	end
@@ -80,17 +81,17 @@ end
 
 RegisterNetEvent("mercy-vehicles/client/toggle-driftmode", function(Pressed)
     if not Pressed then return end
-    if not IsPedInAnyVehicle(PlayerPedId(), false) then return end
-    if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) ~= PlayerPedId() then return end
+    if not CurrentVehicleData.InVeh then return end
+    if not CurrentVehicleData.IsDriver then return end
 
-    ToggleDrift(GetVehiclePedIsIn(PlayerPedId(), false))
+    ToggleDrift(CurrentVehicleData.Vehicle)
 end)
 
 -- [ Functions ] --
 
-function IsVehicleClassWhitelisted(vehicleClass)
+function IsVehicleClassWhitelisted(VehicleClass)
 	for index, value in ipairs(VehicleClassWhitelist) do
-		if value == vehicleClass then
+		if value == VehicleClass then
 			return true
 		end
 	end

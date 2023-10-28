@@ -3,13 +3,13 @@ local PursuitModes = {'B', 'A', 'S'}
 
 -- [ Threads ] --
 
-Citizen.CreateThread(function()
-    while KeybindsModule == nil do Citizen.Wait(10) end
+CreateThread(function()
+    while KeybindsModule == nil do Wait(100) end
 
     KeybindsModule.Add('switchPursuit', 'Vehicle', 'Switch Pursuit Modes', '', function(OnPress)
         if not OnPress then return end
-        local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-        if Vehicle == 0 or Vehicle == -1 or GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then return end
+        local Vehicle = CurrentVehicleData.Vehicle
+        if Vehicle == 0 or Vehicle == -1 or not CurrentVehicleData.IsDriver then return end
             
         if not IsPoliceVehicle(Vehicle) then 
             return 
@@ -31,9 +31,9 @@ end)
 -- [ Events ] --
 
 RegisterNetEvent("mercy-threads/entered-vehicle", function() 
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    local Vehicle = CurrentVehicleData.Vehicle
     if not IsPoliceVehicle(Vehicle) or not IsThisAPursuitVehicle(Vehicle) then return end
-    if Vehicle == 0 or Vehicle == -1 or GetPedInVehicleSeat(Vehicle, -1) ~= PlayerPedId() then return end
+    if Vehicle == 0 or Vehicle == -1 or not CurrentVehicleData.IsDriver then return end
 
     TriggerEvent('mercy-ui/client/set-hud-values', 'PursuitMode', 'Value', CurrentPursuit)
     TriggerEvent('mercy-ui/client/set-hud-values', 'PursuitMode', 'Show', true)
@@ -41,7 +41,7 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
 end)
 
 RegisterNetEvent("mercy-threads/exited-vehicle", function() 
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
+    local Vehicle = CurrentVehicleData.Vehicle
     if Vehicle == 0 or Vehicle == -1 or not IsPoliceVehicle(Vehicle) or not IsThisAPursuitVehicle(Vehicle) then return end
 
     TriggerEvent('mercy-ui/client/set-hud-values', 'PursuitMode', 'Value', 'B')

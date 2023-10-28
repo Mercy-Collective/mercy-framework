@@ -2,8 +2,8 @@ local StealingKeys, Lockpicking, LastCartheftAlert = false, false, nil
 
 -- [ Threads ] --
 
-Citizen.CreateThread(function()
-    while KeybindsModule == nil do Citizen.Wait(10) end
+CreateThread(function()
+    while KeybindsModule == nil do Wait(100) end
 
     KeybindsModule.Add('toggleEngineOn', 'Vehicle', 'Turn Engine On', 'IOM_WHEEL_UP', false, 'mercy-vehicles/client/toggle-engine-on', false, "MOUSE_WHEEL")
     KeybindsModule.Add('toggleEngineOff', 'Vehicle', 'Turn Engine Off', 'IOM_WHEEL_DOWN', false, 'mercy-vehicles/client/toggle-engine-off', false, "MOUSE_WHEEL")
@@ -23,9 +23,9 @@ Citizen.CreateThread(function()
     KeybindsModule.DisableControlAction(0, 116, true)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Wait(4)
 		if LocalPlayer.state.LoggedIn then
 			local Vehicle = GetVehiclePedIsTryingToEnter(PlayerPedId())
 			if Vehicle == -1 or Vehicle == 0 then goto Skip end
@@ -40,40 +40,49 @@ Citizen.CreateThread(function()
 
 			::Skip::
 		else
-			Citizen.Wait(450)
+			Wait(450)
 		end
     end
 end)
                                      
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
-        if LocalPlayer.state.LoggedIn and IsPedInAnyVehicle(PlayerPedId()) then
-            local Vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
-            if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
+        Wait(4)
+        if LocalPlayer.state.LoggedIn then
+            if CurrentVehicleData.Vehicle == nil then
+                Wait(150)
+                return
+            end
+
+            local Vehicle = CurrentVehicleData.Vehicle
+            if Vehicle == 0 or Vehicle == -1 then 
+                Wait(150)
+                return 
+            end
+
+            if CurrentVehicleData.IsDriver then
                 if IsControlPressed(2, 75) and GetIsVehicleEngineRunning(Vehicle) then
-                    local Plate = GetVehicleNumberPlateText(Vehicle)
-                    if HasKeysToVehicle(Plate) then
+                    if HasKeysToVehicle(CurrentVehicleData.Plate) then
                         TaskLeaveVehicle(PlayerPedId(), Vehicle, 0)
                         SetVehicleEngineOn(Vehicle, true, true, true)
-                        Citizen.Wait(95)
+                        Wait(95)
                         SetVehicleEngineOn(Vehicle, true, true, true)
                     else
                         TaskLeaveVehicle(PlayerPedId(), Vehicle, 0)
                     end
                 end
             else
-                Citizen.Wait(450)
+                Wait(450)
             end
         else
-            Citizen.Wait(450)
+            Wait(450)
         end
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(4)
+        Wait(4)
         if LocalPlayer.state.LoggedIn and not StealingKeys then
             if GetVehiclePedIsTryingToEnter(PlayerPedId()) ~= 0 and GetSeatPedIsTryingToEnter(PlayerPedId()) == -1 then
                 local Vehicle = GetVehiclePedIsTryingToEnter(PlayerPedId())
@@ -91,7 +100,7 @@ Citizen.CreateThread(function()
                 end
             end
         else
-            Citizen.Wait(450)
+            Wait(450)
         end
     end
 end)
@@ -114,11 +123,11 @@ function LoopAnimation(Bool, AnimDict, AnimName)
     if not Lockpicking then return end
 
     FunctionsModule.RequestAnimDict(AnimDict)
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while Lockpicking do
-            Citizen.Wait(4)
+            Wait(4)
             TaskPlayAnim(PlayerPedId(), AnimDict, AnimName, 3.0, 3.0, -1, 16, 0, false, false, false)
-            Citizen.Wait(1000)
+            Wait(1000)
         end
         StopAnimTask(PlayerPedId(), AnimDict, AnimName, 1.0)
     end)
@@ -148,16 +157,16 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
         return 
     end
 
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while not HasKeysToVehicle(Plate) do
             if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() and GetIsVehicleEngineRunning(Vehicle) then
                 SetVehicleEngineOn(Vehicle, false, false, true)
                 SetVehicleUndriveable(Vehicle, true)
             end
-            Citizen.Wait(250)
+            Wait(250)
         end
 
-        Citizen.SetTimeout(500, function()
+        SetTimeout(500, function()
             SetVehicleUndriveable(Vehicle, false)
         end)
     end)
@@ -195,7 +204,7 @@ RegisterNetEvent('mercy-items/client/used-lockpick', function(IsAdvanced, isBank
     if LastCartheftAlert ~= Entity then
         EventsModule.TriggerServer('mercy-ui/server/send-stealing-vehicle', FunctionsModule.GetStreetName(), GetVehicleDescription(Entity))
         LastCartheftAlert = Entity
-        Citizen.SetTimeout(60000 * 5, function() -- 5 min
+        SetTimeout(60000 * 5, function() -- 5 min
             if LastCartheftAlert == Entity then
                 LastCartheftAlert = false
             end
@@ -351,6 +360,6 @@ RegisterNetEvent('mercy-vehicles/client/toggle-locks', function(OnPress)
 
     FunctionsModule.RequestAnimDict("anim@heists@keycard@")
     TaskPlayAnim(PlayerPedId(), "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 48, 0, 0, 0, 0)
-    Citizen.Wait(500)
+    Wait(500)
     StopAnimTask(PlayerPedId(), "anim@heists@keycard@", "exit", 1.0)
 end)

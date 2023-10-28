@@ -10,7 +10,6 @@ Config.VehicleKeys = {}
 
 -- Main Data
 
-
 Config.VehicleData = {}
 
 -- Police Vehicles

@@ -74,19 +74,19 @@ end)
 
 -- [ Events ] --
 
-RegisterNetEvent('mercy-assets/client/set-map-zoom', function()
-	Citizen.CreateThread(function()
-		SetMapZoomDataLevel(0, 2.3, 0.9, 0.08, 0.0, 0.0)
-		SetMapZoomDataLevel(1, 2.6, 0.9, 0.08, 0.0, 0.0)
-		SetMapZoomDataLevel(2, 8.6, 0.9, 0.08, 0.0, 0.0)
-		SetMapZoomDataLevel(3, 12.3, 0.9, 0.08, 0.0, 0.0)
-		SetMapZoomDataLevel(4, 22.3, 0.9, 0.08, 0.0, 0.0)
-		SetRadarZoom(900) SetRadarZoom(950)
-		Citizen.SetTimeout(150, function()
-			SetRadarZoom(1100)
-		end)
-	end)
-end)
+-- RegisterNetEvent('mercy-assets/client/set-map-zoom', function()
+-- 	Citizen.CreateThread(function()
+-- 		SetMapZoomDataLevel(0, 2.3, 0.9, 0.08, 0.0, 0.0)
+-- 		SetMapZoomDataLevel(1, 2.6, 0.9, 0.08, 0.0, 0.0)
+-- 		SetMapZoomDataLevel(2, 8.6, 0.9, 0.08, 0.0, 0.0)
+-- 		SetMapZoomDataLevel(3, 12.3, 0.9, 0.08, 0.0, 0.0)
+-- 		SetMapZoomDataLevel(4, 22.3, 0.9, 0.08, 0.0, 0.0)
+-- 		SetRadarZoom(900) SetRadarZoom(950)
+-- 		Citizen.SetTimeout(150, function()
+-- 			SetRadarZoom(1100)
+-- 		end)
+-- 	end)
+-- end)
 
 -- [ Functions ] --
 

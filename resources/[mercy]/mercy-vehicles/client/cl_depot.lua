@@ -1,4 +1,8 @@
-Citizen.CreateThread(function()
+-- [ Code ] --
+
+-- [ Threads ] --
+
+CreateThread(function()
     exports['mercy-ui']:AddEyeEntry("pd_impound_check_in", {
         Type = 'Entity',
         EntityType = 'Ped',
@@ -43,20 +47,7 @@ Citizen.CreateThread(function()
     })
 end)
 
-function IsGov()
-    local PlayerJob = PlayerModule.GetPlayerData().Job.Name
-    return PlayerJob == 'police' or PlayerJob == 'judge'
-end
-
-function GetDepotSpot()
-    for k, v in pairs(Config.DepotSpots) do
-        if VehicleModule.CanVehicleSpawnAtCoords(v, 2.5) then
-            return v
-        end
-    end
-
-    return false
-end
+-- [ Events ] --
 
 RegisterNetEvent("mercy-vehicles/client/request-impound", function(Data)
     local MenuItems = {}
@@ -439,3 +430,20 @@ RegisterNetEvent('mercy-vehicles/client/take-out-depot', function(Data)
         exports['mercy-ui']:Notify('outside-veh', "Vehicle can be found outside..", "success")
     end)
 end)
+
+-- [ Functions ] --
+
+function IsGov()
+    local PlayerJob = PlayerModule.GetPlayerData().Job.Name
+    return PlayerJob == 'police' or PlayerJob == 'judge'
+end
+
+function GetDepotSpot()
+    for k, v in pairs(Config.DepotSpots) do
+        if VehicleModule.CanVehicleSpawnAtCoords(v, 2.5) then
+            return v
+        end
+    end
+
+    return false
+end

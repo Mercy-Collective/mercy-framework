@@ -1,5 +1,5 @@
 function InitZones()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         exports['mercy-ui']:AddEyeEntry(GetHashKey("wheelchair"), {
             Type = 'Model',
             Model = 'wheelchair',

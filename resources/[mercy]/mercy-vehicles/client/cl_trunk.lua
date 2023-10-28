@@ -8,7 +8,6 @@ RegisterNetEvent('mercy-vehicles/client/get-in-trunk', function(Data, Entity)
         if EntityType == 2 then Entity = TargetEntity end
     end
 
-
     local LockStatus = GetVehicleDoorLockStatus(Entity)
     if LockStatus ~= 0 and LockStatus ~= 1 and LockStatus ~= 4 then return exports['mercy-ui']:Notify("enter-trunk", "Vehicle is locked..", "error") end
     if (not GetIsDoorValid(Entity, 5)) or Config.DisabledTrunk[GetEntityModel(Entity)] then return exports['mercy-ui']:Notify("enter-trunk", "The vehicles does not have a trunk!", "error") end
@@ -51,17 +50,17 @@ function StartTrunkLoop(Vehicle)
         exports['mercy-ui']:SetInteraction("[F] Climb Out")
     end
     
-    Citizen.CreateThread(function()
+    CreateThread(function()
         local InTrunk = true
         while InTrunk do
-
-            SetCamRot(TrunkCam, -20.0, 0.0, GetEntityHeading(PlayerPedId()) - 15.0)
+            local PlayerPed = PlayerPedId()
+            SetCamRot(TrunkCam, -20.0, 0.0, GetEntityHeading(PlayerPed) - 15.0)
             
-            if not IsEntityPlayingAnim(PlayerPedId(), "mp_common_miss", "dead_ped_idle", 3) then
-                TaskPlayAnim(PlayerPedId(), "mp_common_miss", "dead_ped_idle", 8.0, 8.0, -1, 2, 999.0, 0, 0, 0)
+            if not IsEntityPlayingAnim(PlayerPed, "mp_common_miss", "dead_ped_idle", 3) then
+                TaskPlayAnim(PlayerPed, "mp_common_miss", "dead_ped_idle", 8.0, 8.0, -1, 2, 999.0, 0, 0, 0)
             end
 
-            if IsEntityDead(PlayerPedId()) then
+            if IsEntityDead(PlayerPed) then
                 InTrunk = false
             end
             
@@ -87,7 +86,7 @@ function StartTrunkLoop(Vehicle)
                 end
             end
             
-            Citizen.Wait(4)
+            Wait(4)
         end
         
         exports['mercy-ui']:HideInteraction()
@@ -97,12 +96,12 @@ function StartTrunkLoop(Vehicle)
             DestroyCam(TrunkCam, false)
         end
 
-        StopAnimTask(PlayerPedId(), "mp_common_miss", "dead_ped_idle", 1.0)
+        StopAnimTask(PlayerPed, "mp_common_miss", "dead_ped_idle", 1.0)
 
-        DetachEntity(PlayerPedId())
+        DetachEntity(PlayerPed)
         if DoesEntityExist(Vehicle) then
         	local DropPosition = GetOffsetFromEntityInWorldCoords(Vehicle, 0.0, MinDimension.y - 0.5, 0.0)
-	        SetEntityCoords(PlayerPedId(), DropPosition.x, DropPosition.y, DropPosition.z)
+	        SetEntityCoords(PlayerPed, DropPosition.x, DropPosition.y, DropPosition.z)
             TriggerServerEvent('mercy-vehicles/server/set-trunk-occupied', GetVehicleNumberPlateText(Vehicle), false)
 	    end
     end)

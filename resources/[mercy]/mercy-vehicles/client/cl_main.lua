@@ -1,6 +1,24 @@
-EntityModule, CallbackModule, FunctionsModule, BlipModule, PlayerModule, EventsModule, KeybindsModule, VehicleModule = nil, nil, nil, nil, nil, nil, nil, nil
-local SpeedLimit, LastVehicle, LimiterEnabled = 999.0, nil, false
-local Carrying, AttachedEntity = false, nil
+EntityModule, CallbackModule, FunctionsModule, PlayerModule, EventsModule, VehicleModule, KeybindsModule, BlipModule, LoggerModule = nil
+
+local CurrentLimitData = {
+    SpeedLimit = 999.0,
+    LastVehicle = nil,
+    Enabled = false,
+}
+
+local CurrentCarryData = {
+    Carrying = false,
+    AttachedEntity = nil,
+}
+
+CurrentVehicleData = {
+    InVeh = false,
+    Vehicle = nil,
+    Plate = nil,
+    Class = nil,
+    IsDriver = nil,
+    Model = nil,
+}
 
 AddEventHandler('Modules/client/ready', function()
     TriggerEvent('Modules/client/request-dependencies', {
@@ -33,9 +51,8 @@ AddEventHandler('Modules/client/ready', function()
     end)
 end)
 
-
 RegisterNetEvent('mercy-base/client/on-login', function()
-    Citizen.SetTimeout(350, function()
+    SetTimeout(350, function()
         InitMain() 
         InitZones()
         InitNitrous() 
@@ -73,13 +90,10 @@ RegisterNetEvent('mercy-vehicle/client/pickup-wheelchair', function()
 end)
 
 RegisterNetEvent("mercy-threads/exited-vehicle", function() 
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
-    local VehicleClass = GetVehicleClass(Vehicle)
-
-    if VehicleClass == 15 then
+    if CurrentVehicleData.Class == 15 then
         ToggleHeliSubmix(false)
         SetAudioFlag("DisableFlightMusic", true)
-    elseif VehicleClass == 8 then
+    elseif CurrentVehicleData.Class == 8 then
         SetPedHelmet(PlayerPedId(), true)
     end
 
@@ -87,22 +101,29 @@ RegisterNetEvent("mercy-threads/exited-vehicle", function()
         SetBeltStatus(false)
     end
 
-    SetNetworkIdExistsOnAllMachines(NetworkGetNetworkIdFromEntity(Vehicle), true)
-    SetNetworkIdCanMigrate(NetworkGetNetworkIdFromEntity(Vehicle), true)
-    SetEntityAsMissionEntity(Vehicle, false, false)
-    SetVehicleHasBeenOwnedByPlayer(Vehicle, true)
-    NetworkRegisterEntityAsNetworked(Vehicle)
+    SetNetworkIdExistsOnAllMachines(NetworkGetNetworkIdFromEntity(CurrentVehicleData.Vehicle), true)
+    SetNetworkIdCanMigrate(NetworkGetNetworkIdFromEntity(CurrentVehicleData.Vehicle), true)
+    SetEntityAsMissionEntity(CurrentVehicleData.Vehicle, false, false)
+    SetVehicleHasBeenOwnedByPlayer(CurrentVehicleData.Vehicle, true)
+    NetworkRegisterEntityAsNetworked(CurrentVehicleData.Vehicle)
     
-    CheckForSirenSound(Vehicle)
+    CheckForSirenSound(CurrentVehicleData.Vehicle)
     DisplayRadar(false)
+    CurrentVehicleData.Vehicle = false
+    CurrentVehicleData.InVeh = false
 end)
 
 RegisterNetEvent("mercy-threads/entered-vehicle", function()
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
-    local Plate = GetVehicleNumberPlateText(Vehicle)
+    CurrentVehicleData.Vehicle = GetVehiclePedIsIn(PlayerPedId())
+    CurrentVehicleData.IsDriver = GetPedInVehicleSeat(CurrentVehicleData.Vehicle, -1) == PlayerPedId()
+    CurrentVehicleData.InVeh = true
+    CurrentVehicleData.Plate = GetVehicleNumberPlateText(CurrentVehicleData.Vehicle)
+    CurrentVehicleData.Class = GetVehicleClass(CurrentVehicleData.Vehicle)
+    CurrentVehicleData.Model = GetEntityModel(CurrentVehicleData.Vehicle)
+    local Plate = GetVehicleNumberPlateText(CurrentVehicleData.Vehicle)
 
     DisplayRadar(true)
-    TriggerEvent('mercy-assets/client/set-map-zoom')
+    -- TriggerEvent('mercy-assets/client/set-map-zoom')
 end)
 
 RegisterNetEvent('mercy-vehicles/client/try-flip-vehicle', function(Nothing, Entity)
@@ -114,74 +135,73 @@ RegisterNetEvent('mercy-vehicles/client/try-flip-vehicle', function(Nothing, Ent
 end)
 
 RegisterNetEvent('mercy-vehicles/client/toggle-door', function(State, DoorId)
-    local Vehicle = GetVehiclePedIsIn(PlayerPedId())
     if State == 'open' then
-        VehicleModule.SetVehicleDoorOpen(Vehicle, DoorId)
+        VehicleModule.SetVehicleDoorOpen(CurrentVehicleData.Vehicle, DoorId)
     elseif State == 'close' then
-        VehicleModule.SetVehicleDoorShut(Vehicle, DoorId)
+        VehicleModule.SetVehicleDoorShut(CurrentVehicleData.Vehicle, DoorId)
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(4)
+		Wait(4)
 		if LocalPlayer.state.LoggedIn then
-			if Carrying then
+			if CurrentCarryData.Carrying then
 				if IsControlJustReleased(0, 38) then
-					DetachEntity(AttachedEntity, nil, nil)
-					SetVehicleOnGroundProperly(AttachedEntity)
-					Carrying, AttachedEntity = false, nil
-					Citizen.Wait(150)
+					DetachEntity(CurrentCarryData.AttachedEntity, nil, nil)
+					SetVehicleOnGroundProperly(CurrentCarryData.AttachedEntity)
+					CurrentCarryData.Carrying, CurrentCarryData.AttachedEntity = false, nil
+					Wait(150)
 					ClearPedTasks(PlayerPedId())
 					exports['mercy-ui']:HideInteraction()
 				end
 				if IsEntityDead(PlayerPedId()) then
-					DetachEntity(AttachedEntity, nil, nil)
-					SetVehicleOnGroundProperly(AttachedEntity)
-					Carrying, AttachedEntity = false, nil
-					Citizen.Wait(150)
+					DetachEntity(CurrentCarryData.AttachedEntity, nil, nil)
+					SetVehicleOnGroundProperly(CurrentCarryData.AttachedEntity)
+					CurrentCarryData.Carrying, CurrentCarryData.AttachedEntity = false, nil
+					Wait(150)
 					ClearPedTasks(PlayerPedId())
 					exports['mercy-ui']:HideInteraction()
 				end
 			else
-				Citizen.Wait(500)
+				Wait(500)
 			end
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(4)
+		Wait(4)
 		if LocalPlayer.state.LoggedIn then
-			if Carrying then
+			if CurrentCarryData.Carrying then
 				if not IsEntityPlayingAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 3) then
 					FunctionsModule.RequestAnimDict("anim@heists@box_carry@")
 					TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 2.0, 2.0, -1, 51, 0, false, false, false)
 				else
-					Citizen.Wait(50)
+					Wait(50)
 				end
 			else
-				Citizen.Wait(500)
+				Wait(500)
 			end
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
 RegisterNetEvent('mercy-vehicles/client/carry-bicycle', function(Nothing, Entity)
-	if not Carrying then
+	if not CurrentCarryData.Carrying then
 		local PlayerBone = GetPedBoneIndex(PlayerPedId(), 0xE5F3)
 		NetworkRequestControlOfEntity(Entity)
 		exports['mercy-ui']:SetInteraction('[E] Drop', 'primary')
 		AttachEntityToEntity(Entity, PlayerPedId(), PlayerBone, 0.0, 0.24, 0.10, 340.0, 330.0, 330.0, true, true, false, true, 1, true)
 		FunctionsModule.RequestAnimDict("anim@heists@box_carry@")
 		TaskPlayAnim(PlayerPedId(), 'anim@heists@box_carry@', 'idle', 2.0, 2.0, -1, 51, 0, false, false, false)
-		AttachedEntity = Entity
-		Carrying = true
+		CurrentCarryData.AttachedEntity = Entity
+		CurrentCarryData.Carrying = true
 	else
 		exports['mercy-ui']:Notify('in-hands','You have something in your hands..', 'error', 5500)
 	end
@@ -191,31 +211,29 @@ end)
 
 function InitMain()
     KeybindsModule.Add('toggleHorn', 'Vehicle', 'Emergency Horn', 'E', false, 'mercy-vehicles/client/sirens-horn')
-    KeybindsModule.Add("speedLimiter", "Vehicle", "Limiter", '', function(IsPressed)
+    KeybindsModule.Add("CurrentLimitData.SpeedLimiter", "Vehicle", "Limiter", '', function(IsPressed)
         if not IsPressed then return end
 
-        local Vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-        local DriverPed = GetPedInVehicleSeat(Vehicle, -1)
-        if DriverPed ~= PlayerPedId() then
+        if not CurrentVehicleData.IsDriver then
             return
         end
 
-        local Speed = GetEntitySpeed(Vehicle)
+        local Speed = GetEntitySpeed(CurrentVehicleData.Vehicle)
         local MPHSpeed = math.floor(Speed * 2.236936)
         if MPHSpeed < 35 then
             exports['mercy-ui']:Notify('limiter-error', "You can't set the limiter below 35mp/h", 'error')
             return
         end
     
-        if LimiterEnabled then
-            SetEntityMaxSpeed(Vehicle, 9990)
+        if CurrentLimitData.Enabled then
+            SetEntityMaxSpeed(CurrentVehicleData.Vehicle, 9990)
             exports['mercy-ui']:Notify('limiter-toggled', "Limiter disabled", 'error')
-            LimiterEnabled, SpeedLimit = false, 999.0
+            CurrentLimitData.Enabled, CurrentLimitData.SpeedLimit = false, 999.0
         else
-            LimiterEnabled = true
-            SetEntityMaxSpeed(Vehicle, Speed)
+            CurrentLimitData.Enabled = true
+            SetEntityMaxSpeed(CurrentVehicleData.Vehicle, Speed)
             exports['mercy-ui']:Notify('limiter-toggled', "Limiter set on " .. tostring(math.floor(MPHSpeed)) .. "mp/h")
-            LimiterEnabled, SpeedLimit = true, Speed
+            CurrentLimitData.Enabled, CurrentLimitData.SpeedLimit = true, Speed
         end
     end)
 end
