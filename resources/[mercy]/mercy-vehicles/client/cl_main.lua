@@ -13,7 +13,7 @@ local CurrentCarryData = {
 
 CurrentVehicleData = {
     InVeh = false,
-    Vehicle = nil,
+    Vehicle = 0,
     Plate = nil,
     Class = nil,
     IsDriver = nil,
@@ -109,8 +109,12 @@ RegisterNetEvent("mercy-threads/exited-vehicle", function()
     
     CheckForSirenSound(CurrentVehicleData.Vehicle)
     DisplayRadar(false)
-    CurrentVehicleData.Vehicle = false
+    CurrentVehicleData.Vehicle = 0
+    CurrentVehicleData.IsDriver = false
     CurrentVehicleData.InVeh = false
+    CurrentVehicleData.Plate = false
+    CurrentVehicleData.Class = false
+    CurrentVehicleData.Model = false
 end)
 
 RegisterNetEvent("mercy-threads/entered-vehicle", function()

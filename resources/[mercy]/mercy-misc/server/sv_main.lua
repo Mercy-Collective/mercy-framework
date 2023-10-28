@@ -114,13 +114,45 @@ Citizen.CreateThread(function()
         end
     end)
 
+    function ShuffleTable(tbl)
+        local random = math.random
+        local n = #tbl
+
+        for i = n, 2, -1 do
+            local j = random(i)
+            tbl[i], tbl[j] = tbl[j], tbl[i]
+        end
+    end
+
     EventsModule.RegisterServer('mercy-misc/server/metal-detecting/get-loot', function(Source)
         print('[DEBUG:Misc]: Giving metal detecting loot.')
+
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if not Player then return end
+        local RandomChance = math.random(0, 100) / 100
+
+        local ShuffledItems = {}
+        for ItemName, Chance in pairs(Config.MetalDetectItems) do
+            table.insert(ShuffledItems, { Name = ItemName, Chance = Chance })
+        end
+        ShuffleTable(ShuffledItems)
+
+        for _, ItemData in ipairs(ShuffledItems) do
+            if RandomChance <= ItemData.Chance then
+                Player.Functions.AddItem(ItemData.Name, math.random(1, 4), false, {}, true)
+                return
+            end
+        end
+
+        Player.Functions.Notify('no-item', 'You did not find anything..', 'error')
     end)
 
     EventsModule.RegisterServer('mercy-misc/server/recycle/get-loot', function(Source)
         print('[DEBUG:Misc]: Giving recycle loot.')
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if not Player then return end
 
+        Player.Functions.AddItem('recyclablematerial', math.random(5, 8), false, false, true)
     end)
 
     EventsModule.RegisterServer('mercy-misc/server/get-tea', function(Source)

@@ -7,6 +7,14 @@ Config.IllegalItems = {
     'darkmarketpackage',
 }
 
+Config.MetalDetectItems = {
+    ['scrapmetal'] = 0.6, -- Name / Chance
+    ['aluminum'] = 0.7,
+    ['copper'] = 0.4,
+    ['electronics'] = 0.3,
+    ['recyclablematerial'] = 0.4,
+}
+
 -- Recycle
 
 Config.RecycleProps = {

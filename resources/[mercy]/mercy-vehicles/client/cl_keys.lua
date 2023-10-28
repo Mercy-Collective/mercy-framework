@@ -49,7 +49,7 @@ CreateThread(function()
     while true do
         Wait(4)
         if LocalPlayer.state.LoggedIn then
-            if CurrentVehicleData.Vehicle == nil then
+            if CurrentVehicleData.Vehicle == 0 then
                 Wait(150)
                 return
             end

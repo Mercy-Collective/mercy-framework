@@ -145,10 +145,12 @@ RegisterNetEvent("mercy-misc/client/grab-recycle", function()
     }, false, true, false, function(DidComplete)
         exports['mercy-inventory']:SetBusyState(false)
         StopAnimTask(PlayerPedId(), "mini@repair" ,"fixing_a_ped", 1.0)
-        exports['mercy-assets']:RemoveProps()
-        exports['mercy-assets']:AttachProp("CardBox")
-        TriggerEvent("mercy-animations/client/play-animation", "box")
-        HasPackage = true
+        SetTimeout(250, function()
+            exports['mercy-assets']:RemoveProps()
+            exports['mercy-assets']:AttachProp("CardBox")
+            TriggerEvent("mercy-animations/client/play-animation", "box")
+            HasPackage = true
+        end)
     end)
 end)
 
