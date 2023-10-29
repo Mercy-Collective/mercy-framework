@@ -679,6 +679,7 @@ Citizen.CreateThread(function()
             if ReportData[1] ~= nil then
                 local Officers = json.decode(ReportData[1].officers)
                 if Officers == nil then Officers = {} end
+                if Data.Officers == nil then Data.Officers = {} end
                 for _, Officer in pairs(Data.Officers) do
                     local Found = false
                     for _, Officer2 in pairs(Officers) do
@@ -705,7 +706,7 @@ Citizen.CreateThread(function()
                 local Officers = json.decode(ReportData[1].officers)
                 for k, v in pairs(Officers) do
                     if v == Data.Officer then
-                        Officers[k] = nil
+                        table.remove(Officers, k)
                         DatabaseModule.Update('UPDATE mdw_reports SET officers = ? WHERE id = ?', {
                             json.encode(Officers),
                             Data.Id,
