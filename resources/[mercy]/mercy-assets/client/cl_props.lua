@@ -37,6 +37,7 @@ function RemoveProps()
     end
     AllProps, NetProp, AttachedProps, PropList = {}, {}, {}, {}
     HasProp = false
+    ClearPedTasksImmediately(PlayerPedId())
 end
 exports("RemoveProps", RemoveProps)
 
