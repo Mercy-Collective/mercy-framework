@@ -19,7 +19,6 @@ RegisterNetEvent('mercy-vehicles/client/switch-seat', function(SeatNumber, IsMen
                 Settings = CalculateSettings()
             })
         end
-        CheckForSirenSound(Vehicle)
     end
 end)
 

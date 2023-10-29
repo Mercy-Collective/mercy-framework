@@ -41,6 +41,22 @@ end
 
 -- [ Weapons ] --
 
+Shared.ItemList['weapon_rocketlauncher'] = {
+    ['ItemName'] = "weapon_rocketlauncher",
+	['Label'] = "Rocket Launcher",
+	['Weight'] = 4.0,
+	['Type'] = "Weapon",
+	['Metal'] = true,
+	['Melee'] = true,
+	['Image'] = "w_mp7.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Boom?",
+	['DecayRate'] = 2.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
 Shared.ItemList['weapon_mp7'] = {
     ['ItemName'] = "weapon_mp7",
 	['Label'] = "Tactical SMG",

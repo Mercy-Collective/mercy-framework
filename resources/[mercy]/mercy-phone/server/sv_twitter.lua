@@ -47,7 +47,7 @@ Citizen.CreateThread(function()
             Tweet.Tweeter,
             Tweet.Message,
             Tweet.Time,
-            tonumber(Tweet.IsBusiness),
+            Tweet.IsBusiness,
         }, function(IsSent)
             if IsSent then
                 if Config.Debug then
