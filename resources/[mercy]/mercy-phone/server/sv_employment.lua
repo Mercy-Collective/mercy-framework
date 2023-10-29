@@ -93,6 +93,7 @@ Citizen.CreateThread(function()
             CompanyBankId = Result[1].BankId
         end, true)
 
+        Data.Result['amount'] = tonumber(Data.Result['amount'])
         if Data.Result['amount'] == nil or Data.Result['amount'] == '' or Data.Result['amount'] <= 0 then
             Cb({
                 Success = false,
