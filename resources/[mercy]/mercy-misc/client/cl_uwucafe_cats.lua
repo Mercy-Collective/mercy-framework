@@ -46,7 +46,6 @@ Citizen.CreateThread(function()
                         EventParams = {},
                         Enabled = function(Entity)
                             -- local ClockedInEmployees = CallbackModule.SendCallback("mercy-business/server/get-clocked-in-employees", "UwU Café")
-                            -- print('UWU Clocked in', #ClockedInEmployees)
                             -- return #ClockedInEmployees >= 1
                             return true
                         end,

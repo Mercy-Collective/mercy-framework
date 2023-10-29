@@ -513,6 +513,7 @@ function GetCommands()
     else
         DebugPrint('commands', 'No commands found to filter, check the Config.CommandList for typos.')
     end
+    
     Prom:resolve(FilteredCommands)
     return Citizen.Await(Prom)
 end

@@ -21,22 +21,37 @@ MC.AdminMenu.SwitchCommandsCategory = function(Button, Type) {
 MC.AdminMenu.LoadItems = function() {
     $('.admin-menu-items').empty();
     MC.AdminMenu.DebugMessage('^3Loading Commands');
+
+    // Collect all items into this array
+    let allItems = [];
+
     if (MC.AdminMenu.Command.Selected == 'All') {
         $.each(MC.AdminMenu.Commands, function(Key, Value) {
             $.each(Value.Items, function(KeyAdmin, ValueAdmin) {
-                MC.AdminMenu.BuildItems(ValueAdmin);
+                allItems.push(ValueAdmin); // Add items to the array
             });
         });
     } else {
         $.each(MC.AdminMenu.Commands, function(Key, Value) {
             if (Value.Name == MC.AdminMenu.Command.Selected) {
                 $.each(Value.Items, function(KeyAdmin, ValueAdmin) {
-                    MC.AdminMenu.BuildItems(ValueAdmin);
+                    allItems.push(ValueAdmin); // Add items to the array
                 });
             }
         });
     }
+
+    // Sort the items alphabetically by their names
+    allItems.sort(function(a, b) {
+        return a.Name.localeCompare(b.Name);
+    });
+
+    // Build the sorted items
+    $.each(allItems, function(index, ValueAdmin) {
+        MC.AdminMenu.BuildItems(ValueAdmin);
+    });
 }
+
 
 MC.AdminMenu.ConvertPlayerList = () => {
     let Options = [];
