@@ -66,6 +66,11 @@ Citizen.CreateThread(function()
         end
     
         local CurrentQuality = GetQuality(ItemData.ItemName, ItemData.Info.CreateDate)
+        if CurrentQuality == nil then
+            print('[DEBUG:DegenItem]: CurrentQuality is nil. Item will not degrade.')
+            return
+        end
+
         if CurrentQuality == 0 then
             TriggerClientEvent('mercy-inventory/client/on-fully-degen-item', Source, ItemData)
             return

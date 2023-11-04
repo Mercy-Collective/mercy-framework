@@ -211,14 +211,15 @@ HandleInventoryInfo = function (ItemData) {
         $(".info-container").html("");
     }
 
-    if (ItemData["Type"] == "Weapon") {
-        $('#info-weight').html(`${ItemData["Weight"].toFixed( 1 )}`);
+    // Set Item Information
+    if (ItemData["Type"].toLowerCase() === "weapon") {
+        $('#info-weight').html(`${ItemData["Weight"].toFixed(1)}`);
         $('#info-amount').html("1");
-        $('#info-quality').html(`${Math.floor( GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData) )}%`);
+        $('#info-quality').html(`${Math.floor(GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData))}%`);
     } else {
-        $('#info-weight').html(`${((ItemData["Weight"] * ItemData["Amount"])).toFixed( 1 )}`);
+        $('#info-weight').html(`${((ItemData["Weight"] * ItemData["Amount"])).toFixed(1)}`);
         $('#info-amount').html(`${ItemData["Amount"]}`);
-        $('#info-quality').html(`${Math.floor( GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData) )}%`);
+        $('#info-quality').html(`${Math.floor(GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData))}%`);
     }
     $(".inventory-item-description").show(150);
 };
