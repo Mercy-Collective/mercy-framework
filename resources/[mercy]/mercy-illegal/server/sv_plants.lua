@@ -124,6 +124,9 @@ RegisterNetEvent("mercy-illegal/server/do-plant-stuff", function(Type, PlantId, 
         if math.random(1,5) <= 2 then
             Player.Functions.AddItem('weed-seed-female', 1, false, false, true)
         end
+        if Plant.Pregnant == 'True' then
+            Player.Functions.AddItem('weed-seed-male', math.random(1, 3), false, false, true)
+        end
     elseif Type == 'Water' then
         if Plant.Water < 100 then
             if Plant.Water + Amount < 100 then

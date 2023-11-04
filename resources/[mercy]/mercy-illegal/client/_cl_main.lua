@@ -1,4 +1,4 @@
-EntityModule, LoggerModule, EventsModule, CallbackModule, FunctionsModule, PlayerModule = nil, nil, nil, nil, nil, nil
+EntityModule, LoggerModule, EventsModule, CallbackModule, FunctionsModule, PlayerModule = nil
 
 local _Ready = false
 AddEventHandler('Modules/client/ready', function()

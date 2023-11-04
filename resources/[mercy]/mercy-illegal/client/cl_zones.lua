@@ -176,5 +176,19 @@ function InitZones()
             })
         end
 
+        -- Selling
+        for k, v in pairs(Config.SellingList) do
+            exports["mercy-ui"]:AddEyeEntry(v['Ped']['Id'], {
+                Type = "Entity",
+                EntityType = "Ped",
+                SpriteDistance = v['Ped']['SpriteDistance'],
+                Distance = v['Ped']['Distance'],
+                Position = v['Ped']['Position'],
+                Model = v['Ped']['Model'],
+                Anim = v['Ped']['Anim'],
+                Props = v['Ped']['Props'],
+                Options = v['Options'],
+            }) 
+        end
     end)
 end
