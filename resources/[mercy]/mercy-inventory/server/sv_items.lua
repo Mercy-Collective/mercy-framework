@@ -130,7 +130,7 @@ function ParseDate(dateString)
         return false
     end
     local monthNames = {Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6, Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12}
-    local day, month, dayNum, time, year = dateString:match("(%a+) (%a+) (%d+) (%d+:%d+:%d+) (%d+)")
+    local day, month, dayNum, time, year = dateString:match("(%a+) (%a+) (%s?%d+) (%d+:%d+:%d+) (%d+)")
     local monthNum = monthNames[month]
 
     if day and monthNum and dayNum and time and year then
@@ -142,6 +142,7 @@ function ParseDate(dateString)
 end
 
 function GetQuality(ItemName, CreateDate)
+    print('[DEBUG:Degen:GetQuality]: Getting quality of '..ItemName..' with CreateDate: '..CreateDate)
     local StartDate = ParseDate(CreateDate)
 
     if not StartDate then
@@ -158,7 +159,7 @@ function GetQuality(ItemName, CreateDate)
     local TimeExtra = MaxTime * DecayRate
     local Quality = 100 - math.ceil(((os.time() * 1000 - StartDate) / TimeExtra) * 100)
 
-    if DecayRate == 0 then
+    if DecayRate == 0.0 then
         Quality = 100
     end
 
