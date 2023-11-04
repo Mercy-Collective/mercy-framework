@@ -2,8 +2,24 @@ let DateNow = Date.now();
 let MaxTime = (((1000 * 60) * 60) * 24) * 28
 let DebugEnabled = false;
 
-GetItemImage = function(Image) {
-    return `./img/items/${Image}`;
+async function GetItemImage(ItemName) {
+    // Check if already has prefix
+    let PrefixPath = `./img/items/${ItemName}`;
+    const AlreadyPrefixResponse = await fetch(PrefixPath);
+    if (AlreadyPrefixResponse.status === 200) {
+        return PrefixPath;
+    } else {
+        // If not has prefix look for it.
+        for (let letter = 'a'; letter <= 'z'; letter = String.fromCharCode(letter.charCodeAt(0) + 1)) {
+            const imageName = `${letter}_${ItemName}.png`;
+            let NoPrefixPath = `./img/items/${imageName}`;
+            const PrefixResponse = await fetch(NoPrefixPath);
+            if (PrefixResponse.status === 200) {
+                return NoPrefixPath;
+            }
+        }
+        return `./img/items/f_water.png`;
+    }
 }
 
 GetItemLabel = function(ItemName) {

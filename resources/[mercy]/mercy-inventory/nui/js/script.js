@@ -17,6 +17,7 @@ ShowingRequired = false;
 
 // Code
 
+
 OpenPlayerInventory = function (data) {
     if (InventoryOpened) return;
     SetupInventory(data.Slots, data.Other, data);
@@ -26,7 +27,7 @@ OpenPlayerInventory = function (data) {
 };
 
 ClosePlayerInventory = function () {
-  $(".wrapper").fadeOut(250, function () {
+$(".wrapper").fadeOut(250, function () {
         $.post( `https://${GetParentResourceName()}/CloseInventory`, JSON.stringify({
             OtherInv: CurrentOtherInventory["Type"],
             OtherName: CurrentOtherInventory["SubType"],
@@ -51,7 +52,7 @@ ClosePlayerInventory = function () {
     });
 };
 
-RefreshInventory = function (data) {
+RefreshInventory = async function (data) {
     $(".my-inventory-blocks").html("");
     $(".inventory-item-move").hide(0);
     // Load Slots
@@ -60,13 +61,13 @@ RefreshInventory = function (data) {
         $(".my-inventory-blocks").append(ItemSlotInfo);
     }
     // Load Items
-    $.each(data.Items, function (ItemId, ItemData) {
+    $.each(data.Items, async function (ItemId, ItemData) {
         if (ItemData != null) {
         $(".my-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).addClass("draghandle");
         $(".my-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.Items[ItemId]);
         $(".my-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(
             `${ (ItemData["Slot"] == 1 || ItemData["Slot"] == 2 || ItemData["Slot"] == 3 || ItemData["Slot"] == 4) ? `<div class="inventory-block-number">${ ItemData["Slot"] }</div>` : ""}
-            <img src="${GetItemImage(ItemData['Image'])}" class="inventory-block-img">
+            <img src="${await GetItemImage(ItemData['Image'])}" class="inventory-block-img">
             <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
             <div class="inventory-block-name">${ ItemData["Label"] }</div>
             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -94,13 +95,13 @@ SetupInventory = function (BlockAmount, OtherData, data) {
     }
 
     // Setup Items
-    $.each(data.Items, function (ItemId, ItemData) {
+    $.each(data.Items, async function (ItemId, ItemData) {
         if (ItemData != null) {
         $(".my-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).addClass("draghandle");
         $(".my-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.Items[ItemId]);
         $(".my-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(
             `${(ItemData["Slot"] == 1 || ItemData["Slot"] == 2 || ItemData["Slot"] == 3 || ItemData["Slot"] == 4) ? `<div class="inventory-block-number">${ ItemData["Slot"] }</div>` : ""}` +
-            `<img src="${ GetItemImage(ItemData['Image']) }" class="inventory-block-img">
+            `<img src="${ await GetItemImage(ItemData['Image']) }" class="inventory-block-img">
             <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
             <div class="inventory-block-name">${ ItemData["Label"] }</div>
             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -147,44 +148,48 @@ SetupInventory = function (BlockAmount, OtherData, data) {
                 $(".other-inventory-blocks").append(ItemSlotInfo);
                 }
             }
-            $.each(data.OtherItems, function (key, ItemData) {
+            $.each(data.OtherItems, async function (key, ItemData) {
                 if (ItemData != null) {
-                // STORE
-                if (OtherData["Type"] == "Store") {
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).addClass("draghandle");
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.OtherItems[key]);
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(
-                        `<img src="${GetItemImage(ItemData['Image'])}" class="inventory-block-img">` +
-                        `<div class="inventory-block-amount">${ItemData["Amount"]}x</div>` +
-                        `<div class="inventory-block-price">$ ${ItemList[ItemData["ItemName"]]["Price"]}</div>` +
-                        `<div class="inventory-block-name">${ItemData["Label"]}</div>`
-                    );
-                // CRAFTING
-                } else if (OtherData["Type"] == "Crafting") {
-                    let CraftingText = "";
-                    $.each(ItemData["Cost"], function (_, CostData) {
-                        CraftingText = CraftingText + `<div class="crafting-text cursor-help" data-tippy-content="${CostData['Item']} (${CostData['Amount']}x)"><img src="${GetItemImage('m_'+CostData['Item'])}.png" class="crafting-img">${CostData["Amount"]}x</div>`;
-                    });
-                    let ItemSlotInfo = `<div class="inventory-block-crafting draghandle cursor-grab" data-tippy-content="${ItemData["Label"]} (${ItemData["Amount"]}x)" data-craftslot=${ItemData["Slot"]}>
-                                            <img src="${GetItemImage(ItemData['Image'])}" class="inventory-block-img">
-                                            <div class="inventory-block-amount">${ItemData["Amount"]}x</div>
-                                            <div class="inventory-block-name">${ItemData["Label"]}</div>
-                                        </div>
-                                        <div class="crafting-needed-text">${CraftingText}</div>`;
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.OtherItems[key]);
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(ItemSlotInfo);
-                } else {
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(
-                        `<img src="${GetItemImage(ItemData['Image'])}" class="inventory-block-img">
-                        <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
-                        <div class="inventory-block-name">${ ItemData["Label"] }</div>
-                        <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
-                        <div class="inventory-quality-fill ${GetQualityColor(GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData))}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData)}%"></div>
-                        </div>`
-                    );
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).addClass("draghandle");
-                    $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.OtherItems[key]);
-                }
+                    // STORE
+                    if (OtherData["Type"] == "Store") {
+                        $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).addClass("draghandle");
+                        $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.OtherItems[key]);
+                        $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(
+                            `<img src="${await GetItemImage(ItemData['Image'])}" class="inventory-block-img">` +
+                            `<div class="inventory-block-amount">${ItemData["Amount"]}x</div>` +
+                            `<div class="inventory-block-price">$ ${ItemList[ItemData["ItemName"]]["Price"]}</div>` +
+                            `<div class="inventory-block-name">${ItemData["Label"]}</div>`
+                        );
+                    // CRAFTING
+                    } else if (OtherData["Type"] == "Crafting") {
+                        ProcessCraftingData(ItemData).then(async function (CraftingText) {
+                            let ItemSlotInfo = `<div class="inventory-block-crafting draghandle cursor-grab" data-tippy-content="${ItemData["Label"]} (${ItemData["Amount"]}x)" data-craftslot=${ItemData["Slot"]}>
+                                                    <img src="${await GetItemImage(ItemData['Image'])}" class="inventory-block-img">
+                                                    <div class="inventory-block-amount">${ItemData["Amount"]}x</div>
+                                                    <div class="inventory-block-name">${ItemData["Label"]}</div>
+                                                </div>
+                                                <div class="crafting-needed-text">${CraftingText}</div>`;
+                            $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.OtherItems[key]);
+                            $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(ItemSlotInfo);
+                            tippy('[data-tippy-content]', {
+                                theme: 'mercy',
+                                animation: 'scale',
+                                inertia: true,
+                            });
+                            EnableTooltips('[data-tippy-content]');
+                        });
+                    } else {
+                        $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).html(
+                            `<img src="${await GetItemImage(ItemData['Image'])}" class="inventory-block-img">
+                            <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
+                            <div class="inventory-block-name">${ ItemData["Label"] }</div>
+                            <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
+                            <div class="inventory-quality-fill ${GetQualityColor(GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData))}" style="height: ${GetQuality(ItemData["ItemName"], ItemData["Info"]["CreateDate"], ItemData)}%"></div>
+                            </div>`
+                        );
+                        $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).addClass("draghandle");
+                        $(".other-inventory-blocks").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", data.OtherItems[key]);
+                    }
                 }
             });
             HandleInventoryWeights();
@@ -220,7 +225,19 @@ SetupInventory = function (BlockAmount, OtherData, data) {
     EnableTooltips('[data-tippy-content]');
 };
 
-HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
+async function ProcessCraftingData(ItemData) {
+    let CraftingText = "";
+    for (const CostData of ItemData["Cost"]) {
+        console.log(await GetItemImage(CostData['Item']));
+        CraftingText = CraftingText + `<div class="crafting-text cursor-help" data-tippy-content="${CostData['Item']} (${CostData['Amount']}x)">
+                                        <img src="${await GetItemImage(CostData['Item'])}" class="crafting-img">${CostData["Amount"]}x
+                                    </div>`;
+    }
+    return CraftingText;
+}
+
+
+HandleItemSwap = async function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
     let FromData = $(FromInv) .find(`[data-slot=${FromSlot}]`).data("ItemData");
     let ToData = $(ToInv) .find(`[data-slot=${ToSlot}]`).data("ItemData");
     if (Amount == 0 || Amount == undefined || Amount == null || Amount > FromData["Amount"]) { // If Amount is 0 or undefined or null or more than the amount in the slot
@@ -251,7 +268,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                 $(FromInv).find(`[data-slot=${FromSlot}]`).attr("class", "inventory-block");
                 $(ToInv).find(`[data-slot=${ToSlot}]`).html(
                     `${(ToSlot == 1 || ToSlot == 2 || ToSlot == 3 || ToSlot == 4) ? `<div class="inventory-block-number">${ToSlot}</div>` : ''}` +
-                    `<img src="${GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
+                    `<img src="${await GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
                     <div class="inventory-block-amount">${NewItemData["Amount"]}x</div>
                     <div class="inventory-block-name">${NewItemData["Label"]}</div>`
                 );
@@ -273,12 +290,12 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) { 
+                }), async function (DidData) { 
                     if (DidData) {
                         $(ToInv) .find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                         $(ToInv) .find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
                         $(ToInv) .find(`[data-slot=${ToSlot}]`).html(
-                            `<img src="${GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
+                            `<img src="${await GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
                                 <div class="inventory-block-amount">${NewItemData["Amount"]}x</div>
                                 <div class="inventory-block-name">${NewItemData["Label"]}</div>`
                             );
@@ -304,12 +321,12 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) {
+                }), async function (DidData) {
                     if (DidData) {
                         $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
                         $(ToInv).find(`[data-slot=${ToSlot}]`).html( 
-                            `<img src="${GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
+                            `<img src="${await GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
                             <div class="inventory-block-amount">${NewItemData["Amount"]}x</div>
                             <div class="inventory-block-name">${NewItemData["Label"]}</div>`);
                         $(FromInv).find(`[data-slot=${FromSlot}]`).html("");
@@ -382,14 +399,14 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                 $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
                 $(ToInv).find(`[data-slot=${ToSlot}]`).html(
                 `${(ToSlot == 1 || ToSlot == 2 || ToSlot == 3 || ToSlot == 4) ? `<div class="inventory-block-number">${ToSlot}</div>` : ''}` +
-                    `<img src="${GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
+                    `<img src="${await GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
                     <div class="inventory-block-amount">${NewItemData["Amount"]}x </div>
                     <div class="inventory-block-name">${NewItemData["Label"]}</div>`);
                 // Update From Slot
                 $(FromInv).find(`[data-slot=${FromSlot}]`).data("ItemData", NewItemDataFrom);
                 $(FromInv).find(`[data-slot=${FromSlot}]`).html(
                     `${(FromSlot == 1 || FromSlot == 2 || FromSlot == 3 || FromSlot == 4) ? `<div class="inventory-block-number">${FromSlot}</div>` : ''}` +
-                    `<img src="${GetItemImage(NewItemDataFrom['Image'])}" class="inventory-block-img">
+                    `<img src="${await GetItemImage(NewItemDataFrom['Image'])}" class="inventory-block-img">
                     <div class="inventory-block-amount">${NewItemDataFrom["Amount"]}x </div>
                     <div class="inventory-block-name">${NewItemDataFrom["Label"]}</div>`);
                 HandleInventorySave();
@@ -407,10 +424,10 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) { 
+                }), async function (DidData) { 
                     if (DidData) {
                         $(ToInv).find(`[data-slot=${ToSlot}]`) .html(
-                            `<img src="${GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
+                            `<img src="${await GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
                             <div class="inventory-block-amount">${NewItemData["Amount"]}x </div>
                             <div class="inventory-block-name">${NewItemData["Label"]}</div>`
                             );
@@ -435,16 +452,16 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) {
+                }), async function (DidData) {
                     if (DidData) {
                         $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                         $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
                         $(ToInv).find(`[data-slot=${ToSlot}]`).html(
-                            `<img src="${GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
+                            `<img src="${await GetItemImage(NewItemData['Image'])}" class="inventory-block-img">
                             <div class="inventory-block-amount">${NewItemData["Amount"]} </div>
                             <div class="inventory-block-name">${NewItemData["Label"]}</div>`);
                         $(FromInv).find(`[data-slot=${FromSlot}]`).html(
-                            `<img src="${GetItemImage(NewItemDataFrom['Image'])}" class="inventory-block-img">
+                            `<img src="${await GetItemImage(NewItemDataFrom['Image'])}" class="inventory-block-img">
                             <div class="inventory-block-amount">${NewItemDataFrom["Amount"]}x </div>
                             <div class="inventory-block-name">${NewItemDataFrom["Label"]}</div>`);
                         $(FromInv) .find(`[data-slot=${FromSlot}]`).data("ItemData", NewItemDataFrom);
@@ -465,11 +482,11 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) {
+                }), async function (DidData) {
                     if (DidData) {
                         if (CurrentOtherInventory["Type"] != "Store" && CurrentOtherInventory["Type"] != "Crafting") { // If not store or crafting then update the other inventory
                             $(FromInv).find(`[data-slot=${FromSlot}]`).html(
-                            `<img src="${GetItemImage(NewItemDataFrom['Image'])}" class="inventory-block-img">
+                            `<img src="${await GetItemImage(NewItemDataFrom['Image'])}" class="inventory-block-img">
                             <div class="inventory-block-amount">${NewItemDataFrom["Amount"]}x</div>
                             <div class="inventory-block-name">${NewItemDataFrom["Label"]}</div>`
                             );
@@ -508,7 +525,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                 $(FromInv).find(`[data-slot=${FromSlot}]`).attr("class", "inventory-block");
                 $(ToInv).find(`[data-slot=${ToSlot}]`) .html(
                 `${(ToSlot == 1 || ToSlot == 2 || ToSlot == 3 || ToSlot == 4) ? `<div class="inventory-block-number">${ToSlot}</div>` : ""}` +
-                    `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                    `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                     <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                     <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                     <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -534,10 +551,10 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) {
+                }), async function (DidData) {
                     if (DidData) {
                         $(ToInv).find(`[data-slot=${ToSlot}]`).html(
-                            `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                            `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -565,10 +582,10 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) {
+                }), async function (DidData) {
                     if (DidData) {
                         $(ToInv).find(`[data-slot=${ToSlot}]`).html(
-                            `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                            `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -670,7 +687,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             if (FromInv == ".my-inventory-blocks" && ToInv == ".my-inventory-blocks") {
                 $(ToInv) .find(`[data-slot=${ToSlot}]`).html(
                     `${(ToSlot == 1 || ToSlot == 2 || ToSlot == 3 || ToSlot == 4) ? `<div class="inventory-block-number">${ToSlot}</div>` : ""}` +
-                    `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                    `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                     <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                     <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                     <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -680,7 +697,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                 $(ToInv).find(`[data-slot=${ToSlot}]`).attr("class", "inventory-block draghandle");
                 $(FromInv) .find(`[data-slot=${FromSlot}]`).html(
                     `${(FromSlot == 1 || FromSlot == 2 || FromSlot == 3 || FromSlot == 4 ) ? `<div class="inventory-block-number">${FromSlot}</div>` : ""}` +
-                    `<img src="${ GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
+                    `<img src="${ await GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
                     <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                     <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                     <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -701,10 +718,10 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function(DidData) {
+                }), async function(DidData) {
                     if (DidData) {
                         $(ToInv).find(`[data-slot=${ToSlot}]`).html(
-                            `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                            `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -732,17 +749,17 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) {
+                }), async function (DidData) {
                     if (DidData) {
                         $(ToInv).find(`[data-slot=${ToSlot}]`).html(
-                            `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                            `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                             <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
                                 <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                             </div>`);
                         $(FromInv).find(`[data-slot=${FromSlot}]`).html(
-                            `<img src="${ GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
+                            `<img src="${ await GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
                             <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                             <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -768,11 +785,11 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     OtherItems: CurrentOtherInventory["Items"],
                     MaxOtherWeight: OtherInventoryMaxWeight,
                     ExtraData: CurrentOtherInventory["ExtraData"],
-                }), function (DidData) {
+                }), async function (DidData) {
                     if (DidData) {
                         if (CurrentOtherInventory["Type"] != "Store" && CurrentOtherInventory["Type"] != "Crafting") { // If not store or crafting then do item data.
                             $(FromInv) .find(`[data-slot=${FromSlot}]`).html(
-                                `<img src="${ GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
+                                `<img src="${ await GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
                                 <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                                 <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                                 <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -813,7 +830,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                 if (FromInv == ".my-inventory-blocks" && ToInv == ".my-inventory-blocks") {
                     $(ToInv).find(`[data-slot=${ToSlot}]`) .html(
                         `${(ToSlot == 1 || ToSlot == 2 || ToSlot == 3 || ToSlot == 4) ? `<div class="inventory-block-number">${ToSlot}</div>`: ""}` +
-                        `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                        `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                         <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                         <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                         <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -822,7 +839,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                     $(ToInv).find(`[data-slot=${ToSlot}]`).data("ItemData", NewItemData);
                     $(FromInv).find(`[data-slot=${FromSlot}]`) .html(
                         `${(FromSlot == 1 || FromSlot == 2 || FromSlot == 3 || FromSlot == 4) ? `<div class="inventory-block-number">${FromSlot}</div>` : ""}` +
-                        `<img src="${ GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
+                        `<img src="${ await GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
                         <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                         <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                         <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -852,18 +869,17 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
                         OtherItems: CurrentOtherInventory["Items"],
                         MaxOtherWeight: OtherInventoryMaxWeight,
                         ExtraData: "Swap",
-                        }),
-                        function (DidData) {
+                        }), async function (DidData) {
                         if (DidData) {
                             $(ToInv).find(`[data-slot=${ToSlot}]`) .html(
-                                `<img src="${ GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
+                                `<img src="${ await GetItemImage(NewItemData['Image']) }" class="inventory-block-img">
                                 <div class="inventory-block-amount">${ NewItemData["Amount"] }x </div>
                                 <div class="inventory-block-name">${ NewItemData["Label"] }</div>
                                 <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
                                     <div class="inventory-quality-fill ${GetQualityColor( GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData) )}" style="height: ${GetQuality(NewItemData["ItemName"], NewItemData["Info"]["CreateDate"], NewItemData)}%"></div>
                                 </div>`);
                             $(FromInv).find(`[data-slot=${FromSlot}]`) .html(
-                                `<img src="${ GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
+                                `<img src="${ await GetItemImage(NewItemDataFrom['Image']) }" class="inventory-block-img">
                                 <div class="inventory-block-amount">${ NewItemDataFrom["Amount"] }x </div>
                                 <div class="inventory-block-name">${ NewItemDataFrom["Label"] }</div>
                                 <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -881,7 +897,7 @@ HandleItemSwap = function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
             }
         }
     }
-  
+
     // Reset Weapon when Moved
     if (FromData["Type"] == "Weapon") {
         if (CurrentOtherInventory != null && CurrentOtherInventory != undefined && (CurrentOtherInventory["Type"] != "Store" && CurrentOtherInventory["Type"] != "Crafting")) {
@@ -978,12 +994,12 @@ HandleInventoryHotbar = function (Data) {
         $(".item-hotbar-container").append(ItemSlotInfo);
     }
     // Load Items in 4 slots
-    $.each(Data.Items, function (ItemKey, ItemData) {
+    $.each(Data.Items, async function (ItemKey, ItemData) {
         if (ItemData != null) {
         $(".item-hotbar-container").find(`[data-slot=${ItemData["Slot"]}]`).data("ItemData", Data.Items[ItemKey]);
         $(".item-hotbar-container").find(`[data-slot=${ItemData["Slot"]}]`).html(
             (ItemData["Slot"] == 1 || ItemData["Slot"] == 2 || ItemData["Slot"] == 3 || ItemData["Slot"] == 4) ? `<div class="inventory-block-number">${ ItemData["Slot"] }</div>
-            <div><img src="${ GetItemImage(ItemData['Image']) }" class="inventory-block-img"></div>
+            <div><img src="${ await GetItemImage(ItemData['Image']) }" class="inventory-block-img"></div>
             <div class="inventory-block-amount">${ ItemData["Amount"] }x</div>
             <div class="inventory-block-name">${ ItemData["Label"] }</div>
             <div class="inventory-quality absolute w-full h-full left-0 bottom-0 rounded-md rotate-180">
@@ -996,16 +1012,16 @@ HandleInventoryHotbar = function (Data) {
     AnimateCSS(".item-hotbar-container", "zoomIn");
 };
 
-HandleInventoryShowBox = function (Data) {
+HandleInventoryShowBox = async function (Data) {
     if (!ShowingRequired) {
         let AddToBox = "";
         let RandomId = Math.floor(Math.random() * 100000);
         if (Data["Type"] == "Add") {
-            AddToBox = `<div class="item-box-block" id="box-${RandomId}"><div class="item-box-display">Added</div><div class="inventory-block-amount">${Data["Amount"]}x</div><img class="item-box-img" src="${GetItemImage(Data['Image'])}"><div class="item-box-name">${Data["Label"]}</div></div>`;
+            AddToBox = `<div class="item-box-block" id="box-${RandomId}"><div class="item-box-display">Added</div><div class="inventory-block-amount">${Data["Amount"]}x</div><img class="item-box-img" src="${await GetItemImage(Data['Image'])}"><div class="item-box-name">${Data["Label"]}</div></div>`;
         } else if (Data["Type"] == "Remove") {
-            AddToBox = `<div class="item-box-block" id="box-${RandomId}"><div class="item-box-display">Removed</div><div class="inventory-block-amount">${Data["Amount"]}x</div><img class="item-box-img" src="${GetItemImage(Data['Image'])}"><div class="item-box-name">${Data["Label"]}</div></div>`;
+            AddToBox = `<div class="item-box-block" id="box-${RandomId}"><div class="item-box-display">Removed</div><div class="inventory-block-amount">${Data["Amount"]}x</div><img class="item-box-img" src="${await GetItemImage(Data['Image'])}"><div class="item-box-name">${Data["Label"]}</div></div>`;
         } else if (Data["Type"] == "Used") {
-            AddToBox = `<div class="item-box-block" id="box-${RandomId}"><div class="item-box-display">Used</div><img class="item-box-img" src="${GetItemImage(Data['Image'])}"><div class="item-box-name">${Data["Label"]}</div></div>`;
+            AddToBox = `<div class="item-box-block" id="box-${RandomId}"><div class="item-box-display">Used</div><img class="item-box-img" src="${await GetItemImage(Data['Image'])}"><div class="item-box-name">${Data["Label"]}</div></div>`;
         }
         $(".item-box-container").prepend(AddToBox);
         $(`#box-${RandomId}`).fadeOut(0);
@@ -1041,7 +1057,7 @@ $(document).on({
 }, ".inventory-option-use");
 
 $(document).on({
-    mousedown: function (e) {
+    mousedown: async function (e) {
         e.preventDefault();
         // Drag Item
         if (e.button === 0) { 
@@ -1072,10 +1088,11 @@ $(document).on({
                             MoveAmount = FromData["Amount"];
                         }
                         $(".inventory-item-move").html(
-                            `<img src="${ GetItemImage(FromData['Image']) }" class="inventory-item-move-img">
+                            `<img src="${ await GetItemImage(FromData['Image']) }" class="inventory-item-move-img">
                             <div class="inventory-item-move-amount">${MoveAmount}x </div><div class="inventory-move-price">$${ ItemList[FromData["ItemName"]]["Price"] }</div>
                             <div class="inventory-item-move-name">${ FromData["Label"] }</div>
-                            <div class="inventory-item-move-quality"><div class="inventory-quality-fill ${GetQualityColor( GetQuality(FromData["ItemName"], FromData["Info"]["CreateDate"], FromData) )}" style="height: ${GetQuality( FromData["ItemName"], FromData["Info"]["CreateDate"], FromData)}%"></div></div>`
+
+                            </div>`
                         );
                     } else {
                         HandleInventoryError(false);
@@ -1084,7 +1101,7 @@ $(document).on({
                     if (InventoryType == "my") {
                         DraggingData.From = $(this);
                     }
-                    $.post(`https://${GetParentResourceName()}/IsHoldingWeapon`, JSON.stringify({}), function(HasWeapon) {
+                    $.post(`https://${GetParentResourceName()}/IsHoldingWeapon`, JSON.stringify({}), async function(HasWeapon) {
                         let CanMove = IsThisAWeaponAttachment(FromData["ItemName"]);
                         if ((HasWeapon && CanMove) || !HasWeapon) {
                             DraggingData.Dragging = true;
@@ -1101,7 +1118,7 @@ $(document).on({
 
                             // Set drag item window's data
                             $(".inventory-item-move").html(
-                                `<img src="${ GetItemImage(FromData['Image']) }" class="inventory-item-move-img">
+                                `<img src="${ await GetItemImage(FromData['Image']) }" class="inventory-item-move-img">
                                 <div class="inventory-item-move-amount">${MoveAmount}x </div>
                                 <div class="inventory-item-move-name">${ FromData["Label"] }</div>
                                 <div class="inventory-item-move-quality"><div class="inventory-quality-fill ${GetQualityColor( GetQuality(FromData["ItemName"], FromData["Info"]["CreateDate"], FromData) )}" style="height: ${GetQuality(FromData["ItemName"], FromData["Info"]["CreateDate"], FromData)}%"></div></div>`
@@ -1166,9 +1183,9 @@ $(document).on({
         }
     },
     mouseup: function (e) {
-      e.preventDefault();
-      // Stop Dragging Item and Set Slot
-      if (e.button === 0) {
+    e.preventDefault();
+    // Stop Dragging Item and Set Slot
+    if (e.button === 0) {
             let ToSlot = $(this).attr("data-slot");
             let ToInventory = $(this).parent().data("type");
             let MoveAmount = $(".inventory-option-amount").val();
@@ -1239,8 +1256,8 @@ $(document).on({
 // Show Item Info
 $(document).on({
     mousemove: function (e) {
-      e.preventDefault();
-      if (!DraggingData.Dragging) {
+    e.preventDefault();
+    if (!DraggingData.Dragging) {
         let HasThisSlotAnything = $(this).hasClass("draghandle");
         if (HasThisSlotAnything) {
             let ThisSlot = $(this).attr("data-slot");
