@@ -58,7 +58,6 @@ Citizen.CreateThread(function()
         end
 
         if Player.Functions.RemoveItem(Data['Item'], Data['SellAmount'], nil, true) then
-            print(Price)
             Player.Functions.AddMoney('Cash', Price)
             Player.Functions.Notify('sold-item', 'You sold '..Data['SellAmount']..'x '..Data['Label']..' for $'..Price..'!', 'success')
         else
