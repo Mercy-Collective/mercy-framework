@@ -167,3 +167,11 @@ function GetQuality(ItemName, CreateDate)
 
     return Quality
 end
+
+function DebugPrint(Type, Message, ...)
+    if ... ~= nil then
+        print(('^4[^5Debug^4:^5Inventory^4:^5%s^4]:^7 %s %s'):format(Type, Message, ...))
+    else
+        print(('^4[^5Debug^4:^5Inventory^4:^5%s^4]:^7 %s'):format(Type, Message))
+    end
+end
