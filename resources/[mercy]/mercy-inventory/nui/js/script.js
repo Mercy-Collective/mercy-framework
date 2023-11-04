@@ -228,7 +228,6 @@ SetupInventory = function (BlockAmount, OtherData, data) {
 async function ProcessCraftingData(ItemData) {
     let CraftingText = "";
     for (const CostData of ItemData["Cost"]) {
-        console.log(await GetItemImage(CostData['Item']));
         CraftingText = CraftingText + `<div class="crafting-text cursor-help" data-tippy-content="${CostData['Item']} (${CostData['Amount']}x)">
                                         <img src="${await GetItemImage(CostData['Item'])}" class="crafting-img">${CostData["Amount"]}x
                                     </div>`;
