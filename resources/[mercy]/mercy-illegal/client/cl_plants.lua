@@ -198,7 +198,7 @@ function ShowPlantMenu(PlantId)
 
         MenuData[#MenuData + 1] = {
             ['Title'] = 'Weed Plant #'..PlantId,
-            ['Desc'] = 'Health: '..PlantData.Health..'; Water: '..PlantData.Water..'; Fertilizer: '..PlantData.Fertilizer..'; Pregnant: '..PlantData.Pregnant,
+            ['Desc'] = 'Health: '..PlantData.Health..'%; Water: '..PlantData.Water..'%; Fertilizer: '..PlantData.Fertilizer..'%; Pregnant: '..(PlantData.Pregnant == 'False' and 'No' or 'Yes'),
             ['Data'] = {['Event'] = '', ['Type'] = ''},
         }
 
@@ -317,7 +317,7 @@ end)
 
 function RemoveAllPlants()
     for k, v in pairs(ActivePlants) do
-        RemovePlant(v.Object) 
+        RemovePlant(k) 
     end
     ActivePlants = {}
 end
