@@ -1,4 +1,4 @@
-CommandsModule, PlayerModule = {}, {}
+CommandsModule, PlayerModule = nil, nil
 
 AddEventHandler('Modules/server/ready', function()
     TriggerEvent('Modules/server/request-dependencies', {

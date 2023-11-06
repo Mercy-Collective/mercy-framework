@@ -4,7 +4,7 @@ Config = Config or {}
 Config.PoliceAccount = '1247668815'
 
 Config.EnableHelicam = true
-Config.ObjectList = {}
+Config.Barricades = {}
 Config.Handcuffed, Config.Escorted = false, false
 
 Config.ParkingSlots = {
@@ -279,36 +279,48 @@ Config.PoliceStore = {
     },
 }
 
-Config.Objects = {
+Config.BarricadeObjects = {
     {
-        ['Object'] = 'prop_roadcone02a',
+        ['Prop'] = 'prop_roadcone02a',
         ['Label'] = 'Cone',
-        ['Freeze'] = false,
+        ['Desc'] = 'A traffic cone to block off roads.',
+        ['Static'] = false,
+        ['Traffic'] = true,
     },
     {
-        ['Object'] = 'prop_barrier_work05',
+        ['Prop'] = 'prop_barrier_work05',
         ['Label'] = 'Barrier Police',
-        ['Freeze'] = true,
+        ['Desc'] = 'A police barrier to block off roads.',
+        ['Static'] = true,
+        ['Traffic'] = true,
     },
     {
-        ['Object'] = 'prop_barrier_work06a',
+        ['Prop'] = 'prop_barrier_work06a',
         ['Label'] = 'Barrier Work',
-        ['Freeze'] = true,
+        ['Desc'] = 'A work barrier to block off roads.',
+        ['Static'] = true,
+        ['Traffic'] = true,
     },
     {
-        ['Object'] = 'prop_barrier_work06b',
+        ['Prop'] = 'prop_barrier_work06b',
         ['Label'] = 'Barrier Work 2',
-        ['Freeze'] = true,
+        ['Desc'] = 'A work barrier to block off roads.',
+        ['Static'] = true,
+        ['Traffic'] = true,
     },
     {
-        ['Object'] = 'prop_gazebo_03',
+        ['Prop'] = 'prop_gazebo_03',
         ['Label'] = 'Tent',
-        ['Freeze'] = true,
+        ['Desc'] = 'A tent to help at crime scenes.',
+        ['Static'] = true,
+        ['Traffic'] = false,
     },
     {
-        ['Object'] = 'prop_worklight_03b',
+        ['Prop'] = 'prop_worklight_03b',
         ['Label'] = 'Work Light',
-        ['Freeze'] = true,
+        ['Desc'] = 'A work light to help at crime scenes.',
+        ['Static'] = true,
+        ['Traffic'] = false,
     },
 
 }

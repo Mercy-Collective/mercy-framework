@@ -1,8 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
 
-lua54 'yes'
-
 shared_scripts {
     'shared/sh_*.lua',
 }
@@ -18,3 +16,5 @@ server_scripts {
     '@mercy-base/shared/sh_shared.lua',
     'server/sv_*.lua',
 }
+
+lua54 'yes'

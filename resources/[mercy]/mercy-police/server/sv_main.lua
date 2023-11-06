@@ -2,6 +2,7 @@ CallbackModule, PlayerModule, FunctionsModule, DatabaseModule, CommandsModule, E
 local PlayerStatus, Evidence, VehicleRecords = {}, {}, {}
 
 local _Ready = false
+print('HUHUHUH', _Ready)
 AddEventHandler('Modules/server/ready', function()
     TriggerEvent('Modules/server/request-dependencies', {
         'Callback',
@@ -19,14 +20,246 @@ AddEventHandler('Modules/server/ready', function()
         CommandsModule = exports['mercy-base']:FetchModule('Commands')
         EventsModule = exports['mercy-base']:FetchModule('Events')
         _Ready = true
-
     end)
 end)
 
-CreateThread(function()
+Citizen.CreateThread(function()
     while not _Ready do
-        Wait(500)
+        Citizen.Wait(200)
     end
+
+    -- [ Commands ] --
+    
+    CommandsModule.Add({"object", "placeobj"}, "Place down", {}, false, function(source, args)
+        print('uhuh')
+        local Player = PlayerModule.GetPlayerBySource(source)
+
+        if Player.PlayerData.Job.Name ~= 'police' or Player.PlayerData.Job.Duty then return end
+        print('uhtretertuh')
+        print('uhuerteryyyyyyh')
+
+        local ClosestBarricades = {}
+        for k, v in pairs(Config.Barricades) do
+            local Distance = #(GetEntityCoords(GetPlayerPed(source)) - v.Coords)
+            if Distance <= 5.0 then
+                table.insert(ClosestBarricades, v)
+            end
+        end
+
+        TriggerClientEvent('mercy-police/client/open-barricademenu', source, Config.Barricades, ClosestBarricades)
+    end)
+
+    CommandsModule.Add({"cam", "camera", "opencam"}, "Open Camera", {}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+
+        if not Player.PlayerData.Job.Name == 'police' then return end
+        if not Player.PlayerData.Job.Duty then return end
+
+        TriggerClientEvent('mercy-police/client/show-camera-input', source)
+    end)
+
+    CommandsModule.Add("311", "Police chat", {{Name="Message", Help="Message"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local MessageData = {}
+        MessageData['Id'] = source
+        MessageData['Who'] = Player.PlayerData.CharInfo.Firstname..' | '..Player.PlayerData.CharInfo.Lastname..' # '..Player.PlayerData.CharInfo.PhoneNumber
+        MessageData['Message'] = table.concat(args, ' ')
+        TriggerClientEvent('mercy-police/client/send-311', -1, MessageData)
+    end)
+
+    CommandsModule.Add("911", "Call emergency services", {{Name="Message", Help="Message"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local CallData = {}
+        CallData['Id'] = source
+        CallData['Who'] = Player.PlayerData.CharInfo.Firstname..' | '..Player.PlayerData.CharInfo.Lastname..' # '..Player.PlayerData.CharInfo.PhoneNumber
+        CallData['Message'] = table.concat(args, ' ')
+        TriggerClientEvent('mercy-police/client/send-911', source, CallData, false)
+        -- TriggerClientEvent('mercy-police/client/send-911-chat', -1, CallData, false) -- Enable to have chat alerts
+    end)
+
+    CommandsModule.Add("911a", "Call emergency services anonymously", {{Name="Message", Help="Message"}}, false, function(source, args)
+        local CallData = {}
+        CallData['Message'] = table.concat(args, ' ')
+        TriggerClientEvent('mercy-police/client/send-911', source, CallData, true)
+        -- TriggerClientEvent('mercy-police/client/send-911-chat', -1, CallData, true) -- Enable to have chat alerts
+    end)
+
+    -- CommandsModule.Add("911r", "Reply on a 911 call", {{Name="Id", Help="Id"}, {Name="Message", Help="Message"}}, false, function(source, args)
+    --     local Player = PlayerModule.GetPlayerBySource(source)
+    --     local Target = args[1]             
+    --     args[1] = "" 
+    --     local CallData = {}
+    --     CallData['Id'] = source
+    --     CallData['Who'] = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
+    --     CallData['Message'] = table.concat(args, ' ')
+    --     TriggerClientEvent('mercy-police/client/send-reaction-to-dispatch', -1, CallData)
+    -- end)
+
+    -- CommandsModule.Add("911ra", "Reply Anonymously on a 911 call", {{Name="Id", Help="Id"}, {Name="Message", Help="Message"}}, false, function(source, args)
+    --     local Player = PlayerModule.GetPlayerBySource(source)
+    --     local Target = args[1]             
+    --     args[1] = "" 
+    --     if Player.PlayerData.Job.Name == 'police' or Player.PlayerData.Job.Name == 'ems' and Player.PlayerData.Job.Duty then
+    --         local CallData = {}
+    --         CallData['Id'] = source
+    --         CallData['Message'] = table.concat(args, ' ')
+    --         TriggerClientEvent('mercy-police/client/send-911-dispatch', Target, CallData, true)
+    --     end
+    -- end)
+
+    CommandsModule.Add("callsign", "Assign yourself a callsign.", {{Name="Callsign", Help="Callsign"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local Callsign = args[1]
+        if Callsign ~= nil then
+            if Player.PlayerData.Job.Name == 'police' or Player.PlayerData.Job.Name == 'ems' and Player.PlayerData.Job.Duty then
+                Player.Functions.SetCallsign(Callsign)
+                Player.Functions.Notify('sign-changed', 'Callsign succesfully changed. You now are the: '..Callsign, 'success')
+            else
+                Player.Functions.Notify('no-perm', 'No Permission..', 'error')
+            end
+        end
+    end)
+
+    CommandsModule.Add("department", "View your department", {}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        if Player.PlayerData.Job.Name ~= 'police' then return end
+        TriggerClientEvent('mercy-chat/client/post-message', source, 'DEPARTMENT', Player.PlayerData.Job.Department, 'warning')
+    end)
+    
+    CommandsModule.Add("setdepartment", "Set your department (LSPD/BCSO/SASP)", {{Name="Department", Help="Department"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local Department = args[1]
+        if Department ~= nil and Department == 'LSPD' or Department == 'BCSO' or Department == 'SASP' then
+            if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
+                Player.Functions.SetDepartment(Department)
+                Player.Functions.Notify('sign-changed', 'Department succesfully changed. You now on the '..Department..'  department.', 'success')
+            else
+                Player.Functions.Notify('no-perm', 'No Permission..', 'error')
+            end
+        end
+    end)
+
+    CommandsModule.Add("setrank", "Set someone's rank", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local Target = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+        if Target == nil then return Player.Functions.Notify('no-player', 'This id does not exist.', 'error') end
+        local Rank = args[2]:gsub("^%l", string.upper)
+        if Player.PlayerData.Job['HighCommand'] then
+            if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
+                if Target.PlayerData.Job.Name == 'police' then
+                    if Rank ~= nil and Rank == 'Officer' or Rank == 'Detective' or Rank == 'Corporal' or Rank == 'Sergeant' or Rank == 'Lieutenant' or Rank == 'Captain' or Rank == 'Chief' then
+                        if Target.PlayerData.Source == source then
+                            Player.Functions.SetRank(Rank)
+                            Player.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
+                        else
+                            Target.Functions.SetRank(Rank)
+                            Player.Functions.Notify('rank-changed', 'You set the rank of '..Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname..' to '..Rank..'.', 'success')
+                            Target.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
+                        end
+                    else
+                        Player.Functions.Notify('no-perm', 'This rank does not exist.', 'error')
+                    end
+                else
+                    Player.Functions.Notify('no-rank', 'You are not part of the emergency services.', 'error')
+                end
+            end
+        end
+    end)
+    
+    CommandsModule.Add({"sethighcommand", "sethigh"}, "Set someone's highcommand status", {{Name="ID", Help="PlayerId"}, {Name="Status", Help="True/False"}}, true, function(source, args)
+        if args ~= nil then
+            local Player = PlayerModule.GetPlayerBySource(source)
+            local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+            if TargetPlayer ~= nil then
+                if args[2]:lower() == 'true' then
+                    TargetPlayer.Functions.SetHighCommand(true)
+                    TargetPlayer.Functions.Notify('got-highcom', 'You now are highcommand!', 'success')
+                    Player.Functions.Notify('got-highcom-giv', 'Person now has highcommand!', 'success')
+                else
+                    TargetPlayer.Functions.SetHighCommand(false)
+                    TargetPlayer.Functions.Notify('got-no-highcom', 'You are no longer highcommand!', 'error')
+                    Player.Functions.Notify('no-highcom', 'Person is no longer highcommand!', 'error')
+                end
+            end
+        end
+    end, "admin")
+
+    CommandsModule.Add({"cuff"}, "(Un)cuff a player", {{Name="Id", Help="Player ID"}, {Name="Bool", Help="True or False"}}, true, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+        if TargetPlayer then
+            local Bool = args[2]:lower() == 'true' and true or false
+            TargetPlayer.Functions.SetMetaData("Handcuffed", Bool)
+            TriggerClientEvent('mercy-police/client/set-cuff-state', TargetPlayer.PlayerData.Source, Bool)
+        end
+    end, "admin")
+
+    CommandsModule.Add({"fine"}, "Give a fine", {}, true, function(source, args)
+        TriggerClientEvent('mercy-police/client/give-fine', source)
+    end)
+    
+    CommandsModule.Add({"setpolice", "setpol"}, "Hire an officer", {{Name="id", Help="Player ID"}}, true, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+        if Player.PlayerData.Job['HighCommand'] then
+            if TargetPlayer then
+                TargetPlayer.Functions.Notify('got-hired-off', 'You got hired at the PD!', 'success')
+                Player.Functions.Notify('hired-off', 'You hired '..TargetPlayer.PlayerData.CharInfo.Firstname..' '..TargetPlayer.PlayerData.CharInfo.Lastname..'!', 'success')
+                TargetPlayer.Functions.SetJob('police')
+            end
+        end
+    end)
+    
+    CommandsModule.Add({"firepolice", "firepol"}, "Fire an officer", {{Name="id", Help="Player ID"}}, true, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+        if Player.PlayerData.Job['HighCommand'] then
+            if TargetPlayer and TargetPlayer.PlayerData.Job.Name == 'police' then
+                TargetPlayer.Functions.Notify('got-fired-off', 'You got fired!', 'error')
+                Player.Functions.Notify('fired-off', 'You fired '..TargetPlayer.PlayerData.CharInfo.Firstname..' '..TargetPlayer.PlayerData.CharInfo.Lastname..'!', 'success')
+                TargetPlayer.Functions.SetJob('unemployed')
+            else
+                Player.Functions.Notify('not-police', 'This person is not a police officer!', 'error')
+            end
+        end
+    end)
+
+    CommandsModule.Add("flagplate", "Flag/Unflag a plate", {{Name="Plate", Help="Plate"}, {Name="Reason", Help="Reason"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local Plate = args[1]
+        args[1] = ""
+        local Reason = table.concat(args, ' ')
+        if Plate ~= nil and Reason ~= nil then
+            DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE plate = ? ", {Plate}, function(VehData)
+                if VehData ~= nil and VehData[1] ~= nil then
+                    if VehData[1].Flagged == 1 then
+                        Reason = 'No Reason.'
+                        DatabaseModule.Update("UPDATE player_vehicles SET Flagged = ?, FlagReason = ? WHERE plate = ? ", {false, Reason, Plate})
+                        Player.Functions.Notify('plate-unflagged', 'The vehicle with plate '..Plate..' is no longer flagged.', 'error')
+                    else
+                        DatabaseModule.Update("UPDATE player_vehicles SET Flagged = ?, FlagReason = ? WHERE plate = ? ", {true, Reason, Plate})
+                        Player.Functions.Notify('plate-flagged', 'The vehicle with plate '..Plate..' is now flagged.', 'success')
+                    end
+                else
+                    Player.Functions.Notify('veh-error', 'A vehicle with this plate could not be found..', 'error')
+                end
+            end)
+        else
+            Player.Functions.Notify('args-error', 'Argument mismatch..', 'error')
+        end
+    end)
+
+    CommandsModule.Add("jail", "Send a criminal to jail.", {{Name="Id", Help="Id"}, {Name="Time", Help="Time"}, {Name="Parole", Help="Parole"}}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        local TPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1])) 
+        if TPlayer then
+            if Player.PlayerData.Job.Name ~= 'police' then return end
+            TriggerClientEvent('mercy-police/client/enter-jail', TPlayer.PlayerData.Source, tonumber(args[2]), args[3], false)
+        else
+            Player.Functions.Notify('not-online', 'This person is not available..', 'error')
+        end
+    end)
+    
 
     -- [ Callbacks ] --
 
@@ -37,7 +270,7 @@ CreateThread(function()
                 -- Get From Database
                 for k, v in pairs(Players) do
                     local JobInfo = json.decode(v.Job)
-		    local CharInfo = json.decode(v.CharInfo)
+		            local CharInfo = json.decode(v.CharInfo)
                     if JobInfo.Name == 'police' then
                         local Cop = {}
                         Cop.CitizenId = v.CitizenId
@@ -161,232 +394,6 @@ CreateThread(function()
         end)
     end)        
 
-    -- [ Commands ] --
-
-    CommandsModule.Add({"cam", "camera", "opencam"}, "Open Camera", {}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        if not Player then return end
-
-        if not Player.PlayerData.Job.Name == 'police' then return end
-        if not Player.PlayerData.Job.Duty then return end
-
-        TriggerClientEvent('mercy-police/client/show-camera-input', source)
-    end)
-
-    CommandsModule.Add("311", "Police chat", {{Name="Message", Help="Message"}}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local MessageData = {}
-        MessageData['Id'] = source
-        MessageData['Who'] = Player.PlayerData.CharInfo.Firstname..' | '..Player.PlayerData.CharInfo.Lastname..' # '..Player.PlayerData.CharInfo.PhoneNumber
-        MessageData['Message'] = table.concat(args, ' ')
-        TriggerClientEvent('mercy-police/client/send-311', -1, MessageData)
-    end)
-
-    CommandsModule.Add("911", "Call emergency services", {{Name="Message", Help="Message"}}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local CallData = {}
-        CallData['Id'] = source
-        CallData['Who'] = Player.PlayerData.CharInfo.Firstname..' | '..Player.PlayerData.CharInfo.Lastname..' # '..Player.PlayerData.CharInfo.PhoneNumber
-        CallData['Message'] = table.concat(args, ' ')
-        TriggerClientEvent('mercy-police/client/send-911', source, CallData, false)
-        -- TriggerClientEvent('mercy-police/client/send-911-chat', -1, CallData, false) -- Enable to have chat alerts
-    end)
-
-    CommandsModule.Add("911a", "Call emergency services anonymously", {{Name="Message", Help="Message"}}, false, function(source, args)
-        local CallData = {}
-        CallData['Message'] = table.concat(args, ' ')
-        TriggerClientEvent('mercy-police/client/send-911', source, CallData, true)
-        -- TriggerClientEvent('mercy-police/client/send-911-chat', -1, CallData, true) -- Enable to have chat alerts
-    end)
-
-    -- CommandsModule.Add("911r", "Reply on a 911 call", {{Name="Id", Help="Id"}, {Name="Message", Help="Message"}}, false, function(source, args)
-    --     local Player = PlayerModule.GetPlayerBySource(source)
-    --     local Target = args[1]             
-    --     args[1] = "" 
-    --     local CallData = {}
-    --     CallData['Id'] = source
-    --     CallData['Who'] = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname
-    --     CallData['Message'] = table.concat(args, ' ')
-    --     TriggerClientEvent('mercy-police/client/send-reaction-to-dispatch', -1, CallData)
-    -- end)
-
-    -- CommandsModule.Add("911ra", "Reply Anonymously on a 911 call", {{Name="Id", Help="Id"}, {Name="Message", Help="Message"}}, false, function(source, args)
-    --     local Player = PlayerModule.GetPlayerBySource(source)
-    --     local Target = args[1]             
-    --     args[1] = "" 
-    --     if Player.PlayerData.Job.Name == 'police' or Player.PlayerData.Job.Name == 'ems' and Player.PlayerData.Job.Duty then
-    --         local CallData = {}
-    --         CallData['Id'] = source
-    --         CallData['Message'] = table.concat(args, ' ')
-    --         TriggerClientEvent('mercy-police/client/send-911-dispatch', Target, CallData, true)
-    --     end
-    -- end)
-
-    CommandsModule.Add("callsign", "Assign yourself a callsign.", {{Name="Callsign", Help="Callsign"}}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local Callsign = args[1]
-        if Callsign ~= nil then
-            if Player.PlayerData.Job.Name == 'police' or Player.PlayerData.Job.Name == 'ems' and Player.PlayerData.Job.Duty then
-                Player.Functions.SetCallsign(Callsign)
-                Player.Functions.Notify('sign-changed', 'Callsign succesfully changed. You now are the: '..Callsign, 'success')
-            else
-                Player.Functions.Notify('no-perm', 'No Permission..', 'error')
-            end
-        end
-    end)
-
-    CommandsModule.Add("department", "View your department", {}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        if Player.PlayerData.Job.Name ~= 'police' then return end
-        TriggerClientEvent('mercy-chat/client/post-message', source, 'DEPARTMENT', Player.PlayerData.Job.Department, 'warning')
-    end)
-    
-    CommandsModule.Add("setdepartment", "Set your department (LSPD/BCSO/SASP)", {{Name="Department", Help="Department"}}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local Department = args[1]
-        if Department ~= nil and Department == 'LSPD' or Department == 'BCSO' or Department == 'SASP' then
-            if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
-                Player.Functions.SetDepartment(Department)
-                Player.Functions.Notify('sign-changed', 'Department succesfully changed. You now on the '..Department..'  department.', 'success')
-            else
-                Player.Functions.Notify('no-perm', 'No Permission..', 'error')
-            end
-        end
-    end)
-
-    CommandsModule.Add({"barricade", "placeobject"}, "Put barricade down", {}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
-            TriggerClientEvent('mercy-police/client/object', source)
-        else
-            Player.Functions.Notify('no-perm', 'No Permission..', 'error')
-        end
-    end)
-
-    CommandsModule.Add("setrank", "Set someone's rank", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local Target = PlayerModule.GetPlayerBySource(tonumber(args[1]))
-	    if Target == nil then return Player.Functions.Notify('no-player', 'This id does not exist.', 'error') end
-        local Rank = args[2]:gsub("^%l", string.upper)
-        if Player.PlayerData.Job['HighCommand'] then
-            if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
-                if Target.PlayerData.Job.Name == 'police' then
-                    if Rank ~= nil and Rank == 'Officer' or Rank == 'Detective' or Rank == 'Corporal' or Rank == 'Sergeant' or Rank == 'Lieutenant' or Rank == 'Captain' or Rank == 'Chief' then
-                        if Target.PlayerData.Source == source then
-                            Player.Functions.SetRank(Rank)
-                            Player.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
-                        else
-                            Target.Functions.SetRank(Rank)
-                            Player.Functions.Notify('rank-changed', 'You set the rank of '..Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname..' to '..Rank..'.', 'success')
-                            Target.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
-                        end
-                    else
-                        Player.Functions.Notify('no-perm', 'This rank does not exist.', 'error')
-                    end
-                else
-                    Player.Functions.Notify('no-rank', 'You are not part of the emergency services.', 'error')
-                end
-            end
-        end
-    end)
-    
-    CommandsModule.Add({"sethighcommand", "sethigh"}, "Set someone's highcommand status", {{Name="ID", Help="PlayerId"}, {Name="Status", Help="True/False"}}, true, function(source, args)
-        if args ~= nil then
-            local Player = PlayerModule.GetPlayerBySource(source)
-            local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
-            if TargetPlayer ~= nil then
-                if args[2]:lower() == 'true' then
-                    TargetPlayer.Functions.SetHighCommand(true)
-                    TargetPlayer.Functions.Notify('got-highcom', 'You now are highcommand!', 'success')
-                    Player.Functions.Notify('got-highcom-giv', 'Person now has highcommand!', 'success')
-                else
-                    TargetPlayer.Functions.SetHighCommand(false)
-                    TargetPlayer.Functions.Notify('got-no-highcom', 'You are no longer highcommand!', 'error')
-                    Player.Functions.Notify('no-highcom', 'Person is no longer highcommand!', 'error')
-                end
-                -- TargetPlayer.Functions.Save()
-            end
-        end
-    end, "admin")
-
-    CommandsModule.Add({"cuff"}, "(Un)cuff a player", {{Name="Id", Help="Player ID"}, {Name="Bool", Help="True or False"}}, true, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
-        if TargetPlayer then
-            local Bool = args[2]:lower() == 'true' and true or false
-            TargetPlayer.Functions.SetMetaData("Handcuffed", Bool)
-            TriggerClientEvent('mercy-police/client/set-cuff-state', TargetPlayer.PlayerData.Source, Bool)
-        end
-    end, "admin")
-
-    CommandsModule.Add({"fine"}, "Give a fine", {}, true, function(source, args)
-        TriggerClientEvent('mercy-police/client/give-fine', source)
-    end)
-    
-    CommandsModule.Add({"setpolice", "setpol"}, "Hire an officer", {{Name="id", Help="Player ID"}}, true, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
-        if Player.PlayerData.Job['HighCommand'] then
-            if TargetPlayer then
-                TargetPlayer.Functions.Notify('got-hired-off', 'You got hired at the PD!', 'success')
-                Player.Functions.Notify('hired-off', 'You hired '..TargetPlayer.PlayerData.CharInfo.Firstname..' '..TargetPlayer.PlayerData.CharInfo.Lastname..'!', 'success')
-                TargetPlayer.Functions.SetJob('police')
-                -- TargetPlayer.Functions.Save()
-            end
-        end
-    end)
-    
-    CommandsModule.Add({"firepolice", "firepol"}, "Fire an officer", {{Name="id", Help="Player ID"}}, true, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local TargetPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1]))
-        if Player.PlayerData.Job['HighCommand'] then
-            if TargetPlayer and TargetPlayer.PlayerData.Job.Name == 'police' then
-                TargetPlayer.Functions.Notify('got-fired-off', 'You got fired!', 'error')
-                Player.Functions.Notify('fired-off', 'You fired '..TargetPlayer.PlayerData.CharInfo.Firstname..' '..TargetPlayer.PlayerData.CharInfo.Lastname..'!', 'success')
-                TargetPlayer.Functions.SetJob('unemployed')
-                -- TargetPlayer.Functions.Save()
-            else
-                Player.Functions.Notify('not-police', 'This person is not a police officer!', 'error')
-            end
-        end
-    end)
-
-    CommandsModule.Add("flagplate", "Flag/Unflag a plate", {{Name="Plate", Help="Plate"}, {Name="Reason", Help="Reason"}}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local Plate = args[1]
-        args[1] = ""
-        local Reason = table.concat(args, ' ')
-        if Plate ~= nil and Reason ~= nil then
-            DatabaseModule.Execute("SELECT * FROM player_vehicles WHERE plate = ? ", {Plate}, function(VehData)
-                if VehData ~= nil and VehData[1] ~= nil then
-                    if VehData[1].Flagged == 1 then
-                        Reason = 'No Reason.'
-                        DatabaseModule.Update("UPDATE player_vehicles SET Flagged = ?, FlagReason = ? WHERE plate = ? ", {false, Reason, Plate})
-                        Player.Functions.Notify('plate-unflagged', 'The vehicle with plate '..Plate..' is no longer flagged.', 'error')
-                    else
-                        DatabaseModule.Update("UPDATE player_vehicles SET Flagged = ?, FlagReason = ? WHERE plate = ? ", {true, Reason, Plate})
-                        Player.Functions.Notify('plate-flagged', 'The vehicle with plate '..Plate..' is now flagged.', 'success')
-                    end
-                else
-                    Player.Functions.Notify('veh-error', 'A vehicle with this plate could not be found..', 'error')
-                end
-            end)
-        else
-            Player.Functions.Notify('args-error', 'Argument mismatch..', 'error')
-        end
-    end)
-
-    CommandsModule.Add("jail", "Send a criminal to jail.", {{Name="Id", Help="Id"}, {Name="Time", Help="Time"}, {Name="Parole", Help="Parole"}}, false, function(source, args)
-        local Player = PlayerModule.GetPlayerBySource(source)
-        local TPlayer = PlayerModule.GetPlayerBySource(tonumber(args[1])) 
-        if TPlayer then
-            if Player.PlayerData.Job.Name ~= 'police' then return end
-            TriggerClientEvent('mercy-police/client/enter-jail', TPlayer.PlayerData.Source, tonumber(args[2]), args[3], false)
-        else
-            Player.Functions.Notify('not-online', 'This person is not available..', 'error')
-        end
-    end)
-
     -- [ Events ] --
 
     EventsModule.RegisterServer("mercy-police/server/receive-evidence", function(Source, ClosestEvidence)
@@ -438,41 +445,60 @@ CreateThread(function()
         DatabaseModule.Update("UPDATE player_vehicles SET state = ? WHERE plate = ? ", {State, Plate})
     end)
 
-    -- Object
+    -- Barricades
         
-    EventsModule.RegisterServer("mercy-police/server/place-object", function(Source, Coords, Heading, NewId, Model, Freeze)
+    EventsModule.RegisterServer("mercy-police/server/place-barricade", function(Source, Prop, Coords, Heading)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if not Player then return end
         local CustomId = math.random(11111, 99999)
+
+        -- Get Static & Traffic from Config
+        local IsStatic = true
+        local IsTraffic = false
+        local Label = ""
+        local Desc = ""
+        for k, v in pairs(Config.Barricades) do
+            if v.Prop == Prop then
+                IsStatic = v.Static
+                IsTraffic = v.Traffic
+                Label = v.Label
+                Desc = v.Desc
+            end
+        end
+
         local NewObject = {
             Id = CustomId,
+            Label = Label,
             Name = "Police-Object-"..CustomId,
-            Model = Model,
-            Freeze = Freeze,
-            Coords = { 
-                X = Coords.x,
-                Y = Coords.y,
-                Z = Coords.z,
-                H = Heading
-            },
+            Model = Prop,
+            Desc = Desc,
+            Coords = vector3(Coords.x, Coords.y, Coords.z),
+            Rotation = Heading,
+            Static = IsStatic,
+            Traffic = IsTraffic,
+            PlacedBy = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname,
+            PlacedAt = os.date("%Y-%m-%d %H:%M:%S"),
         }
-        Config.ObjectList[NewId] = NewObject
-        TriggerClientEvent('mercy-police/client/sync-objects', -1, NewObject)
+        Config.Barricades[NewId] = NewObject
+        TriggerClientEvent('mercy-police/client/set-prop-data', -1, "Add", nil, NewObject)
     end)
 
-    RegisterNetEvent("mercy-police/server/try-remove", function(Data)
-        local src = source
-        local Player = PlayerModule.GetPlayerBySource(src)
+    EventsModule.RegisterServer("mercy-police/server/delete-barricade", function(Source)
+        local Player = PlayerModule.GetPlayerBySource(Source)
         if not Player then return end
-        TriggerClientEvent('mercy-police/client/remove-object', src, Data.Id)
-    end)
 
-    RegisterNetEvent("mercy-police/server/remove-object", function(Id)
-        local src = source
-        for ObjId, Object in pairs(Config.ObjectList) do
-            if tonumber(ObjId) == tonumber(Id) then
-                TriggerClientEvent('mercy-police/client/sync-objects', -1, Object, true, ObjId)
-                table.remove(Config.ObjectList, ObjId)
-                return
+        local ClosestBarricade = nil
+        for k, v in pairs(Config.Barricades) do
+            local Distance = #(GetEntityCoords(GetPlayerPed(Source)) - v.Coords)
+            if Distance <= 2.0 then
+                ClosestBarricade = v
+                table.remove(Config.Barricades, k)
+                break
             end
+        end
+
+        if ClosestBarricade ~= nil then
+            TriggerClientEvent('mercy-police/client/set-prop-data', -1, "Remove", ClosestBarricade.Id)
         end
     end)
 
