@@ -163,6 +163,16 @@ CreateThread(function()
 
     -- [ Commands ] --
 
+    CommandsModule.Add({"cam", "camera", "opencam"}, "Open Camera", {}, false, function(source, args)
+        local Player = PlayerModule.GetPlayerBySource(source)
+        if not Player then return end
+
+        if not Player.PlayerData.Job.Name == 'police' then return end
+        if not Player.PlayerData.Job.Duty then return end
+
+        TriggerClientEvent('mercy-police/client/show-camera-input', source)
+    end)
+
     CommandsModule.Add("311", "Police chat", {{Name="Message", Help="Message"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
         local MessageData = {}
