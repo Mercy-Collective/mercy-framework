@@ -124,7 +124,7 @@ PlayerModule = {
         local UniqueFound, Cid = false, false
         local Steam = FunctionsModule.GetIdentifier(Source, "steam")
         while not UniqueFound do
-            for i=1, 4, 1 do
+            for i=1, 6, 1 do
                 Cid = i
                 Database.Execute("SELECT COUNT(*) as count FROM players WHERE Cid = ? AND Identifiers LIKE ? ", {i, "%"..Steam.."%"}, function(UserData)
                     if UserData[1].count == 0 and not UniqueFound then

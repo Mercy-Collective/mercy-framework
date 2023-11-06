@@ -80,7 +80,7 @@
 }
 
 .characters-item {
-    /* display: none; */
+    /* display: block; */
     position: absolute;
 
     width: 18vh;
@@ -93,31 +93,46 @@
 }
 
 .characters-item[data-char="1"] {
-    top: 44vh;
-    left: 89vh;
+    top: 65vh;
+    left: 25vh;
     width: 15vh;
-    height: 15vh;
+    height: 46vh;
 }
 
 .characters-item[data-char="2"] {
-    top: 53vh;
+    top: 60vh;
     left: 50vh;
     width: 18vh;
-    height: 34vh;
+    height: 44vh;
 }
 
 .characters-item[data-char="3"] {
-    top: 44vh;
-    right: 33vh;
-    width: 13vh;
-    height: 15vh;
+    top: 55vh;
+    left: 75vh;
+    width: 14vh;
+    height: 44vh;
 }
 
 .characters-item[data-char="4"] {
-    top: 44vh;
-    right: 51vh;
+    top: 55vh;
+    right: 59vh;
     width: 14vh;
-    height: 15vh;
+    height: 44vh;
+}
+
+.characters-item[data-char="5"] {
+    top: 55vh;
+    right: 36vh;
+    width: 14vh;
+    height: 44vh;
+}
+
+.characters-item[data-char="6"] {
+    top: 55vh;
+    right: 10vh;
+    width: 14vh;
+    height: 44vh;
+
 }
 
 .character-controls-box {
