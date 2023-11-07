@@ -36,10 +36,22 @@
     color: white;
 }
 
-.prompts > .prompt.primary { background-color: rgba(51, 112, 165, 0.85); }
-.prompts > .prompt.error { background-color: rgba(181, 82, 85, 0.85); }
-.prompts > .prompt.success { background-color: rgba(32, 158, 85, 0.85); }
-.prompts > .prompt.warning { background-color: rgba(207, 146, 65, 0.85); }
+.prompts > .prompt.primary {
+     background-color: rgba(51, 112, 165, 0.691);
+     border-bottom: 3px solid rgb(51, 112, 165);
+    }
+.prompts > .prompt.error { 
+    background-color: rgba(177, 56, 60, 0.691); 
+    border-bottom: 3px solid rgb(177, 56, 60);
+}
+.prompts > .prompt.success {
+    background-color: rgba(32, 158, 85, 0.691); 
+    border-bottom: 3px solid rgb(32, 158, 85);
+}
+.prompts > .prompt.warning { 
+    background-color: rgba(207, 146, 65, 0.85);
+    border-bottom: 3px solid rgb(207, 146, 65);
+ }
 
 .interactions {
     position: absolute;
@@ -64,6 +76,7 @@
     border-radius: 0.3vh;
 
     background-color: rgb(31, 128, 202);
+
 }
 
 .interaction-key {
