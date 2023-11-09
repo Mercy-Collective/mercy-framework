@@ -71,6 +71,13 @@ Config.WeedRackDryTime = 2 -- 2 Minutes
 
 Config.ContainerWhitelist = { '9432', '7078' }
 
+Config.LabsState = {
+    [1] = false,
+    [2] = false,
+    [3] = false,
+    [4] = false
+}
+
 Config.GrowthObjects = {
     [0] = {
         ['Hash'] = GetHashKey('bkr_prop_weed_01_small_01b'),
