@@ -217,7 +217,7 @@ function CreateVehicleExhaustBackfire(Vehicle)
             for k, v in pairs(ExhaustNames) do
                 if GetEntityBoneIndexByName(Vehicle, v) ~= -1 then
                     SetPtfxAssetNextCall('veh_xs_vehicle_mods')
-                    InvokeNative(0x6C38AF3693A69A91, 'veh_xs_vehicle_mods')
+                    Citizen.InvokeNative(0x6C38AF3693A69A91, 'veh_xs_vehicle_mods')
                     table.insert(VehicleParticles[Plate], StartNetworkedParticleFxLoopedOnEntityBone('veh_nitrous', Vehicle, 0.0, -0.02, 0.0, 0.0, 0.0, 0.0, GetEntityBoneIndexByName(Vehicle, v), FlameScale, 0.0, 0.0, 0.0))
                 end
             end

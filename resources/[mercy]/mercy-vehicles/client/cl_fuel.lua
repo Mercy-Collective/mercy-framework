@@ -182,7 +182,7 @@ RegisterNetEvent("mercy-vehicles/client/fuel/refuel-veh", function()
 
     local IsBillPaid = CallbackModule.SendCallback("mercy-vehicles/server/fuel/is-bill-paid", GetVehicleNumberPlateText(Entity))
 
-    local Description = IsElectricVeh and "Charge Level: " .. math.ceil(100 - FuelLevel) .. "% | Total Costs: $" .. math.floor(((100 - FuelLevel) * Config.ChargePrice) * 1.17) or "Fuel Level: " .. math.ceil(100 - FuelLevel) .. " | Total Costs: $" .. math.floor(((100 - FuelLevel) * Config.FuelPrice) * 1.17)
+    local Description = IsElectricVeh and "Charge Level: " .. math.ceil(100 - FuelLevel) .. "% | Total Costs: $" .. math.floor(FunctionsModule.GetTaxPrice(((100 - FuelLevel) * Config.ChargePrice), "Gas")) or "Fuel Level: " .. math.ceil(100 - FuelLevel) .. " | Total Costs: $" .. math.floor(FunctionsModule.GetTaxPrice(((100 - FuelLevel) * Config.FuelPrice), "Gas"))
 
     local MenuItems = {
         {

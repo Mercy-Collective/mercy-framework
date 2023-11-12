@@ -1,0 +1,23 @@
+Config.DisabledTrunk = {
+    [GetHashKey("penetrator")] = true,
+    [GetHashKey("vacca")] = true,
+    [GetHashKey("monroe")] = true,
+    [GetHashKey("turismor")] = true,
+    [GetHashKey("osiris")] = true,
+    [GetHashKey("comet")] = true,
+    [GetHashKey("ardent")] = true,
+    [GetHashKey("jester")] = true,
+    [GetHashKey("nero")] = true,
+    [GetHashKey("nero2")] = true,
+    [GetHashKey("vagner")] = true,
+    [GetHashKey("infernus")] = true,
+    [GetHashKey("zentorno")] = true,
+    [GetHashKey("comet2")] = true,
+    [GetHashKey("comet3")] = true,
+    [GetHashKey("comet4")] = true,
+    [GetHashKey("bullet")] = true,
+    -- Addon
+    [GetHashKey("s15")] = true,
+    [GetHashKey("gtr")] = true,
+    [GetHashKey("skyline")] = true,
+}

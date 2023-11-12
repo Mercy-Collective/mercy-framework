@@ -493,6 +493,21 @@ function CanOpenInventory()
 end
 exports('CanOpenInventory', CanOpenInventory)
 
+function GetItemAmount(ItemName)
+    if PlayerModule == nil then return 0 end
+    local PlayerData = PlayerModule.GetPlayerData()
+    if PlayerData.Inventory == nil then return 0 end
+
+    local TotalItems = 0
+    for k, v in pairs(PlayerData.Inventory) do
+        if v.ItemName == ItemName and HasEnoughQuality(1, v.Slot) then
+            TotalItems = TotalItems + v.Amount
+        end
+    end
+    return TotalItems
+end
+exports('HasEnoughOfItem', HasEnoughOfItem)
+
 function HasEnoughOfItem(ItemName, RequestedAmount)
     local TotalItems = 0
     if PlayerModule == nil then return end

@@ -1,4 +1,4 @@
-CommandsList = {}
+local CommandsList = {}
 
 local _Ready = false
 AddEventHandler('Modules/server/ready', function()
@@ -9,18 +9,19 @@ AddEventHandler('Modules/server/ready', function()
 end)
 
 CommandsModule = {
-    Add = function(Name, Help, Arguments, ArgsRequired, Callback, Permission) -- [name] = command name (ex. /givemoney), [help] = help text, [arguments] = arguments that need to be passed (ex. {{Name="id", Help="ID of a player"}, {Name="amount", Help="amount of money"}}), [argsrequired] = set arguments required (true or false), [callback] = function(source, args) callback, [permission] = rank or job of a player
+    Add = function(Name, Help, Arguments, ArgsRequired, CMDCallback, Permission) -- [name] = command name (ex. /givemoney), [help] = help text, [arguments] = arguments that need to be passed (ex. {{Name="id", Help="ID of a player"}, {Name="amount", Help="amount of money"}}), [argsrequired] = set arguments required (true or false), [callback] = function(source, args) callback, [permission] = rank or job of a player
+        Permission = Permission ~= nil and Permission:lower() or "user"
         if type(Name) == 'table' then
-            for k,v in ipairs(Name) do
+            for k, v in pairs(Name) do
                 CommandsList[v:lower()] = {
                     Name = v:lower(),
-                    Permission = Permission ~= nil and Permission:lower() or "user",
+                    Permission = Permission,
                     Help = Help,
                     Arguments = Arguments,
                     ArgsRequired = ArgsRequired,
-                    Callback = Callback
+                    Callback = CMDCallback
                 }
-                RegisterCommand(v:lower(), function(source, args)
+                RegisterCommand(v:lower(), function(source, args, rawCommand)
                     if Permission == "user" or Permission == nil then
                         if (ArgsRequired and #Arguments ~= 0 and args[#Arguments] == nil) then
                             TriggerClientEvent('mercy-ui/client/notify', source, "args-command", "All arguments should be filled in!", 'error', 3000)
@@ -30,20 +31,18 @@ CommandsModule = {
                             end
                             TriggerClientEvent('mercy-ui/client/notify', source, "command-preview", "/"..Command.." "..agus, 'error', 3000)
                         else
-                            Callback(source, args)
+                            CMDCallback(source, args)
                         end
                     else
-                        PlayerModule.HasPermission(source, function(HasPermission)
-                            if HasPermission then
-                                Callback(source, args)
-                            else
-                                TriggerClientEvent('mercy-ui/client/notify', source, "access-command", "No Access.", 'error', 3000)
-                            end
-                        end, Permission ~= nil and Permission:lower() or "user")
+                        local HasPermission = PlayerModule.HasPermission(source, nil, Permission ~= nil and Permission:lower() or "user")
+                        if HasPermission then
+                            CMDCallback(source, args)
+                        else
+                            TriggerClientEvent('mercy-ui/client/notify', source, "access-command", "No Access.", 'error', 3000)
+                        end
                     end
                 end, false)
             end
-            return
         else
             CommandsList[Name:lower()] = {
                 Name = Name:lower(),
@@ -51,9 +50,9 @@ CommandsModule = {
                 Help = Help,
                 Arguments = Arguments,
                 ArgsRequired = ArgsRequired,
-                Callback = Callback
+                Callback = CMDCallback
             }
-            RegisterCommand(Name:lower(), function(source, args)
+            RegisterCommand(Name:lower(), function(source, args, rawCommand)
                 if Permission == "user" or Permission == nil then
                     if (ArgsRequired and #Arguments ~= 0 and args[#Arguments] == nil) then
                         TriggerClientEvent('mercy-ui/client/notify', source, "args-command", "All arguments should be filled in!", 'error', 3000)
@@ -63,12 +62,12 @@ CommandsModule = {
                         end
                         TriggerClientEvent('mercy-ui/client/notify', source, "command-preview", "/"..Command.." "..agus, 'error', 3000)
                     else
-                        Callback(source, args)
+                        CMDCallback(source, args)
                     end
                 else
                     PlayerModule.HasPermission(source, function(HasPerm)
                         if HasPerm then
-                            Callback(source, args)
+                            CMDCallback(source, args)
                         else
                             TriggerClientEvent('mercy-ui/client/notify', source, "access-command", "No Access.", 'error', 3000)
                         end
@@ -77,19 +76,18 @@ CommandsModule = {
             end, false)
         end
     end,
-    Refresh = function(Source)
-        TriggerClientEvent('mercy-chat/client/refresh-suggestion', Source)
+    Refresh = function(source)
+        TriggerClientEvent('mercy-chat/client/refresh-suggestion', source)
         PlayerModule = exports[GetCurrentResourceName()]:FetchModule('Player')
         for Command, Info in pairs(CommandsList) do
-            PlayerModule.HasPermission(Source, function(HasPerm) 
-                if HasPerm then
-                    TriggerClientEvent('mercy-chat/client/add-suggestion', Source, Command, Info.Help, Info.Arguments)
-                end
-            end, CommandsList[Command].Permission) 
+            local HasPerm = PlayerModule.HasPermission(source, nil, CommandsList[Command].Permission)
+            if HasPerm then
+                TriggerClientEvent('mercy-chat/client/add-suggestion', source, Command, Info.Help, Info.Arguments)
+            end
         end
     end,
-    CallCommand = function(Source, Message)
-      
+    CallCommand = function(source, Message)
+        ExecuteCommand(Message)
     end,
 }
 

@@ -28,6 +28,7 @@ Shared.Tax = {
     ['Vehicle'] = 49, -- +49% of the price
     ['Goods'] = 15, -- +15% of the price
     ['Clothes'] = 15, -- +15% of the prices,
+    ['Gas'] = 17, -- +17% of the price
 }
 
 Shared.Groups = {
