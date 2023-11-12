@@ -322,7 +322,13 @@ Config.BarricadeObjects = {
         ['Static'] = true,
         ['Traffic'] = false,
     },
-
+    {
+        ['Prop'] = 'delete_closest',
+        ['Label'] = 'Remove Barricade',
+        ['Desc'] = 'Remove the closest barricade.',
+        ['Static'] = false,
+        ['Traffic'] = false,
+    }
 }
 
 Config.JailCrafting = {

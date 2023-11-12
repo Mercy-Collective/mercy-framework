@@ -23,6 +23,7 @@ AddEventHandler('Modules/server/ready', function()
     end)
 end)
 
+
 Citizen.CreateThread(function()
     while not _Ready do
         Citizen.Wait(200)
@@ -30,23 +31,21 @@ Citizen.CreateThread(function()
 
     -- [ Commands ] --
     
-    CommandsModule.Add({"object", "placeobj"}, "Place down", {}, false, function(source, args)
-        print('uhuh')
+    CommandsModule.Add({"barricade", "placebarricade"}, "Place down", {}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
 
-        if Player.PlayerData.Job.Name ~= 'police' or Player.PlayerData.Job.Duty then return end
-        print('uhtretertuh')
-        print('uhuerteryyyyyyh')
+        if Player.PlayerData.Job.Name ~= 'police' or not Player.PlayerData.Job.Duty then return end
 
-        local ClosestBarricades = {}
+        local ClosestBarricade = {}
         for k, v in pairs(Config.Barricades) do
             local Distance = #(GetEntityCoords(GetPlayerPed(source)) - v.Coords)
-            if Distance <= 5.0 then
-                table.insert(ClosestBarricades, v)
+            if Distance <= 2.0 then
+                ClosestBarricade = v
+                break
             end
         end
 
-        TriggerClientEvent('mercy-police/client/open-barricademenu', source, Config.Barricades, ClosestBarricades)
+        TriggerClientEvent('mercy-police/client/open-barricademenu', source, Config.BarricadeObjects, ClosestBarricade)
     end)
 
     CommandsModule.Add({"cam", "camera", "opencam"}, "Open Camera", {}, false, function(source, args)
@@ -455,9 +454,9 @@ Citizen.CreateThread(function()
         -- Get Static & Traffic from Config
         local IsStatic = true
         local IsTraffic = false
-        local Label = ""
-        local Desc = ""
-        for k, v in pairs(Config.Barricades) do
+        local Label = nil
+        local Desc = nil
+        for k, v in pairs(Config.BarricadeObjects) do
             if v.Prop == Prop then
                 IsStatic = v.Static
                 IsTraffic = v.Traffic
@@ -479,7 +478,7 @@ Citizen.CreateThread(function()
             PlacedBy = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname,
             PlacedAt = os.date("%Y-%m-%d %H:%M:%S"),
         }
-        Config.Barricades[NewId] = NewObject
+        Config.Barricades[#Config.Barricades + 1] = NewObject
         TriggerClientEvent('mercy-police/client/set-prop-data', -1, "Add", nil, NewObject)
     end)
 
