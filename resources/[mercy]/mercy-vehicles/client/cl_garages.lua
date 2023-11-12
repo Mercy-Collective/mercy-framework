@@ -203,7 +203,6 @@ RegisterNetEvent("mercy-vehicles/client/park-vehicle", function(Data)
         ['Nitrous'] = exports['mercy-vehicles']:GetVehicleMeta(Data.Entity, 'Nitrous'),
         ['Harness'] = exports['mercy-vehicles']:GetVehicleMeta(Data.Entity, 'Harness'),
     }
-    print('Saven en loessoe doen')
     VehicleModule.SaveVehicle(Data.Entity, VehiclePlate, VehicleMeta)
     TriggerServerEvent("mercy-business/server/hayes/unload-parts", VehiclePlate)
     TriggerServerEvent("mercy-vehicles/server/park-vehicle", VehToNet(Data.Entity), CurrentGarage)
