@@ -25,10 +25,12 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer('mercy-inventory/server/use-item', function(Source, Slot)
         local Player = PlayerModule.GetPlayerBySource(Source)
         local ItemData = Player.Functions.GetItemBySlot(Slot)
+        local CurrentQuality = GetQuality(ItemData.ItemName, ItemData.Info.CreateDate)
+
         if ItemData ~= nil and ItemData.Amount > 0 then
             if FunctionsModule.CanUseItem(ItemData.ItemName) or ItemData['Type'] == 'Weapon' then
-                if ItemData.Info.Quality ~= nil then
-                    if ItemData.Info.Quality > 0 then
+                if CurrentQuality ~= nil then
+                    if CurrentQuality > 0 then
                         TriggerClientEvent('mercy-inventory/client/item-box', Source, 'Used', Shared.ItemList[ItemData.ItemName], false)
                         if ItemData['Type'] ~= 'Weapon' then
                             FunctionsModule.UseItem(Source, ItemData)
