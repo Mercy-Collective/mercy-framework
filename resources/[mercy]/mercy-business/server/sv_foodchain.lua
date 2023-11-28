@@ -19,8 +19,8 @@ Citizen.CreateThread(function()
 
     CallbackModule.CreateCallback('mercy-business/server/foodchain/get-payment-data', function(Source, Cb, Business, RegisterId)
         local Register = Config.ActivePayments[Business]
-        if Register == nil then Cb(false) end
-        if Register[RegisterId] == nil then Cb(false) end
+        if Register == nil then return Cb(false) end
+        if Register[RegisterId] == nil then return Cb(false) end
         Cb(Register[RegisterId])
     end)
 
