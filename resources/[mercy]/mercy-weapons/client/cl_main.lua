@@ -215,6 +215,10 @@ RegisterNetEvent('mercy-preferences/client/update', function(PreferencesData)
 end)
 
 RegisterNetEvent('mercy-weapons/client/set-current-weapon', function(WeaponData)
+    if not WeaponData then
+        Config.WeaponData = nil
+        return
+    end
     Config.WeaponData = WeaponData
 end)
 

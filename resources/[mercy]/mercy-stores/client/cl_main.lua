@@ -82,11 +82,12 @@ function InitStores()
             Position = v['Coords'],
             Model = v['Ped'],
             Anim = {},
+            Scenario = v['Scenario'] ~= nil and v['Scenario'] or nil,
             Props = {},
             Options = {
                 {
-                    Name = 'store',
-                    Icon = 'fas fa-circle',
+                    Name = 'store-'..k,
+                    Icon = v['Icon'] ~= nil and v['Icon'] or 'fas fa-circle',
                     Label = 'Store',
                     EventType = 'Client',
                     EventName = 'mercy-stores/client/open-store',

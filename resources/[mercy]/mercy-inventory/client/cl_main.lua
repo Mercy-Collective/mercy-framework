@@ -61,6 +61,7 @@ RegisterNetEvent("mercy-base/client/player-spawned", function()
 end)
  
 -- [ Degen Command ] -- 
+
 RegisterCommand('degen', function(source, args, RawCommand)
     if not PlayerModule.IsPlayerAdmin() then return end
 
@@ -506,7 +507,7 @@ function GetItemAmount(ItemName)
     end
     return TotalItems
 end
-exports('HasEnoughOfItem', HasEnoughOfItem)
+exports('GetItemAmount', GetItemAmount)
 
 function HasEnoughOfItem(ItemName, RequestedAmount)
     local TotalItems = 0

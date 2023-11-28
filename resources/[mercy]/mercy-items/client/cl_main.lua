@@ -77,7 +77,12 @@ RegisterNetEvent('mercy-items/client/used-food', function(ItemData, PropName)
             if DidComplete then
                 local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', ItemData.ItemName, 1, false, true)
                 if DidRemove then
-                    EventsModule.TriggerServer('mercy-items/server/add-food', math.random(25, 30))
+                    if Config.Fruits[ItemData.ItemName] ~= nil and Config.Fruits[ItemData.ItemName] then
+                        EventsModule.TriggerServer('mercy-items/server/add-food', Config.Fruits[ItemData.ItemName]['Food'])
+                        EventsModule.TriggerServer('mercy-items/server/add-water', Config.Fruits[ItemData.ItemName]['Water'])
+                    else
+                        EventsModule.TriggerServer('mercy-items/server/add-food', math.random(25, 30))
+                    end
                     if Config.SpecialFood[ItemData.ItemName] ~= nil and Config.SpecialFood[ItemData.ItemName] then
                         DoSpecial(ItemData.ItemName)
                     end
