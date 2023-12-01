@@ -18,7 +18,7 @@ Citizen.CreateThread(function()
         elseif Type == 'SetLocker' then
             Config.Houses.Houses[HouseId].Loot[Extra] = ExtraTwo
             if Config.Houses.Houses[HouseId].Alarm then -- If alarm is active, send alarm police
-                TriggerClientEvent('mercy-heists/client/houses-send-alarm', -1)
+                TriggerClientEvent('mercy-heists/client/houses-send-alarm', Source)
                 for i=1, 5 do
                     TriggerClientEvent('mercy-heists/client/houses-send-alarm-beep', Source, 'alarm-beep-alarm', HouseId)
                     Wait(500)
