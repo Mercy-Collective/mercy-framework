@@ -30,20 +30,40 @@ Citizen.CreateThread(function()
     end
     -- [ Commands ] --
 
-    CommandsModule.Add("h0", "Take hat off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Hat', nil, nil, true)
+    CommandsModule.Add("hat", "Take hat off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Hat', nil, 'take_off_helmet_stand', 'missheist_agency2ahelmet', nil, nil, true)
     end)
 
-    CommandsModule.Add("g0", "Take glasses off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Glasses', nil, nil, true)
+    CommandsModule.Add("glasses", "Take glasses off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Glasses', nil, 'take_off', 'clothingspecs', nil, true)
     end)
 
-    CommandsModule.Add("m0", "Take mask off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Mask', nil, nil, true)
+    CommandsModule.Add("mask", "Take mask off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Mask', nil, 'takeoff_mask', 'missfbi4', nil, true)
     end)
 
-    CommandsModule.Add("v0", "Take vest off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Vest', nil, nil, true)
+    CommandsModule.Add("vest", "Take vest off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'ArmorVest', nil, 'try_tie_negative_a', 'clothingtie', nil, true)
+    end)
+
+    CommandsModule.Add("pants", "Take pants off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Pants', nil, 'idle_f', 'mini@triathlon', nil, true)
+    end)
+
+    CommandsModule.Add("shirt", "Take shirt off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Shirts', nil, 'try_tie_negative_a', 'clothingtie', nil, true)
+    end)
+
+    CommandsModule.Add("undershirt", "Take undershirt off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'UnderShirt', nil, 'try_tie_negative_a', 'clothingtie', nil, true)
+    end)
+
+    CommandsModule.Add("shoes", "Take shoes off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Shoes', nil, 'idle_f', 'mini@triathlon', nil, true)
+    end)
+
+    CommandsModule.Add("bag", "Take bag off..", {}, false, function(source, args)
+        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Bag', nil, 'try_tie_negative_a', 'mini@clothingtie', nil, true)
     end)
 
     CommandsModule.Add('addoutfit', 'Put your current outfit in your closet.', {{Name = 'name', Help = 'Outfit Name'}}, false, function(source, args)
