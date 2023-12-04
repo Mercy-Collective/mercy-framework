@@ -23,6 +23,33 @@ Config.DOFSettings = {
     }
 }
 
+Config.ClothesTypes = {
+    ['Pants'] = 4,
+    ['Shirts'] = 11,
+    ['UnderShirt'] = 8,
+    ['Mask'] = 1,
+    ['Shoes'] = 6,
+    ['ArmorVest'] = 9,
+    ['Bag'] = 5,
+}
+
+Config.AccessoriesTypes = {
+    ['Glasses'] = 1,
+    ['Hat'] = 0,
+}
+
+Config.charItems = {
+    ['Pants'] = { Using = true, },
+    ['Shirts'] = { Using = true, },
+    ['UnderShirt'] = { Using = true, },
+    ['Mask'] = { Using = true, },
+    ['Shoes'] = { Using = true, },
+    ['ArmorVest'] = { Using = true, },
+    ['Bag'] = { Using = true, },
+    ['Glasses'] = { Using = true, },
+    ['Hat'] = { Using = true, },
+}
+
 -- ['Width'], ['Length'], are for the size of the PolyZone
 Config.Stores = {
     {
