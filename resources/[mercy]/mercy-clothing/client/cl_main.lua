@@ -93,6 +93,7 @@ RegisterNetEvent("mc-clothing/client/load-skin", function(Model, Skin, Tattoos)
             SetPlayerModel(PlayerId(), GetHashKey(Model)) 
             SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 0) 
         end
+	resetCharItems()
         SkinData['Skin'] = Skin
         SkinData['Tattoos'] = Tattoos
         TriggerEvent('mercy-clothing/client/load-clothing', SkinData, PlayerPedId())
@@ -719,6 +720,7 @@ RegisterNUICallback('SaveClothing', function(Data, Cb)
         TriggerServerEvent('mc-clothing/server/save-outfit', Data.OutfitName, Config.SkinData)
         exports['mercy-ui']:Notify("added-outfit", Lang:t('info.added_outfit', { outfit = Data.OutfitName}), 'success')
     end
+    resetCharItems()
     Cb('Ok')
 end)
 
