@@ -736,52 +736,53 @@ RegisterNUICallback("RenameOutfit", function(Data, Cb)
     Cb('Ok')
 end)
 
-RegisterNetEvent('mercy-clothing/client/take-off-face-wear', function(Type, Extra)
-    if Type == 'Hat' then
-        local HasHat = GetPedPropIndex(PlayerPedId(), 0)
-        if HasHat ~= -1 then
-            local HatProp, HatTexture = GetPedPropIndex(PlayerPedId(), 0), GetPedPropTextureIndex(PlayerPedId(), 0)
-            FunctionsModule.RequestAnimDict('missheist_agency2ahelmet')
-            TaskPlayAnim(PlayerPedId(), "missheist_agency2ahelmet", "take_off_helmet_stand", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-            Citizen.Wait(800)
-            Config.SkinData['Skin']['Hat']['Item'] = -1
-            Config.SkinData['Skin']['Hat']['Texture'] = 0
-            ClearPedProp(PlayerPedId(), 0)
-            TriggerServerEvent('mercy-clothing/server/receive-clothing', 'Hat', HatProp, HatTexture)
+RegisterNetEvent('mercy-clothing/client/take-off-face-wear', function(Type, Extra, anim, animdict)
+    if Type and Type ~= 'SteelShoes' then
+        local bool = IsType(Type)
+        local Gender = "Female"
+        local Model = GetEntityModel(PlayerPed)
+        local propID, propID2 = 0, 0
+        local HasType
+        if bool then HasType = GetPedPropIndex(PlayerPedId(), Config.AccessoriesTypes[Type]) else HasType = GetPedDrawableVariation(PlayerPedId(), Config.ClothesTypes[Type]) end
+        if Model == `mp_m_freemode_01` then Gender = "Male" end
+        if HasType ~= -1 then
+            if Config.charItems[Type]['Using'] then
+                FunctionsModule.RequestAnimDict(animdict)
+                TaskPlayAnim(PlayerPedId(), animdict, anim, 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
+                Citizen.Wait(800)
+                local faceProps = {}
+                if bool then
+                    faceProps = getCloth({Config.AccessoriesTypes[Type]}, {Type}, {-1})
+                    ClearPedProp(PlayerPedId(), Config.AccessoriesTypes[Type])
+                else
+                    if Type == 'Pants' then
+                        if Gender == 'Male' then propID = 0 else propID = 61 end
+                        faceProps = getCloth({Config.ClothesTypes[Type]}, {Type}, {propID})
+                        SetPedComponentVariation(PlayerPedId(), Config.ClothesTypes[Type], propID, math.random(1, 13), 0)
+                    elseif Type == 'Shirts' then
+                        if Gender == 'Male' then propID = 0 else propID = 15 end
+                        faceProps = getCloth({Config.ClothesTypes[Type], 8, 3}, {Type, 'UnderShirt', 'Arms'}, {propID, propID, propID})
+                        SetPedComponentVariation(PlayerPedId(), Config.ClothesTypes[Type], propID, 0, 0)
+                        SetPedComponentVariation(PlayerPedId(), 8, propID, 0, 0)
+                        SetPedComponentVariation(PlayerPedId(), 3, propID, 0, 0)
+                    elseif Type == 'UnderShirt' then
+                        if Gender == 'Male' then propID, propID2 = 0, 0 else propID, propID2 = 15, 184 end
+                        faceProps = getCloth({Config.ClothesTypes[Type], 3}, {Type, 'Arms'}, {propID, propID2})
+                        SetPedComponentVariation(PlayerPedId(), Config.ClothesTypes[Type], propID, 0, 0)
+                        SetPedComponentVariation(PlayerPedId(), 3, propID2, 0, 0)
+                    elseif Type == 'Shoes' then
+                        if Gender == 'Male' then propID = 35 else propID = 34 end
+                        faceProps = getCloth({Config.ClothesTypes[Type]}, {Type}, {propID})
+                        SetPedComponentVariation(PlayerPedId(), Config.ClothesTypes[Type], propID, 0, 0)
+                    else
+                        faceProps = getCloth({Config.ClothesTypes[Type]}, {Type}, {-1})
+                        SetPedComponentVariation(PlayerPedId(), Config.ClothesTypes[Type], -1, 0, 0)
+                    end
+                end
+                TriggerServerEvent('mercy-clothing/server/receive-clothing', Type:lower(), faceProps)
+            end
         end
-    elseif Type == 'Mask' then
-        local HasMask = GetPedDrawableVariation(PlayerPedId(), 1)
-        if HasMask ~= -1 then
-            local MaskProp, MaskTexture = GetPedDrawableVariation(PlayerPedId(), 1), GetPedTextureVariation(PlayerPedId(), 1)
-            FunctionsModule.RequestAnimDict('missfbi4')
-            TaskPlayAnim(PlayerPedId(), "missfbi4", "takeoff_mask", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-            Citizen.Wait(800)
-            Config.SkinData['Skin']['Mask']['Item'] = -1
-            Config.SkinData['Skin']['Mask']['Texture'] = 0
-            SetPedComponentVariation(PlayerPedId(), 1, -1, 0, 0)
-            TriggerServerEvent('mercy-clothing/server/receive-clothing', 'Mask', MaskProp, MaskTexture)
-        end
-    elseif Type == 'Glasses' then
-        local HasGlasses = GetPedPropIndex(PlayerPedId(), 1)
-        if HasGlasses ~= -1 then
-            local GlassesProp, GlassesTexture = GetPedPropIndex(PlayerPedId(), 1), GetPedPropTextureIndex(PlayerPedId(), 1)
-            FunctionsModule.RequestAnimDict('clothingspecs')
-            TaskPlayAnim(PlayerPedId(), "clothingspecs", "take_off", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-            Citizen.Wait(800)
-            Config.SkinData['Skin']['Glasses']['Item'] = -1
-            Config.SkinData['Skin']['Glasses']['Texture'] = 0
-            ClearPedProp(PlayerPedId(), 1)
-            TriggerServerEvent('mercy-clothing/server/receive-clothing', 'Glasses', GlassesProp, GlassesTexture)
-        end
-    elseif Type == 'Vest' then
-        local HasVest = GetPedDrawableVariation(PlayerPedId(), 9)
-        if HasVest ~= -1 then
-            FunctionsModule.RequestAnimDict('clothingtie')
-            TaskPlayAnim(PlayerPedId(), "clothingtie", "try_tie_negative_a", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-            Citizen.Wait(800)
-            SetPedComponentVariation(PlayerPedId(), 9, -1, 0, 0)
-        end
-    elseif Type == 'Shoes' then
+    elseif Type == 'SteelShoes' then
         Config.SkinData['Skin']['Shoes']['Item'] = Extra
         Config.SkinData['Skin']['Shoes']['Texture'] = 0
         SetPedComponentVariation(PlayerPedId(), 6, Extra, 0, 0)
@@ -790,65 +791,22 @@ RegisterNetEvent('mercy-clothing/client/take-off-face-wear', function(Type, Extr
     TriggerServerEvent("mc-clothing/server/save-skin", Config.SkinData)
 end)
 
-RegisterNetEvent('mercy-clothing/client/take-on-face-wear', function(Type, Info, Slot, Ignore)
-    if Type == 'Hat' then
+RegisterNetEvent('mercy-clothing/client/take-on-face-wear', function(Type, Info, Slot, Ignore, anim, animdict)
+    if Type then
+        local bool = IsType(Type)
         if Ignore ~= nil and not Ignore then
-            FunctionsModule.RequestAnimDict('mp_masks@on_foot')
-            TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
+            FunctionsModule.RequestAnimDict(animdict)
+            TaskPlayAnim(PlayerPedId(), animdict, anim, 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
             Citizen.Wait(800)
-            Config.SkinData['Skin']['Hat']['Item'] = Info.Prop
-            Config.SkinData['Skin']['Hat']['Texture'] = Info.Texture
-            SetPedPropIndex(PlayerPedId(), 0, Info.Prop, Info.Texture, true)
-            local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'clothing-hat', 1, Slot, true)
+            setCloth(Info)
+            local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'clothing-' .. Type:lower(), 1, Slot, true)
         else
-            if Config.SkinData['Skin']['Hat']['Item'] > -1 then
-                FunctionsModule.RequestAnimDict('mp_masks@on_foot')
-                TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
+            if Config.SkinData['Skin'][Type]['Item'] > -1 then
+                FunctionsModule.RequestAnimDict(animdict)
+                TaskPlayAnim(PlayerPedId(), animdict, anim, 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
                 Citizen.Wait(800)
-                SetPedPropIndex(PlayerPedId(), 0, Config.SkinData['Skin']['Hat']['Item'], Config.SkinData['Skin']['Hat']['Texture'], true)
+                if bool then SetPedPropIndex(PlayerPedId(), Config.AccessoriesTypes[Type], Config.SkinData['Skin'][Type]['Item'], Config.SkinData['Skin'][Type]['Texture'], true) else SetPedComponentVariation(PlayerPedId(), Config.ClothesTypes[Type], Config.SkinData['Skin'][Type]['Item'], Config.SkinData['Skin'][Type]['Texture'], 0) end
             end
-        end
-    elseif Type == 'Mask' then
-        if Ignore ~= nil and not Ignore then
-            FunctionsModule.RequestAnimDict('mp_masks@on_foot')
-            TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-            Citizen.Wait(800)
-            Config.SkinData['Skin']['Mask']['Item'] = Info.Prop
-            Config.SkinData['Skin']['Mask']['Texture'] = Info.Texture
-            SetPedComponentVariation(PlayerPedId(), 1, Info.Prop, Info.Texture, 0)
-            local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'clothing-mask', 1, Slot, true)
-        else
-            if Config.SkinData['Skin']['Mask']['Item'] > -1 then
-                FunctionsModule.RequestAnimDict('mp_masks@on_foot')
-                TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-                Citizen.Wait(800)
-                SetPedComponentVariation(PlayerPedId(), 1, Config.SkinData['Skin']['Mask']['Item'], Config.SkinData['Skin']['Mask']['Texture'], 0)
-            end
-        end
-    elseif Type == 'Glasses' then
-        if Ignore ~= nil and not Ignore then
-            FunctionsModule.RequestAnimDict('clothingspecs')
-            TaskPlayAnim(PlayerPedId(), "clothingspecs", "take_off", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-            Citizen.Wait(800)
-            Config.SkinData['Skin']['Glasses']['Item'] = Info.Prop
-            Config.SkinData['Skin']['Glasses']['Texture'] = Info.Texture
-            SetPedPropIndex(PlayerPedId(), 1, Info.Prop, Info.Texture, true)
-            local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', 'clothing-glasses', 1, Slot, true)
-        else
-            if Config.SkinData['Skin']['Glasses']['Item'] > -1 then
-                FunctionsModule.RequestAnimDict('clothingspecs')
-                TaskPlayAnim(PlayerPedId(), "clothingspecs", "take_off", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-                Citizen.Wait(800)
-                SetPedPropIndex(PlayerPedId(), 1, Config.SkinData['Skin']['Glasses']['Item'], Config.SkinData['Skin']['Glasses']['Texture'], true)
-            end
-        end
-    elseif Type == 'Vest' then
-        if not Ignore then return end
-        if Config.SkinData['Skin']['ArmorVest']['Item'] > -1 then
-            FunctionsModule.RequestAnimDict('clothingtie')
-            TaskPlayAnim(PlayerPedId(), "clothingtie", "try_tie_negative_a", 4.0, 3.0, -1, 49, 1.0, 0, 0, 0)
-            Citizen.Wait(800)
-            SetPedComponentVariation(PlayerPedId(), 9, Config.SkinData['Skin']['ArmorVest']['Item'], Config.SkinData['Skin']['ArmorVest']['Texture'], 0)
         end
     end
     ClearPedTasks(PlayerPedId())
@@ -863,3 +821,56 @@ RegisterNetEvent('mercy-clothing/client/set-hair-color', function(ColorNumber)
     end)
 end)
 
+function IsType(Type)
+    if not Config.AccessoriesTypes[Type] then return false else return true end
+end
+
+function getCloth(dataId, dataName, propID)
+    local faceProps = {}
+    for i=1, #dataId do
+        local bool = IsType(dataName[i])
+        faceProps[i] = {}
+        Config.SkinData['Skin'][dataName[i]]['Item'] = propID[i]
+        Config.SkinData['Skin'][dataName[i]]['Texture'] = 0
+        Config.charItems[dataName[i]]['Using'] = false
+        if bool then
+            faceProps[i]['TypeName'] = dataName[i]
+            faceProps[i]['TypeID'] = dataId[i]
+            faceProps[i]['Item'] = GetPedPropIndex(PlayerPedId(), dataId[i])
+            faceProps[i]['Texture'] = GetPedPropTextureIndex(PlayerPedId(), dataId[i])
+        else
+            faceProps[i]['TypeName'] = dataName[i]
+            faceProps[i]['TypeID'] = dataId[i]
+            faceProps[i]['Item'] = GetPedDrawableVariation(PlayerPedId(), dataId[i])
+            faceProps[i]['Texture'] = GetPedTextureVariation(PlayerPedId(), dataId[i])
+        end
+    end
+    return faceProps
+end
+
+function setCloth(Info)
+    local data = Info
+    for k, v in ipairs(data) do
+        if v.TypeID ~= nil then
+            local bool = IsType(v.TypeName)
+            Config.charItems[v.TypeName]['Using'] = true
+            if bool then
+                Config.SkinData['Skin'][v.TypeName]['Item'] = v.Item
+                Config.SkinData['Skin'][v.TypeName]['Texture'] = v.Texture
+                SetPedPropIndex(PlayerPedId(), v.TypeID, v.Item, v.Texture, true)
+            else
+                Config.SkinData['Skin'][v.TypeName]['Item'] = v.Item
+                Config.SkinData['Skin'][v.TypeName]['Texture'] = v.Texture
+                SetPedComponentVariation(PlayerPedId(), v.TypeID, v.Item, v.Texture, 0)
+            end
+        else
+            break
+        end
+    end
+end
+
+function resetCharItems()
+    for k, v in pairs(Config.charItems) do
+        v['Using'] = true
+    end
+end
