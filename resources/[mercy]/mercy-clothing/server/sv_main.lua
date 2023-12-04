@@ -262,21 +262,16 @@ function DebugLog(Comp, Text)
     print("[DEBUG:"..Comp.."]: "..Text)
 end
 
-RegisterNetEvent("mercy-clothing/server/receive-clothing", function(Type, Prop, Texture)
+RegisterNetEvent("mercy-clothing/server/receive-clothing", function(Type, Data)
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
-    if Type == 'Mask' then
-        Player.Functions.AddItem('clothing-mask', 1, false, {Texture = Texture, Prop = Prop}, true)
-    elseif Type == 'Hat' then
-        Player.Functions.AddItem('clothing-hat', 1, false, {Texture = Texture, Prop = Prop}, true)
-    elseif Type == 'Glasses' then
-        Player.Functions.AddItem('clothing-glasses', 1, false, {Texture = Texture, Prop = Prop}, true)
-    end
+    local Item = 'clothing-'..Type
+    Player.Functions.AddItem(Item, 1, false, Data, true)
 end)
 
 RegisterNetEvent("mercy-clothing/server/steal-shoes", function(ServerId, ToShoes)
     local src = source
     local Player = PlayerModule.GetPlayerBySource(src)
     Player.Functions.AddItem("weapon_shoe", 1, false, false, true)
-    TriggerClientEvent('mercy-clothing/client/take-off-face-wear', ServerId, 'Shoes', ToShoes)
+    TriggerClientEvent('mercy-clothing/client/take-off-face-wear', ServerId, 'Shoes', ToShoes, 'idle_f', 'mini@triathlon')
 end)
