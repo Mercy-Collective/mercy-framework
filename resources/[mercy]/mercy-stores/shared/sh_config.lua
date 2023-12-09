@@ -261,6 +261,106 @@ Config.Stores = {
         ['Store'] = 'Hunting',
         ['Coords'] = vector4(-679.48, 5839.23, 16.70, 224.34),
     },
+    --Fruit Stands
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(1262.72, 3548.62, 34.15, 177.99), --Joshua Rd, Grand Senora Desert
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(1477.38, 2721.44, 36.66, 355.26), --Route 68, Grand Senora Desert
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(1088.58, 6512.17, 20.09, 155.81), --Great Ocean Hwy, Mount Chiliad
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(1046.15, 695.35, 157.85, 15.95), --Marlowe Dr, Vinewood Hills
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(-455.38, 2864.04, 34.45, 181.05), --Route 68, Zancudo Grande Valley
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(-1553.05, 1371.98, 125.69, 343.2), --Tongva Dr, Tongva Valley
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(-1380.01, 732.94, 181.97, 353.38), --Marlowe Dr, Vinewood Hills
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(-1043.18, 5326.5, 43.56, 29.33), --Great Ocean Hwy, Chiliad Mountain State Wilderness
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(-2511.69, 3615.69, 12.66, 230.02), --Great Ocean Hwy, North Chumash
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(-3026.49, 369.03, 13.63, 253.53), --Great Ocean Hwy, Banham Canyon
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
+    {   
+        ['Blip'] = false,
+        ['Ped'] = 'CS_Guadalope',
+        ['Name'] = 'Fruit Stand',
+        ['Store'] = 'Fruit',
+        ['Coords'] = vector4(2473.57, 4444.98, 34.42, 266.35), --Seaview Rd, Grapeseed
+        ['Scenario'] = "WORLD_HUMAN_SMOKING",
+        ['Icon'] = "fas fa-duotone fa-banana"
+    },
 }
 
 -- Coffee, Soda, Candy, Water
@@ -291,6 +391,80 @@ Config.StoreItems = {
             ['ItemName'] = 'water',
             ['Amount'] = 50,
             ['Slot'] = 1,
+        },
+    },
+    ['Fruit'] = {
+        {
+            ['ItemName'] = 'apple',
+            ['Amount'] = 10,
+            ['Slot'] = 1,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'banana',
+            ['Amount'] = 10,
+            ['Slot'] = 2,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'cherry',
+            ['Amount'] = 10,
+            ['Slot'] = 3,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'coconut',
+            ['Amount'] = 10,
+            ['Slot'] = 4,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'grapes',
+            ['Amount'] = 10,
+            ['Slot'] = 5,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'kiwi',
+            ['Amount'] = 10,
+            ['Slot'] = 6,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'lemon',
+            ['Amount'] = 10,
+            ['Slot'] = 7,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'lime',
+            ['Amount'] = 10,
+            ['Slot'] = 8,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'orange',
+            ['Amount'] = 10,
+            ['Slot'] = 9,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'peach',
+            ['Amount'] = 10,
+            ['Slot'] = 10,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'strawberry',
+            ['Amount'] = 10,
+            ['Slot'] = 11,
+            ['Info'] = {}
+        },
+        {
+            ['ItemName'] = 'watermelon',
+            ['Amount'] = 10,
+            ['Slot'] = 12,
+            ['Info'] = {}
         },
     },
     ['Normal'] = {

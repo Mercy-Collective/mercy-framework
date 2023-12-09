@@ -27,6 +27,10 @@
     SIREN_FIRETRUCK_QUICK_01 - Fire Secondary    SirenSound - RESIDENT_VEHICLES_SIREN_FIRETRUCK_QUICK_01
 ]]
 
+Config.CustomHorns = {
+    ['firetruk'] = 'VEHICLES_HORNS_FIRETRUCK_WARNING',
+}
+
 Config.SirenData = {
     [GetHashKey("polvic")] = {
         SirenSounds = { "VEHICLES_HORNS_SIREN_1", "VEHICLES_HORNS_SIREN_2", "VEHICLES_HORNS_POLICE_WARNING" },

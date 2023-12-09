@@ -235,7 +235,6 @@ async function ProcessCraftingData(ItemData) {
     return CraftingText;
 }
 
-
 HandleItemSwap = async function (FromSlot, ToSlot, FromInv, ToInv, Amount) {
     let FromData = $(FromInv) .find(`[data-slot=${FromSlot}]`).data("ItemData");
     let ToData = $(ToInv) .find(`[data-slot=${ToSlot}]`).data("ItemData");

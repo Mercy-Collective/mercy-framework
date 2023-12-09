@@ -7,7 +7,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(100)
     end
    
-    CommandsModule.Add({"giveitem"}, "Spawn in item", {{Name="id", Help="Player ID"}, {Name="itemname", Help="Item Name"}, {Name="amount", Help="Item Amount"}}, false, function(Source, args)
+    CommandsModule.Add({"giveitem", "gi"}, "Spawn in item", {{Name="id", Help="Player ID"}, {Name="itemname", Help="Item Name"}, {Name="amount", Help="Item Amount"}}, false, function(Source, args)
         local PlayerId = args[1] ~= nil and args[1] or Source 
         local Amount = args[3] ~= nil and tonumber(args[3]) or 1
         local ItemName = args[2]
@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
         end
     end, "admin")
     
-    CommandsModule.Add({"removeitem"}, "Delete someone's item", {{Name="id", Help="Player ID"}, {Name="itemname", Help="Item Name or all"}, {Name="amount", Help="Item Amount"}}, false, function(Source, args)
+    CommandsModule.Add({"removeitem", "ri"}, "Delete someone's item", {{Name="id", Help="Player ID"}, {Name="itemname", Help="Item Name or all"}, {Name="amount", Help="Item Amount"}}, false, function(Source, args)
         local PlayerId = args[1] ~= nil and args[1] or Source 
         local Player = PlayerModule.GetPlayerBySource(tonumber(PlayerId))
         local Item = args[2] ~= nil and args[2] or 'all'
