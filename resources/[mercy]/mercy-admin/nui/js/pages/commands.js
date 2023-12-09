@@ -74,7 +74,7 @@ MC.AdminMenu.BuildItems = function(Item) {
 
         for (let i = 0; i < Item.Options.length; i++) {
             const Option = Item.Options[i];
-
+           
             let DOMElement = `
             <div id="${Option.Id}" class="ui-styles-input">
                 <div class="ui-input-label">${Option.Name || 'No Label Given?'}:</div>
@@ -83,15 +83,17 @@ MC.AdminMenu.BuildItems = function(Item) {
             </div>`;
 
             if (Option.Type.toLowerCase() == 'input-choice' || Option.Type.toLowerCase() == 'text-choice') {
+             
                 if (Option.PlayerList) Option.Choices = MC.AdminMenu.ConvertPlayerList();
+                
                 if (Item.Id == 'unbanPlayer') Option.Choices = MC.AdminMenu.Bans;
 
                 AdminOpenInputChoice = function(Element){
                     let Input = $(Element).find("input");
                     let SelectedItem = JSON.parse($(Element).attr("Item"));
                     let Choice = Number($(Element).attr("ChoiceId"));
-
-                    if (Option.Choices[0].Callback == undefined) {
+                  
+                    if (Option.Choices.length != 0  && Option.Choices[0].Callback == undefined) {
                         for (let ChoiceId = 0; ChoiceId < SelectedItem.Options[Choice].Choices.length; ChoiceId++) {
                             SelectedItem.Options[Choice].Choices[ChoiceId].Callback = () => {
                                 Input.val(SelectedItem.Options[Choice].Choices[ChoiceId].Text);
