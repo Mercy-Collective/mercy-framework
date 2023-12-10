@@ -358,36 +358,36 @@ RegisterNetEvent('mercy-clothing/client/load-clothing', function(Data, PlayerPed
     end
 
     -- Nose
-    SetPedFaceFeature(PlayerPed, 0, (SkinData['NoseWidth'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 1, (SkinData['PeakHeight'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 2, (SkinData['PeakLength'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 3, (SkinData['BoneHeight'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 4, (SkinData['PeakLowering'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 5, (SkinData['BoneTwist'].Item / 10))
+    SetPedFaceFeature(PlayerPed, 0, (SkinData['NoseWidth'].Item))
+    SetPedFaceFeature(PlayerPed, 1, (SkinData['PeakHeight'].Item))
+    SetPedFaceFeature(PlayerPed, 2, (SkinData['PeakLength'].Item))
+    SetPedFaceFeature(PlayerPed, 3, (SkinData['BoneHeight'].Item))
+    SetPedFaceFeature(PlayerPed, 4, (SkinData['PeakLowering'].Item))
+    SetPedFaceFeature(PlayerPed, 5, (SkinData['BoneTwist'].Item))
 
     -- Eyebrows
-    SetPedFaceFeature(PlayerPed, 6, (SkinData['EyebrowHeight'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 7, (SkinData['EyebrowDepth'].Item / 10))
+    SetPedFaceFeature(PlayerPed, 6, (SkinData['EyebrowHeight'].Item))
+    SetPedFaceFeature(PlayerPed, 7, (SkinData['EyebrowDepth'].Item))
 
     -- Cheeks
-    SetPedFaceFeature(PlayerPed, 8, (SkinData['CheekBoneHeight'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 9, (SkinData['CheekBoneWidth'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 10, (SkinData['CheekWidth'].Item / 10))
+    SetPedFaceFeature(PlayerPed, 8, (SkinData['CheekBoneHeight'].Item))
+    SetPedFaceFeature(PlayerPed, 9, (SkinData['CheekBoneWidth'].Item))
+    SetPedFaceFeature(PlayerPed, 10, (SkinData['CheekWidth'].Item))
 
     -- Jaw Bone
-    SetPedFaceFeature(PlayerPed, 13, (SkinData['JawBoneWidth'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 14, (SkinData['JawBoneBackLength'].Item / 10))
+    SetPedFaceFeature(PlayerPed, 13, (SkinData['JawBoneWidth'].Item))
+    SetPedFaceFeature(PlayerPed, 14, (SkinData['JawBoneBackLength'].Item))
 
     -- Chin Bone
-    SetPedFaceFeature(PlayerPed, 15, (SkinData['ChinBoneHeight'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 16, (SkinData['ChinBoneLength'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 17, (SkinData['ChinBoneWidth'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 18, (SkinData['ChinCleft'].Item / 10))
+    SetPedFaceFeature(PlayerPed, 15, (SkinData['ChinBoneHeight'].Item))
+    SetPedFaceFeature(PlayerPed, 16, (SkinData['ChinBoneLength'].Item))
+    SetPedFaceFeature(PlayerPed, 17, (SkinData['ChinBoneWidth'].Item))
+    SetPedFaceFeature(PlayerPed, 18, (SkinData['ChinCleft'].Item))
 
     -- Miscellaneous Features
-    SetPedFaceFeature(PlayerPed, 11, (SkinData['EyesSquint'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 19, (SkinData['NeckThickness'].Item / 10))
-    SetPedFaceFeature(PlayerPed, 12, (SkinData['LipsThickness'].Item / 10))
+    SetPedFaceFeature(PlayerPed, 11, (SkinData['EyesSquint'].Item))
+    SetPedFaceFeature(PlayerPed, 19, (SkinData['NeckThickness'].Item))
+    SetPedFaceFeature(PlayerPed, 12, (SkinData['LipsThickness'].Item))
 
     DebugLog('Face', 'Nose: (Width: '.. SkinData['NoseWidth'].Item ..' | Peak Height: '.. SkinData['PeakHeight'].Item ..' | Peak Length: '.. SkinData['PeakLength'].Item ..' | Bone Height: '.. SkinData['BoneHeight'].Item ..' | Peak Lowering: '.. SkinData['PeakLowering'].Item ..' | Bone Twist: '.. SkinData['BoneTwist'].Item ..')'..
     '\nEyebrows: (Height: '.. SkinData['EyebrowHeight'].Item ..' | Depth: '.. SkinData['EyebrowDepth'].Item ..')'.. 
