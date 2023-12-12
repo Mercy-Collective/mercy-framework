@@ -3,48 +3,48 @@
 -- [ Threads ] --
 
 CreateThread(function()
-    exports['mercy-ui']:AddEyeEntry("pd_impound_check_in", {
-        Type = 'Entity',
-        EntityType = 'Ped',
-        SpriteDistance = 10.0,
-        State = false,
-        Position = vector4(464.52, -1013.06, 27.07, 179.94),
-        Model = 'cs_fbisuit_01',
-        Options = {
-            {
-                Name = 'clock_in',
-                Icon = 'fas fa-clock',
-                Label = 'Clock In',
-                EventType = 'Client',
-                EventName = 'mercy-business/client/foodchain/set-duty',
-                EventParams = { Business = 'Los Santos Depot', Clocked = true },
-                Enabled = function(Entity)
-                    local CurrentClock = exports['mercy-business']:GetClockedData()
-                    if not CurrentClock.Clocked and exports['mercy-business']:IsPlayerInBusiness('Los Santos Depot') then
-                        return true
-                    else
-                        return false
-                    end
-                end,
-            },
-            {
-                Name = 'clock_out',
-                Icon = 'fas fa-clock',
-                Label = 'Clock Out',
-                EventType = 'Client',
-                EventName = 'mercy-business/client/foodchain/set-duty',
-                EventParams = { Business = 'Los Santos Depot', Clocked = false },
-                Enabled = function(Entity)
-                    local CurrentClock = exports['mercy-business']:GetClockedData()
-                    if CurrentClock.Clocked and exports['mercy-business']:IsPlayerInBusiness('Los Santos Depot') then
-                        return true
-                    else
-                        return false
-                    end
-                end,
-            },
-        }
-    })
+    -- exports['mercy-ui']:AddEyeEntry("pd_impound_check_in", {
+    --     Type = 'Entity',
+    --     EntityType = 'Ped',
+    --     SpriteDistance = 10.0,
+    --     State = false,
+    --     Position = vector4(464.52, -1013.06, 27.07, 179.94),
+    --     Model = 'cs_fbisuit_01',
+    --     Options = {
+    --         {
+    --             Name = 'clock_in',
+    --             Icon = 'fas fa-clock',
+    --             Label = 'Clock In',
+    --             EventType = 'Client',
+    --             EventName = 'mercy-business/client/foodchain/set-duty',
+    --             EventParams = { Business = 'Los Santos Depot', Clocked = true },
+    --             Enabled = function(Entity)
+    --                 local CurrentClock = exports['mercy-business']:GetClockedData()
+    --                 if not CurrentClock.Clocked and exports['mercy-business']:IsPlayerInBusiness('Los Santos Depot') then
+    --                     return true
+    --                 else
+    --                     return false
+    --                 end
+    --             end,
+    --         },
+    --         {
+    --             Name = 'clock_out',
+    --             Icon = 'fas fa-clock',
+    --             Label = 'Clock Out',
+    --             EventType = 'Client',
+    --             EventName = 'mercy-business/client/foodchain/set-duty',
+    --             EventParams = { Business = 'Los Santos Depot', Clocked = false },
+    --             Enabled = function(Entity)
+    --                 local CurrentClock = exports['mercy-business']:GetClockedData()
+    --                 if CurrentClock.Clocked and exports['mercy-business']:IsPlayerInBusiness('Los Santos Depot') then
+    --                     return true
+    --                 else
+    --                     return false
+    --                 end
+    --             end,
+    --         },
+    --     }
+    -- })
 end)
 
 -- [ Events ] --
