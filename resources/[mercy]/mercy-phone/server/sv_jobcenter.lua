@@ -157,6 +157,8 @@ Citizen.CreateThread(function()
                     EventData = {
                         ["Data"] = Data,
                         ["Source"] = Source,
+                        ["TargetSource"] = LeaderPlayer.PlayerData.Source,
+                        ["Target"] = Data['Leader'],
                     },
                     Color = "#2ecc71",
                     CloseOnClick = true,
@@ -168,6 +170,8 @@ Citizen.CreateThread(function()
                     EventData = {
                         ["Data"] = Data,
                         ["Source"] = Source,
+                        ["TargetSource"] = LeaderPlayer.PlayerData.Source,
+                        ["Target"] = Data['Leader'],
                     },
                     Color = "#f2a365",
                     CloseOnClick = true,
@@ -336,13 +340,13 @@ RegisterNetEvent("mercy-phone/server/jobcenter/leave-group", function(Job)
 end)
 
 RegisterNetEvent("mercy-phone/server/jobcenter/cancel-join-request", function(Job, Data)
-    local Player = PlayerModule.GetPlayerBySource(Data.Source)
+    local Player = PlayerModule.GetPlayerBySource(Data.TargetSource)
     if Data['Target'] ~= Player.PlayerData.CitizenId then return end -- Check if player is leader
     AcceptedJoinRequest = false
 end)
 
 RegisterNetEvent("mercy-phone/server/jobcenter/answer-request", function(Job, Data, Accept)
-    local Player = PlayerModule.GetPlayerBySource(Data.Source)
+    local Player = PlayerModule.GetPlayerBySource(Data.TargetSource)
     if Data['Target'] ~= Player.PlayerData.CitizenId then return end -- Check if player is leader
 
     if Accept then
