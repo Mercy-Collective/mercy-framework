@@ -176,7 +176,14 @@ MC.AdminMenu.BuildDropdown = (Options, CursorPos, HasSearch) => {
         
         OnDropdownButtonClick = (Element) => {
             let DropdownOption = Options[Number(Element.getAttribute("DropdownId"))];
-            DropdownOption.Callback(DropdownOption);
+        
+            // Check if Callback is a function before calling it
+            if (typeof DropdownOption.Callback === 'function') {
+                DropdownOption.Callback(DropdownOption);
+            } else {
+                console.error("DropdownOption.Callback is not a function");
+            }
+        
             $('.ui-styles-dropdown').remove();
             EnableScroll(".admin-menu-items");
         };
