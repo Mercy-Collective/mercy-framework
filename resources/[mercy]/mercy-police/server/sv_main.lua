@@ -2,7 +2,6 @@ CallbackModule, PlayerModule, FunctionsModule, DatabaseModule, CommandsModule, E
 local PlayerStatus, Evidence, VehicleRecords = {}, {}, {}
 
 local _Ready = false
-print('HUHUHUH', _Ready)
 AddEventHandler('Modules/server/ready', function()
     TriggerEvent('Modules/server/request-dependencies', {
         'Callback',
@@ -700,7 +699,10 @@ end)
 -- Badge
 RegisterNetEvent("mercy-police/server/request-pd-badge", function(Cid, Image)
     local src = source
-    local Player = PlayerModule.GetPlayerByStateId(Cid)
+    local Player = PlayerModule.GetPlayerBySource(src)
+    if not Player then return end
+    local TargetPlayer = PlayerModule.GetPlayerByStateId(Cid)
+    if not TargetPlayer then return Player.Functions.Notify('not-found', 'Target with provided state id was not found..', 'error') end
     local Info = {}
     Info.Name = Player.PlayerData.CharInfo.Firstname .. ' ' .. Player.PlayerData.CharInfo.Lastname
     Info.Rank = Player.PlayerData.Job.Rank
