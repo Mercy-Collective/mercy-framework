@@ -142,7 +142,11 @@ Citizen.CreateThread(function()
                 })
     
                 Wait(1500)
-                if AlreadyStoppedCall(Data.Phone, Caller) then return end -- Check if caller already hung up on connect message
+                if AlreadyStoppedCall(Data.Phone, Caller) then 
+                    TriggerClientEvent('mercy-phone/client/call/do-anim', Caller.PlayerData.Source)
+                    TriggerClientEvent('mercy-phone/client/call/do-anim', Receiver.PlayerData.Source)
+                    return 
+                end -- Check if caller already hung up on connect message
                 local ReceiverName = FormatPhone(Data.Phone)
               
                 -- Add prompt to receiver
@@ -174,7 +178,7 @@ Citizen.CreateThread(function()
                         },
                     },
                 })
-            -- Do call sounds and stuff
+                -- Do call sounds and stuff
                 local RepeatTimeout = 2000
                 local Tries = 0
                 while Calls[Data.Phone] ~= nil and not Calls[Data.Phone].InCall do
@@ -320,6 +324,7 @@ Citizen.CreateThread(function()
                     Citizen.Wait(RepeatTimeout)
                 end
             else
+                TriggerClientEvent('mercy-phone/client/call/do-anim', Source)
                 TriggerClientEvent('mercy-phone/client/notification', Source, {
                     Id = Data.ContactData.number,
                     Title = ReceiverName,
@@ -335,6 +340,7 @@ Citizen.CreateThread(function()
         else -- Receiver Offline
             TriggerClientEvent('mercy-phone/client/hide-notification', Source, Data.ContactData.number..'-caller')
             TriggerClientEvent('mercy-phone/client/call/force-disconnect', Source)
+            TriggerClientEvent('mercy-phone/client/call/do-anim', Source)
             return
         end
     end)
@@ -373,6 +379,8 @@ Citizen.CreateThread(function()
                 SetTimeout(1500, function()
                     TriggerClientEvent('mercy-phone/client/hide-notification', Caller.PlayerData.Source, Data.Id..'-caller')
                     TriggerClientEvent('mercy-phone/client/hide-notification', Receiver.PlayerData.Source, Data.Id..'-receiver')
+                    TriggerClientEvent('mercy-phone/client/call/do-anim', Caller.PlayerData.Source)
+                    TriggerClientEvent('mercy-phone/client/call/do-anim', Receiver.PlayerData.Source)
                 end)
             end
     
