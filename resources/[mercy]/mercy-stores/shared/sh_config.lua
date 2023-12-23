@@ -1,5 +1,7 @@
 Config = Config or {}
 
+Config.RequireWeaponLicense = false
+
 Config.VendingMachines = {
     { Prop = "prop_vend_coffe_01", Vending = "Coffee" },
     { Prop = "prop_vend_fridge01", Vending = "Soda" },
