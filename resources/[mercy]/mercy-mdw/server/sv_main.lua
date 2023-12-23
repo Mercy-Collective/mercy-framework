@@ -1,29 +1,25 @@
-CallbackModule, PlayerModule, FunctionsModule, DatabaseModule, CommandsModule, EventsModule = nil, nil, nil, nil, nil, nil
+CallbackModule, PlayerModule, DatabaseModule, EventsModule = nil, nil, nil, nil
 
 local _Ready = false
 AddEventHandler('Modules/server/ready', function()
     TriggerEvent('Modules/server/request-dependencies', {
         'Callback',
         'Player',
-        'Functions',
         'Database',
-        'Commands',
         'Events',
     }, function(Succeeded)
         if not Succeeded then return end
         CallbackModule = exports['mercy-base']:FetchModule('Callback')
         PlayerModule = exports['mercy-base']:FetchModule('Player')
-        FunctionsModule = exports['mercy-base']:FetchModule('Functions')
         DatabaseModule = exports['mercy-base']:FetchModule('Database')
-        CommandsModule = exports['mercy-base']:FetchModule('Commands')
         EventsModule = exports['mercy-base']:FetchModule('Events')
         _Ready = true
     end)
 end)
 
-Citizen.CreateThread(function() 
+CreateThread(function() 
     while not _Ready do 
-        Citizen.Wait(4) 
+        Wait(100) 
     end
 
     CallbackModule.CreateCallback('mercy-mdw/server/get-user', function(Source, Cb, CitizenId)
@@ -92,7 +88,6 @@ Citizen.CreateThread(function()
     end
 
     EventsModule.RegisterServer("mercy-mdw/server/evidence/create", function(Source, Data)
-        -- Data.Id
         local EvidenceId = GetUniqueEvidenceId()
         DatabaseModule.Insert('INSERT INTO mdw_evidences (id, type, identifier, description) VALUES (?, ?, ?, ?)', {
             EvidenceId,
@@ -112,19 +107,23 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/evidence/assign", function(Source, Data)
-        DatabaseModule.Update('UPDATE mdw_evidences SET reportid = ? WHERE id = ?', {
-            Data.Id,
-            Data.EvidenceId,
-        })
-        DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ?', {Data.Id}, function(Result)
-            if Result[1] ~= nil then
-                local Evidences = json.decode(Result[1].evidences)
-                if Evidences == nil then Evidences = {} end
-                table.insert(Evidences, tonumber(Data.EvidenceId))
-                DatabaseModule.Update('UPDATE mdw_reports SET evidences = ? WHERE id = ?', {
-                    json.encode(Evidences),
-                    Data.Id,
-                })
+        DatabaseModule.Execute('SELECT * FROM mdw_evidences WHERE id = ?', {Data.EvidenceId}, function(EvidenceData) -- Check existence
+            if EvidenceData[1] ~= nil then 
+                  DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ?', {Data.Id}, function(ReportData) -- Check existence
+                    if ReportData[1] ~= nil then 
+                        DatabaseModule.Update('UPDATE mdw_evidences SET reportid = ? WHERE id = ?', {
+                            Data.Id,
+                            Data.EvidenceId,
+                        })
+                        local Evidences = json.decode(ReportData[1].evidences)
+                        if Evidences == nil then Evidences = {} end
+                        table.insert(Evidences, tonumber(Data.EvidenceId))
+                        DatabaseModule.Update('UPDATE mdw_reports SET evidences = ? WHERE id = ?', {
+                            json.encode(Evidences),
+                            Data.Id,
+                        })
+                    end
+                end)
             end
         end)
     end)
@@ -311,7 +310,6 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer("mercy-mdw/server/add-profile-tag", function(Source, Data)
         DatabaseModule.Execute('SELECT tags FROM mdw_profiles WHERE id = ?', {Data.Id}, function(TagsData)
             if TagsData ~= nil then
-                -- Add tags to existing tags if not same
                 local Tags = json.decode(TagsData[1].tags)
                 for _, Tag in pairs(Data.Tags) do
                     local Found = false
@@ -488,10 +486,8 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/add-tag", function(Source, Data)
-        -- Id, Tags
         DatabaseModule.Execute('SELECT tags FROM mdw_reports WHERE id = ?', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
-                -- Add tags to existing tags if not same
                 local Tags = json.decode(ReportData[1].tags)
                 for _, Tag in pairs(Data.Tags) do
                     local Found = false
@@ -534,7 +530,6 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback("mercy-mdw/server/reports/add-criminal-scum", function(Source, Cb, Data)
-        -- Id, ScumId
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ?', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 DatabaseModule.Execute('SELECT * FROM mdw_profiles WHERE id = ?', {Data.ScumId}, function(ProfileData)
@@ -544,7 +539,7 @@ Citizen.CreateThread(function()
                         ['Profile'] = {
                             ['name'] = ProfileData[1] ~= nil and ProfileData[1].name or "Unknown",
                             ['citizenid'] = ProfileData[1] ~= nil and ProfileData[1].citizenid or "Unknown",
-                            ['mugshot'] = ProfileData[1] ~= nil and ProfileData[1].image or "Unknown",
+                            ['mugshot'] = ProfileData[1] ~= nil and ProfileData[1].image or "",
                         },
                         ['Charges'] = {},
                         ['Reduction'] = 0,
@@ -568,7 +563,6 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback("mercy-mdw/server/reports/delete-criminal-scum", function(Source, Cb, Data)
-        -- Id, ScumId
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ?', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Scums = json.decode(ReportData[1].scums)
@@ -589,7 +583,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/save-scum-charges", function(Source, Data)
-        -- Id, ScumId, Charges
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Scums = json.decode(ReportData[1].scums)
@@ -656,7 +649,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/set-reduction", function(Source, Data)
-        -- Id, ScumId, Reduction
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Scums = json.decode(ReportData[1].scums)
@@ -674,7 +666,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/assign-officers", function(Source, Data)
-        -- Id, Officers
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Officers = json.decode(ReportData[1].officers)
@@ -700,7 +691,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/remove-officer", function(Source, Data)
-        -- Id, Officer
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Officers = json.decode(ReportData[1].officers)
@@ -718,7 +708,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/remove-evidence", function(Source, Data)
-        -- Id, Evidence
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 local Evidence = json.decode(ReportData[1].evidences)
@@ -740,7 +729,6 @@ Citizen.CreateThread(function()
     end)
 
     CallbackModule.CreateCallback("mercy-mdw/server/reports/search-scum", function(Source, Cb, Data)
-        -- Query
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE scums LIKE ? ', {'%' .. Data.Query .. '%'}, function(ReportData)
             if ReportData[1] ~= nil then
                 Cb(ReportData)
@@ -751,7 +739,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/reports/delete", function(Source, Data)
-        -- Id
         DatabaseModule.Execute('SELECT * FROM mdw_reports WHERE id = ? ', {Data.Id}, function(ReportData)
             if ReportData[1] ~= nil then
                 DatabaseModule.Update('DELETE FROM mdw_reports WHERE id = ?', {
@@ -774,7 +761,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/create-staff-profile", function(Source, Data)
-        -- CitizenId, Name, Rank, Image, Notes, Callsign, Department
         DatabaseModule.Update('INSERT INTO mdw_staff (citizenid, name, rank, image, notes, callsign, department) VALUES (?, ?, ?, ?, ?, ?, ?)', {
             Data.CitizenId,
             Data.Name,
@@ -787,7 +773,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/update-staff-profile", function(Source, Data)
-        -- CitizenId, Name, Rank, Image, Notes, Callsign, Department, Id
         DatabaseModule.Execute('SELECT * FROM mdw_staff WHERE id = ? ', {Data.Id}, function(StaffData)
             if StaffData[1] ~= nil then
                 DatabaseModule.Update('UPDATE mdw_staff SET citizenid = ?, name = ?, rank = ?, image = ?, notes = ?, callsign = ?, department = ? WHERE id = ?', {
@@ -805,7 +790,6 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/delete-staff-profile", function(Source, Data)
-        -- Id
         DatabaseModule.Execute('SELECT * FROM mdw_staff WHERE id = ? ', {Data.Id}, function(StaffData)
             if StaffData[1] ~= nil then
                 DatabaseModule.Update('DELETE FROM mdw_staff WHERE id = ?', {
@@ -816,10 +800,8 @@ Citizen.CreateThread(function()
     end)
 
     EventsModule.RegisterServer("mercy-mdw/server/add-staff-profile-tag", function(Source, Data)
-        -- Id, Tags
         DatabaseModule.Execute('SELECT tags FROM mdw_staff WHERE id = ?', {Data.Id}, function(StaffData)
-            if StaffData ~= nil then
-                -- Add tags to existing tags if not same
+            if StaffData[1] ~= nil then
                 local Tags = json.decode(StaffData[1].tags)
                 for _, Tag in pairs(Data.Tags) do
                     local Found = false
