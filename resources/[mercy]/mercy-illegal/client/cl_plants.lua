@@ -304,7 +304,7 @@ function GetStageFromPlant(Stage)
         return 3
     elseif Stage > 60 and Stage <= 80 then
         return 4
-    elseif Stage > 80 and Stage <= 100 then
+    elseif Stage > 80 then
         return 5
     end
 end
