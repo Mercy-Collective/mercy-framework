@@ -341,21 +341,63 @@ Citizen.CreateThread(function()
     FunctionsModule.CreateUseableItem("clothing-mask", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Mask', Item.Info, Item.Slot, false)
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Mask', Item.Info, Item.Slot, false, 'takeoff_mask', 'missfbi4')
         end
     end)
 
     FunctionsModule.CreateUseableItem("clothing-glasses", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Glasses', Item.Info, Item.Slot, false)
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Glasses', Item.Info, Item.Slot, false, 'take_off', 'clothingspecs')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clothing-pants", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Pants', Item.Info, Item.Slot, false, 'idle_f', 'mini@triathlon')
         end
     end)
 
     FunctionsModule.CreateUseableItem("clothing-hat", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Hat', Item.Info, Item.Slot, false)
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Hat', Item.Info, Item.Slot, false, 'take_off_helmet_stand', 'missheist_agency2ahelmet')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clothing-shirts", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Shirts', Item.Info, Item.Slot, false, 'try_tie_negative_a', 'clothingtie')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clothing-undershirt", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'UnderShirt', Item.Info, Item.Slot, false, 'try_tie_negative_a', 'clothingtie')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clothing-shoes", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Shoes', Item.Info, Item.Slot, false, 'idle_f', 'mini@triathlon')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clothing-armorvest", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'ArmorVest', Item.Info, Item.Slot, false, 'try_tie_negative_a', 'clothingtie')
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("clothing-armorvest", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-clothing/client/take-on-face-wear', Source, 'Bag', Item.Info, Item.Slot, false, 'try_tie_negative_a', 'clothingtie')
         end
     end)
 
