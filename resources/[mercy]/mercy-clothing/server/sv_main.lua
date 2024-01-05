@@ -36,7 +36,6 @@ Citizen.CreateThread(function()
         end)
     end
 
-    -- Define all commands with their specific parameters
     local commands = {
         { name = "hat",        description = "Take hat off..",       animDict = 'missheist_agency2ahelmet', animName = 'take_off_helmet_stand', itemType = 'Hat' },
         { name = "glasses",    description = "Take glasses off..",   animDict = 'clothingspecs',           animName = 'take_off',               itemType = 'Glasses' },
@@ -49,7 +48,6 @@ Citizen.CreateThread(function()
         { name = "bag",        description = "Take bag off..",       animDict = 'mini@clothingtie',        animName = 'try_tie_negative_a',     itemType = 'Bag' },
     }
 
-    -- Add all commands using the new function
     for _, cmd in ipairs(commands) do
         addCommand(cmd.name, cmd.description, cmd.animDict, cmd.animName, cmd.itemType)
     end
