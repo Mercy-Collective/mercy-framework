@@ -831,20 +831,28 @@ function getCloth(dataId, dataName, propID)
     local faceProps = {}
     for i=1, #dataId do
         local bool = IsType(dataName[i])
-        faceProps[i] = {}
-        Config.SkinData['Skin'][dataName[i]]['Item'] = propID[i]
-        Config.SkinData['Skin'][dataName[i]]['Texture'] = 0
-        Config.charItems[dataName[i]]['Using'] = false
-        if bool then
-            faceProps[i]['TypeName'] = dataName[i]
-            faceProps[i]['TypeID'] = dataId[i]
-            faceProps[i]['Item'] = GetPedPropIndex(PlayerPedId(), dataId[i])
-            faceProps[i]['Texture'] = GetPedPropTextureIndex(PlayerPedId(), dataId[i])
+        local charItem = Config.charItems[dataName[i]]
+        local skinItem = Config.SkinData['Skin'][dataName[i]]
+
+        if charItem and skinItem then
+            faceProps[i] = {}
+            skinItem['Item'] = propID[i]
+            skinItem['Texture'] = 0
+            charItem['Using'] = false
+
+            if bool then
+                faceProps[i]['TypeName'] = dataName[i]
+                faceProps[i]['TypeID'] = dataId[i]
+                faceProps[i]['Item'] = GetPedPropIndex(PlayerPedId(), dataId[i])
+                faceProps[i]['Texture'] = GetPedPropTextureIndex(PlayerPedId(), dataId[i])
+            else
+                faceProps[i]['TypeName'] = dataName[i]
+                faceProps[i]['TypeID'] = dataId[i]
+                faceProps[i]['Item'] = GetPedDrawableVariation(PlayerPedId(), dataId[i])
+                faceProps[i]['Texture'] = GetPedTextureVariation(PlayerPedId(), dataId[i])
+            end
         else
-            faceProps[i]['TypeName'] = dataName[i]
-            faceProps[i]['TypeID'] = dataId[i]
-            faceProps[i]['Item'] = GetPedDrawableVariation(PlayerPedId(), dataId[i])
-            faceProps[i]['Texture'] = GetPedTextureVariation(PlayerPedId(), dataId[i])
+            print("Error: Invalid charItem or skinItem for '" .. tostring(dataName[i]) .. "'.")
         end
     end
     return faceProps
