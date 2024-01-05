@@ -1,4 +1,5 @@
 FunctionsModule, CallbackModule, EventsModule, PlayerModule, VehicleModule = nil
+local CustomerLoc, playerBusiness = {}, nil
 ClockedData = {Business = 'None', Clocked = false}
 
 AddEventHandler('Modules/client/ready', function()
