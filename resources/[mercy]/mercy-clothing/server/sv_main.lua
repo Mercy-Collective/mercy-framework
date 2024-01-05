@@ -30,41 +30,29 @@ Citizen.CreateThread(function()
     end
     -- [ Commands ] --
 
-    CommandsModule.Add("hat", "Take hat off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Hat', nil, 'take_off_helmet_stand', 'missheist_agency2ahelmet', nil, nil, true)
-    end)
+   local function addCommand(name, description, animDict, animName, itemType)
+        CommandsModule.Add(name, description, {}, false, function(source, args)
+            TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, itemType, nil, animName, animDict, nil, nil, true)
+        end)
+    end
 
-    CommandsModule.Add("glasses", "Take glasses off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Glasses', nil, 'take_off', 'clothingspecs', nil, true)
-    end)
+    -- Define all commands with their specific parameters
+    local commands = {
+        { name = "hat",        description = "Take hat off..",       animDict = 'missheist_agency2ahelmet', animName = 'take_off_helmet_stand', itemType = 'Hat' },
+        { name = "glasses",    description = "Take glasses off..",   animDict = 'clothingspecs',           animName = 'take_off',               itemType = 'Glasses' },
+        { name = "mask",       description = "Take mask off..",      animDict = 'missfbi4',                animName = 'takeoff_mask',           itemType = 'Mask' },
+        { name = "vest",       description = "Take vest off..",      animDict = 'clothingtie',             animName = 'try_tie_negative_a',     itemType = 'ArmorVest' },
+        { name = "pants",      description = "Take pants off..",     animDict = 'mini@triathlon',          animName = 'idle_f',                 itemType = 'Pants' },
+        { name = "shirt",      description = "Take shirt off..",     animDict = 'clothingtie',             animName = 'try_tie_negative_a',     itemType = 'Shirts' },
+        { name = "undershirt", description = "Take undershirt off..", animDict = 'clothingtie',             animName = 'try_tie_negative_a',     itemType = 'UnderShirt' },
+        { name = "shoes",      description = "Take shoes off..",     animDict = 'mini@triathlon',          animName = 'idle_f',                 itemType = 'Shoes' },
+        { name = "bag",        description = "Take bag off..",       animDict = 'mini@clothingtie',        animName = 'try_tie_negative_a',     itemType = 'Bag' },
+    }
 
-    CommandsModule.Add("mask", "Take mask off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Mask', nil, 'takeoff_mask', 'missfbi4', nil, true)
-    end)
-
-    CommandsModule.Add("vest", "Take vest off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'ArmorVest', nil, 'try_tie_negative_a', 'clothingtie', nil, true)
-    end)
-
-    CommandsModule.Add("pants", "Take pants off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Pants', nil, 'idle_f', 'mini@triathlon', nil, true)
-    end)
-
-    CommandsModule.Add("shirt", "Take shirt off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Shirts', nil, 'try_tie_negative_a', 'clothingtie', nil, true)
-    end)
-
-    CommandsModule.Add("undershirt", "Take undershirt off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'UnderShirt', nil, 'try_tie_negative_a', 'clothingtie', nil, true)
-    end)
-
-    CommandsModule.Add("shoes", "Take shoes off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Shoes', nil, 'idle_f', 'mini@triathlon', nil, true)
-    end)
-
-    CommandsModule.Add("bag", "Take bag off..", {}, false, function(source, args)
-        TriggerClientEvent('mercy-clothing/client/take-off-face-wear', source, 'Bag', nil, 'try_tie_negative_a', 'mini@clothingtie', nil, true)
-    end)
+    -- Add all commands using the new function
+    for _, cmd in ipairs(commands) do
+        addCommand(cmd.name, cmd.description, cmd.animDict, cmd.animName, cmd.itemType)
+    end
 
     CommandsModule.Add('addoutfit', 'Put your current outfit in your closet.', {{Name = 'name', Help = 'Outfit Name'}}, false, function(source, args)
         local OutfitName = args[1] ~= nil and args[1] or 'outfit-'..math.random(111111, 999999)
