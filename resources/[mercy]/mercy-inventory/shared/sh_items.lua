@@ -3949,6 +3949,96 @@ Shared.ItemList["fsbadge"] = {
 	['Price'] = 1,
 }
 
+Shared.ItemList["clothing-pants"] = {
+	['ItemName'] = "clothing-pants",
+	['Label'] = "Pants",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_pants.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Because apparently, 'no pants' is not an acceptable dress code.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-shirts"] = {
+	['ItemName'] = "clothing-shirts",
+	['Label'] = "Shirt",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_shirts.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "It's a shirt, not a magic wand. I can only do so much.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-undershirt"] = {
+	['ItemName'] = "clothing-undershirt",
+	['Label'] = "UnderShirt",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_undershirt.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "The unsung hero of the wardrobe. Works hard, gets no credit.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-shoes"] = {
+	['ItemName'] = "clothing-shoes",
+	['Label'] = "Shoes",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_shoes.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Because walking barefoot everywhere is frowned upon in modern society.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-armorvest"] = {
+	['ItemName'] = "clothing-armorvest",
+	['Label'] = "Armor Vest",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_armorvest.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Perfect for those days when your to-do list includes dodging danger.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-bag"] = {
+	['ItemName'] = "clothing-bag",
+	['Label'] = "Bag",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_bag.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Carry your emotional baggage and your actual baggage.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
 Shared.ItemList["clothing-hat"] = {
 	['ItemName'] = "clothing-hat",
 	['Label'] = "Hat",
