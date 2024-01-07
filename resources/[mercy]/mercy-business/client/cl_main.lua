@@ -118,7 +118,7 @@ RegisterNetEvent('mercy-business/client/send-order', function(Data)
             },
             Options = NPCorder.options
         })
-        exports['mercy-ui']:Notify("not-cooking", "Yeni bir müşterin var", 'success')
+        exports['mercy-ui']:Notify("not-cooking", "You have a new order", 'success')
     end)
 end)
 
@@ -133,7 +133,7 @@ RegisterNetEvent('mercy-business/client/deliver-order', function(Data)
             end
         end)
     else
-        exports['mercy-ui']:Notify("not-cooking", "Doğru menüye sahip değilsin!", 'error')
+        exports['mercy-ui']:Notify("not-cooking", "You don't have the right menu!", 'error')
     end
 end)
 
