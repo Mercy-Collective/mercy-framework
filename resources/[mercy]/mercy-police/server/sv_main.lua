@@ -107,7 +107,7 @@ Citizen.CreateThread(function()
     --     end
     -- end)
 
-    CommandsModule.Add("callsign", "Assign yourself a callsign.", {{Name="Callsign", Help="Callsign"}}, false, function(source, args)
+    CommandsModule.Add("callsign", "Assign yourself a callsign.", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
         local Callsign = args[1]
         if Callsign ~= nil then
