@@ -17,6 +17,17 @@ Citizen.CreateThread(function()
         Player.Functions.AddItem(ItemName, 1, false, false, true)
     end)
 
+    EventsModule.RegisterServer("mercy-business/server/give-reward", function(Source, RequestItem, business, price)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        Player.Functions.AddMoney('Cash', price)
+        exports['mercy-business']:AddMoneyToBusinessAccount(business, price)
+        if RequestItem then
+            for k, v in ipairs(RequestItem) do
+                Player.Functions.RemoveItem(v.Name, v.Amount, false, true)
+            end
+        end
+    end)
+
     CallbackModule.CreateCallback('mercy-business/server/foodchain/get-payment-data', function(Source, Cb, Business, RegisterId)
         local Register = Config.ActivePayments[Business]
         if Register == nil then return Cb(false) end
