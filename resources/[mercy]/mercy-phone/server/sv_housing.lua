@@ -215,4 +215,28 @@ Citizen.CreateThread(function()
             end
         end)
     end)
+
+    CallbackModule.CreateCallback('mercy-phone/server/housing/give-house', function(Source, Cb, Data)
+        local TPlayer = PlayerModule.GetPlayerByStateId(Data['StateId'])
+        DatabaseModule.Execute('SELECT * FROM player_houses WHERE house = ?', { Data['HouseId'] }, function(Houses)
+            if Houses[1] ~= nil then
+                DatabaseModule.Update("UPDATE player_houses SET citizenid = ? Where house = ?", {Data['StateId'], Data['HouseId']})
+                TriggerClientEvent('mercy-phone/client/notification', TPlayer.PlayerData.Source, {
+                    Id = math.random(100000, 999999),
+                    Title = 'Housing',
+                    Message = 'Yenibir eviniz var: '..Data['HouseId'],
+                    Icon = "fas fa-house",
+                    IconBgColor = "#007d11",
+                    IconColor = "white",
+                    Sticky = false,
+                    Duration = 4000,
+                    Buttons = {},
+                })
+                exports['mercy-housing']:RefreshHousing()
+                Cb({Result = true})
+            else
+                Cb({Result = false, FailMessage = "House not found.."})
+            end
+        end)
+    end)
 end)
