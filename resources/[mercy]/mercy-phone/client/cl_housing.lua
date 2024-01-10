@@ -27,7 +27,13 @@ RegisterNetEvent('mercy-housing/client/sync-house-data', function(Name, HouseDat
     end)
 end)
 
+function RefreshHouses()
+    local Houses = CallbackModule.SendCallback("mercy-phone/server/housing/get-owned-houses")
+    Housing.OwnedProperties = Houses
+end
+
 function Housing.Render()
+    RefreshHouses()
     exports['mercy-ui']:SendUIMessage("Phone", "RenderHousingApp", {
         OwnedProperties = Housing.OwnedProperties,
         Room = { RoomId = PlayerModule.GetPlayerData().MetaData['RoomId'], Street = FunctionsModule.GetStreetName(vector3(-267.56, -958.96, 31.22)) },
