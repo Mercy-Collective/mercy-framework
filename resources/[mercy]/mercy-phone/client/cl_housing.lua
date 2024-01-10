@@ -102,13 +102,16 @@ RegisterNUICallback('Housing/OpenFurniture', function(Data, Cb)
     Cb('Ok')
 end)
 
+RegisterNUICallback('Housing/SetHouseOwner', function(Data, Cb)
+    local Result = CallbackModule.SendCallback('mercy-phone/server/housing/give-house', Data)
+    Cb(Result)
+end)
 
 RegisterNUICallback('Housing/DeleteFurniture', function(Data, Cb)
     ClosePhone()
     TriggerEvent('mercy-housing/client/remove-decoration-menu')
     Cb('Ok')
 end)
-
 
 -- Keys
 
