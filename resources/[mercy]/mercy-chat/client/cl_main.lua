@@ -126,6 +126,14 @@ RegisterNetEvent("mercy-chat/client/local-ooc", function(ServerId, Name, Message
     end
 end)
 
+RegisterNetEvent('3dme:shareDisplay', function(text, target, name)
+    local player = GetPlayerFromServerId(target)
+    if player ~= -1 or target == GetPlayerServerId(PlayerId()) then
+        local ped = GetPlayerPed(player)
+        displayText(ped, "~r~* " .. text .. " *", 0.45, 'ME', name, text)
+    end
+end)
+
 -- [ NUI Callbacks ] --
 
 RegisterNUICallback('Chat/Execute', function(Data, Cb)
@@ -163,3 +171,56 @@ end)
 exports("GetSpamFilter", function()
     return SpamFilter
 end)
+
+local peds = {}
+
+local function draw3dText(coords, text)
+    local camCoords = GetGameplayCamCoord()
+    local dist = #(coords - camCoords)
+
+    local scale = 200 / (GetGameplayCamFov() * dist)
+
+    SetTextColour(0, 0, 0, 255)
+    SetTextScale(0.0, 0.5 * scale)
+    SetTextFont(0)
+    SetTextDropshadow(0, 0, 0, 0, 55)
+    SetTextDropShadow()
+    SetTextCentre(true)
+
+    BeginTextCommandDisplayText("STRING")
+    AddTextComponentSubstringPlayerName(text)
+    SetDrawOrigin(coords, 0)
+    EndTextCommandDisplayText(0.0, 0.0)
+    ClearDrawOrigin()
+end
+
+local function displayText(ped, text, yOffset, data, name, ctext)
+    local playerPed = PlayerPedId()
+    local playerPos = GetEntityCoords(playerPed)
+    local targetPos = GetEntityCoords(ped)
+    local dist = #(playerPos - targetPos)
+    local los = HasEntityClearLosToEntity(playerPed, ped, 17)
+
+    if dist <= 250 and los then
+        TriggerEvent('mercy-chat/client/post-message', data.." | "..name, ctext, "normal")
+        peds[ped] = {
+            time = GetGameTimer() + 5000,
+            text = text,
+            yOffset = yOffset
+        }
+
+        if not peds[ped].exists then
+            peds[ped].exists = true
+
+            Citizen.CreateThread(function()
+                while GetGameTimer() <= peds[ped].time do
+                    local pos = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, peds[ped].yOffset)
+                    draw3dText(pos, peds[ped].text)
+                    Citizen.Wait(0)
+                end
+
+                peds[ped] = nil
+            end)
+        end
+    end
+end
