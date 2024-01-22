@@ -26,6 +26,12 @@ AddEventHandler('Modules/server/ready', function()
             local Message = table.concat(args, ' ')
             TriggerClientEvent('mercy-chat/client/local-ooc', -1, source, GetPlayerName(source), Message)
         end)
+
+        CommandsModule.Add({"me"}, "Character Expression", {{Name="message", Help="Message"}}, false, function(Source, args)
+            local Player = PlayerModule.GetPlayerBySource(Source)
+            local text = table.concat(args, " ")
+            TriggerClientEvent('3dme:shareDisplay', -1, text, Source, Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname)
+        end)
     
         CommandsModule.Add("clear", "Clear your chat", {}, false, function(source, args)
             TriggerClientEvent('mercy-chat/client/clear-chat', source)
