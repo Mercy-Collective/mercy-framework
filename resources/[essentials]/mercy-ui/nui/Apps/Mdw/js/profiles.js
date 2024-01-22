@@ -101,14 +101,15 @@ ClickedOnProfile = async function(ProfileData) {
             $.each(ProfileData.Priors, function(Key, Value) {
                 var ChargeData = GetChargeById(Value.Category, Value.Id)
                 if (Value.ExtraId) {
-                    Points = Points + (ChargeData.Extra[Number(Value.ExtraId - 1)].Points * Value.Amount)
+                    if (Value.Amount == undefined || Value.Amount == null) { Value.Amount = 1 }
+                    Points = Points + (ChargeData.Extra[Number(Value.ExtraId)].Points * Value.Amount)
                 } else {
                     Points = Points + (ChargeData.Points * Value.Amount)
                 }
 
                 var ExtraText = '';
                 if (Value.ExtraId != undefined) {
-                    switch (Value.ExtraId - 1) {
+                    switch (parseInt(Value.ExtraId)) {
                         case 0:
                             ExtraText = 'Accomplice';
                             break;

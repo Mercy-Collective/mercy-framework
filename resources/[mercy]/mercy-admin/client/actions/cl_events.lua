@@ -484,7 +484,7 @@ RegisterNetEvent('mc-admin/client/armor-up', function()
 end)
 
 RegisterNetEvent("mc-admin/client/play-sound", function(Sound)
-    TriggerServerEvent("mercy-ui/client/play-sound", Sound, 0.3, 5)
+    EventsModule.TriggerServer('mercy-ui/server/play-sound-at-pos', Sound, GetEntityCoords(PlayerPedId()), 10.0, 0.6)
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)

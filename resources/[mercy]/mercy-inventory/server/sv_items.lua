@@ -13,7 +13,7 @@ Citizen.CreateThread(function()
         local Player = PlayerModule.GetPlayerBySource(Source)
         -- Check if inventory is empty
         if next(Player.PlayerData.Inventory) == nil then
-            return print('[DEBUG:MoveItems]: Inventory is empty.')
+            return DebugPrint('MoveItems', 'Inventory is empty.')
         end
         SaveInventoryData('Stash', ToInv, Player.PlayerData.Inventory)
         Citizen.SetTimeout(500, function()
@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
     
         local CurrentQuality = GetQuality(ItemData.ItemName, ItemData.Info.CreateDate)
         if CurrentQuality == nil then
-            print('[DEBUG:DegenItem]: CurrentQuality is nil. Item will not degrade.')
+            DebugPrint('DegenItem', 'CurrentQuality is nil. Item will not degrade.')
             return
         end
 
@@ -87,7 +87,7 @@ Citizen.CreateThread(function()
             local DecayR = Shared.ItemList[ItemData.ItemName].DecayRate
 
             if DecayR == 0.0 then
-                print('[DEBUG:DegenItem]: DecayRate is 0.0. Item will not degrade.')
+                DebugPrint('DegenItem', 'DecayRate is 0.0. Item will not degrade.')
                 return
             end
 
@@ -107,12 +107,12 @@ Citizen.CreateThread(function()
             Player.PlayerData.Inventory[Slot].Info.CreateDate = os.date("%a %b %d %H:%M:%S %Y", NewCreateDate)
             Player.Functions.SetItemData(Player.PlayerData.Inventory)
             TriggerClientEvent('mercy-inventory/client/update-player', Source)
-            print('[DEBUG:DegenItem]: Updating quality of '..Player.PlayerData.Inventory[Slot].ItemName..'.. \nNew Quality: ' .. NewQuality .. '\nNew CreateDate: ' .. ItemData.Info.CreateDate)
+            DebugPrint('DegenItem', 'Updating quality of '..Player.PlayerData.Inventory[Slot].ItemName..'.. \nNew Quality: ' .. NewQuality .. '\nNew CreateDate: ' .. ItemData.Info.CreateDate)
             if NewQuality < 1 then
                 TriggerClientEvent('mercy-inventory/client/on-fully-degen-item', Source, ItemData)
             end
         else
-            print('[DEBUG:DegenItem]: No quality found..')
+            DebugPrint('DegenItem', 'No quality found..')
         end
     end)
 
@@ -126,7 +126,7 @@ end)
 
 function ParseDate(dateString)
     if dateString == nil then
-        print('[DEBUG:Degen:ParseDate]: dateString is nil.')
+        DebugPrint('ParseDate', 'dateString is nil.')
         return false
     end
     local monthNames = {Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6, Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12}
@@ -142,7 +142,7 @@ function ParseDate(dateString)
 end
 
 function GetQuality(ItemName, CreateDate)
-    print('[DEBUG:Degen:GetQuality]: Getting quality of '..ItemName..' with CreateDate: '..CreateDate)
+    DebugPrint('GetQuality', 'Getting quality of '..ItemName..' with CreateDate: '..CreateDate)
     local StartDate = ParseDate(CreateDate)
 
     if not StartDate then

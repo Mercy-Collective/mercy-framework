@@ -91,7 +91,7 @@ MC.AdminMenu.BuildItems = function(Item) {
                     let SelectedItem = JSON.parse($(Element).attr("Item"));
                     let Choice = Number($(Element).attr("ChoiceId"));
 
-                    if (Option.Choices[0].Callback == undefined) {
+                    if (Option.Choices.length != 0 && Option.Choices[0].Callback == undefined) {
                         for (let ChoiceId = 0; ChoiceId < SelectedItem.Options[Choice].Choices.length; ChoiceId++) {
                             SelectedItem.Options[Choice].Choices[ChoiceId].Callback = () => {
                                 Input.val(SelectedItem.Options[Choice].Choices[ChoiceId].Text);
@@ -176,7 +176,14 @@ MC.AdminMenu.BuildDropdown = (Options, CursorPos, HasSearch) => {
         
         OnDropdownButtonClick = (Element) => {
             let DropdownOption = Options[Number(Element.getAttribute("DropdownId"))];
-            DropdownOption.Callback(DropdownOption);
+        
+            // Check if Callback is a function before calling it
+            if (typeof DropdownOption.Callback === 'function') {
+                DropdownOption.Callback(DropdownOption);
+            } else {
+                console.error("DropdownOption.Callback is not a function");
+            }
+        
             $('.ui-styles-dropdown').remove();
             EnableScroll(".admin-menu-items");
         };

@@ -7,6 +7,17 @@ Config.EnableHelicam = true
 Config.Barricades = {}
 Config.Handcuffed, Config.Escorted = false, false
 
+Config.ValidRanks = { 
+    Cadet = true,
+    Officer = true,
+    Detective = true,
+    Corporal = true,
+    Sergeant = true,
+    Lieutenant = true,
+    Captain = true,
+    Chief = true,
+}
+
 Config.ParkingSlots = {
     ['MRPD'] = {
         vector4(445.81, -988.8, 25.7, 90.31),
@@ -322,7 +333,13 @@ Config.BarricadeObjects = {
         ['Static'] = true,
         ['Traffic'] = false,
     },
-
+    {
+        ['Prop'] = 'delete_closest',
+        ['Label'] = 'Remove Barricade',
+        ['Desc'] = 'Remove the closest barricade.',
+        ['Static'] = false,
+        ['Traffic'] = false,
+    }
 }
 
 Config.JailCrafting = {

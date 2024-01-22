@@ -111,6 +111,92 @@ Citizen.CreateThread(function()
         end
     end)
 
+    -- Fruits
+
+    FunctionsModule.CreateUseableItem("apple", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("banana", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Banana")
+        end
+    end)
+    
+    FunctionsModule.CreateUseableItem("cherry", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("coconut", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("grapes", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Applec")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("kiwi", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("lemon", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("lime", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("orange", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("peach", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("strawberry", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
+    FunctionsModule.CreateUseableItem("watermelon", function(Source, Item)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
+            TriggerClientEvent('mercy-items/client/used-food', Source, Item, "Apple")
+        end
+    end)
+
     -- Drinks
 
     FunctionsModule.CreateUseableItem("water", function(Source, Item)
@@ -1031,7 +1117,7 @@ Citizen.CreateThread(function()
     FunctionsModule.CreateUseableItem("transmission-m", function(Source, Item)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.Functions.GetItemBySlot(Item.Slot) ~= nil then
-            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-e', 'Transmission', 'M')
+            TriggerClientEvent('mercy-business/client/hayes/mount-part', Source, 'transmission-m', 'Transmission', 'M')
         end
     end)
 

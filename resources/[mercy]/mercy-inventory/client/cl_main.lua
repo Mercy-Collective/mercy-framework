@@ -61,6 +61,7 @@ RegisterNetEvent("mercy-base/client/player-spawned", function()
 end)
  
 -- [ Degen Command ] -- 
+
 RegisterCommand('degen', function(source, args, RawCommand)
     if not PlayerModule.IsPlayerAdmin() then return end
 
@@ -492,6 +493,21 @@ function CanOpenInventory()
     return not Config.InventoryBusy
 end
 exports('CanOpenInventory', CanOpenInventory)
+
+function GetItemAmount(ItemName)
+    if PlayerModule == nil then return 0 end
+    local PlayerData = PlayerModule.GetPlayerData()
+    if PlayerData.Inventory == nil then return 0 end
+
+    local TotalItems = 0
+    for k, v in pairs(PlayerData.Inventory) do
+        if v.ItemName == ItemName and HasEnoughQuality(1, v.Slot) then
+            TotalItems = TotalItems + v.Amount
+        end
+    end
+    return TotalItems
+end
+exports('GetItemAmount', GetItemAmount)
 
 function HasEnoughOfItem(ItemName, RequestedAmount)
     local TotalItems = 0

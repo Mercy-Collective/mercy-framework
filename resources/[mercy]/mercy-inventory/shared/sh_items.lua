@@ -1330,6 +1330,188 @@ Shared.ItemList["muffin"] = {
 	['Price'] = 1,
 }
 
+-- Fruits
+
+Shared.ItemList["apple"] = {
+	['ItemName'] = "apple",
+	['Label'] = "Apple",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_apple.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["banana"] = {
+	['ItemName'] = "banana",
+	['Label'] = "Banana",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_banana.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["cherry"] = {
+	['ItemName'] = "cherry",
+	['Label'] = "Cherry",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_cherry.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["coconut"] = {
+	['ItemName'] = "coconut",
+	['Label'] = "Coconut",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_coconut.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["grapes"] = {
+	['ItemName'] = "grapes",
+	['Label'] = "Grapes",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_grapes.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["kiwi"] = {
+	['ItemName'] = "kiwi",
+	['Label'] = "Kiwi",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_kiwi.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["lemon"] = {
+	['ItemName'] = "lemon",
+	['Label'] = "Lemon",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_lemon.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["lime"] = {
+	['ItemName'] = "lime",
+	['Label'] = "Lime",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_lime.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["orange"] = {
+	['ItemName'] = "orange",
+	['Label'] = "Orange",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_orange.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["peach"] = {
+	['ItemName'] = "peach",
+	['Label'] = "Peach",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_peach.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["strawberry"] = {
+	['ItemName'] = "strawberry",
+	['Label'] = "Strawberry",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_strawberry.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
+Shared.ItemList["watermelon"] = {
+	['ItemName'] = "watermelon",
+	['Label'] = "Watermelon",
+	['Weight'] = 0.25,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "f_watermelon.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "One fruit a day keeps the doctor away.",
+	['DecayRate'] = 0.75,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 5,
+}
+
 -- Business Food
 
 Shared.ItemList["heartstopper"] = {
@@ -1767,24 +1949,6 @@ Shared.ItemList["strawberrytea"] = {
 	}
 }
 
-Shared.ItemList["strawberrytea"] = {
-	['ItemName'] = "strawberrytea",
-	['Label'] = "Strawberry Tea",
-	['Weight'] = 1.0,
-	['Type'] = "Item",
-	['Metal'] = false,
-	['Image'] = "strawberrytea.png",
-	['Unique'] = false,
-	['Combinable'] = nil,
-	['Description'] = "Strawberry's, Hmm Nice",
-	['DecayRate'] = 0.01,
-	['RemoveWhenDecayed'] = false,
-	['Price'] = 1,
-	['Cost'] = {
-		{Item = 'ingredient-beans', Amount = 1},
-	}
-}
-
 Shared.ItemList["uwu_toy1"] = {
 	['ItemName'] = "uwu_toy1",
 	['Label'] = "UwU Squishy",
@@ -2077,6 +2241,40 @@ Shared.ItemList["fertilizer"] = {
 	['Price'] = 112,
 }
 
+-- Weed Plants Cayo
+
+Shared.ItemList["weed-seed-male-cayo"] = {
+	['ItemName'] = "weed-seed-male-cayo",
+	['Label'] = "Weed Seeds (M)",
+	['Weight'] = 1.5,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "c_weed-seeds.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "Grow my youngling!",
+	['DecayRate'] = 0.1,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["weed-seed-female-cayo"] = {
+	['ItemName'] = "weed-seed-female-cayo",
+	['Label'] = "Weed Seeds (F)",
+	['Weight'] = 1.5,
+	['Type'] = "Item",
+	['Metal'] = false,
+	['Image'] = "c_weed-seeds.png",
+	['Unique'] = false,
+	['Combinable'] = nil,
+	['Description'] = "Grow my youngling!",
+	['DecayRate'] = 0.1,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 101,
+}
+
+-- Weed Plants
+
 Shared.ItemList["weed-seed-male"] = {
 	['ItemName'] = "weed-seed-male",
 	['Label'] = "Weed Seeds (M)",
@@ -2181,7 +2379,7 @@ Shared.ItemList["rolling-paper"] = {
 	['Weight'] = 0.30,
 	['Type'] = "Item",
 	['Metal'] = true,
-	['Image'] = "c_rollingpaper.png",
+	['Image'] = "c_rolling-paper.png",
 	['Unique'] = false,
 	['Combinable'] = nil,
 	['Description'] = "Required to roll joints!",
@@ -3746,6 +3944,96 @@ Shared.ItemList["fsbadge"] = {
 	['Unique'] = true,
 	['Combinable'] = nil,
 	['Description'] = "You learned how to fly, and with this badge you can show it to all your friends! (If you have any)",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-pants"] = {
+	['ItemName'] = "clothing-pants",
+	['Label'] = "Pants",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_pants.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Because apparently, 'no pants' is not an acceptable dress code.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-shirts"] = {
+	['ItemName'] = "clothing-shirts",
+	['Label'] = "Shirt",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_shirts.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "It's a shirt, not a magic wand. I can only do so much.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-undershirt"] = {
+	['ItemName'] = "clothing-undershirt",
+	['Label'] = "UnderShirt",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_undershirt.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "The unsung hero of the wardrobe. Works hard, gets no credit.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-shoes"] = {
+	['ItemName'] = "clothing-shoes",
+	['Label'] = "Shoes",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_shoes.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Because walking barefoot everywhere is frowned upon in modern society.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-armorvest"] = {
+	['ItemName'] = "clothing-armorvest",
+	['Label'] = "Armor Vest",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_armorvest.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Perfect for those days when your to-do list includes dodging danger.",
+	['DecayRate'] = 0.0,
+	['RemoveWhenDecayed'] = false,
+	['Price'] = 1,
+}
+
+Shared.ItemList["clothing-bag"] = {
+	['ItemName'] = "clothing-bag",
+	['Label'] = "Bag",
+	['Weight'] = 1.0,
+	['Type'] = "Item",
+	['Metal'] = true,
+	['Image'] = "m_bag.png",
+	['Unique'] = true,
+	['Combinable'] = nil,
+	['Description'] = "Carry your emotional baggage and your actual baggage.",
 	['DecayRate'] = 0.0,
 	['RemoveWhenDecayed'] = false,
 	['Price'] = 1,
@@ -5781,4 +6069,66 @@ Shared.ItemList["methlab_stage_04"] = {
     ['DecayRate'] = 0.0,
     ['RemoveWhenDecayed'] = false,
     ['Price'] = 0
+}
+
+-- Polaroid
+
+Shared.ItemList["mpolaroid"] = {
+    ['ItemName'] = "mpolaroid",
+    ['Label'] = "MPolaroid",
+    ['Weight'] = 10.0,
+    ['Type'] = "Item",
+    ['Metal'] = true,
+    ['Image'] = "polaroid_camera.png",
+    ['Unique'] = true,
+    ['Combinable'] = nil,
+    ['Description'] = "Snap a picture!",
+    ['DecayRate'] = 0.1,
+    ['RemoveWhenDecayed'] = true,
+    ['Price'] = 22500,
+}
+
+Shared.ItemList["mpolaroid-paper"] = {
+    ['ItemName'] = "mpolaroid-paper",
+    ['Label'] = "MPolaroid Film",
+    ['Weight'] = 1.0,
+    ['Type'] = "Item",
+    ['Metal'] = false,
+    ['Image'] = "polaroid_paper.png",
+    ['Unique'] = false,
+    ['Combinable'] = nil,
+    ['Description'] = "Required to snap a picture!",
+    ['DecayRate'] = 0.1,
+    ['RemoveWhenDecayed'] = true,
+    ['Price'] = 175,
+}
+
+Shared.ItemList["mpolaroid-photo"] = {
+    ['ItemName'] = "mpolaroid-photo",
+    ['Label'] = "MPolaroid Photo",
+    ['Weight'] = 1.0,
+    ['Type'] = "Item",
+    ['Metal'] = false,
+    ['Image'] = "polaroid_photo.png",
+    ['Unique'] = true,
+    ['Combinable'] = nil,
+    ['Description'] = "A beautiful polaroid photo.",
+    ['DecayRate'] = 0.1,
+    ['RemoveWhenDecayed'] = false,
+    ['Price'] = 100,
+}
+
+Shared.ItemList["mpolaroid-photobook"] = {
+    ['ItemName'] = "mpolaroid-photobook",
+    ['Label'] = "MPolaroid Photobook",
+    ['Weight'] = 1.0,
+    ['Type'] = "Item",
+    ['Metal'] = false,
+    ['Image'] = "polaroid_photobook.png",
+    ['Unique'] = false,
+    ['Combinable'] = nil,
+    ['Description'] = "A photo book with polaroids.",
+    ['DecayRate'] = 0.0,
+    ['RemoveWhenDecayed'] = false,
+    ['Price'] = 32500,
 }

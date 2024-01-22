@@ -9,7 +9,13 @@ Citizen.CreateThread(function()
 
 
     CallbackModule.CreateCallback('mercy-phone/server/dark/get-items', function(Source, Cb)
-        Cb(ServerConfig.DarkItems)
+        local DarkItems = {}
+        for k, v in pairs(ServerConfig.DarkItems) do
+            if not v.Hidden then
+                table.insert(DarkItems, v)
+            end
+        end
+        Cb(DarkItems)
     end)
 
     CallbackModule.CreateCallback('mercy-phone/server/dark/purchase', function(Source, Cb, Data)

@@ -49,19 +49,16 @@ end)
 RegisterNetEvent('mercy-illegal/client/plants-action', function(Type, Data)
     if Type == 1 then
         Config.WeedPlants = Data
-    end
-    if Type == 2 then
+    elseif Type == 2 then
         Config.WeedPlants[#Config.WeedPlants + 1] = Data
-    end
-    if Type == 3 then
+    elseif Type == 3 then
         for k, v in ipairs(Config.WeedPlants) do
             if v.Id == Data.Id then
                 Config.WeedPlants[k] = Data
                 break
             end
         end
-    end
-    if Type == 4 then
+    elseif Type == 4 then
         for k, v in ipairs(Config.WeedPlants) do
             if v.Id == Data.Id then
                 table.remove(Config.WeedPlants, k)
@@ -265,8 +262,7 @@ end
 function IsPlantPickable(Entity)
     local PlantId = GetPlantId(Entity)
     local PlantData = GetPlantById(PlantId)
-    if not PlantData then return false end
-    if PlantData ~= nil and type(PlantData.Stage) == 'number' then
+    if PlantData and type(PlantData.Stage) == 'number' then
         if PlantData.Stage >= 100 then
             return true
         else
@@ -296,16 +292,16 @@ function GetPlantById(PlantId)
 end
 
 function GetStageFromPlant(Stage)
-    if Stage <= 20 then
-        return 1
-    elseif Stage > 20 and Stage <= 40 then
-        return 2
-    elseif Stage > 40 and Stage <= 60 then
-        return 3
-    elseif Stage > 60 and Stage <= 80 then
-        return 4
-    elseif Stage > 80 and Stage <= 100 then
+    if Stage > 80 then
         return 5
+    elseif Stage > 60 then
+        return 4
+    elseif Stage > 40 then
+        return 3
+    elseif Stage > 20 then
+        return 2
+    else
+        return 1
     end
 end
 

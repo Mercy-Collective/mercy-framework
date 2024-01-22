@@ -33,6 +33,10 @@ RegisterNetEvent("mercy-base/server/callbacks-trigger", function(Id, Name, ...)
     if not RegisteredCallbacks[Name] then return end
     if RegisteredCallbacks[Name] == nil then return print(('[DEBUG:Callbacks]: Tried to access callback %s but the callback was not found.. (Not created or not yet initialised perhaps?)'):format(Name)) end
     local src = source
+    if src == 0 or src == nil then
+        print(('[DEBUG:Callbacks]: Tried to access callback %s but the source was 0.. (Not created or not yet initialised perhaps?)'):format(Name))
+        return
+    end
     RegisteredCallbacks[Name](src, function(Data)
         TriggerClientEvent("mercy-base/client/callbacks-response", src, Id, Data)
     end, ...)

@@ -36,6 +36,15 @@ function SetSirenCycle(Vehicle, Cycle)
     end
 end
 
+function UsesCustomHorn(Vehicle)
+    for Veh, Sound in pairs(Config.CustomHorns) do
+        if GetEntityModel(Vehicle) == GetHashKey(Veh) then
+            return true, Sound
+        end
+    end
+    return false
+end
+
 function InitSirens()
     KeybindsModule.Add('toggleLights', 'Vehicle', 'Toggle Emergency Lights', 'Q', function(IsPressed)
         if not CanUseEmergencyLights(IsPressed) then
@@ -125,8 +134,14 @@ RegisterNetEvent("mercy-threads/entered-vehicle", function()
                 local Vehicle = GetVehiclePedIsIn(PlayerPedId())
                 if GetPedInVehicleSeat(Vehicle, -1) == PlayerPedId() then
                     if HornSoundId == nil then
-                        HornSoundId = GetSoundId()
-                        PlaySoundFromEntity(HornSoundId, "SIRENS_AIRHORN", Vehicle, false, true, false)
+                        local IsCustom, Sound = UsesCustomHorn(Vehicle)
+                        if IsCustom then
+                            HornSoundId = GetSoundId()
+                            PlaySoundFromEntity(HornSoundId, Sound, Vehicle, false, true, false)
+                        else
+                            HornSoundId = GetSoundId()
+                            PlaySoundFromEntity(HornSoundId, "SIRENS_AIRHORN", Vehicle, false, true, false)
+                        end
                     end
                 end
             end

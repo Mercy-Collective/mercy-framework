@@ -1,13 +1,15 @@
-CommandsModule, PlayerModule = nil, nil
+CommandsModule, PlayerModule, EventsModule = nil, nil, nil
 
 AddEventHandler('Modules/server/ready', function()
     TriggerEvent('Modules/server/request-dependencies', {
         'Commands',
         'Player',
+        'Events'
     }, function(Succeeded)
         if not Succeeded then return end
         CommandsModule = exports['mercy-base']:FetchModule('Commands')
         PlayerModule = exports['mercy-base']:FetchModule('Player')
+        EventsModule = exports['mercy-base']:FetchModule('Events')
 
         CommandsModule.Add("oocm", "Toggle OOC", {}, false, function(source, args)
             TriggerClientEvent('mercy-chat/client/toggle-OOC', source)
@@ -32,6 +34,10 @@ AddEventHandler('Modules/server/ready', function()
         CommandsModule.Add("clearchatall", "Clear everyone's chat", {}, false, function(source, args)
             TriggerClientEvent('mercy-chat/client/clear-chat', -1)
         end, "admin")
+
+        EventsModule.RegisterServer('mercy-chat/server/post-message', function(source, Title, Message, Class)
+            TriggerClientEvent('mercy-chat/client/post-message', -1, Title, Message, Class)
+        end)
     end)
 end)
 

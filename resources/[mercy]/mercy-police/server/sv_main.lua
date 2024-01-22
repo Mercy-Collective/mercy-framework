@@ -2,7 +2,6 @@ CallbackModule, PlayerModule, FunctionsModule, DatabaseModule, CommandsModule, E
 local PlayerStatus, Evidence, VehicleRecords = {}, {}, {}
 
 local _Ready = false
-print('HUHUHUH', _Ready)
 AddEventHandler('Modules/server/ready', function()
     TriggerEvent('Modules/server/request-dependencies', {
         'Callback',
@@ -23,6 +22,7 @@ AddEventHandler('Modules/server/ready', function()
     end)
 end)
 
+
 Citizen.CreateThread(function()
     while not _Ready do
         Citizen.Wait(200)
@@ -30,23 +30,21 @@ Citizen.CreateThread(function()
 
     -- [ Commands ] --
     
-    CommandsModule.Add({"object", "placeobj"}, "Place down", {}, false, function(source, args)
-        print('uhuh')
+    CommandsModule.Add({"barricade", "placebarricade"}, "Place down", {}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
 
-        if Player.PlayerData.Job.Name ~= 'police' or Player.PlayerData.Job.Duty then return end
-        print('uhtretertuh')
-        print('uhuerteryyyyyyh')
+        if Player.PlayerData.Job.Name ~= 'police' or not Player.PlayerData.Job.Duty then return end
 
-        local ClosestBarricades = {}
+        local ClosestBarricade = {}
         for k, v in pairs(Config.Barricades) do
             local Distance = #(GetEntityCoords(GetPlayerPed(source)) - v.Coords)
-            if Distance <= 5.0 then
-                table.insert(ClosestBarricades, v)
+            if Distance <= 2.0 then
+                ClosestBarricade = v
+                break
             end
         end
 
-        TriggerClientEvent('mercy-police/client/open-barricademenu', source, Config.Barricades, ClosestBarricades)
+        TriggerClientEvent('mercy-police/client/open-barricademenu', source, Config.BarricadeObjects, ClosestBarricade)
     end)
 
     CommandsModule.Add({"cam", "camera", "opencam"}, "Open Camera", {}, false, function(source, args)
@@ -107,7 +105,7 @@ Citizen.CreateThread(function()
     --     end
     -- end)
 
-    CommandsModule.Add("callsign", "Assign yourself a callsign.", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
+    CommandsModule.Add("callsign", "Assign yourself a callsign.", {{Name="Callsign", Help="Callsign"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
         local Callsign = args[1]
         if Callsign ~= nil then
@@ -126,20 +124,20 @@ Citizen.CreateThread(function()
         TriggerClientEvent('mercy-chat/client/post-message', source, 'DEPARTMENT', Player.PlayerData.Job.Department, 'warning')
     end)
     
-    CommandsModule.Add("setdepartment", "Set your department (LSPD/BCSO/SASP)", {{Name="Department", Help="Department"}}, false, function(source, args)
+    CommandsModule.Add("setdepartment", "Set your department (LSPD/BCSO/SASP)", {{Name="ID", Help="ID"}, {Name="Department", Help="Department"}}, false, function(source, args)
         local Player = PlayerModule.GetPlayerBySource(source)
-	local Target = PlayerModule.GetPlayerBySource(tonumber(args[1]))
+	    local Target = PlayerModule.GetPlayerBySource(tonumber(args[1]))
         local Department = args[2]
-	if Player.PlayerData.Job['HighCommand'] then
-		if Department ~= nil and Department == 'LSPD' or Department == 'BCSO' or Department == 'SASP' then
-		    if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
-			Target.Functions.SetDepartment(Department)
-			Target.Functions.Notify('sign-changed', 'Department succesfully changed. You now on the '..Department..'  department.', 'success')
-		    else
-			Player.Functions.Notify('no-perm', 'No Permission..', 'error')
-		    end
-		end
-	end
+        if Player.PlayerData.Job['HighCommand'] then
+            if Department ~= nil and Department == 'LSPD' or Department == 'BCSO' or Department == 'SASP' then
+                if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
+                Target.Functions.SetDepartment(Department)
+                Target.Functions.Notify('sign-changed', 'Department succesfully changed. You now on the '..Department..'  department.', 'success')
+                else
+                Player.Functions.Notify('no-perm', 'No Permission..', 'error')
+                end
+            end
+        end
     end)
 
     CommandsModule.Add("setrank", "Set someone's rank", {{Name="ID", Help="ID"}, {Name="Rank", Help="Rank"}}, false, function(source, args)
@@ -150,13 +148,13 @@ Citizen.CreateThread(function()
         if Player.PlayerData.Job['HighCommand'] then
             if Player.PlayerData.Job.Name == 'police' and Player.PlayerData.Job.Duty then
                 if Target.PlayerData.Job.Name == 'police' then
-                    if Rank ~= nil and Rank == 'Officer' or Rank == 'Detective' or Rank == 'Corporal' or Rank == 'Sergeant' or Rank == 'Lieutenant' or Rank == 'Captain' or Rank == 'Chief' then
+                    if Rank ~= nil and Config.ValidRanks[Rank] then
                         if Target.PlayerData.Source == source then
                             Player.Functions.SetRank(Rank)
                             Player.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
                         else
                             Target.Functions.SetRank(Rank)
-                            Player.Functions.Notify('rank-changed', 'You set the rank of '..Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname..' to '..Rank..'.', 'success')
+                            Player.Functions.Notify('rank-changed', 'You set the rank of '..Target.PlayerData.CharInfo.Firstname..' '..Target.PlayerData.CharInfo.Lastname..' to '..Rank..'.', 'success')
                             Target.Functions.Notify('rank-changed', 'Your rank has been set to '..Rank..'.', 'success')
                         end
                     else
@@ -458,9 +456,9 @@ Citizen.CreateThread(function()
         -- Get Static & Traffic from Config
         local IsStatic = true
         local IsTraffic = false
-        local Label = ""
-        local Desc = ""
-        for k, v in pairs(Config.Barricades) do
+        local Label = nil
+        local Desc = nil
+        for k, v in pairs(Config.BarricadeObjects) do
             if v.Prop == Prop then
                 IsStatic = v.Static
                 IsTraffic = v.Traffic
@@ -482,7 +480,7 @@ Citizen.CreateThread(function()
             PlacedBy = Player.PlayerData.CharInfo.Firstname..' '..Player.PlayerData.CharInfo.Lastname,
             PlacedAt = os.date("%Y-%m-%d %H:%M:%S"),
         }
-        Config.Barricades[NewId] = NewObject
+        Config.Barricades[#Config.Barricades + 1] = NewObject
         TriggerClientEvent('mercy-police/client/set-prop-data', -1, "Add", nil, NewObject)
     end)
 
@@ -704,7 +702,10 @@ end)
 -- Badge
 RegisterNetEvent("mercy-police/server/request-pd-badge", function(Cid, Image)
     local src = source
-    local Player = PlayerModule.GetPlayerByStateId(Cid)
+    local Player = PlayerModule.GetPlayerBySource(src)
+    if not Player then return end
+    local TargetPlayer = PlayerModule.GetPlayerByStateId(Cid)
+    if not TargetPlayer then return Player.Functions.Notify('not-found', 'Target with provided state id was not found..', 'error') end
     local Info = {}
     Info.Name = Player.PlayerData.CharInfo.Firstname .. ' ' .. Player.PlayerData.CharInfo.Lastname
     Info.Rank = Player.PlayerData.Job.Rank

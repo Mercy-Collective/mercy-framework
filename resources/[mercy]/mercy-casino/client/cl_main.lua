@@ -5,16 +5,6 @@ InCasino = false
 local PostGateTriggered = false
 local InVRHeadset = false
 
-local DuiList = {}
-local LinkList = {
-    [1] = "https://i.imgur.com/0S2zo4z.png",
-}
-local Playlists = {
-    "CASINO_DIA_PL", -- diamonds
-    "CASINO_SNWFLK_PL", -- snowflakes
-    "CASINO_WIN_PL", -- win
-    "CASINO_HLW_PL", -- skull
-}
 local WheelPed = nil
 
 AddEventHandler('Modules/client/ready', function()
@@ -49,13 +39,13 @@ AddEventHandler('onResourceStop', function(resource)
     end
 end)
 
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        SetTimeout(1000, function()
-            EnterCasino(true)
-        end)
-    end
-end)
+-- AddEventHandler('onResourceStart', function(resource)
+--     if resource == GetCurrentResourceName() then
+--         SetTimeout(1000, function()
+--             EnterCasino(true)
+--         end)
+--     end
+-- end)
 
 -- [ Code ] --
 
@@ -221,19 +211,6 @@ function EnterCasino(Bool)
     TriggerEvent("mercy-casino/client/entered")
 end
 
-function InitDui()
-    for idx, link in ipairs(LinkList) do
-        if not DuiList[idx] then
-            local resolution = (idx == 1 and {2048, 1024} or {1280, 800})
-            DuiList[idx] = CreateDui(link, resolution[1], resolution[2])
-            local dui = GetDuiHandle(DuiList[idx])
-            local txd = CreateRuntimeTxd('duiTxdBetScreen_' .. idx)
-            local txd2 = CreateRuntimeTextureFromDuiHandle(txd, 'duiTexBetScreen_' .. idx, dui)
-        end
-    end
-    AddReplaceTexture('vw_vwint01_betting_screen', 'script_rt_casinoscreen_02', 'duiTxdBetScreen_1', 'duiTexBetScreen_1')
-end
-
 function InitTVImage(Bool)
     if Bool then
         if TVDui then -- If tv exists, reset
@@ -247,6 +224,7 @@ function InitTVImage(Bool)
         end
     else
         TVDui = false
+        exports['mercy-assets']:ReleaseDui('Casino-TV-Car')
         RemoveReplaceTexture('vw_prop_vw_cinema_tv_01', 'script_rt_tvscreen')
     end
 end

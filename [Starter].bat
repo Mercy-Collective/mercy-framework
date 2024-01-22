@@ -7,4 +7,4 @@ timeout /t 3 /nobreak >nul
 color 07
 cls
 
-C:\Users\Administrator\Desktop\mercy-frameworkk\artifacts\FXServer.exe +exec cfg/server.cfg
+E:\fivem\server\FXServer.exe +exec cfg_dev/server.cfg
