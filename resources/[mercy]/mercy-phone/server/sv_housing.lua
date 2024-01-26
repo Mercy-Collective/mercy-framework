@@ -224,7 +224,7 @@ Citizen.CreateThread(function()
                 TriggerClientEvent('mercy-phone/client/notification', TPlayer.PlayerData.Source, {
                     Id = math.random(100000, 999999),
                     Title = 'Housing',
-                    Message = 'Yenibir eviniz var: '..Data['HouseId'],
+                    Message = 'You have a new home: '..Data['HouseId'],
                     Icon = "fas fa-house",
                     IconBgColor = "#007d11",
                     IconColor = "white",
