@@ -5,14 +5,28 @@ local MessagesCount = 0
 -- [ Events ] --
 
 RegisterNetEvent('mercy-misc/client/me', function(Source, Text)
-    local Alpha = 600
+    local Alpha = 0
     MessagesCount = MessagesCount + 1
-    local MessageCount = MessagesCount + 0.1
+    local MessageCountSpacing = MessagesCount + 0.1
     local Distance = 0.1
-    
     local Ped = GetPlayerPed(GetPlayerFromServerId(Source))
 
-    while Alpha > 0 do
+    repeat
+        Alpha = Alpha + 1
+
+        local Pos = GetEntityCoords(Ped)
+        if GetVehiclePedIsUsing(Ped) ~= 0 then
+            Pos = GetPedBoneCoords(Ped, 0x4B2)
+            Distance = 0.2
+        end
+
+        local OutputAlpha = Alpha
+        if OutputAlpha > 255 then OutputAlpha = 255 end
+        DrawMeText(Pos.x, Pos.y, Pos.z + (Distance * (MessageCountSpacing - 1)), Text, OutputAlpha)
+        Citizen.Wait(1)
+    until Alpha >= 600
+
+    repeat
         Alpha = Alpha - 1
 
         local Pos = GetEntityCoords(Ped)
@@ -22,11 +36,11 @@ RegisterNetEvent('mercy-misc/client/me', function(Source, Text)
         end
 
         local OutputAlpha = Alpha
-
-        if OutputAlpha > 255 then OutputAlpha = 255 end
-        DrawMeText(Pos.x, Pos.y, Pos.z + (Distance * (MessageCount - 1)), Text, OutputAlpha)
+        if OutputAlpha < 0 then OutputAlpha = 0 end
+        DrawMeText(Pos.x, Pos.y, Pos.z + (Distance * (MessageCountSpacing - 1)), Text, OutputAlpha)
         Citizen.Wait(1)
-    end
+    until Alpha == 0
+
     MessagesCount = MessagesCount - 1
 end)
 
