@@ -286,13 +286,13 @@ $(document).on("click", '#housing-transfer', function(e)
     [
         {
             Name: 'cancel',
-            Label: "İptal",
+            Label: "Cancel",
             Color: "warning",
             Callback: () => { $('.phone-input-wrapper').hide(); }
         },
         {
             Name: 'submit',
-            Label: "Onayla",
+            Label: "Submit",
             Color: "success",
             Callback: (Result) => {
                 $('.phone-input-wrapper').hide();
