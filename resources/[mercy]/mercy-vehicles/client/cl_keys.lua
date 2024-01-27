@@ -263,10 +263,10 @@ RegisterNetEvent('mercy-vehicles/client/give-keys', function()
 
     if Entity == 0 or Entity == -1 or EntityType ~= 2 then return end
 
-    local Plate = GetVehicleNumberPlateText(Entity)
-    if not HasKeysToVehicle(Plate) then return end
-
     if IsInVehicle and GetPedInVehicleSeat(Entity, -1) ~= PlayerPedId() then
+	local Plate = GetVehicleNumberPlateText(Entity)
+    	if not HasKeysToVehicle(Plate) then return end
+	
         local TargetServer = GetPlayerServerId(NetworkGetPlayerIndexFromPed(GetPedInVehicleSeat(Entity, -1)))
         if TargetServer ~= GetPlayerServerId(PlayerId()) then
             SetVehicleKeys(Plate, true, PlayerModule.GetPlayerCitizenIdBySource(TargetServer))
@@ -274,12 +274,14 @@ RegisterNetEvent('mercy-vehicles/client/give-keys', function()
         end
     else
         local ClosestPlayer = PlayerModule.GetClosestPlayer(nil, 2.0)
+	local Vehicle = VehicleModule.GetClosestVehicle()
+        local clostestPlate = GetVehicleNumberPlateText(Vehicle['Vehicle'])
         if ClosestPlayer['ClosestPlayerPed'] == -1 and ClosestPlayer['ClosestServer'] == -1 then
             exports['mercy-ui']:Notify('keys-error', "An error occured! (No one near!)", 'error')
             return
         end
 
-        SetVehicleKeys(Plate, true, PlayerModule.GetPlayerCitizenIdBySource(TargetServer))
+        SetVehicleKeys(clostestPlate, true, PlayerModule.GetPlayerCitizenIdBySource(ClosestPlayer['ClosestServer']))
         exports['mercy-ui']:Notify('keys-error', "You gave the keys.", 'success')
     end
 end)

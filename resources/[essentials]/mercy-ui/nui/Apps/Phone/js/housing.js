@@ -271,6 +271,49 @@ $(document).on("click", '#housing-delete-furniture', function(e){
     $.post("https://mercy-phone/Housing/DeleteFurniture");
 });
 
+$(document).on("click", '#housing-transfer', function(e)
+{
+    if (PhoneData.HouseCurrentEdit == undefined) { $('.phone-housing-container-edit').hide(); $('.phone-housing-container-nearby').fadeIn(250); return }
+
+    CreatePhoneInput([
+        {
+            Name: 'state_id',
+            Label: 'State Id',
+            Icon: 'fas fa-id-card',
+            Type: 'input',
+        },
+    ],
+    [
+        {
+            Name: 'cancel',
+            Label: "Cancel",
+            Color: "warning",
+            Callback: () => { $('.phone-input-wrapper').hide(); }
+        },
+        {
+            Name: 'submit',
+            Label: "Submit",
+            Color: "success",
+            Callback: (Result) => {
+                $('.phone-input-wrapper').hide();
+                SetPhoneLoader(true);
+                
+                $.post('https://mercy-phone/Housing/SetHouseOwner', JSON.stringify({
+                    HouseId: PhoneData.HouseCurrentEdit,
+                    StateId: Result['state_id'],
+                }), function(Result){
+                    SetPhoneLoader(false);
+                    if (Result) {
+                        ShowPhoneCheckmark();
+                    } else {
+                        ShowPhoneError(Result.FailMessage);
+                    }
+                });
+            }
+        }
+    ]);
+})
+
 // NUI Listeners
 Phone.addNuiListener('RenderHousingApp', (Data) => {
     // Owned Properties

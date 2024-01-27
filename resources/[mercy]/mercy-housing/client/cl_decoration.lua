@@ -68,10 +68,12 @@ RegisterNetEvent('mercy-housing/client/select-furniture', function(Data)
 end)
 
 RegisterNetEvent('mercy-housing/client/open-furniture', function(Data)
+    TriggerEvent('mercy-housing/client/cancel-preview')
     OpenFurnitureMenu(Data)
 end)
 
 RegisterNetEvent('mercy-housing/client/open-furniture-category', function(Data)
+    TriggerEvent('mercy-housing/client/cancel-preview')
     OpenFurnitureMenuCategory(Data)
 end)
 
@@ -101,6 +103,7 @@ RegisterNetEvent('mercy-housing/client/cancel-preview', function()
 end)
 
 RegisterNetEvent('mercy-housing/client/place-furniture', function(Data)
+        TriggerEvent('mercy-housing/client/cancel-preview')
     EntityModule.DoEntityPlacer(Data['Model'], 15.0, false, true, nil, function(DidPlace, Coords, Heading)
         if not DidPlace then
             TriggerEvent('mercy-housing/client/open-furniture', { HouseId = InsideHouseData.Name })
