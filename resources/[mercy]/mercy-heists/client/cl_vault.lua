@@ -48,6 +48,8 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
 end)
 
 RegisterNetEvent('mercy-heists/client/vault/start-hacking', function(Data, Entity)
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     if not exports['mercy-inventory']:HasEnoughOfItem('heist-laptop-red', 1) then return exports['mercy-ui']:Notify("heists-error", "You miss something..", "error") end
     
     if Data.Door == 'SecondDoor' then
