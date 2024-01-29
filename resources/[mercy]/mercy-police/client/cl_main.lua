@@ -363,6 +363,10 @@ RegisterNetEvent('mercy-police/client/fire-police', function(Data)
 	EventsModule.TriggerServer('mercy-police/server/fire-employee', Data.CitizenId)
 end)
 
+RegisterNetEvent('mercy-police/client/sync-state-secure', function(NewState)
+    Config.Secure = NewState
+end)
+
 -- [ Functions ] --
 
 function PoliceInit()
