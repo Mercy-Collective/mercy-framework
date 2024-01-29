@@ -261,15 +261,15 @@ Citizen.CreateThread(function()
         end
     end)
 
-   CommandsModule.Add("secure", "secure ac/kapat", {}, false, function(Source, args)
+   CommandsModule.Add("secure", "secure on/off", {}, false, function(Source, args)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Player.PlayerData.Job.Name ~= 'police' then return end
         if Config.Secure then
             Config.Secure = false
-            TriggerClientEvent('mercy-ui/client/notify', Source, "close-secure", "Secure Kapattın!", 'error', 3000)
+            TriggerClientEvent('mercy-ui/client/notify', Source, "close-secure", "Secure OFF!", 'error', 3000)
         else
             Config.Secure = true
-            TriggerClientEvent('mercy-ui/client/notify', Source, "open-secure", "Secure Açtın!", 'success', 3000)
+            TriggerClientEvent('mercy-ui/client/notify', Source, "open-secure", "Secure ON!", 'success', 3000)
         end
         TriggerClientEvent('mercy-police/client/sync-state-secure', -1, Config.Secure)
     end)
