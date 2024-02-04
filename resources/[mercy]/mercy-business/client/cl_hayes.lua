@@ -236,7 +236,7 @@ RegisterNetEvent("mercy-business/client/hayes/mount-part", function(Item, Type, 
         exports["mercy-inventory"]:SetBusyState(false)
         if Animation['AnimDict'] then StopAnimTask(PlayerPedId(), Animation['AnimDict'], Animation['AnimName'], 1.0) end
         if DidComplete then
-            local DidRemove = CallbackModule.TriggerCallback('mercy-base/server/remove-item', Item, 1, nil, true, Class)
+            local DidRemove = CallbackModule.SendCallback('mercy-base/server/remove-item', Item, 1, nil, true, Class)
             if DidRemove then
                 local Plate = GetVehicleNumberPlateText(Entity)
                 EventsModule.TriggerServer('mercy-business/server/hayes/repair-part', Plate, Type)

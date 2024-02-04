@@ -47,7 +47,7 @@ RegisterNetEvent('mercy-base/client/on-login', function()
         local Jobs = CallbackModule.SendCallback("mercy-phone/server/jobcenter/get-jobs")
         local FilteredJobs = FilterJobs(Jobs)
 
-        Twitter.Tweets = Tweets
+        Twitter.Tweets = Tweets ~= nil and Tweets or {}
         Adverts.Posts = Posts
         Contacts.Contacts = ContactsData
         JobCenter.Jobs = FilteredJobs
@@ -260,8 +260,6 @@ RegisterNUICallback("AppClick", function(Data, Cb)
         -- SportsBack.Render()
     elseif App == 'dark' then
         Dark.Render()
-    -- elseif App == 'race' then
-    --     Racing.Render()
     elseif App == 'calculator' then
         Calculator.Render()
     elseif App == 'cameras' then
