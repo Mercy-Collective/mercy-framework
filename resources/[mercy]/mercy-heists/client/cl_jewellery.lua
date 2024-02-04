@@ -6,6 +6,8 @@ function InitJewellery()
 end
 
 RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     if exports['mercy-police']:GetTotalOndutyCops() < exports['mercy-heists']:GetJewelleryCops() then return end
     if #(GetEntityCoords(PlayerPedId()) - vector3(-595.87, -283.66, 50.32)) > 1.5 then return end
     if Config.JewelleryState then
@@ -36,6 +38,8 @@ RegisterNetEvent('mercy-heists/client/jewellery/sync-state', function(NewState)
 end)
 
 RegisterNetEvent('mercy-heists/client/jewellery/smash-vitrine', function(Data)
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     local CanRob = CallbackModule.SendCallback('mercy-heists/server/jewellery/can-rob-vitrine', Data.VitrineId)
     if not CanRob then return exports['mercy-ui']:Notify("jewelrob", "Already smashed!", "error") end
     if not Config.JewelleryWeapons[GetSelectedPedWeapon(PlayerPedId())] then return exports['mercy-ui']:Notify("jewelrob", "You need something bigger than this..", "error") end

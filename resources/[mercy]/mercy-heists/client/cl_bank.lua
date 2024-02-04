@@ -3,6 +3,8 @@
 -- [ Events ] --
 
 RegisterNetEvent('mercy-heists/client/try-panel-hack', function(Data, Entity)
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     Citizen.SetTimeout(450, function()
         if Data.Laptop == 'Green' then
             local Type = GetCurrentRobberyType()

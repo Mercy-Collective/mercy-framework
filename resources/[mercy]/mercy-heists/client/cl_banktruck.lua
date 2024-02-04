@@ -1,4 +1,6 @@
 RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     local Entity, EntityType, EntityCoords = FunctionsModule.GetEntityPlayerIsLookingAt(2.0, 0.2, 286, PlayerPedId())
     if GetEntityType(Entity) ~= 2 or GetEntityModel(Entity) ~= GetHashKey("stockade") then return end
     if exports['mercy-police']:GetTotalOndutyCops() >= Config.BanktruckCops then

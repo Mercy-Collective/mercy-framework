@@ -260,9 +260,25 @@ Citizen.CreateThread(function()
             Player.Functions.Notify('not-online', 'This person is not available..', 'error')
         end
     end)
-    
+
+   CommandsModule.Add("secure", "secure on/off", {}, false, function(Source, args)
+        local Player = PlayerModule.GetPlayerBySource(Source)
+        if Player.PlayerData.Job.Name ~= 'police' then return end
+        if Config.Secure then
+            Config.Secure = false
+            TriggerClientEvent('mercy-ui/client/notify', Source, "close-secure", "Secure OFF!", 'error', 3000)
+        else
+            Config.Secure = true
+            TriggerClientEvent('mercy-ui/client/notify', Source, "open-secure", "Secure ON!", 'success', 3000)
+        end
+        TriggerClientEvent('mercy-police/client/sync-state-secure', -1, Config.Secure)
+    end)
 
     -- [ Callbacks ] --
+
+    CallbackModule.CreateCallback('mercy-police/server/can-rob', function(Source, Cb)
+        Cb(Config.Secure)
+    end)
 
     CallbackModule.CreateCallback('mercy-police/server/get-all-cops-db', function(Source, Cb)
         local Cops = {}

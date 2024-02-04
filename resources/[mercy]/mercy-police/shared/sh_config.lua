@@ -6,6 +6,7 @@ Config.PoliceAccount = '1247668815'
 Config.EnableHelicam = true
 Config.Barricades = {}
 Config.Handcuffed, Config.Escorted = false, false
+Config.Secure = false
 
 Config.ValidRanks = { 
     Cadet = true,

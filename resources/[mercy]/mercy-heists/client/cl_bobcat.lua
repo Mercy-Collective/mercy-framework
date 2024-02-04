@@ -5,6 +5,8 @@ local ThermiteTimeout = false
 -- [ Events ] --
 
 RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     if #(GetEntityCoords(PlayerPedId()) - ThermiteOutside) > 3.0 and #(GetEntityCoords(PlayerPedId()) - ThermiteInside) > 3.0 then
         return
     end
@@ -54,6 +56,8 @@ RegisterNetEvent('mercy-items/client/used-thermite-charge', function()
 end)
 
 RegisterNetEvent('mercy-heists/client/blow-bobcat-vault', function()
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     local Coords, Rotation = vector3(890.45, -2284.67, 30.46), vector3(180.0, 180.0, 0.0)
     TriggerEvent('mercy-heists/client/bomb-animation', Coords, Rotation)
     exports['mercy-inventory']:SetBusyState(true)
@@ -72,6 +76,8 @@ RegisterNetEvent('mercy-heists/client/blow-bobcat-vault', function()
 end)
 
 RegisterNetEvent('mercy-heists/client/bobcat/steal-loot', function(BoxId, Entity)
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     if Config.BobcatExploded and not exports['mercy-ui']:IsProgressBarActive() and Config.LootSpots[BoxId] then
         TriggerServerEvent('mercy-heists/server/set-loot-state', BoxId, false)
         exports['mercy-ui']:ProgressBar('Stealing..', 25000, {['AnimName'] = 'grab', ['AnimDict'] = "anim@heists@ornate_bank@grab_cash_heels", ['AnimFlag'] = 16}, "HeistBag", true, false, function(DidComplete)

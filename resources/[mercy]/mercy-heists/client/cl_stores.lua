@@ -5,6 +5,8 @@
 RegisterNetEvent('mercy-heists/client/stores-steal-register', function(Data, Entity)
     local EntityCoords = GetEntityCoords(Entity)
     local RegisterId = GetRegisterIdByCoords(EntityCoords)
+    local Secure = CallbackModule.SendCallback('mercy-police/server/can-rob')
+    if Secure then return exports['mercy-ui']:Notify("heists-error", "Secure active!", "error") end
     if RegisterId == nil then
         TriggerEvent('mercy-ui/client/notify', "storerob-error", "Something went wrong! (Try Again!)", 'error')
         return
