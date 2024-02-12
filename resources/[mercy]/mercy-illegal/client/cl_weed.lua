@@ -16,9 +16,10 @@ RegisterNetEvent('mercy-illegal/client/open-dry-rack', function()
 end)
 
 RegisterNetEvent('mercy-items/client/used-scales', function()
+    local PlayerData = PlayerModule.GetPlayerData()
     if exports['mercy-inventory']:CanOpenInventory() then
         Citizen.SetTimeout(450, function()
-            EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', 'Scales Crafting', 'Crafting', 0, 0, Config.ScalesCrafting)
+            EventsModule.TriggerServer('mercy-inventory/server/open-other-inventory', 'Scales Crafting'..PlayerData.CitizenId, 'Crafting', 0, 0, Config.ScalesCrafting)
         end)
     end
 end)
