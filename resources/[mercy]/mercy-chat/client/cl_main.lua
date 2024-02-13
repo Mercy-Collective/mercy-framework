@@ -174,7 +174,7 @@ end)
 
 local peds = {}
 
-local function draw3dText(coords, text)
+function draw3dText(coords, text)
     local camCoords = GetGameplayCamCoord()
     local dist = #(coords - camCoords)
 
@@ -194,7 +194,7 @@ local function draw3dText(coords, text)
     ClearDrawOrigin()
 end
 
-local function displayText(ped, text, yOffset, data, name, ctext)
+function displayText(ped, text, yOffset, data, name, ctext)
     local playerPed = PlayerPedId()
     local playerPos = GetEntityCoords(playerPed)
     local targetPos = GetEntityCoords(ped)
