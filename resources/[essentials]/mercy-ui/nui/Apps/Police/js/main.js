@@ -123,15 +123,15 @@ OpenDispatch = function() {
                                                             <div class="duty-card-name">${Value.Callsign} - ${Value.Name}</div>
                                                         </div>
                                                     </div>`;
-                            if (Value.Job == 'police') {
+                            if (Value.Job == 'police' && Value.Duty) {
                                 Units.police = Units.police + 1;
                                 $('.duty-list-police').prepend(AddingDutyCard);
-                            } else {
+                            } else if (Value.Job == 'ems' && Value.Duty){
                                 Units.ems = Units.ems + 1;
                                 $('.duty-list-ems').prepend(AddingDutyCard);
                             }
                             $('.duty-list-title.police').html(`Police (${Units.police}) units`);
-                            $('.duty-list-title.ems').html(`EMS (${Units.police}) units`);
+                            $('.duty-list-title.ems').html(`EMS (${Units.ems}) units`);
                         });
                     // }
                 // });
