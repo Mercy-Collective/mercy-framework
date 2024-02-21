@@ -68,7 +68,7 @@ local Translations = {
         -- Entity
         entity_view_info = "Entity Information",
         entity_view_title = "Entity Freeaim Mode",
-        entity_freeaim_delete = "Delete Entity",
+        entity_freeaim_delete = "Generate doorlock",
         entity_freeaim_freeze = "Freeze Entity",
         entity_frozen = "Frozen",
         entity_unfrozen = "Unfrozen",

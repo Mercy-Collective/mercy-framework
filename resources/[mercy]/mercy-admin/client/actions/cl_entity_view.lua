@@ -7,10 +7,14 @@ local EntityObjectView      = false
 local EntityVehicleView     = false
 local FreeAimEntity         = nil
 
+local debugMode = true -- Set this to true to enable debug mode
+
+
 -- Configurable values
 local FreeAimInfoBoxX       = 0.60      -- X-axis (0.0 being left, 1.0 being right position of the screen)
 local FreeAimInfoBoxY       = 0.02      -- Y-axis (0.0 being up, 1.0 being down position of the screen)
 local useKph                = true      -- True to display KPH or false to display MPH
+
 
 local CanEntityBeUsed = function(ped)
     if ped == PlayerPedId() then
@@ -418,15 +422,14 @@ RunEntityViewThread = function()
                         exports['mercy-ui']:Notify('frozen-action', Lang:t("info.you_have")..(FrozenEntities[entity] and Lang:t("info.entity_frozen") or Lang:t("info.entity_unfrozen")).. Lang:t("info.freeaim_entity"), (FrozenEntities[entity] and 'success' or 'error'))
                     end
 
-                    if IsControlJustReleased(0, 38) then -- Delete entity
-                        -- Set as missionEntity so the object can be remove (Even map objects)
-                        SetEntityAsMissionEntity(entity, true, true)
-                        DeleteEntity(entity)
 
-                        if not DoesEntityExist(entity) then
-                            exports['mercy-ui']:Notify('del-action', Lang:t("info.entity_del"), 'success')
-                        else
-                            exports['mercy-ui']:Notify('del-action-err', Lang:t("info.entity_del_error"), 'error')
+                    if debugMode then
+                        local modelHash = GetEntityModel(entity)
+                        local entityCoords = GetEntityCoords(entity)
+                        local randomID = "RNDMDOORID" ..math.random(100000, 999999)
+                        local coordsText = string.format("Info = %s\n Coords =  %s\n Model = %s", '"'.. randomID ..'",', RoundVector3(entityCoords, 2) ..',', modelHash..',')
+                        if IsControlJustReleased(0, 38) then -- Change to 38 for E key
+                            CopyToClipboard(coordsText)
                         end
                     end
                 else
@@ -506,4 +509,13 @@ function ToggleVehicleDeveloperMode()
             end
         end
     end)
+end
+
+
+function CopyToClipboard(text)
+
+    SendNUIMessage({
+        Action = 'copyToClipboard',
+        String = text
+    })
 end
