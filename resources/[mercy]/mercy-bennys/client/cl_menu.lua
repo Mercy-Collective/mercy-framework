@@ -516,6 +516,8 @@ function IsModInstalled(Vehicle, Data)
         if GetVehicleMod(Vehicle, 23) ~= -1 and GetVehicleMod(Vehicle, 23) == Data.ModIndex then _bModInstalled = true end
         if GetVehicleMod(Vehicle, 24) ~= -1 and GetVehicleMod(Vehicle, 24) == Data.ModIndex then _bModInstalled = true end
         return _bModInstalled
+    elseif Data.ModType == 'Spoiler' then
+        return GetVehicleMod(Vehicle, 0) == Data.ModIndex
     elseif Data.ModType == 'PrimaryColor' then
         return GetVehicleCustomPrimaryColour(Vehicle) == Data.ModType
     elseif Data.ModType == 'XenonColor' then

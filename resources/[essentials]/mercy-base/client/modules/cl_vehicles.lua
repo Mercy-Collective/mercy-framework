@@ -327,6 +327,8 @@ VehicleModule = {
                     ToggleVehicleMod(Vehicle, 18, v)
                 elseif k == 'ModXenon' then
                     ToggleVehicleMod(Vehicle, 22, v)
+                elseif k == 'Spoiler' then
+                    return SetVehicleMod(Vehicle, 0, v)
                 else
                     local VehicleModNumber = Shared.VehicleMods[k]
                     SetVehicleMod(Vehicle, VehicleModNumber, v, false)

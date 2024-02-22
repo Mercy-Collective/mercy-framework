@@ -319,8 +319,8 @@ RegisterNUICallback('PreviewUpgrade', function(Data, Cb)
         end
     elseif ModType == 'XenonColor' then
         SetVehicleXenonLightsColor(Vehicle, ModIndex)
-    elseif ModType == 22 then
-        ToggleVehicleMod(Vehicle, 22, ModIndex == 1)
+    elseif ModType == 'Spoiler' then
+        ToggleVehicleMod(Vehicle, 0, ModIndex == 1)
     else
         Citizen.SetTimeout(10, function()
             SetVehicleMod(Vehicle, ModType, ModIndex)
@@ -479,6 +479,9 @@ RegisterNUICallback('PurchaseUpgrade', function(Data, Cb)
             local r, g, b = GetVehicleNeonLightsColour(Vehicle)
             local _oRGB = {R = r, G = g, B = b}
             Button.Installed = json.encode(_oRGB) == json.encode(Button.Data.ModIndex) 
+            Menu.UpdateMenuPopulation(Data.Menu, Data.Index, Button)
+        elseif Button.Data.ModType == 0 then -- Spoilers
+            Button.Installed = GetVehicleMod(Vehicle, 0) == Button.Data.ModIndex
             Menu.UpdateMenuPopulation(Data.Menu, Data.Index, Button)
         -- elseif Button.Data.ModType == 'NeonSide' and IsVehicleNeonLightEnabled(Vehicle, Data.ModIndex) then
         --     Button.Installed = true
