@@ -89,10 +89,11 @@ AddEventHandler('gameEventTriggered', function(Name, Args)
         end
     end
     if Name == "CEventNetworkEntityDamage" and IsPedArmed(PlayerPedId(), 6) and not IsExemptWeapon(Args[7]) and IsSelfAttacker and GetCloudTimeAsInt() > NextShootingAction then
-        if (PlayerData ~= nil and PlayerData.Job.Name ~= 'police' and PlayerData.Job.Duty) then
+        local PlayerData = PlayerModule.GetPlayerData()
+        if (PlayerData.Job.Name ~= 'police') or (PlayerData.Job.Name == 'police' and not PlayerData.Job.Duty) then -- Take the "not" out if you want police to get notify on duty. Leave "not" if you don't want police to notify on duty.
             local IsInVehicle, StreetLabel = IsPedInAnyVehicle(PlayerPedId()) or false, FunctionModule.GetStreetName()
             EventsModule.TriggerServer('mercy-ui/server/send-shooting-progress', StreetLabel, IsInVehicle, exports['mercy-vehicles']:GetVehicleDescription())
-            NextShootingAction = GetCloudTimeAsInt() + 100
+            NextShootingAction = GetCloudTimeAsInt() + 100 -- Change this for timer
         end
     end
 end)
