@@ -137,7 +137,8 @@ function ListenForKeypress(DoorId)
                             TriggerServerEvent('mercy-doors/server/toggle-locks', CurrentDoorId)
                             if Config.Doors[CurrentDoorId].Connected ~= nil and next(Config.Doors[CurrentDoorId].Connected) then
                                 for k, v in pairs(Config.Doors[CurrentDoorId].Connected) do
-                                    TriggerServerEvent('mercy-doors/server/toggle-locks', v)
+                                    local ConnectedDoorId = GetDoorIdByInfo(v)
+                                    TriggerServerEvent('mercy-doors/server/toggle-locks', ConnectedDoorId)
                                 end
                             end
                             -- Play Sound
