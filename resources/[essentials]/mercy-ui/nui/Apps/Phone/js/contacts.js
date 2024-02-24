@@ -102,7 +102,6 @@ $(document).on('click', '.phone-contacts-item #phone-contact-call', function(e){
 
 $(document).on('click', '.phone-contacts-item #phone-contact-message', function(e){
     var ContactData = JSON.parse($(this).parent().parent().parent().attr("ContactData"));
-
     CreatePhoneInput([
         {
             Name: 'contact',
@@ -132,10 +131,12 @@ $(document).on('click', '.phone-contacts-item #phone-contact-message', function(
             Color: "success",
             Callback: (Result) => {
                 $('.phone-input-wrapper').hide();
+                let [Attachments, Message] = ExtractImageUrls(SanitizeHtml(Result['message']))
 
                 $.post("https://mercy-phone/Messages/SendMessage", JSON.stringify({
-                    ContactData: ContactData,
-                    Message: SanitizeHtml(Result['message']),
+                    Phone: ContactData.number,
+                    Message: Message,
+                    Attachments: Attachments,
                 }), function(){
                     ShowPhoneCheckmark();
                 })
