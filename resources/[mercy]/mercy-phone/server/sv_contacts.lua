@@ -211,7 +211,7 @@ Citizen.CreateThread(function()
     end)
     
     EventsModule.RegisterServer("mercy-phone/server/contacts/call-contact", function(Source, Data)
-        Data.ContactData.number = Data.ContactData.number:gsub('%-', '')
+        Data.ContactData.number = Data.ContactData.number ~= nil and Data.ContactData.number:gsub('%-', '') or Data.ContactData.to_phone
         local Caller = PlayerModule.GetPlayerBySource(Source)
         local RecData = GetReceiverData(Caller, Data.ContactData.number)
         local Receiver = false

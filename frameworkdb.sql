@@ -320,11 +320,17 @@ CREATE TABLE IF NOT EXISTS `player_phone_documents` (
 
 -- Structuur van  tabel mercy-framework.player_phone_messages wordt geschreven
 CREATE TABLE IF NOT EXISTS `player_phone_messages` (
-  `citizenid` varchar(50) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `number` varchar(50) DEFAULT NULL,
-  `messages` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_phone` text NOT NULL,
+  `to_phone` text NOT NULL,
+  `message` longtext NOT NULL,
+  `attachments` longtext NOT NULL DEFAULT '[]',
+  `timestamp` timestamp NOT NULL DEFAULT curtime(),
+  `unread` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `to_phone` (`to_phone`(3072)),
+  KEY `from_phone` (`from_phone`(3072))
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- Data exporteren was gedeselecteerd
 

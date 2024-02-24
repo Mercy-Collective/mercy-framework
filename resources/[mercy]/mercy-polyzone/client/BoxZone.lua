@@ -47,6 +47,8 @@ local function _calculatePoints(center, length, width, minScale, maxScale, minOf
     min = min * minScale - minOffset
     max = max * maxScale + maxOffset
 
+    if (type(center) == 'table') then center.xy = vector2(center.x, center.y) end -- Typescript compatible
+
     -- Box vertices
     local p1 = center.xy + vector2(min.x, min.y)
     local p2 = center.xy + vector2(max.x, min.y)
@@ -133,7 +135,7 @@ function BoxZone:Create(isMultiple, faces, options, onEnter, onLeave)
         end
 
         if options.name and BoxZones[options.name] == nil then BoxZones[options.name] = {} end
-        
+
         local zone = BoxZone:new(faces.center, faces.length, faces.width, options, onEnter, onLeave)
         if onEnter ~= nil then zone:onPlayerInOut(onEnter, onLeave) end
         _initDebug(zone, options)

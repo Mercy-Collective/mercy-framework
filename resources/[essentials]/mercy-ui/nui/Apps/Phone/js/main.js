@@ -791,3 +791,11 @@ ShowPhoneAttachments = (Attachments) => {
 $(document).on("click", '.phone-error-wrapper .ui-styles-button', function(e){
     $('.phone-error-wrapper').hide();
 });
+
+
+function ExtractImageUrls(Str) {
+    let Regex = /https?:\/\/[^\s?&]+\.(?:jpg|jpeg|gif|png)(?:\?[^\s]+)?/gi;
+    let Urls = Str.match(Regex);
+    let ModifiedStr = Str.replace(Regex, "");
+    return [Urls || [], ModifiedStr];
+}
