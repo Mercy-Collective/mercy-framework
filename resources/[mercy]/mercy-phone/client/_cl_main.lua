@@ -226,6 +226,9 @@ end)
 RegisterNUICallback("AppClick", function(Data, Cb)
     local App = Data.App:lower()
     CurrentApp = App
+    if App ~= 'messages' or App == 'Home' then
+        Messages.Active = false 
+    end
     if App == 'details' then
         Details.Render()
     elseif App == 'contacts' then

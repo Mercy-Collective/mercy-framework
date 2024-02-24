@@ -335,6 +335,9 @@ $(document).on("click", ".phone-bottombar-home", function(e){
 
         $(CurrentApp.Class).fadeOut(250)
         $('.phone-app-alert').show();
+        $.post("https://mercy-phone/AppClick", JSON.stringify({
+            App: "Home"
+        }));
     } else {
         $.post("https://mercy-phone/ClosePhone")
     }
