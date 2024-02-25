@@ -767,14 +767,15 @@ document.addEventListener('scroll', function (event) {
     $(".phone-attachment-viewer").hide(); 
 }, true);
 
-ShowPhoneAttachments = (Attachments) => {
+ShowPhoneAttachments = (Attachments, IsMessages) => {
     if (!PhoneData.EmbedImages) return `<div class="phone-attachments-wrapper">
                                             <div class="phone-attachments-counter">You have disabled embedded images.</div>
                                         </div>`;
+
     var ImageItems = ``;
     for (let i = 0; i < Attachments.length; i++) {
         const Image = Attachments[i];
-        ImageItems += `<div class="phone-attachments-item"><img src="${Image.Link}"></div>`
+        ImageItems += `<div class="phone-attachments-item"><img src="${IsMessages ? Image : Image.Link}"></div>`
     }
 
     return `<div class="phone-attachments-wrapper">

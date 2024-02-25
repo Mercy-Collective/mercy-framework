@@ -34,7 +34,7 @@ $(document).on('keyup', ".phone-messages-chat-send", function(e) {
 
         $('.phone-messages-chat-messages').append(`<div class="phone-chat-message">
             <div class="phone-chat-message-inner me">
-                <div class="text">${Message}${Attachments.length > 0 && ShowPhoneAttachments(Attachments) || ''}</div>
+                <div class="text">${Message}${Attachments.length > 0 && ShowPhoneAttachments(Attachments, true) || ''}</div>
                 <div class="phone-chat-time chat-time-me">just now</div>
             </div>
         </div>`);
@@ -71,7 +71,6 @@ Phone.addNuiListener('RenderMessagesChats', (Data) => {
     });
 
     if (CurrentChatContact != undefined) {
-        console.log('Currently in chat and refreshing messages', CurrentChatContact);
         Phone.OpenMessagesChat(CurrentChatContact, FilteredChats);
     };
 });
@@ -112,14 +111,12 @@ Phone.OpenMessagesChat = (ContactData, FChats) => {
             // Display chat messages
             for (let i = 0; i < Messages.length; i++) {
                 let Message = Messages[i];
-                let StringResult = SeperateLinksFromString(Message.Message);
-    
                 let Side = 'other';
                 if (Message.Sender == MyPhone) Side = 'me';
                 
                 Chat.append(`<div class="phone-chat-message">
                     <div class="phone-chat-message-inner ${Side}">
-                        <div class="text">${StringResult[0]}<br/>${StringResult[1].length > 0 && ShowPhoneAttachments(StringResult[1]) || ''}</div>
+                        <div class="text">${Message.Message}<br/>${Message.Attachments.length > 0 && ShowPhoneAttachments(Message.Attachments, true) || ''}</div>
                         <div class="phone-chat-time chat-time-${Side}">${CalculateTimeDifference(Message.Timestamp)}</div>
                     </div>
                 </div>`);
