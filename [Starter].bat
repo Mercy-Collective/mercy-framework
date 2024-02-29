@@ -7,4 +7,4 @@ timeout /t 3 /nobreak >nul
 color 07
 cls
 
-E:\fivem\server\FXServer.exe +exec cfg_dev/server.cfg
+YOUR_URL_TO_FXSERVER_FOLDER_HERE\FXServer.exe +exec cfg/server.cfg
