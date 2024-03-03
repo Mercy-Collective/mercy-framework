@@ -613,10 +613,11 @@ Citizen.CreateThread(function()
     EventsModule.RegisterServer("mercy-police/server/reduce-jail-time", function(Source, Amount)
         local Player = PlayerModule.GetPlayerBySource(Source)
         if Amount > 0 then
-            if Amount - 1 > 0 then
-                Amount = Amount - 1
+            if Player.PlayerData.MetaData['Jail'] - Amount > 0 then
+                Amount = Player.PlayerData.MetaData['Jail'] - Amount
             else
                 Amount = 0
+		Player.PlayerData.MetaData['Jail'] = 0
             end
             Player.Functions.SetMetaData("Jail", Amount)
             Player.Functions.Save()
