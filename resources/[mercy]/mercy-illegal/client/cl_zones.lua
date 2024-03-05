@@ -70,7 +70,7 @@ function InitZones()
                     Label = 'Karışımı oluştur',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
-                    EventParams = { Id = 10, Item = "xmadde", Amount = 1, RequestItem = { {Name = "cleaningproduct", Amount = 3}, }, Animation = "base_a_m_y_vinewood_01", AnimDict = "anim@amb@casino@valet_scenario@pose_d@", ProgressText = "Karıştırılıyor..." },
+                    EventParams = { Id = 10, Item = "xmadde", Amount = 1, RequestItem = { {Name = "cleaningproduct", Amount = 3}, }, Animation = "base_a_m_y_vinewood_01", AnimDict = "anim@amb@casino@valet_scenario@pose_d@", ProgressText = "Mixing..." },
                     Enabled = function(Entity)
                         if exports['mercy-housing']:IsPlayerInHouse() then
                             return true
@@ -90,7 +90,7 @@ function InitZones()
                     Label = 'Karışımı pişir',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
-                    EventParams = { Id = 10, Item = "methbrick", Amount = 1, RequestItem = { {Name = "xmadde", Amount = 3}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Pişiriliyor..." },
+                    EventParams = { Id = 10, Item = "methbrick", Amount = 1, RequestItem = { {Name = "xmadde", Amount = 3}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Cooking..." },
                     Enabled = function(Entity)
                         if exports['mercy-housing']:IsPlayerInHouse() then
                             return true
@@ -110,7 +110,7 @@ function InitZones()
                     Label = 'Karışımı soğut',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
-                    EventParams = { Id = 10, Item = "methcured", Amount = 3, RequestItem = { {Name = "methbrick", Amount = 1}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Soğutuluyor..." },
+                    EventParams = { Id = 10, Item = "methcured", Amount = 3, RequestItem = { {Name = "methbrick", Amount = 1}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Cooling Methbrick..." },
                     Enabled = function(Entity)
                         if exports['mercy-housing']:IsPlayerInHouse() then
                             return true
@@ -130,7 +130,7 @@ function InitZones()
                     Label = 'Karışımı kristalize et',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
-                    EventParams = { Id = 10, Item = "methbatch", Amount = 1, RequestItem = { {Name = "methcured", Amount = 1}, {Name = 'emptybaggies', Amount = 1}, }, Animation = "urinal_sink_loop", AnimDict = "missheist_agency3aig_23", ProgressText = "Kristalleniyor..." },
+                    EventParams = { Id = 10, Item = "methbatch", Amount = 1, RequestItem = { {Name = "methcured", Amount = 1}, {Name = 'emptybaggies', Amount = 1}, }, Animation = "urinal_sink_loop", AnimDict = "missheist_agency3aig_23", ProgressText = "Crystallize Meth..." },
                     Enabled = function(Entity)
                         if exports['mercy-housing']:IsPlayerInHouse() then
                             return true
