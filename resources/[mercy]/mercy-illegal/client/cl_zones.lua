@@ -59,6 +59,87 @@ function InitZones()
             }
         })
 
+        exports['mercy-ui']:AddEyeEntry(GetHashKey("v_res_tre_mixer"), {
+            Type = 'Model',
+            Model = 'v_res_tre_mixer',
+            SpriteDistance = 5.0,
+            Options = {
+                {
+                    Name = 'housing_meth_1',
+                    Icon = 'fas fa-circle',
+                    Label = 'Karışımı oluştur',
+                    EventType = 'Client',
+                    EventName = 'mercy-illegal/client/methLabs/cook-meth',
+                    EventParams = { Id = 10, Item = "xmadde", Amount = 1, RequestItem = { {Name = "cleaningproduct", Amount = 3}, }, Animation = "base_a_m_y_vinewood_01", AnimDict = "anim@amb@casino@valet_scenario@pose_d@", ProgressText = "Karıştırılıyor..." },
+                    Enabled = function(Entity)
+                        if exports['mercy-housing']:IsPlayerInHouse() then
+                            return true
+                        end
+                    end,
+                },
+            }
+        })
+        exports['mercy-ui']:AddEyeEntry(GetHashKey("prop_cooker_03"), {
+            Type = 'Model',
+            Model = 'prop_cooker_03',
+            SpriteDistance = 5.0,
+            Options = {
+                {
+                    Name = 'housing_meth_2',
+                    Icon = 'fas fa-circle',
+                    Label = 'Karışımı pişir',
+                    EventType = 'Client',
+                    EventName = 'mercy-illegal/client/methLabs/cook-meth',
+                    EventParams = { Id = 10, Item = "methbrick", Amount = 1, RequestItem = { {Name = "xmadde", Amount = 3}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Pişiriliyor..." },
+                    Enabled = function(Entity)
+                        if exports['mercy-housing']:IsPlayerInHouse() then
+                            return true
+                        end
+                    end,
+                },
+            }
+        })
+        exports['mercy-ui']:AddEyeEntry(GetHashKey("v_ret_fh_pot01"), {
+            Type = 'Model',
+            Model = 'v_ret_fh_pot01',
+            SpriteDistance = 5.0,
+            Options = {
+                {
+                    Name = 'housing_meth_3',
+                    Icon = 'fas fa-circle',
+                    Label = 'Karışımı soğut',
+                    EventType = 'Client',
+                    EventName = 'mercy-illegal/client/methLabs/cook-meth',
+                    EventParams = { Id = 10, Item = "methcured", Amount = 3, RequestItem = { {Name = "methbrick", Amount = 1}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Soğutuluyor..." },
+                    Enabled = function(Entity)
+                        if exports['mercy-housing']:IsPlayerInHouse() then
+                            return true
+                        end
+                    end,
+                },
+            }
+        })
+        exports['mercy-ui']:AddEyeEntry(GetHashKey("v_res_fa_chopbrd"), {
+            Type = 'Model',
+            Model = 'v_res_fa_chopbrd',
+            SpriteDistance = 5.0,
+            Options = {
+                {
+                    Name = 'housing_meth_4',
+                    Icon = 'fas fa-circle',
+                    Label = 'Karışımı kristalize et',
+                    EventType = 'Client',
+                    EventName = 'mercy-illegal/client/methLabs/cook-meth',
+                    EventParams = { Id = 10, Item = "methbatch", Amount = 1, RequestItem = { {Name = "methcured", Amount = 1}, {Name = 'emptybaggies', Amount = 1}, }, Animation = "urinal_sink_loop", AnimDict = "missheist_agency3aig_23", ProgressText = "Kristalleniyor..." },
+                    Enabled = function(Entity)
+                        if exports['mercy-housing']:IsPlayerInHouse() then
+                            return true
+                        end
+                    end,
+                },
+            }
+        })
+
         exports['mercy-ui']:AddEyeEntry("weed-dry-rack", {
             Type = 'Zone',
             SpriteDistance = 5.0,
