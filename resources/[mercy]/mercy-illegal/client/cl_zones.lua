@@ -67,7 +67,7 @@ function InitZones()
                 {
                     Name = 'housing_meth_1',
                     Icon = 'fas fa-circle',
-                    Label = 'Karışımı oluştur',
+                    Label = 'Create the mix',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
                     EventParams = { Id = 10, Item = "xmadde", Amount = 1, RequestItem = { {Name = "cleaningproduct", Amount = 3}, }, Animation = "base_a_m_y_vinewood_01", AnimDict = "anim@amb@casino@valet_scenario@pose_d@", ProgressText = "Mixing..." },
@@ -87,7 +87,7 @@ function InitZones()
                 {
                     Name = 'housing_meth_2',
                     Icon = 'fas fa-circle',
-                    Label = 'Karışımı pişir',
+                    Label = 'Cook the mixture',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
                     EventParams = { Id = 10, Item = "methbrick", Amount = 1, RequestItem = { {Name = "xmadde", Amount = 3}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Cooking..." },
@@ -107,7 +107,7 @@ function InitZones()
                 {
                     Name = 'housing_meth_3',
                     Icon = 'fas fa-circle',
-                    Label = 'Karışımı soğut',
+                    Label = 'Cool the mixture',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
                     EventParams = { Id = 10, Item = "methcured", Amount = 3, RequestItem = { {Name = "methbrick", Amount = 1}, }, Animation = "fixing_a_player", AnimDict = "mini@repair", ProgressText = "Cooling Methbrick..." },
@@ -127,7 +127,7 @@ function InitZones()
                 {
                     Name = 'housing_meth_4',
                     Icon = 'fas fa-circle',
-                    Label = 'Karışımı kristalize et',
+                    Label = 'Crystallize the mixture',
                     EventType = 'Client',
                     EventName = 'mercy-illegal/client/methLabs/cook-meth',
                     EventParams = { Id = 10, Item = "methbatch", Amount = 1, RequestItem = { {Name = "methcured", Amount = 1}, {Name = 'emptybaggies', Amount = 1}, }, Animation = "urinal_sink_loop", AnimDict = "missheist_agency3aig_23", ProgressText = "Crystallize Meth..." },
