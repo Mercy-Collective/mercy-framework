@@ -1,5 +1,4 @@
 # Mercy Framework
-
 Mercy Framework is a powerful and flexible framework designed specifically for FiveM, a modification framework for Grand Theft Auto V. 
 
 ## Features
@@ -36,7 +35,7 @@ We encourage developers to contribute to the Mercy Framework and help us improve
 
 Join our Discord server to connect with other developers, seek assistance, and stay up-to-date with the latest announcements and updates regarding the Mercy Framework.
 
-[![Join our Discord server](https://discordapp.com/api/guilds/1412925110188376078/widget.png?style=banner2)](https://discord.gg/T5rmnj6Vbp)
+[![Join our Discord server](https://discordapp.com/api/guilds/878379225357369404/widget.png?style=banner2)](https://discord.gg/FxmAvTgTHs)
 
 ## License
 
