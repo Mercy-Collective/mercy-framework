@@ -451,3 +451,7 @@ exports("IsNearHouse", function()
 
     return false
 end)
+
+exports("IsPlayerInHouse", function()
+    return  InsideHouse
+end)
